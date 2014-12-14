@@ -56,7 +56,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = '../app/system';
+	$system_path = '../drinking_cinema_back_end/system';
 
 /*
  *---------------------------------------------------------------
@@ -72,7 +72,7 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = '../app/application';
+	$application_folder = '../drinking_cinema_back_end/application';
 
 /*
  * --------------------------------------------------------------------
