@@ -1,0 +1,9 @@
+{
+  "name": "drinking-cinema",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.2",
+    "grunt-contrib-compass": "~0.5.0"
+  }
+}
