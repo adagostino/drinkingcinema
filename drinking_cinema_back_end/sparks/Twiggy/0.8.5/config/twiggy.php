@@ -125,7 +125,7 @@ $config['twiggy']['twig_cache_dir'] = APPPATH . 'cache/twig/';
 |
 */
 
-$config['twiggy']['themes_base_dir'] = 'themes/';
+$config['twiggy']['themes_base_dir'] = 'views/';
 
 
 /*
@@ -157,7 +157,7 @@ $config['twiggy']['include_apppath'] = TRUE;
 |--------------------------------------------------------------------------
 */
 
-$config['twiggy']['default_theme'] = 'default';
+$config['twiggy']['default_theme'] = '';
 
 
 /*

@@ -1,0 +1,9 @@
+{% extends _layout %}
+
+{% block title %}
+        Test Title
+{% endblock %}
+
+{% block body %}
+        {% include '_subtemplates/testInclude.html' with {'foo' : 'bar'} %}
+{% endblock %}

@@ -5,10 +5,10 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <title>Default layout</title>
+        <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-        {% block content %}
+        {% block body %}
 
         {% endblock %}
     </body>
