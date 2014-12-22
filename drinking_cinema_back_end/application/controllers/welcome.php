@@ -17,11 +17,12 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+
 	public function index()
 	{
 		//$this->load->view('welcome_message');
 		$message = $this->script_service->getJS("search");
-		echo "final"." ".json_encode($message);
+		$this->twiggy->set( 'data', array('name' => 'party all the time') )->template('index')->display();
 	}
 }
 

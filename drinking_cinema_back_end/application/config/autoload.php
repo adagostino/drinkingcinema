@@ -111,6 +111,6 @@ $autoload['language'] = array();
 
 $autoload['model'] = array('script_service');
 
-
+$autoload['sparks'] = array('twiggy/0.8.5');
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
