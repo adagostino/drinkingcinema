@@ -5,16 +5,20 @@
 
     Object.subClass = function(properties){
         var _super = this.prototype;
-
         _initializing = true;
-        var proto = new this();
+        var proto;
+        try{
+            proto = new this();
+        } catch(e) {
+            proto = new this.constructor();
+            _super = this;
+        }
         _initializing = false;
-
         for (var name in properties) {
-            proto[name] = typeof properties[name] === "function" &&
-                          typeof _super[name] === "function" &&
-                          _superPattern.text(properties[name]) ?
-                (function(name,fn) {
+            if (typeof properties[name] === "function" &&
+                typeof _super[name] === "function" &&
+                _superPattern.test(properties[name])){
+                proto[name] = (function(name,fn) {
                     return function(){
                         var tmp = this._super;
                         this._super = _super[name];
@@ -22,7 +26,10 @@
                         this._super = tmp;
                         return ret;
                     }
-                })(name, properties[name]) : properties[name];
+                })(name, properties[name]);
+            }else{
+                proto[name] = properties[name];
+            }
         };
         // create a dummy class constructor
         function Class() {

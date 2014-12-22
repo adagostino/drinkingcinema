@@ -21,8 +21,12 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		//$this->load->view('welcome_message');
-		$message = $this->script_service->getJS("search");
-		$this->twiggy->set( 'data', array('name' => 'party all the time') )->template('index')->display();
+		$js = $this->script_service->getJS("search");
+		$data = array(
+			'name' => 'party all the time',
+			'javascripts' => $js
+		);
+		$this->twiggy->set( 'data', $data)->template('index')->display();
 	}
 }
 

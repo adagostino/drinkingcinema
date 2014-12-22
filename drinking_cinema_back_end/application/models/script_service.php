@@ -5,6 +5,9 @@
         // each page is split over common code for mobile and desktop, then mobile, then desktop
         // desktop is split for common code over desktop and then admin code
 
+        private $jsBasePath = "web/javascript";
+        private $cssBasePath = "web/css";
+        private $minBasePath = "web/min";
         private $jsJSON = array(
             "common" => array(
                 "subClass.js",
@@ -43,7 +46,12 @@
         }
 
         function getJS($path = "", $platform = "desktop", $isAdmin = false) {
-            return $this->parseJSON($this->jsJSON, $path, $platform, $isAdmin);
+            $bp = $this->jsBasePath;
+            $a = array(
+                'basePath' => $bp,
+                'relativePaths' => $this->parseJSON($this->jsJSON, $path, $platform, $isAdmin)
+            );
+            return $a;
         }
 
         function parseJSON($json, $path, $platform, $isAdmin) {

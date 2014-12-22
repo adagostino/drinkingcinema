@@ -11,5 +11,9 @@
         {% block body %}
 
         {% endblock %}
+
+        {% for src in data.javascripts.relativePaths %}
+            <script type="text/javascript" src="{{data.javascripts.basePath}}/{{src}}"></script>
+        {% endfor %}
     </body>
 </html>
