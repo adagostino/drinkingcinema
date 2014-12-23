@@ -53,3 +53,46 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
+
+html {
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Kameron', georgia, serif;
+  font-weight: 400;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: #e1e1e1 url("http://cdn.drinkingcinema.com/Images/DC_background.jpg") 50% 50% repeat-y;
+  min-height: 100vh;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a {
+  text-decoration: none;
+  border: 0px;
+  outline: 0px;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:focus {
+  *text-decoration: none;
+  border: 0px;
+  outline: 0px;
+}
+
+.dc-container {
+  width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding-top: 7px;
+  padding-bottom: 50px;
+  position: relative;
+}

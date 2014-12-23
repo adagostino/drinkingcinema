@@ -1,2 +1,45 @@
 @import "compass/reset";
+@import "imports/dc-imports";
 
+html {
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+html,body{
+  font-family: 'Kameron', georgia, serif;
+  font-weight: 400;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body{
+  background: $dc-light-gray url($dc-background-url) 50% 50% repeat-y;
+  min-height: 100vh;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a{
+  text-decoration: none;
+  border: 0px;
+  outline: 0px;
+  &:hover{
+    text-decoration: underline;
+  }
+  &:focus {
+    *text-decoration: none;
+    border: 0px;
+    outline: 0px;
+  }
+}
+
+.dc-container{
+  width: 800px;
+  margin: 0 auto;
+  background-color: $dc-white;
+  padding-top: 7px;
+  padding-bottom: 50px;
+  position: relative;
+}

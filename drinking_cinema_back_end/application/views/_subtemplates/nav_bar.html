@@ -1,0 +1,7 @@
+<div class="dc-nav-bar">
+    {% spaceless %}
+    {% for page in pages %}
+        <a href="{{page.href}}" class="dc-nav-bar-{{page.name}}{% if data.title == page.name %} selected{% endif %}"{% if page.target %} target="{{page.target}}"{% endif %}><span>{{page.name}}</span></a>{% if page.hasX %}<div class="dc-nav-bar-x-{{loop.index}}"></div>{% endif %}
+    {% endfor %}
+    {% endspaceless %}
+</div>

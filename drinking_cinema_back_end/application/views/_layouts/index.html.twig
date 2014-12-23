@@ -6,12 +6,50 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <title>{% block title %}{% endblock %}</title>
+
+        <link href='http://fonts.googleapis.com/css?family=Kameron:700,400' rel='stylesheet' type='text/css'>
+        {% for href in data.stylesheets.relativePaths %}
+            <link rel="stylesheet" type="text/css" href="{{data.stylesheets.basePath}}/{{href}}">
+        {% endfor %}
     </head>
     <body>
-        {% block body %}
+        <div class="dc-container">
+            {% include '_subtemplates/nav_bar.html' with {
+                'pages' : [
+                    {
+                        'name': 'faq',
+                        'href': '/faq',
+                        'hasX': 'true'
+                    },
+                    {
+                        'name': 'about',
+                        'href': '/about',
+                        'hasX': 'true'
+                    },
+                    {
+                        'name': 'contact',
+                        'href': '/contact',
+                        'hasX': 'true'
+                    },
+                    {
+                        'name': 'follow'
+                    },
+                    {
+                        'name': 'twitter',
+                        'href': 'http://twitter.com/drinkingcinema',
+                        'target': '_blank'
+                    },
+                    {
+                        'name': 'facebook',
+                        'href': 'http://www.facebook.com/DrinkingCinema',
+                        'target': '_blank'
+                    }
+                ]
+            } %}
+            {% block body %}
 
-        {% endblock %}
-
+            {% endblock %}
+        </div>
         {% for src in data.javascripts.relativePaths %}
             <script type="text/javascript" src="{{data.javascripts.basePath}}/{{src}}"></script>
         {% endfor %}

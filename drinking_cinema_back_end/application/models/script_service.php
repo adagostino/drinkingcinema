@@ -27,7 +27,14 @@
         );
 
         private $cssJSON = array(
-                    "common" => array(),
+                    "common" => array(
+                        "dc.css"
+                    ),
+                    "desktop" => array(
+                        "common" => array(
+                            "views/desktop/dc-header-desktop.css"
+                        )
+                    ),
                     "search" => array(
                         "common" => array(),
                         "mobile" => array(),
@@ -45,23 +52,39 @@
             //$this->$jsJSON = $jsJSON;
         }
 
-        function getJS($path = "", $platform = "desktop", $isAdmin = false) {
-            $bp = $this->jsBasePath;
+        function getScripts($path = "", $platform = "desktop", $isAdmin = false, $isDebug = false){
+            return array(
+                'js' => $this->getJS($path, $platform, $isAdmin, $isDebug),
+                'css' => $this->getCSS($path, $platform, $isAdmin, $isDebug)
+            );
+        }
+
+        function getCSS($path = "", $platform = "desktop", $isAdmin = false, $isDebug = false) {
+            $bp = $this->cssBasePath;
             $a = array(
                 'basePath' => $bp,
-                'relativePaths' => $this->parseJSON($this->jsJSON, $path, $platform, $isAdmin)
+                'relativePaths' => $this->parseJSON($this->cssJSON, $path, $platform, $isAdmin, $isDebug)
             );
             return $a;
         }
 
-        function parseJSON($json, $path, $platform, $isAdmin) {
+        function getJS($path = "", $platform = "desktop", $isAdmin = false, $isDebug = false) {
+            $bp = $this->jsBasePath;
+            $a = array(
+                'basePath' => $bp,
+                'relativePaths' => $this->parseJSON($this->jsJSON, $path, $platform, $isAdmin, $isDebug)
+            );
+            return $a;
+        }
+
+        function parseJSON($json, $path, $platform, $isAdmin, $isDebug) {
             $a = array();
             if (isset($json["common"])) {
                 $a = array_merge($a, $json["common"]);
             }
 
             if (isset($json[$platform])) {
-                $a = array_merge($a, $this->parseJSON($json[$platform], $path, $platform, $isAdmin));
+                $a = array_merge($a, $this->parseJSON($json[$platform], $path, $platform, $isAdmin, $isDebug));
             }
 
             if ($isAdmin && isset($json["admin"])){
@@ -69,7 +92,7 @@
             }
 
             if (isset($json[$path])){
-                $a = array_merge($a,$this->parseJSON($json[$path], $path, $platform, $isAdmin));
+                $a = array_merge($a,$this->parseJSON($json[$path], $path, $platform, $isAdmin, $isDebug));
             }
             return $a;
         }

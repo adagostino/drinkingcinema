@@ -1,0 +1,11 @@
+$cdn: "http://cdn.drinkingcinema.com/";
+$spriteFolder: "Images/";
+$spriteBase: $cdn + $spriteFolder;
+
+$dc-background-url: $spriteBase + "DC_background.jpg";
+$dc-header-large-url: $spriteBase + "DC_header.jpg";
+
+$dc-buttons-url: $spriteBase + "buttons.jpg";
+
+$dc-header-large-width: 800px;
+$dc-header-large-height: 300px;
