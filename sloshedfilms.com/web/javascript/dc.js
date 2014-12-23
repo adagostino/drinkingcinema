@@ -11,6 +11,7 @@
             var c = Object.subClass.call(parent, child);
             return new c();
         };
+
     };
 
     scope.drinkingCinema = scope.$dc = $dc;

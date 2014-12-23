@@ -2,7 +2,7 @@ var name = "model";
 
 (function(name){
 
-    var model = new function(){
+    var model = $dc.subClass($dc, new function(){
         this.ajax = function(opts){
             console.log("in ajax");
         };
@@ -11,12 +11,11 @@ var name = "model";
             console.log("in parent");
         };
 
-        this.extend = function(name,o){
-            if (!name || !o) return;
-            this[name] = o;
-            return this;
+        this.add = function(name, inputModel){
+            this.extend(name, $dc.subClass(this, inputModel));
         }
-    };
+
+    });
 
     $dc.extend(name, model);
 })(name);
