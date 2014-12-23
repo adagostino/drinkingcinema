@@ -1,7 +1,12 @@
 <div class="dc-nav-bar">
     {% spaceless %}
-    {% for page in pages %}
-        <a href="{{page.href}}" class="dc-nav-bar-{{page.name}}{% if data.title == page.name %} selected{% endif %}"{% if page.target %} target="{{page.target}}"{% endif %}><span>{{page.name}}</span></a>{% if page.hasX %}<div class="dc-nav-bar-x-{{loop.index}}"></div>{% endif %}
+    {% for link in links %}
+        <a href="{{link.href}}" class="dc-nav-bar-{{link.name}}{% if page.title == link.name %} selected{% endif %}"{% if link.target %} target="{{link.target}}"{% endif %}>
+            <span>{{link.name}}</span>
+        </a>
+        {% if link.hasX %}
+            <div class="dc-nav-bar-x-{{loop.index}}"></div>
+        {% endif %}
     {% endfor %}
     {% endspaceless %}
 </div>

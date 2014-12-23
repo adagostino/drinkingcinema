@@ -1,0 +1,35 @@
+{% include '_subtemplates/nav_bar.html' with {
+    'links' : [
+        {
+            'name': 'faq',
+            'href': '/faq',
+            'hasX': 'true'
+        },
+        {
+            'name': 'about',
+            'href': '/about',
+            'hasX': 'true'
+        },
+        {
+            'name': 'contact',
+            'href': '/contact',
+            'hasX': 'true'
+        },
+        {
+            'name': 'follow'
+        },
+        {
+            'name': 'twitter',
+            'href': 'http://twitter.com/drinkingcinema',
+            'target': '_blank'
+        },
+        {
+            'name': 'facebook',
+            'href': 'http://www.facebook.com/DrinkingCinema',
+            'target': '_blank'
+        }
+    ]
+} %}
+{% block header %}
+
+{% endblock %}

@@ -22,12 +22,15 @@ class Welcome extends CI_Controller {
 	{
 		//$this->load->view('welcome_message');
 		$scripts = $this->script_service->getScripts("search");
-		$data = array(
-			'name' => 'party all the time',
+		$page = array(
+			'title' => 'Welcome',
 			'javascripts' => $scripts['js'],
-			'stylesheets' => $scripts['css']
+			'stylesheets' => $scripts['css'],
+			'ogUrl' => "http://localhost/",
+			'pinUrl' => "http://localhost/",
+			'tweet' => "Sup Dawg!"
 		);
-		$this->twiggy->set( 'data', $data)->template('index')->display();
+		$this->twiggy->set('page', $page)->template('index')->display();
 	}
 }
 
