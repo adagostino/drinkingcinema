@@ -3,9 +3,13 @@ $spriteFolder: "Images/";
 $spriteBase: $cdn + $spriteFolder;
 
 $dc-background-url: $spriteBase + "DC_background.jpg";
-$dc-header-large-url: $spriteBase + "DC_header.jpg";
+$dc-logo-main-url: $spriteBase + "DC_header.jpg";
+$dc-logo-long-url: $spriteBase + "DC_header2.jpg";
 
 $dc-buttons-url: $spriteBase + "buttons.jpg";
 
-$dc-header-large-width: 800px;
-$dc-header-large-height: 300px;
+$dc-logo-main-width: 800px;
+$dc-logo-main-height: 300px;
+
+$dc-logo-long-width: 800px;
+$dc-logo-long-height: 100px;

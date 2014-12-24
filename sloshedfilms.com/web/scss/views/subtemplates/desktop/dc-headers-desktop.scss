@@ -1,0 +1,49 @@
+@import "imports/dc-imports";
+
+.dc-social-media-header{
+  position: relative;
+  height: 25px;
+
+  .dc-social-media-buttons{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+
+}
+
+.dc-logo-main, .dc-logo-long {
+  display: block;
+  position: relative;
+  background-position: 0px 0px;
+  h1 {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    width: 100%;
+    text-align: center;
+    color: $dc-white;
+    z-index: -1;
+  }
+}
+
+.dc-logo-main{
+  height: $dc-logo-main-height;
+  width: $dc-logo-main-width;
+  background-image: url($dc-logo-main-url);
+  &:hover, &:active {
+    background-position: 0px -300px;
+  }
+}
+
+.dc-logo-long{
+  height: $dc-logo-long-height;
+  width: $dc-logo-long-width;
+  background-image: url($dc-logo-long-url);
+  &:hover, &:active {
+    background-position: 0px -100px;
+  }
+}
+
+
+

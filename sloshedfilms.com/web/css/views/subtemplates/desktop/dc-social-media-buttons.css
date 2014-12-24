@@ -1,0 +1,15 @@
+.dc-social-media-buttons {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  position: relative;
+}
+
+.dc-social-media-button {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  position: relative;
+  min-width: 107px;
+  vertical-align: top;
+}

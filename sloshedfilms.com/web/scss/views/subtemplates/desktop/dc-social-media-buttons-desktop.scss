@@ -1,0 +1,13 @@
+@import "imports/dc-imports";
+
+.dc-social-media-buttons{
+  @include inline-block();
+  position: relative;
+}
+
+.dc-social-media-button{
+  @include inline-block();
+  position: relative;
+  min-width: 107px;
+  vertical-align: top;
+}

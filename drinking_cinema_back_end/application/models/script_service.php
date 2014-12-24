@@ -32,7 +32,9 @@
                     ),
                     "desktop" => array(
                         "common" => array(
-                            "views/desktop/dc-header-desktop.css"
+                            "views/subtemplates/desktop/dc-headers-desktop.css",
+                            "views/subtemplates/desktop/dc-nav-bar-desktop.css",
+                            "views/subtemplates/desktop/dc-social-media-buttons-desktop.css"
                         )
                     ),
                     "search" => array(
