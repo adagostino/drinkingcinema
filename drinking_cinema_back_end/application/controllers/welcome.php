@@ -17,6 +17,10 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+	function __construct() {
+		parent::__construct();
+		$this->load->library('tank_auth');
+	}
 
 	public function index()
 	{
@@ -30,6 +34,11 @@ class Welcome extends CI_Controller {
 			'pinUrl' => "http://localhost/",
 			'tweet' => "Sup Dawg!"
 		);
+
+		if ($this->tank_auth->is_admin()){
+			// do some stuff -- or don't!!
+			//echo $this->tank_auth->get_username()." is an admin";
+		}
 		$this->twiggy->set('page', $page)->template('index')->display();
 	}
 }
