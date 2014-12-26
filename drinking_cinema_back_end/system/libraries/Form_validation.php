@@ -1129,6 +1129,15 @@ class CI_Form_validation {
 		return ( ! preg_match("/^([-a-z0-9_-])+$/i", $str)) ? FALSE : TRUE;
 	}
 
+	/**
+	* Valid password  with underscores, dashes, =, #
+	*/
+
+	public function valid_pass($str)
+	{
+		return ( ! preg_match("/^([-a-z0-9_\-\+\#\=])+$/i", $str)) ? FALSE : TRUE;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

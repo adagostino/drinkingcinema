@@ -33,7 +33,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
-			error_reporting(E_ALL);
+			error_reporting(E_ALL & ~E_DEPRECATED);
 		break;
 	
 		case 'testing':
@@ -121,8 +121,12 @@ if (defined('ENVIRONMENT'))
  *
  */
 	// $assign_to_config['name_of_config_item'] = 'value of config item';
+/* |————————————————————— | DEFAULT TIMEZONE |————————————————————— | | Set the default timezone for date/time functions to use if | none is set on the server. | */
 
-
+	if( ! ini_get('date.timezone') )
+    {
+       date_default_timezone_set('UTC');
+    }
 
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
