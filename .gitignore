@@ -2,3 +2,6 @@
 .DS_Store
 **/.sass-cache/
 **/*.log
+drinking_cinema_back_end/application/config/database.php
+drinking_cinema_back_end/application/config/email.php
+drinking_cinema_back_end/application/config/tank_auth.php
