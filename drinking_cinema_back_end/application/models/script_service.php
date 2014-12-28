@@ -10,9 +10,20 @@
         private $minBasePath = "web/min";
         private $jsJSON = array(
             "common" => array(
-                "subClass.js",
+                // utilites
+                "utilities/subClass.js",
+                "utilities/htmlparser.js",
+                "utilities/parser.js",
+                "utilities/observe.js",
+                "utilities/generateGUID.js",
+                // base functions
                 "dc.js",
-                "models/dc-model.js"
+                "dc-parse-view.js",
+                "dc-watch-element.js",
+                // model
+                "models/dc-model.js",
+                // controller
+                "controllers/dc-controller.js"
             ),
             "search" => array(
                 "common" => array(
@@ -22,6 +33,21 @@
                 "desktop" => array(
                     "common" => array(),
                     "admin" => array()
+                )
+            ),
+            "game" => array(
+                "common" => array(
+                    "models/dc-model-game.js",
+                    "controllers/dc-controller-game.js"
+                ),
+                "mobile" => array(),
+                "desktop" => array(
+                    "common" => array(
+                        "controllers/dc-controller-game-desktop.js"
+                    ),
+                    "admin" => array(
+                        "controllers/dc-controller-game-desktop-admin.js"
+                    )
                 )
             )
         );
@@ -54,7 +80,7 @@
             //$this->$jsJSON = $jsJSON;
         }
 
-        function getScripts($path = "", $platform = "desktop", $isAdmin = false, $isDebug = false){
+        function getScripts($path = "", $platform = "desktop", $isAdmin = true, $isDebug = false){
             return array(
                 'js' => $this->getJS($path, $platform, $isAdmin, $isDebug),
                 'css' => $this->getCSS($path, $platform, $isAdmin, $isDebug)

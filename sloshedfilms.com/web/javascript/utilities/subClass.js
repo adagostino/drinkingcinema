@@ -10,8 +10,11 @@
         try{
             proto = new this();
         } catch(e) {
-            proto = new this.constructor();
-            _super = this;
+            //proto = new this.constructor();
+            //_super = this;
+            proto = $.extend(true, {}, this);
+            _super = $.extend(true, {}, this);
+
         }
         _initializing = false;
         for (var name in properties) {
@@ -34,8 +37,8 @@
         // create a dummy class constructor
         function Class() {
             // All construction is actually done in the init method
-            if (!_initializing && this.init){
-                this.init.apply(this, arguments);
+            if (!_initializing && this.initialize){
+                this.initialize.apply(this, arguments);
             }
         };
 

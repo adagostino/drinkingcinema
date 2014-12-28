@@ -25,7 +25,7 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		//$this->load->view('welcome_message');
-		$scripts = $this->script_service->getScripts("search");
+		$scripts = $this->script_service->getScripts("game");
 		$page = array(
 			'title' => 'Welcome',
 			'javascripts' => $scripts['js'],

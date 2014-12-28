@@ -19,6 +19,7 @@
 
             {% endblock %}
         </div>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         {% for src in page.javascripts.relativePaths %}
             <script type="text/javascript" src="{{page.javascripts.basePath}}/{{src}}"></script>
         {% endfor %}

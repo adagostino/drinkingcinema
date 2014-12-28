@@ -1,4 +1,4 @@
-var name = "search";
+var name = "model.search";
 (function(name){
     var searchModel = new function(){
         this.test = function(){
@@ -8,5 +8,5 @@ var name = "search";
         };
     };
 
-    $dc.model.add(name,searchModel);
+    $dc.extend(name,searchModel);
 })(name);
