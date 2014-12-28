@@ -38,7 +38,6 @@
     }
 
     $(document).ready(function(){
-        var initArray = [];
         for (var name in $dc.controller){
             var o = $dc.controller[name];
             if (o.$dcType === "controller"){

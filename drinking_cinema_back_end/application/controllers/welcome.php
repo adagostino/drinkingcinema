@@ -39,7 +39,7 @@ class Welcome extends CI_Controller {
 			// do some stuff -- or don't!!
 			//echo $this->tank_auth->get_username()." is an admin";
 		}
-		$this->twiggy->set('page', $page)->template('index')->display();
+		$this->twiggy->set('page', $page)->template('upload')->display();
 	}
 }
 

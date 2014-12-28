@@ -40,10 +40,63 @@
   height: $dc-logo-long-height;
   width: $dc-logo-long-width;
   background-image: url($dc-logo-long-url);
+  margin: 10px 0px 25px;
   &:hover, &:active {
     background-position: 0px -100px;
   }
 }
+
+.dc-search-bar {
+  position: relative;
+  width: 750px;
+  margin: 0 auto;
+}
+
+.dc-search-input{
+  position: absolute;
+  right: 0px;
+  bottom: 24px;
+  .dc-input {
+    font-family: inherit;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    margin-top: -10px;
+    width: 123px;
+
+  }
+}
+
+.dc-search-input-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -8px;
+  cursor: pointer;
+}
+
+.dc-share-input{
+  position: relative;
+  top: 13px;
+  div {
+    position: relative;
+    @include inline-block();
+    vertical-align: top;
+  }
+  .dc-share-face {
+    position: relative;
+    top: -5px;
+  }
+  .dc-input {
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    right: 10px;
+    width: 225px;
+    text-align: center;
+  }
+}
+
 
 
 

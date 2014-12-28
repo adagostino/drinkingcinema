@@ -1,0 +1,9 @@
+{% extends _layout %}
+
+{% block body %}
+    {% embed '_subtemplates/header_medium_desktop.html' %}
+        {% block subheader %}
+            {% include '_subtemplates/share_input.html' with {'share': {'placeholder': 'Set Movie Name'} } %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -13,3 +13,143 @@ $dc-logo-main-height: 300px;
 
 $dc-logo-long-width: 800px;
 $dc-logo-long-height: 100px;
+
+$dc-controls-url: $spriteBase + "controls.png";
+$dc-controls-reverse-url: $spriteBase + "controls_reverse";
+
+$dc-header-controls-url: $spriteBase + "headerControls.png";
+
+.dc-buttons {
+  background-image: url($dc-buttons-url);
+}
+
+.dc-controls {
+  background-image: url($dc-controls-url);
+}
+
+.dc-controls-reverse {
+  background-image: url($dc-controls-reverse-url);
+}
+
+.dc-header-controls {
+  background-image: url($dc-header-controls-url);
+}
+
+.dc-thumbs-up {
+  @extend .dc-controls;
+  width: 40px;
+  height: 28px;
+  background-position: -57px -2px;
+  &.reverse{
+    @extend .dc-controls-reverse;
+
+  }
+
+}
+
+.dc-thumbs-down {
+  @extend .dc-controls;
+  width: 40px;
+  height: 28px;
+  background-position: -97px -4px;
+  &.reverse {
+    @extend .dc-controls-reverse;
+  }
+}
+
+.dc-thumbs-bubble {
+  @extend .dc-controls;
+  width: 45px;
+  height: 36px;
+  background-position: -9px -26px;
+  &.reverse {
+    @extend .dc-controls-reverse;
+  }
+}
+
+.dc-share-face {
+  @extend .dc-controls;
+  width: 64px;
+  height: 65px;
+  background-position: -195px -2px;
+  &.reverse {
+    @extend .dc-controls-reverse;
+    background-position: -7px -2px;
+  }
+}
+
+.dc-bubble-1 {
+  @extend .dc-controls;
+  width: 186px;
+  height: 65px;
+  background-position: -5px -64px;
+  &.reverse {
+    @extend .dc-controls-reverse;
+  }
+}
+
+.dc-bubble-2{
+  @extend .dc-controls;
+  width: 246px;
+  height: 58px;
+  background-position: -5px -127px;
+  &.reverse {
+    @extend .dc-controls-reverse;
+    background-position: -20px -127px;
+  }
+}
+
+.dc-bubble-3{
+  @extend .dc-controls;
+  width: 192px;
+  height: 53px;
+  background-position: -9px -185px;
+  &.reverse {
+    @extend .dc-controls-reverse;
+  }
+}
+
+.dc-x-out {
+  @extend .dc-controls;
+  width: 14px;
+  height: 20px;
+  background-position: -7px -8px;
+  cursor: pointer;
+}
+
+.dc-pen{
+  @extend .dc-controls;
+  width: 24px;
+  height: 30px;
+  background-position: -140px -5px;
+  cursor: pointer;
+}
+
+.dc-search-bubble {
+  @extend .dc-header-controls;
+  width: 330px;
+  height: 46px;
+  margin-left: 10px;
+  background-position: 0px -47px;
+}
+
+.dc-mag-glass {
+  @extend .dc-header-controls;
+  width: 20px;
+  height: 15px;
+  background-position: -108px -98px;
+}
+
+.dc-hr-top, .dc-hr-bottom {
+  @extend .dc-buttons;
+  border-width: 0;
+  width: 750px;
+  height: 16px;
+}
+
+.dc-hr-top {
+  background-position: -8px -133px;
+}
+.dc-hr-bottom {
+  background-position: -8px -348px;
+}

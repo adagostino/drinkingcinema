@@ -1,0 +1,8 @@
+<div class="dc-share-input">
+    {% spaceless %}
+    <div class="dc-share-face reverse"></div>
+    <div class="dc-bubble-2 reverse">
+        <input class="dc-input" type="text"{% if share.value %} value="{{share.value}}"{% endif %} {% if share.placeholder %} placeholder="{{share.placeholder}}"{% endif %} />
+    </div>
+    {% endspaceless %}
+</div>
