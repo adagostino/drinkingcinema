@@ -23,7 +23,15 @@
                 // model
                 "models/dc-model.js",
                 // controller
-                "controllers/dc-controller.js"
+                "controllers/dc-controller.js",
+                // directive
+                "directives/dc-directive.js"
+            ),
+            "desktop" => array(
+                "common" => array(
+                    "controllers/dc-controller-header.js",
+                    "directives/dc-directive-searchInput.js"
+                )
             ),
             "search" => array(
                 "common" => array(
@@ -47,6 +55,20 @@
                     ),
                     "admin" => array(
                         "controllers/dc-controller-game-desktop-admin.js"
+                    )
+                )
+            ),
+            "upload" => array(
+                "common" => array(
+                    "models/dc-model-game.js"
+                ),
+                "mobile" => array(),
+                "desktop" => array(
+                    "common" => array(
+
+                    ),
+                    "admin" => array(
+
                     )
                 )
             )

@@ -3,6 +3,8 @@ var name = "model";
 (function(name){
 
     var model = new function(){
+        this.$dcType = "model";
+
         this.ajax = function(opts){
             console.log("in ajax");
         };

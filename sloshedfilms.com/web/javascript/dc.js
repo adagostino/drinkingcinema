@@ -1,23 +1,22 @@
 (function(global){
 
     var $dc = new function(){
-        this.extend = function(name, child) {
+        this.extend = function(name, child, inherit) {
             if (!name || !child) return;
+            inherit = typeof inherit === "boolean" ? inherit : true;
             var names = name.split("."),
                 parent = this;
-
             for (var i=0; i<names.length; i++){
                 var o = parent[names[i]];
                 if (!o) {
-                    o = this.subClass(parent, child);
+                    // don't subclass $dc
+                    o = inherit ? this.subClass(parent, child) : child;
                     parent[names[i]] = o;
                 }
                 parent = o;
             }
             return this;
-
         };
-
 
         this.subClass = function(parent, child){
             var c = Object.subClass.call(parent, child);
@@ -32,7 +31,7 @@
 (function(){
     // assume controller.[desktop or mobile].[admin?]
     var _getInit = function(controller){
-        var platformController = controller.desktop || controller.mobile;
+        var platformController = (controller.desktop || controller.mobile) || controller;
         var init = platformController.init;
         return platformController.admin && platformController.admin.init ? platformController.admin.init : init;
     }

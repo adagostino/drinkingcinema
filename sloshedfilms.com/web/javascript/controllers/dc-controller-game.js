@@ -3,7 +3,7 @@ var name = "controller.game";
 
     var controller = new function(){
         this.init = function(){
-            console.log("init the game controller");
+            //console.log("init the game controller");
         }
     };
 

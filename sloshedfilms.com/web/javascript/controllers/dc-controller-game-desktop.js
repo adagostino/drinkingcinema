@@ -9,7 +9,7 @@ var name = "controller.game.desktop";
 
         this.init = function(){
             this._super("from duh desktop");
-            console.log("init the game controller desktop");
+            //console.log("init the game controller desktop");
         }
     };
 
