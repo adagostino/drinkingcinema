@@ -37,8 +37,18 @@ var name = "parseView";
         this.getElement = function(obj, $parent, bind){
             bind = typeof bind === "boolean" ? bind : true;
             if (!_parsedObj) _parsedObj = _viewObj.compile(obj);
-            var $el = bind ? _compileHTMLEl(_parsedObj, obj, $parent).$el.children() : $(this.getHTML(obj, $parent));
-            return $el;
+            if (!bind) return $(this.getHTML(obj, $parent));
+
+            var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj, $parent);
+            var $el = parsedHTMLObj.$el;
+            if ($el.context.nodeType !== 11) return $el;
+
+            var a = [];
+            for (var i=0; i<parsedHTMLObj.children.length; i++){
+                var child = _scopeMap[parsedHTMLObj.children[i]];
+                a.push(child.$el);
+            };
+            return a[0];
         };
 
     }
@@ -55,7 +65,6 @@ var name = "parseView";
                 value: parsedAttrs.directives[key]
             });
         }
-
         return {
             start: tag ? "<" + tag : "",
             children: [],
@@ -172,7 +181,8 @@ var name = "parseView";
                         watches.push({
                             name: key,
                             type: type,
-                            watch: obj[key].watch
+                            watch: obj[key].watch,
+                            compile: obj[key].compile
                         });
                         for (var i in obj[key].paths){
                             var path = obj[key].paths[i];
@@ -214,12 +224,29 @@ var name = "parseView";
                 var watchInds = parsedHTMLObj.paths[path];
                 var watches = [];
                 var val = Path.get(path).getValueFrom(scope);
+                //console.log(path, val);
                 var item = parsedHTMLObj.item;
 
                 for (var i=0; i<watchInds.length; i++){
                     watches.push(parsedHTMLObj.watchList[watchInds[i]]);
-                }
-                observer.open(function(newValue, oldValue){
+                    // call the compile function -- definitely better place to do it than here,
+                    // but I'll do that later
+                    watches[i].compile && (function(){
+                        item.attributes = $.extend(true,{},item.baseAttributes);
+                        watches[i].compile.call(item, {
+                            change: {
+                                object: scope
+                            },
+                            $el: $parent,
+                            type: watches[i].type,
+                            name: watches[i].name,
+                            item: item
+                        });
+                        delete item.attributes;
+                    })();
+                };
+                //console.log(path, watches.length);
+                var callback = function(newValue, oldValue){
                     console.log("path changed", path, newValue, oldValue);
                     //console.log(watches);
                     item.attributes = $.extend(true,{},item.baseAttributes);
@@ -235,8 +262,10 @@ var name = "parseView";
                             item: item
                         });
                     }
+                    delete item.attributes;
+                };
+                observer.open(callback);
 
-                });
                 observers.push(observer);
 
                 if ($.isArray(val)){
@@ -270,13 +299,9 @@ var name = "parseView";
                     observers.push(objObs);
                 }
 
-
-
             })(key);
 
         }
-        //parsedHTMLObj.watchList.length && _observe(parsedHTMLObj, $parent, scope, cloned);
-
 
         var rObj = {
             $el: $parent,
@@ -408,7 +433,7 @@ var name = "parseView";
             },
             chars: function(text){
                 if ($.trim(text)) {
-                    var pt = _parseText(text,true);
+                    var pt = _parseText(text, true);
                     var nEl = _getEl();
                     nEl.children.push(pt.link);
                     if (pt.watch) {
@@ -426,7 +451,7 @@ var name = "parseView";
                                     if ($el[0].nodeType === 3) {
                                         $el[0].textContent = str;
                                     } else {
-                                        $el.text(str);
+                                        $el.html(str);
                                     }
                                 }
                             },
@@ -470,6 +495,7 @@ var name = "parseView";
 
                 obj.watches.directives[name] = {
                     watch: pd.watch,
+                    compile: pd.compile,
                     paths: pd.paths,
                     oValue: o.value
                 };
@@ -524,6 +550,15 @@ var name = "parseView";
                 break;
             case "include":
                 return _parseIncludeDirective(value);
+                break;
+            case "model":
+                return _parseModelDirective(value);
+                break;
+            case "click":
+                return _parseListenDirective(value, "click");
+                break;
+            case "input":
+                return _parseListenDirective(value, "input");
                 break;
             default:
                 return;
@@ -667,7 +702,7 @@ var name = "parseView";
                 var a = parseFunc(o.change.object),
                     length = _getLength(a),
                     isObject = typeof a === "object" && !$.isArray(a);
-                console.log(a, added) ;
+                //console.log(a, added) ;
                 for (var i=0; i<added.length; i++){
                     var ct = added[i];
                     var io = {};
@@ -809,6 +844,60 @@ var name = "parseView";
         }
 
     };
+
+    var setListener = function(o, type, parseFunc, value){
+        var $el = o.$el,
+            name = "dc-" + type + "-" + value,
+            oldFn = $el.data(name);
+        if (oldFn){
+            $el.off(type, oldFn);
+            $el.data(name, null);
+        }
+        var callback = parseFunc(o.change.object);
+        var fn = function(){
+            callback.apply(o.change.object, arguments);
+            Platform.performMicrotaskCheckpoint();
+        };
+        $el.data(name, fn);
+        $el.on(type, fn);
+    };
+
+    function _parseListenDirective(value, type){
+        var parseFunc = $parse(value),
+            paths = getPaths(parseFunc.lexer.lex(value));
+
+        return {
+            link: function(o) {
+
+            },
+            compile: function(o) {
+                setListener(o, type, parseFunc, value);
+            },
+            watch: function(o) {
+                setListener(o, type, parseFunc, value);
+            },
+            paths: paths
+        }
+    };
+
+    function _parseModelDirective(value){
+        var parseFunc = $parse(value),
+            paths = getPaths(parseFunc.lexer.lex(value));
+        return {
+            link: function(o) {
+                var val = parseFunc(o);
+                var vO = _parseTemplate(val).children;
+                this.children = this.children.concat(vO);
+            },
+            watch: function(o) {
+                var val = parseFunc(o.change.object);
+                if (o.$el.html() !== val) {
+                    o.$el.html(val);
+                }
+            },
+            paths: paths
+        }
+    }
 
     function getPaths(tokens){
         var keys = [];

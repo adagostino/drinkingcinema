@@ -1,8 +1,9 @@
 var name = "watchElement";
 (function(name){
-    var _we = function($el, o){
+    var _we = function($el, o, template){
+        template = template || $el[0].outerHTML;
         // TODO: do this non-destructively sometime
-        var $nEl = _vp($el[0].outerHTML).getElement(o);
+        var $nEl = $dc.parseView(template).getElement(o);
         var events = jQuery._data($el[0], 'events'),
             data = jQuery._data($el[0], 'data');
         // copy pre-existing events over

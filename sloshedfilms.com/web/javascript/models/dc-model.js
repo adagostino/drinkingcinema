@@ -7,6 +7,7 @@ var name = "model";
 
         this.ajax = function(opts){
             console.log("in ajax");
+            Platform.performMicrotaskCheckpoint();
         };
 
         this.test = function(){

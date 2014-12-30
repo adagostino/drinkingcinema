@@ -3,9 +3,8 @@ var name = "controller.header";
 
     var controller = new function(){
         this.init = function(){
-            var $searchInput = $(".dc-search-input");
             $dc.directive.searchInput.init({
-                $el: $searchInput
+                $el: $(".dc-search-input")
             });
         }
     };

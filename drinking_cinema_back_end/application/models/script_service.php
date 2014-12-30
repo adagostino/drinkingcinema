@@ -68,7 +68,8 @@
 
                     ),
                     "admin" => array(
-
+                        "controllers/dc-controller-upload.js",
+                        "directives/dc-directive-editable.js"
                     )
                 )
             )
@@ -76,7 +77,8 @@
 
         private $cssJSON = array(
                     "common" => array(
-                        "dc.css"
+                        "dc.css",
+                        "views/subtemplates/dc-buttons.css"
                     ),
                     "desktop" => array(
                         "common" => array(

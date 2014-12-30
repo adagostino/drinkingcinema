@@ -1,9 +1,13 @@
 {% extends _layout %}
 
 {% block body %}
-    {% embed '_subtemplates/header_medium_desktop.html' %}
+    {% embed '_subtemplates/header-medium-desktop.html' %}
         {% block subheader %}
-            {% include '_subtemplates/share_input.html' with {'share': {'placeholder': 'Set Movie Name'} } %}
+            {% include '_subtemplates/share-input.html' with {'share': {'placeholder': 'Set Movie Name'} } %}
         {% endblock %}
     {% endembed %}
+    {% include '_subtemplates/dc-directive-editable.html' with {'field': 'tags'} %}
+    <script type="dc-template" id="dc-directive-editable-template">
+        {{ source('_subtemplates/dc-directive-editable.html') }}
+    </script>
 {% endblock %}

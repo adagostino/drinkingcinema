@@ -1,0 +1,19 @@
+<div directive-editable="{{field}}" class="dc-directive-editable" dc-class="{'editing': editing}">
+    <div class="dc-pen" dc-click="edit"></div>
+    <div class="header">
+        <div class="dc-x-out" dc-click="cancel"></div>
+    </div>
+    <div class="body" contenteditable="{{editing ? 'true' : 'false'}}" dc-model="content" dc-input="onInput">
+
+    </div>
+    <div class="footer">
+        <div class="dc-buttons-container">
+            <button class="dc-button-secondary" dc-click="cancel" dc-class="{'processing': processing}">
+                Cancel
+            </button>
+            <button class="dc-button" dc-class="{'processing': processing}" dc-click="submit">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>
