@@ -1,6 +1,21 @@
 (function(global){
 
     var $dc = new function(){
+
+        this.add = function(name, child) {
+            if (!name || !child) return;
+            var names = name.split("."),
+                parent = this;
+            for (var i=0; i<names.length; i++){
+                if (!parent[names[i]]) {
+                    // don't subclass $dc
+                    parent[names[i]] = i === names.length - 1 ? child : {};
+                }
+                parent = parent[names[i]];
+            }
+            return this;
+        };
+
         this.extend = function(name, child, inherit) {
             if (!name || !child) return;
             inherit = typeof inherit === "boolean" ? inherit : true;
@@ -23,6 +38,15 @@
             return new c();
         };
 
+        this.formatTemplates = function(){
+            $("[type='dc-template']").each(function(){
+               var $this = $(this),
+                   template = $(this).html();
+                $this.html(template.replace(/\{\%.*\%\}/g, ""));
+
+            });
+        }
+
     };
 
     global.drinkingCinema = global.$dc = $dc;
@@ -37,6 +61,8 @@
     }
 
     $(document).ready(function(){
+        $dc.formatTemplates();
+
         for (var name in $dc.controller){
             var o = $dc.controller[name];
             if (o.$dcType === "controller"){

@@ -15,5 +15,6 @@ var name = "model";
         };
     };
 
-    $dc.extend(name, model);
+    //$dc.extend(name, model);
+    $dc.add(name, model);
 })(name);

@@ -247,7 +247,7 @@ var name = "parseView";
                 };
                 //console.log(path, watches.length);
                 var callback = function(newValue, oldValue){
-                    console.log("path changed", path, newValue, oldValue);
+                    //console.log("path changed", path, newValue, oldValue);
                     //console.log(watches);
                     item.attributes = $.extend(true,{},item.baseAttributes);
 
@@ -532,6 +532,17 @@ var name = "parseView";
         return obj;
     };
 
+    var _events = {
+        'input': 'input',
+        'keyup': 'keyup',
+        'keydown': 'keydown',
+        'click': 'click',
+        'mouseup': 'mouseup',
+        'mousedown': 'mousedown',
+        'focus': 'focus',
+        'blur': 'blur'
+    }
+
     function _parseDirective(name,value){
         //console.log(attr);
         switch(name){
@@ -554,14 +565,8 @@ var name = "parseView";
             case "model":
                 return _parseModelDirective(value);
                 break;
-            case "click":
-                return _parseListenDirective(value, "click");
-                break;
-            case "input":
-                return _parseListenDirective(value, "input");
-                break;
             default:
-                return;
+                return _events[name] ? _parseListenDirective(value, _events[name]) : undefined;
                 break;
         }
     };
@@ -600,7 +605,7 @@ var name = "parseView";
     };
 
     function _clean(str, doItRight){
-        if (typeof str !== "string") return str;
+        if (typeof str !== "string") return "";
         doItRight = typeof doItRight === "boolean" ? doItRight : false;
         var str2 = "";
         if (doItRight) {
@@ -850,10 +855,11 @@ var name = "parseView";
             name = "dc-" + type + "-" + value,
             oldFn = $el.data(name);
         if (oldFn){
-            $el.off(type, oldFn);
+            $el.off(type, "div, span", oldFn);
             $el.data(name, null);
         }
         var callback = parseFunc(o.change.object);
+        if (typeof callback !== "function") return;
         var fn = function(){
             callback.apply(o.change.object, arguments);
             Platform.performMicrotaskCheckpoint();

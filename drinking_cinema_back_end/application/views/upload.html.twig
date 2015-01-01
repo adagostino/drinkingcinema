@@ -6,7 +6,7 @@
             {% include '_subtemplates/share-input.html' with {'share': {'placeholder': 'Set Movie Name'} } %}
         {% endblock %}
     {% endembed %}
-    {% include '_subtemplates/dc-directive-editable.html' with {'field': 'tags'} %}
+    {% include '_subtemplates/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Party'} %}
     <script type="dc-template" id="dc-directive-editable-template">
         {{ source('_subtemplates/dc-directive-editable.html') }}
     </script>

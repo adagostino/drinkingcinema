@@ -1,3 +1,5 @@
+@import "dc-mixins";
+
 $cdn: "http://cdn.drinkingcinema.com/";
 $spriteFolder: "Images/";
 $spriteBase: $cdn + $spriteFolder;
@@ -18,6 +20,8 @@ $dc-controls-url: $spriteBase + "controls.png";
 $dc-controls-reverse-url: $spriteBase + "controls_reverse";
 
 $dc-header-controls-url: $spriteBase + "headerControls.png";
+
+$dc-rte-icons-url: $spriteBase + "glyphicons-halflings.png";
 
 .dc-buttons {
   background-image: url($dc-buttons-url);
@@ -152,4 +156,109 @@ $dc-header-controls-url: $spriteBase + "headerControls.png";
 }
 .dc-hr-bottom {
   background-position: -8px -348px;
+}
+
+$rte-button-size: 14px;
+.rte-icon {
+  @include inline-block();
+  width: $rte-button-size;
+  height: $rte-button-size;
+  margin-top: 1px;
+  *margin-right: .3em;
+  line-height: $rte-button-size;
+  vertical-align: text-top;
+  background-image: url($dc-rte-icons-url);
+  background-position: $rte-button-size $rte-button-size;
+  background-repeat: no-repeat;
+  position: relative;
+  &:after{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: none;
+    line-height: $rte-button-size;
+    vertical-align: text-top;
+    padding-top: 1px;
+  }
+}
+
+.rte-icon-text{
+  @extend .rte-icon;
+  background-image: none;
+  &:after{
+    display: block;
+  }
+}
+
+.dc-icon-bold {
+  @extend .rte-icon-text;
+  font-weight: bold;
+  &:after{
+    content: 'B';
+  }
+
+}
+
+.dc-icon-italic {
+  @extend .rte-icon-text;
+  font-style: italic;
+  &:after{
+    content: 'I';
+  }
+}
+
+.dc-icon-underline {
+  @extend .rte-icon-text;
+  text-decoration: underline;
+  &:after{
+    content: 'U';
+  }
+}
+
+.dc-icon-list{
+  @extend .rte-icon;
+  background-position: -360px -48px;
+
+}
+
+.dc-icon-bullets {
+  @extend .rte-icon;
+  background-position: -264px 0;
+}
+
+.dc-icon-indent{
+  @extend .rte-icon;
+  background-position: -384px -48px;
+}
+
+.dc-icon-outdent{
+  @extend .rte-icon;
+  background-position: -408px -48px;
+}
+
+.dc-icon-align-left{
+  @extend .rte-icon;
+  background-position: -264px -48px;
+}
+
+.dc-icon-align-right{
+  @extend .rte-icon;
+  background-position: -312px -48px;
+}
+
+.dc-icon-align-center{
+  @extend .rte-icon;
+  background-position: -288px -48px;
+}
+
+.dc-icon-align-justify{
+  @extend .rte-icon;
+  background-position: -336px -48px;
+}
+
+.dc-icon-link {
+  @extend .rte-icon;
 }

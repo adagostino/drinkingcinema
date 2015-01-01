@@ -103,6 +103,94 @@
   background-position: -8px -348px;
 }
 
+.rte-icon, .rte-icon-text, .dc-icon-bold, .dc-icon-italic, .dc-icon-underline, .dc-icon-list, .dc-icon-bullets, .dc-icon-indent, .dc-icon-outdent, .dc-icon-align-left, .dc-icon-align-right, .dc-icon-align-center, .dc-icon-align-justify, .dc-icon-link {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("http://cdn.drinkingcinema.com/Images/glyphicons-halflings.png");
+  background-position: 14px 14px;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.rte-icon:after, .rte-icon-text:after, .dc-icon-bold:after, .dc-icon-italic:after, .dc-icon-underline:after, .dc-icon-list:after, .dc-icon-bullets:after, .dc-icon-indent:after, .dc-icon-outdent:after, .dc-icon-align-left:after, .dc-icon-align-right:after, .dc-icon-align-center:after, .dc-icon-align-justify:after, .dc-icon-link:after {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: none;
+  line-height: 14px;
+  vertical-align: text-top;
+  padding-top: 1px;
+}
+
+.rte-icon-text, .dc-icon-bold, .dc-icon-italic, .dc-icon-underline {
+  background-image: none;
+}
+.rte-icon-text:after, .dc-icon-bold:after, .dc-icon-italic:after, .dc-icon-underline:after {
+  display: block;
+}
+
+.dc-icon-bold {
+  font-weight: bold;
+}
+.dc-icon-bold:after {
+  content: 'B';
+}
+
+.dc-icon-italic {
+  font-style: italic;
+}
+.dc-icon-italic:after {
+  content: 'I';
+}
+
+.dc-icon-underline {
+  text-decoration: underline;
+}
+.dc-icon-underline:after {
+  content: 'U';
+}
+
+.dc-icon-list {
+  background-position: -360px -48px;
+}
+
+.dc-icon-bullets {
+  background-position: -264px 0;
+}
+
+.dc-icon-indent {
+  background-position: -384px -48px;
+}
+
+.dc-icon-outdent {
+  background-position: -408px -48px;
+}
+
+.dc-icon-align-left {
+  background-position: -264px -48px;
+}
+
+.dc-icon-align-right {
+  background-position: -312px -48px;
+}
+
+.dc-icon-align-center {
+  background-position: -288px -48px;
+}
+
+.dc-icon-align-justify {
+  background-position: -336px -48px;
+}
+
 .dc-nav-bar {
   text-align: center;
   height: 65px;

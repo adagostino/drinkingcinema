@@ -21,7 +21,7 @@ body{
   box-sizing: inherit;
 }
 
-a{
+a, .dc-fake-link{
   text-decoration: none;
   border: 0px;
   outline: 0px;
@@ -35,6 +35,46 @@ a{
   }
 }
 
+.dc-fake-link {
+  color: $dc-blue;
+  cursor: pointer;
+}
+
+b {
+  font-weight: 700;
+}
+
+i {
+  font-style: italic;
+}
+
+u {
+  text-decoration: underline;
+}
+
+ol, ul {
+  list-style-position: outside;
+  padding-left: 1.3em;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+li {
+  padding: 4px 0px;
+  &:first-child {
+    padding-top: 0px;
+  }
+  &:last-child {
+    padding-bottom: 0px;
+  }
+}
+
 .dc-container{
   width: 800px;
   margin: 0 auto;
@@ -42,6 +82,7 @@ a{
   padding-top: 7px;
   padding-bottom: 50px;
   position: relative;
+  min-height: 100vh;
 }
 
 .dc-input {
@@ -51,4 +92,9 @@ a{
   padding: 3px;
   outline: 0;
   border-width: 0;
+}
+
+.disabled {
+  @include opacity(0.3);
+  pointer-events: none;
 }

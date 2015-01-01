@@ -1,13 +1,49 @@
 @import "imports/dc-imports";
 
+$easing: ease-in-out;
+$time: 0.109s;
+
 .dc-button {
+  background: $dc-white;
+  border: none;
+  outline: 0;
+  font-family: inherit;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 1px solid $dc-light-gray;
+  @include transition(all $time $easing);
+  font-weight: 700;
+  color: $dc-dark-gray;
+  &:hover{
+    color: $dc-black;
+    border: 1px solid $dc-med-gray;
+  }
+  &.active, &:active {
+    @include box-shadow(inset 0 1px 3px rgba(0,0,0,0.8));
+  }
+  &.processing {
+    @include opacity(0.3);
+    pointer-events: none;
+  }
 
 }
 
 .dc-button-primary {
+  @extend .dc-button;
 
 }
 
 .dc-button-secondary {
-
+  @extend .dc-button;
+  @include box-shadow(none);
+  border: none;
+  color: $dc-dark-gray;
+  &:hover{
+    color: $dc-blue;
+    border: none;
+  }
+  &:hover, &:active, &.active {
+    @include box-shadow(none);
+  }
 }

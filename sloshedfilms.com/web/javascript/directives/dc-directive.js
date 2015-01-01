@@ -30,12 +30,16 @@ var name = "directive";
                 for (var i=0; i<observers[path].length; i++){
                     observers[path][i].close();
                 }
-            }
+            };
+
+            opts.preventDefault = function(e) {
+                e.preventDefault();
+            };
 
             return opts;
         };
 
 
     };
-    $dc.extend(name, directive);
+    $dc.add(name, directive);
 })(name);

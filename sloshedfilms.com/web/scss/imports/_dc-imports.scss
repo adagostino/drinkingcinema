@@ -1,8 +1,10 @@
 @import "dc-sprites";
 @import "dc-colors";
+@import "dc-mixins";
 
-@mixin inline-block() {
-  display: inline-block;
-  *display: inline;
-  zoom: 1;
-}
+@import "compass/css3/animation";
+@import "compass/css3/box-shadow";
+@import "compass/css3/border-radius";
+@import "compass/css3/transition";
+@import "compass/css3/opacity";
+@import "compass/css3/transform";
