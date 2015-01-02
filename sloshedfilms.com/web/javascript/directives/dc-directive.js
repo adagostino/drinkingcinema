@@ -38,7 +38,6 @@ var name = "directive";
                     if (typeof opts[key] === "function" &&
                         typeof defaults[key] === "function" &&
                         _superPattern.test(opts[key])){
-                        console.log(key);
                         opts[key] = (function(name,fn) {
                             return function(){
                                 var tmp = this._super;

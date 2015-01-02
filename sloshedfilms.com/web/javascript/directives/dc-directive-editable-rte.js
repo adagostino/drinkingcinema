@@ -16,14 +16,30 @@ var name = "directive.editable.rte";
         'return':   13
     };
 
+    /*
     var _styleMap = {
         'font-style': 'italic',
         'font-weight': 'bold',
         'text-decoration': 'underline',
         'insertUnorderedList': 'ul',
         'insertOrderedList': 'ol',
-        'text-align': 'left, right, center, or full'
+        'text-align': 'left, right, center, or justify'
     };
+    */
+
+
+    var _styleMap = {
+        'bold': ['font-weight', 'bold'],
+        'italic': ['font-style', 'italic'],
+        'underline': ['text-decoration', 'underline'],
+        'justifyLeft': ['text-align', 'left'],
+        'justifyCenter': ['text-align', 'center'],
+        'justifyRight': ['text-align', 'right'],
+        'justifyFull': ['text-align', 'justify']
+    };
+
+    var _cssStyleMap = {};
+    for (var key in _styleMap) _cssStyleMap[_styleMap[key][0]] = _styleMap[key][1];
 
     var defaults = {
         'onBlur': function(){
@@ -42,17 +58,21 @@ var name = "directive.editable.rte";
                     this.shift = true;
                     break;
                 case keys["b"]:
-                    (this.ctrl || this.cmd) && this.setStyle("bold");
+                    if (this.ctrl || this.cmd) {
+                        e.preventDefault();
+                        this.insert("bold");
+                    }
                     break;
                 case keys["i"]:
-                    (this.ctrl || this.cmd) && this.setStyle("italic");
+                    if (this.ctrl || this.cmd) {
+                        e.preventDefault();
+                        this.insert("italic");
+                    }
                     break;
                 case keys["u"]:
-                    if (this.cmd){
+                    if (this.ctrl || this.cmd) {
+                        e.preventDefault();
                         this.insert("underline");
-                    } else if (this.ctrl) {
-                        this.update();
-                        this.setStyle("underline");
                     }
                     break;
                 case keys["="]:
@@ -80,6 +100,7 @@ var name = "directive.editable.rte";
                     this.update();
                     break;
                 default:
+                    this.selection.inAnchor && this.update();
                     break;
             }
         },
@@ -132,28 +153,49 @@ var name = "directive.editable.rte";
         this.isRTE = true;
 
         this.reset = function(){
-            this.styles = {};
+            this.selection = {};
             this.ctrl = false;
             this.cmd = false;
             this.shift = false;
-        }
+        };
 
-        this.setStyle = function(style){
-            this.styles[style] = !this.styles[style];
+        this.setStyle = function(key){
+            if (!this.selection) this.selection = {};
+            if (!this.selection.styles) this.selection.styles = {};
+
+            var command = this.isCommandSet(key);
+            this.selection.styles[command.key] = command.isset ? undefined : command.expected;
+        };
+
+        this.isCommandSet = function(key){
+            var a = _styleMap[key] || [];
+            var o = {
+                isset: false,
+                key: a[0]
+            };
+            try {
+                var curr = this.selection.styles[a[0]];
+                o.isset = curr === a[1];
+                o.curr = curr;
+                o.expected = a[1];
+            } catch (e){
+                //console.log(e);
+            }
+            return o;
         };
 
         this.insert = function(key, val) {
             if (!this.hasFocus) return;
-            var expectedValue = !!!this.styles[key];
+            var expectedValue = _styleMap[key] ? !this.isCommandSet(key).isset : false;
             var o = document.execCommand(key, false, val || null);
             this.update();
-            var value = !!this.styles[key];
+            var value = _styleMap[key] ? this.isCommandSet(key).isset : false;
             value !== expectedValue && this.setStyle(key);
             return o;
         };
 
         this.update = function($el){
-            var selection = $dc.utils.rangeHelper.getSelectionObject(_styleMap,$el);
+            var selection = $dc.utils.rangeHelper.getSelectionObject(_cssStyleMap,$el);
             this.selection = selection;
         };
 
@@ -211,7 +253,6 @@ var name = "directive.editable.rte";
                             this.submit();
                             break;
                         default:
-                            console.log(e.which);
                             break;
                     }
                 },

@@ -103,14 +103,14 @@
   background-position: -8px -348px;
 }
 
-.rte-icon, .rte-icon-text, .dc-icon-bold, .dc-icon-italic, .dc-icon-underline, .dc-icon-list, .dc-icon-bullets, .dc-icon-indent, .dc-icon-outdent, .dc-icon-align-left, .dc-icon-align-right, .dc-icon-align-center, .dc-icon-align-justify, .dc-icon-link {
+.rte-icon, .rte-icon-text, .dc-icon-bold, .dc-icon-italic, .dc-icon-underline, .dc-icon-link, .dc-icon-list, .dc-icon-bullets, .dc-icon-indent, .dc-icon-outdent, .dc-icon-align-left, .dc-icon-align-right, .dc-icon-align-center, .dc-icon-align-justify {
   display: inline-block;
   *display: inline;
   zoom: 1;
   vertical-align: text-top;
   position: relative;
 }
-.rte-icon:after, .rte-icon-text:after, .dc-icon-bold:after, .dc-icon-italic:after, .dc-icon-underline:after, .dc-icon-list:after, .dc-icon-bullets:after, .dc-icon-indent:after, .dc-icon-outdent:after, .dc-icon-align-left:after, .dc-icon-align-right:after, .dc-icon-align-center:after, .dc-icon-align-justify:after, .dc-icon-link:after {
+.rte-icon:after, .rte-icon-text:after, .dc-icon-bold:after, .dc-icon-italic:after, .dc-icon-underline:after, .dc-icon-link:after, .dc-icon-list:after, .dc-icon-bullets:after, .dc-icon-indent:after, .dc-icon-outdent:after, .dc-icon-align-left:after, .dc-icon-align-right:after, .dc-icon-align-center:after, .dc-icon-align-justify:after {
   content: ' ';
   position: absolute;
   top: 50%;
@@ -127,7 +127,7 @@
   padding-top: 1px;
 }
 
-.rte-icon-text:after, .dc-icon-bold:after, .dc-icon-italic:after, .dc-icon-underline:after {
+.rte-icon-text:after, .dc-icon-bold:after, .dc-icon-italic:after, .dc-icon-underline:after, .dc-icon-link:after {
   background-image: none;
 }
 
@@ -182,6 +182,10 @@
 
 .dc-icon-align-justify:after {
   background-position: -336px -48px;
+}
+
+.dc-icon-link:after {
+  content: 'L';
 }
 
 .dc-nav-bar {

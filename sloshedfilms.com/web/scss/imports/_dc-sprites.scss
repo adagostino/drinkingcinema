@@ -272,5 +272,8 @@ $rte-button-size: 14px;
 }
 
 .dc-icon-link {
-  @extend .rte-icon;
+  @extend .rte-icon-text;
+  &:after{
+    content: 'L';
+  }
 }

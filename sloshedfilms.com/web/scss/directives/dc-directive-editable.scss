@@ -59,7 +59,6 @@ $dc-directive-editable-padding: 10px;
 
 .dc-directive-editable-header{
   padding: $dc-directive-editable-padding;
-  padding-left: 2*$dc-directive-editable-padding;
   position: absolute;
   top: 0px;
   will-change: -webkit-transform, border;
@@ -79,7 +78,10 @@ $dc-directive-editable-padding: 10px;
   @include opacity(0);
   @include transition(opacity $time $easing);
   will-change: opacity;
+}
 
+.dc-rte-button {
+  border: 1px solid transparent;
 }
 
 .dc-directive-editable-body {
@@ -93,7 +95,6 @@ $dc-directive-editable-padding: 10px;
 .dc-directive-editable-footer{
   background: $dc-white;
   padding: $dc-directive-editable-padding;
-  padding-top: 0px;
   position: absolute;
   bottom: 0px;
   will-change: -webkit-transform, border;
