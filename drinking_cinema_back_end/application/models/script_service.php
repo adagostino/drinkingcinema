@@ -69,6 +69,7 @@
                     ),
                     "admin" => array(
                         "controllers/dc-controller-upload.js",
+                        "directives/dc-directive-modal.js",
                         "directives/dc-directive-editable.js",
                         "directives/dc-directive-editable-rte.js"
                     )
@@ -102,6 +103,7 @@
                         "desktop" => array(
                             "common" => array(),
                             "admin" => array(
+                                "directives/dc-directive-modal.css",
                                 "directives/dc-directive-editable.css"
                             )
                         )

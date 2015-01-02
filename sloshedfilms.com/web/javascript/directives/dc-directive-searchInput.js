@@ -39,29 +39,18 @@ var name = "directive.searchInput";
 
 
     var searchInput = function(opts){
-        // define the default event handlers for the input
-        $.extend(this, opts);
+        this.init = function(){
+            // get the input and anchor
+            var $input = this.$el.find("input"),
+                $a = this.$el.find("a");
 
-        // get the input and anchor
-        var $input = this.$el.find("input"),
-            $a = this.$el.find("a");
-
-
-        // set the event handlers
-        $input.on("change", this.change)
-            .on("keyup", this.keyup)
-            .on("updateAnchor", function(e, url){
-                url ? $a.attr("href", url) : $a.removeAttr("href");
-            });
-
-    };
-
-    var fn = new function(){
-        this.init = function(opts) {
-            opts = this.formatOpts(opts, defaults);
-            return opts ? new searchInput(opts) : undefined;
+            // set the event handlers
+            $input.on("change", this.change)
+                .on("keyup", this.keyup)
+                .on("updateAnchor", function(e, url){
+                    url ? $a.attr("href", url) : $a.removeAttr("href");
+                });
         }
     };
-
-    $dc.extend(name, fn);
+    $dc.directive.add(name, searchInput, defaults);
 })(name);

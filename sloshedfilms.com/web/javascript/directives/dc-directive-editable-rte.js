@@ -115,17 +115,15 @@ var name = "directive.editable.rte";
             this.insert("outdent");
         },
         'link': function(){
-
+            this.modal.show();
         },
         'unlink': function(){
-            console.log("in unlink?");
             this.removeLink();
         }
     };
 
     var rte = function(opts){
         var $scope;
-
         this.isRTE = true;
 
         this.reset = function(){
@@ -192,10 +190,30 @@ var name = "directive.editable.rte";
             $scope.linkPanel = undefined;
         };
 
+        var _initModal = function(){
+            var $ce = $scope.$ce;
+            $scope.modal = $dc.directive.modal.init({
+                'template': "#dc-directive-editable-modal-template",
+                'beforeShow': function(){
+                    this.linkText = "party";
+                    $ce.blur();
+                },
+                'afterHide': function(){
+
+                    setTimeout(function(){
+                        $ce.focus();
+                        $dc.utils.rangeHelper.moveCursor($ce);
+                    }, 0);
+                }
+            });
+            console.log($scope.modal);
+        };
 
         this.init = function() {
             this._super();
             $scope = this;
+
+            _initModal();
 
             this.$watch('editing', function(n,o){
                if (!n) {
@@ -217,15 +235,5 @@ var name = "directive.editable.rte";
         }
     };
 
-    var fn = new function(){
-        this.init = function(opts, dontInit){
-            opts = this.formatOpts(opts, defaults);
-            if (!opts) return;
-            var basic = this._super(opts, true);
-            var eo = $dc.subClass(basic, new rte());
-            return dontInit ? eo : eo.init();
-        }
-    };
-
-    $dc.extend(name,fn);
+    $dc.directive.add(name, rte, defaults);
 })(name);

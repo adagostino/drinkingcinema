@@ -834,12 +834,16 @@ var name = "parseView";
     };
 
     function _parseIncludeDirective(value){
-        var template = $(value).html(),
-            vO = _parseTemplate(template);
+        var parseFunc = $parse(value);
+        //var template = $(value).html();
+            //vO = _parseTemplate(template);
 
         return {
             link: function(o){
-                this.children = [vO];
+                var templateId = parseFunc(o),
+                    template = $(templateId || value).html(),
+                    vO = _parseTemplate(template);
+                this.children = vO.start ? [vO] : vO.children;
             },
             watch: function(o){
 

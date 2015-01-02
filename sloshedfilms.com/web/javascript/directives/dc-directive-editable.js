@@ -11,7 +11,6 @@ var name = "directive.editable";
             this.hasFocus = false;
         },
         onInput: function(e) {
-            console.log("in here?");
             this.content = this.$ce.html();
         },
         edit: function(e) {
@@ -33,10 +32,8 @@ var name = "directive.editable";
     };
 
     var editable = function(opts){
-
         this.init = function(){
             var $scope = this;
-            $.extend($scope, opts);
             this.$el = $dc.watchElement($scope.$el, $scope, $scope.template);
             this.$ce = this.$el.find("[contenteditable]");
             // set up the oContent variable to revert
@@ -56,16 +53,8 @@ var name = "directive.editable";
 
     };
 
-    var fn = new function(){
-        this.init = function(opts, dontInit){
-            opts = this.formatOpts(opts, defaults);
-            if (!opts) return;
-            var eo = new editable(opts);
-            return dontInit ? eo : eo.init();
-        }
-    };
+    $dc.directive.add(name, editable, defaults);
 
-    $dc.extend(name,fn);
 })(name);
 
 var name = "utils.rangeHelper";

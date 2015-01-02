@@ -1,15 +1,40 @@
 var name = "directive";
 (function(name){
+    var ct = 0;
     var directive = new function(){
         this.$dcType = "directive";
+        this.add = function(name, dir, defaults) {
+            var fn = new function(){
+                this.$dcName = name;
+                this.defaults = defaults;
+                this.init = function(opts, dontInit){
+                    opts = this.formatOpts(opts, defaults);
+                    if (!opts) return;
+                    var names = this.$dcName.split(".");
+                    var parentName = names.splice(0,names.length - 1).join(".");
+                    var parent = Path.get(parentName).getValueFrom($dc);
+
+                    var d = typeof parent.init === "function" ? $dc.subClass(parent.init(opts,true), new dir()) : new dir(opts);
+
+                    !dontInit && (function (){
+                        $.extend(d,opts);
+                        typeof d.init === 'function' && d.init();
+                    })();
+                    return d;
+                }
+            };
+            $dc.extend(name, fn);
+        };
 
         this.formatOpts = function(opts, defaults) {
             defaults = defaults || {};
             // extend the options
-            $.extend(opts, defaults);
+            for (var key in defaults) {
+                if (!opts[key]) opts[key] = defaults[key];
+            }
             // just so it's easier
             var $el = opts.$el || opts.$element || opts.element || opts.el;
-            if (!$el || !$el.length) return;
+            //if (!$el || !$el.length) return;
             opts.$el = $el;
 
             var observers = {};
