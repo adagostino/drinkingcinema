@@ -1,8 +1,8 @@
 <div class="dc-directive-editable-link-modal">
     <h1>Add a link</h1>
-    <div class="dc-directive-editable-link-modal-text">
-        <div>Display Text: <span class="dc-fake-link">{{linkText}}</span></div>
-        <div>Link to: <input dc-model="linkUrl"/></div>
+    <div class="dc-directive-editable-link-modal-body">
+        <div><span class="dc-directive-editable-link-modal-text">Display Text: </span><span class="dc-fake-link">{{linkText}}</span></div>
+        <div><span class="dc-directive-editable-link-modal-text">Link to: </span><input dc-model="linkHref" dc-keyup="onKeyup" /></div>
     </div>
     <div class="dc-directive-editable-link-modal-buttons">
         <button class="dc-button-secondary" dc-click="cancel">

@@ -10,16 +10,13 @@ var name = "directive.editable";
         onBlur: function(e) {
             this.hasFocus = false;
         },
-        onInput: function(e) {
-            this.content = this.$ce.html();
-        },
         edit: function(e) {
             this.editing = true;
             var $ce = this.$ce;
-            setTimeout(function(){
+            this.$timeout(function(){
                 $ce.focus();
                 $dc.utils.rangeHelper.moveCursor($ce);
-            }, 0);
+            });
         },
         cancel: function(e) {
             this.editing = false;
@@ -79,6 +76,22 @@ var name = "utils.rangeHelper";
                 textRange.select();
             }
         };
+        this.setSelection = function(range){
+            range = range.value || range;
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        };
+
+        this.getSelectionText = function(){
+            var text = "";
+            if (window.getSelection) {
+                text = window.getSelection().toString();
+            } else if (document.selection && document.selection.type != "Control") {
+                text = document.selection.createRange().text;
+            }
+            return text;
+        };
 
         this.selectText = function(el) {
             el = el[0] || el;
@@ -92,6 +105,7 @@ var name = "utils.rangeHelper";
                 selection = window.getSelection();
                 range = document.createRange();
                 range.selectNodeContents(el);
+
                 selection.removeAllRanges();
                 selection.addRange(range);
             }

@@ -20,7 +20,7 @@
                 <div class="dc-rte-button dc-button dc-icon-indent" dc-click="indent" dc-mousedown="preventDefault"></div>
                 <div class="dc-rte-button dc-button dc-icon-outdent"  dc-click="outdent" dc-mousedown="preventDefault"></div>
 
-                <div class="dc-rte-button dc-button dc-icon-link" dc-class="{'disabled': !selection || !selection.range || selection.range.collapsed}" dc-click="link" dc-mousedown="preventDefault"></div>
+                <div class="dc-rte-button dc-button dc-icon-link" dc-class="{'disabled': !selection || !selection.range || selection.range.collapsed || selection.inAnchor}" dc-click="link" dc-mousedown="preventDefault"></div>
                 {% endspaceless %}
             </div>
         </div>
@@ -28,7 +28,7 @@
     <div class="dc-directive-editable-link-panel" dc-if="isRTE" dc-class="{'show': hasFocus && linkPanel}" dc-style="{'top': linkPanel.top, 'left': linkPanel.left, 'right': linkPanel.right}">
         <span>Go to link: </span><a href="{{linkPanel.link}}" title="{{linkPanel.link}}" target="_blank">{{linkPanel.link}}</a><span class="dc-directive-editable-link-panel-controls"> | <span class="dc-fake-link" dc-mousedown="preventDefault" dc-click="unlink">Remove</span></span>
     </div>
-    <div class="dc-directive-editable-body" contenteditable="{{editing ? 'true' : 'false'}}" dc-model="content" dc-input="onInput" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur">
+    <div class="dc-directive-editable-body" contenteditable="{{editing ? 'true' : 'false'}}" dc-model="content" dc-input="onInput2" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur">
         {{contentHTML}}
     </div>
     <div class="dc-directive-editable-footer">

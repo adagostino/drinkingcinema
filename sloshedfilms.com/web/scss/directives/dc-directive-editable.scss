@@ -145,6 +145,22 @@ $dc-directive-editable-padding: 10px;
   width: 400px;
 }
 
+.dc-directive-editable-link-modal-body{
+  div {
+    line-height: 1.5em;
+    margin-bottom: 0.3em;
+  }
+  input {
+    margin-left: 36px;
+    width: 314px;
+  }
+}
+
+.dc-directive-editable-link-modal-text{
+  color: $dc-med-gray;
+  font-size: 14px;
+}
+
 .dc-directive-editable-link-modal-buttons{
   padding: 10px 0px 0px;
   text-align: right;

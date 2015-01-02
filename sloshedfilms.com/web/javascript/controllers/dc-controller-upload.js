@@ -3,7 +3,7 @@ var name = "controller.upload";
     var upload = new function(){
         var $scope = this;
         $scope.game = {
-            'tags': "<a href='http://drinkingcinema.com/game/Top+Gun' target='_blank'>Party</a>"
+            'tags': "Party <b>all</b> the time."
         };
 
 
@@ -12,7 +12,11 @@ var name = "controller.upload";
             var rte = $dc.directive.editable.rte.init({
                 $el: $("[directive-editable='tags']"),
                 content: $scope.game.tags,
-                template: editTemplate
+                template: editTemplate,
+                submit: function(){
+
+
+                }
             });
 
         };

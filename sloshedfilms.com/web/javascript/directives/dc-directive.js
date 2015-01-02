@@ -28,9 +28,28 @@ var name = "directive";
 
         this.formatOpts = function(opts, defaults) {
             defaults = defaults || {};
+            var _superPattern = /xyz/.test(function() { xyz;}) ? /\b_super\b/ : /.*/;
             // extend the options
+            var _super = defaults;
             for (var key in defaults) {
-                if (!opts[key]) opts[key] = defaults[key];
+                if (!opts[key]) {
+                    opts[key] = defaults[key];
+                }else {
+                    if (typeof opts[key] === "function" &&
+                        typeof defaults[key] === "function" &&
+                        _superPattern.test(opts[key])){
+                        console.log(key);
+                        opts[key] = (function(name,fn) {
+                            return function(){
+                                var tmp = this._super;
+                                this._super = _super[name];
+                                var ret = fn.apply(this, arguments);
+                                this._super = tmp;
+                                return ret;
+                            }
+                        })(key, opts[key]);
+                    }
+                }
             }
             // just so it's easier
             var $el = opts.$el || opts.$element || opts.element || opts.el;
@@ -59,6 +78,20 @@ var name = "directive";
 
             opts.preventDefault = function(e) {
                 e.preventDefault();
+            };
+
+            opts.$timeout = function(fn, time) {
+                if (!fn) return;
+                time = time || 0;
+                var scope = this;
+                var callback = function(newValue, oldValue){
+                    fn.apply(scope, arguments);
+                    Platform.performMicrotaskCheckpoint();
+                };
+                var id = setTimeout(callback, time);
+                return function(){
+                    clearTimeout(id);
+                }
             };
 
             return opts;

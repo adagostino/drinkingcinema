@@ -5,18 +5,27 @@ var name = "directive.modal";
             this.hide();
         },
         'beforeShow': function(){
-            console.log("default before show");
+            //console.log("default before show");
         },
-        'show': function(){
+        'show': function(callback){
             this.beforeShow();
             this.open = true;
+            this.$timeout(function(){
+               this.afterShow(callback);
+            });
         },
-        'hide': function(){
+        'afterShow': function(callback){
+
+        },
+        'hide': function(callback){
             this.open = false;
-            this.afterHide();
+            this.$timeout(function(){
+                this.afterHide(callback);
+            });
+
         },
-        'afterHide': function(){
-            console.log("default after hide");
+        'afterHide': function(callback){
+            //console.log("default after hide");
         }
     };
 

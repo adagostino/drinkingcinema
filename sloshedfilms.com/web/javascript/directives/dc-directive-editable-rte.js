@@ -1,18 +1,19 @@
 var name = "directive.editable.rte";
 (function (name){
     var keys = {
-        ctrl: 17,
-        cmd:  91,
-        esc:  27,
-        shift:16,
-        b:    66,
-        i:    73,
-        u:    85,
-        "=": 187,
-        left: 37,
-        up:   38,
-        right:39,
-        down: 40
+        'ctrl':     17,
+        'cmd':      91,
+        'esc':      27,
+        'shift':    16,
+        'b':        66,
+        'i':        73,
+        'u':        85,
+        '=':        187,
+        'left':     37,
+        'up':       38,
+        'right':    39,
+        'down':     40,
+        'return':   13
     };
 
     var _styleMap = {
@@ -25,6 +26,10 @@ var name = "directive.editable.rte";
     };
 
     var defaults = {
+        'onBlur': function(){
+            this._super();
+            this.processLinks();
+        },
         'onKeydown': function(e){
             switch(e.which){
                 case keys["ctrl"]:
@@ -137,14 +142,14 @@ var name = "directive.editable.rte";
             this.styles[style] = !this.styles[style];
         };
 
-        this.insert = function(key) {
+        this.insert = function(key, val) {
             if (!this.hasFocus) return;
             var expectedValue = !!!this.styles[key];
-            document.execCommand(key, false, null);
+            var o = document.execCommand(key, false, val || null);
             this.update();
             var value = !!this.styles[key];
             value !== expectedValue && this.setStyle(key);
-
+            return o;
         };
 
         this.update = function($el){
@@ -154,18 +159,22 @@ var name = "directive.editable.rte";
 
         this.removeLink = function(){
             // manually remove the anchor so we don't have to select text
+            var oRange = $scope.selection.range;
             try {
-                var $contents = $scope.linkPanel.anchor.contents();
-                this.linkPanel.anchor.replaceWith($contents);
-                // bc we are manually removing the anchor, we need to manually update the input
-                this.onInput();
-                _hideLinkPanel();
-                $dc.utils.rangeHelper.moveCursor($contents);
-                this.update();
+                $dc.utils.rangeHelper.selectText(this.linkPanel.anchor);
+                this.insert("unlink");
+                $dc.utils.rangeHelper.setSelection(oRange);
             } catch (e) {
 
             }
         };
+
+        this.processLinks = function(){
+            // unfortunately there's no easy way to get the anchor you just dropped in,
+            // so we'll have to create a fake one, then find it, then set the
+            // correct href and attributes manually.
+            $("a").not("[target]").attr("target","_blank");
+        }
 
         var _showLinkPanel = function(){
             var parentRect = $scope.$el[0].getBoundingClientRect(),
@@ -192,21 +201,49 @@ var name = "directive.editable.rte";
 
         var _initModal = function(){
             var $ce = $scope.$ce;
+            var oRange;
+            // later can check if in anchor for a change event
             $scope.modal = $dc.directive.modal.init({
                 'template': "#dc-directive-editable-modal-template",
+                'onKeyup': function(e){
+                    switch(e.which){
+                        case keys["return"]:
+                            this.submit();
+                            break;
+                        default:
+                            console.log(e.which);
+                            break;
+                    }
+                },
                 'beforeShow': function(){
-                    this.linkText = "party";
+                    this.reset();
+                    this.linkText = $dc.utils.rangeHelper.getSelectionText();
+                    oRange = $scope.selection.range;
                     $ce.blur();
+
+                },
+                'afterShow': function(){
+                    var $input = this.$el.find("input");
+                    $input.focus();
+                    //$dc.utils.rangeHelper.moveCursor($input);
                 },
                 'afterHide': function(){
+                    $ce.focus();
+                    $dc.utils.rangeHelper.setSelection(oRange);
+                    this.addLink && $scope.insert("createLink", this.linkHref);
+                },
+                submit: function(){
+                    this.linkHref = $.trim(this.linkHref);
+                    this.addLink = !!this.linkHref;
+                    this.hide();
+                },
+                reset: function(){
+                    this.linkText = "";
+                    this.linkHref = "";
+                    this.addLink = false;
 
-                    setTimeout(function(){
-                        $ce.focus();
-                        $dc.utils.rangeHelper.moveCursor($ce);
-                    }, 0);
                 }
             });
-            console.log($scope.modal);
         };
 
         this.init = function() {

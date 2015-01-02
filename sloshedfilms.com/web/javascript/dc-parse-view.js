@@ -73,6 +73,7 @@ var name = "parseView";
             directives: directives,
             baseAttributes: parsedAttrs ? parsedAttrs.attributes  || [] : [],
             watches: parsedAttrs ? parsedAttrs.watches || {} : {},
+            tag: tag,
             compile: function(o, inRepeat){
                 inRepeat = typeof inRepeat === "boolean" ? inRepeat : false;
                 this.attributes = $.extend(true,{},this.baseAttributes);
@@ -854,7 +855,7 @@ var name = "parseView";
 
     };
 
-    var setListener = function(o, type, parseFunc, value){
+    var _setListener = function(o, type, parseFunc, value, fn){
         var $el = o.$el,
             name = "dc-" + type + "-" + value,
             oldFn = $el.data(name);
@@ -862,7 +863,7 @@ var name = "parseView";
             $el.off(type, "div, span", oldFn);
             $el.data(name, null);
         }
-        var callback = parseFunc(o.change.object);
+        var callback = fn || parseFunc(o.change.object);
         if (typeof callback !== "function") return;
         var fn = function(){
             callback.apply(o.change.object, arguments);
@@ -881,10 +882,10 @@ var name = "parseView";
 
             },
             compile: function(o) {
-                setListener(o, type, parseFunc, value);
+                _setListener(o, type, parseFunc, value);
             },
             watch: function(o) {
-                setListener(o, type, parseFunc, value);
+                _setListener(o, type, parseFunc, value);
             },
             paths: paths
         }
@@ -896,14 +897,26 @@ var name = "parseView";
         return {
             link: function(o) {
                 var val = parseFunc(o);
-                var vO = _parseTemplate(val).children;
-                this.children = this.children.concat(vO);
+                if (this.tag === "input" || this.tag === "textarea"){
+                    this.attributes['value'] = [val];
+                } else {
+                    var vO = _parseTemplate(val);
+                    var a = vO.start ? [vO] : vO.children;
+                    this.children = this.children.concat(a);
+                }
+
+            },
+            compile: function(o) {
+                // set up a listener
+                var fn = this.tag === "input" || this.tag === "textarea" ? "val" : "html";
+                _setListener(o, "input", parseFunc, value, function(){
+                    this[value] = o.$el[fn]();
+                });
             },
             watch: function(o) {
-                var val = parseFunc(o.change.object);
-                if (o.$el.html() !== val) {
-                    o.$el.html(val);
-                }
+                var val = parseFunc(o.change.object),
+                    fn = this.tag === "input" || this.tag === "textarea" ? "val" : "html";
+                o.$el[fn]() !== val && o.$el[fn](val);
             },
             paths: paths
         }
