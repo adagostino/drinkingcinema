@@ -47,3 +47,10 @@ $time: 0.109s;
     @include box-shadow(none);
   }
 }
+
+.dc-x-out{
+  &.processing {
+    @include opacity(0.3);
+    pointer-events: none;
+  }
+}

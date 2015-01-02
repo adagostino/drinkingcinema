@@ -9,12 +9,18 @@ var name = "controller.upload";
 
         this.init = function(){
             var editTemplate = $("#dc-directive-editable-template").html();
-            var rte = $dc.directive.editable.init({
+            var rte = $dc.directive.editable.rte.init({
                 $el: $("[directive-editable='tags']"),
                 content: $scope.game.tags,
                 template: editTemplate,
                 submit: function(){
-
+                    this.processing = true;
+                    this.$timeout(function(){
+                        this.editing = false;
+                        this.processing = false;
+                        $scope.game.tags = this.content;
+                        console.log($scope.game);
+                    },1000);
 
                 }
             });

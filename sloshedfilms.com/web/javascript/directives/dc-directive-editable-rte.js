@@ -30,10 +30,6 @@ var name = "directive.editable.rte";
     for (var key in _styleMap) _cssStyleMap[_styleMap[key][0]] = _styleMap[key][1];
 
     var defaults = {
-        'onBlur': function(){
-            this._super();
-            this.processLinks();
-        },
         'onKeydown': function(e){
             switch(e.which){
                 case keys["ctrl"]:
@@ -62,9 +58,6 @@ var name = "directive.editable.rte";
                         e.preventDefault();
                         this.insert("underline");
                     }
-                    break;
-                case keys["="]:
-                    //(ctrl || cmd) ? shift ? insert("superscript") : insert("subscript"): null;
                     break;
                 default:
                     break;
@@ -246,7 +239,6 @@ var name = "directive.editable.rte";
             var $ce = $scope.$ce,
                 oRange,
                 $a;
-            // later can check if in anchor for a change event
             $scope.modal = $dc.directive.modal.init({
                 'template': "#dc-directive-editable-modal-template",
                 'onKeyup': function(e){
@@ -261,27 +253,28 @@ var name = "directive.editable.rte";
                 'beforeShow': function(){
                     oRange = $scope.selection.range;
                     $a = $scope.selection.inAnchor;
-
-
                 },
                 'afterShow': function(){
                     $ce.blur();
                     var $input = this.$el.find("input");
                     $input.focus();
-                    //$dc.utils.rangeHelper.moveCursor($input);
                 },
                 'afterHide': function(){
                     $ce.focus();
                     $dc.utils.rangeHelper.setSelection(oRange);
                     this.addLink && !this.editLink && $scope.insert("createLink", this.linkHref);
                     this.editLink && this.linkHref && $a && $a.attr("href", this.linkHref);
+                    $scope.processLinks();
                     this.reset();
                     $scope.update();
+                    // remember, the model is only listening to "input", so changing the html directly won't
+                    // trigger an input event. instead we have to trigger it manually;
+                    $ce.trigger('input');
+
                 },
                 submit: function(fn){
                     this.linkHref = $.trim(this.linkHref);
                     this.addLink = !!this.linkHref;
-
                     this.hide();
                 },
                 reset: function(){
@@ -289,7 +282,6 @@ var name = "directive.editable.rte";
                     this.linkHref = "";
                     this.addLink = false;
                     this.editLink = false;
-
                 }
             });
         };
@@ -302,13 +294,13 @@ var name = "directive.editable.rte";
 
             this.$watch('editing', function(n,o){
                if (!n) {
-                   $scope.reset();
+                   this.reset();
                }
             });
 
             this.$watch('selection', function(n,o){
                 try {
-                    $scope.selection.inAnchor ? _showLinkPanel() : _hideLinkPanel();
+                    this.selection.inAnchor ? _showLinkPanel() : _hideLinkPanel();
                 } catch (e) {
                     _hideLinkPanel();
                 }

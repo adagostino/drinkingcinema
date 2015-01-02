@@ -3,7 +3,7 @@
 
     <div class="dc-directive-editable-header">
         <div class="dc-directive-editable-header-container">
-            <div class="dc-x-out" dc-click="cancel"></div>
+            <div class="dc-x-out" dc-click="cancel" dc-class="{'processing': processing}"></div>
             <div class="dc-directive-editable-controls" dc-class="{'disabled': !hasFocus}" dc-if="isRTE">
                 {% spaceless %}
                 <div class="dc-rte-button dc-button dc-icon-bold" dc-class="{'active': selection.styles['font-weight'] == 'bold'}" dc-click="bold" dc-mousedown="preventDefault"></div>
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="dc-directive-editable-link-panel" dc-if="isRTE" dc-class="{'show': !hasFocus2 && linkPanel}" dc-style="{'top': linkPanel.top, 'left': linkPanel.left, 'right': linkPanel.right}" dc-mousedown="preventDefault">
+    <div class="dc-directive-editable-link-panel" dc-if="isRTE" dc-class="{'show': hasFocus && linkPanel}" dc-style="{'top': linkPanel.top, 'left': linkPanel.left, 'right': linkPanel.right}" dc-mousedown="preventDefault">
         <span>Go to link: </span><a href="{{linkPanel.link}}" title="{{linkPanel.link}}" target="_blank">{{linkPanel.link}}</a><span class="dc-directive-editable-link-panel-controls"> | <span class="dc-fake-link" dc-click="changeLink">Change</span> | <span class="dc-fake-link" dc-click="unlink">Remove</span></span>
     </div>
     <div class="dc-directive-editable-body" contenteditable="{{editing ? 'true' : 'false'}}" dc-model="content" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur">

@@ -235,3 +235,9 @@
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+.dc-x-out.processing {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+  pointer-events: none;
+}

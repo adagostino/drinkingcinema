@@ -7,7 +7,7 @@ var name = "directive.editable";
         'i':        73,
         'u':        85
     };
-    
+
     var defaults = {
         processing: false,
         editing: false,
@@ -66,7 +66,8 @@ var name = "directive.editable";
         },
         cancel: function(e) {
             this.editing = false;
-
+            var str = this.oContent;
+            this.content = str;
         },
         submit: function(e) {
             console.log('submit', this.$ce.html());
@@ -85,9 +86,6 @@ var name = "directive.editable";
             this.$watch("editing", function(n, o){
                 if (n) {
                     this.oContent = this.content;
-                } else {
-                    var str = this.oContent;
-                    this.content = str;
                 }
             });
 
