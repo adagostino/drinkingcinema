@@ -16,18 +16,6 @@ var name = "directive.editable.rte";
         'return':   13
     };
 
-    /*
-    var _styleMap = {
-        'font-style': 'italic',
-        'font-weight': 'bold',
-        'text-decoration': 'underline',
-        'insertUnorderedList': 'ul',
-        'insertOrderedList': 'ol',
-        'text-align': 'left, right, center, or justify'
-    };
-    */
-
-
     var _styleMap = {
         'bold': ['font-weight', 'bold'],
         'italic': ['font-style', 'italic'],
@@ -141,6 +129,7 @@ var name = "directive.editable.rte";
             this.insert("outdent");
         },
         'link': function(){
+            this.modal.linkText = $dc.utils.rangeHelper.getSelectionText();
             this.modal.show();
         },
         'unlink': function(){
@@ -201,14 +190,26 @@ var name = "directive.editable.rte";
 
         this.removeLink = function(){
             // manually remove the anchor so we don't have to select text
-            var oRange = $scope.selection.range;
+            var oRange = this.selection.range;
             try {
                 $dc.utils.rangeHelper.selectText(this.linkPanel.anchor);
                 this.insert("unlink");
                 $dc.utils.rangeHelper.setSelection(oRange);
+                this.update();
             } catch (e) {
 
             }
+        };
+
+        this.changeLink = function(){
+            var oRange = this.selection.range;
+            var $a = this.selection.inAnchor;
+            if (!$a) return;
+            this.modal.linkText = $a.text();
+            this.modal.linkHref = $a.attr("href");
+            this.modal.editLink = true;
+
+            $scope.modal.show();
         };
 
         this.processLinks = function(){
@@ -223,7 +224,7 @@ var name = "directive.editable.rte";
                 rect = $scope.selection.boundingClientRect,
                 $a = $scope.selection.inAnchor,
                 link = $a.attr("href"),
-                maxWidth = 400,
+                maxWidth = 435,
                 useRight = rect.left + maxWidth >= parentRect.right;
 
             var linkPanel = {
@@ -242,8 +243,9 @@ var name = "directive.editable.rte";
         };
 
         var _initModal = function(){
-            var $ce = $scope.$ce;
-            var oRange;
+            var $ce = $scope.$ce,
+                oRange,
+                $a;
             // later can check if in anchor for a change event
             $scope.modal = $dc.directive.modal.init({
                 'template': "#dc-directive-editable-modal-template",
@@ -257,13 +259,13 @@ var name = "directive.editable.rte";
                     }
                 },
                 'beforeShow': function(){
-                    this.reset();
-                    this.linkText = $dc.utils.rangeHelper.getSelectionText();
                     oRange = $scope.selection.range;
-                    $ce.blur();
+                    $a = $scope.selection.inAnchor;
+
 
                 },
                 'afterShow': function(){
+                    $ce.blur();
                     var $input = this.$el.find("input");
                     $input.focus();
                     //$dc.utils.rangeHelper.moveCursor($input);
@@ -271,17 +273,22 @@ var name = "directive.editable.rte";
                 'afterHide': function(){
                     $ce.focus();
                     $dc.utils.rangeHelper.setSelection(oRange);
-                    this.addLink && $scope.insert("createLink", this.linkHref);
+                    this.addLink && !this.editLink && $scope.insert("createLink", this.linkHref);
+                    this.editLink && this.linkHref && $a && $a.attr("href", this.linkHref);
+                    this.reset();
+                    $scope.update();
                 },
-                submit: function(){
+                submit: function(fn){
                     this.linkHref = $.trim(this.linkHref);
                     this.addLink = !!this.linkHref;
+
                     this.hide();
                 },
                 reset: function(){
                     this.linkText = "";
                     this.linkHref = "";
                     this.addLink = false;
+                    this.editLink = false;
 
                 }
             });

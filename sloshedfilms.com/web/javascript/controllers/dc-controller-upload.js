@@ -3,13 +3,13 @@ var name = "controller.upload";
     var upload = new function(){
         var $scope = this;
         $scope.game = {
-            'tags': "Party <b>all</b> the time."
+            'tags': "Party all the time."
         };
 
 
         this.init = function(){
             var editTemplate = $("#dc-directive-editable-template").html();
-            var rte = $dc.directive.editable.rte.init({
+            var rte = $dc.directive.editable.init({
                 $el: $("[directive-editable='tags']"),
                 content: $scope.game.tags,
                 template: editTemplate,

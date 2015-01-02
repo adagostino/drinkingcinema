@@ -78,6 +78,7 @@ $dc-directive-editable-padding: 10px;
   @include opacity(0);
   @include transition(opacity $time $easing);
   will-change: opacity;
+  min-height: 22px;
 }
 
 .dc-rte-button {
@@ -126,15 +127,13 @@ $dc-directive-editable-padding: 10px;
     @include truncate();
   }
 
-
-
   &.show{
     display: block;
   }
 }
 
 .dc-directive-editable-link-panel-controls {
-  float: right;
+
 }
 
 .dc-rte-button {

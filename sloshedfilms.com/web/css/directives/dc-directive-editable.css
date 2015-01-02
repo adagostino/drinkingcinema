@@ -272,6 +272,7 @@
   -webkit-transition: opacity 0.218s ease-in-out;
   transition: opacity 0.218s ease-in-out;
   will-change: opacity;
+  min-height: 22px;
 }
 
 .dc-rte-button {
@@ -330,10 +331,6 @@
 }
 .dc-directive-editable-link-panel.show {
   display: block;
-}
-
-.dc-directive-editable-link-panel-controls {
-  float: right;
 }
 
 .dc-rte-button {

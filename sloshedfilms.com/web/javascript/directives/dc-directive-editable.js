@@ -1,11 +1,57 @@
 var name = "directive.editable";
 (function(name){
-
+    var keys = {
+        'ctrl':     17,
+        'cmd':      91,
+        'b':        66,
+        'i':        73,
+        'u':        85
+    };
+    
     var defaults = {
         processing: false,
         editing: false,
         onFocus: function(e) {
             this.hasFocus = true;
+        },
+        'onKeydown': function(e){
+            switch(e.which){
+                case keys["ctrl"]:
+                    this.ctrl = true;
+                    break;
+                case keys["cmd"]:
+                    this.cmd = true;
+                    break;
+                case keys["b"]:
+                    if (this.ctrl || this.cmd) {
+                        e.preventDefault();
+                    }
+                    break;
+                case keys["i"]:
+                    if (this.ctrl || this.cmd) {
+                        e.preventDefault();
+                    }
+                    break;
+                case keys["u"]:
+                    if (this.ctrl || this.cmd) {
+                        e.preventDefault();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        'onKeyup': function(e){
+            switch(e.which){
+                case keys["ctrl"]:
+                    this.ctrl = false;
+                    break;
+                case keys["cmd"]:
+                    this.cmd = false;
+                    break;
+                default:
+                    break;
+            }
         },
         onBlur: function(e) {
             this.hasFocus = false;

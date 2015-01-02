@@ -898,7 +898,7 @@ var name = "parseView";
             link: function(o) {
                 var val = parseFunc(o);
                 if (this.tag === "input" || this.tag === "textarea"){
-                    this.attributes['value'] = [val];
+                    this.attributes['value'] = [val || ""];
                 } else {
                     var vO = _parseTemplate(val);
                     var a = vO.start ? [vO] : vO.children;
@@ -916,7 +916,7 @@ var name = "parseView";
             watch: function(o) {
                 var val = parseFunc(o.change.object),
                     fn = this.tag === "input" || this.tag === "textarea" ? "val" : "html";
-                o.$el[fn]() !== val && o.$el[fn](val);
+                o.$el[fn]() !== val && o.$el[fn](val || "");
             },
             paths: paths
         }
