@@ -3,7 +3,7 @@ var name = "watchElement";
     var _we = function($el, o, template){
         template = template || $el[0].outerHTML;
         // TODO: do this non-destructively sometime
-        var $nEl = $dc.parseView(template).getElement(o);
+        var $nEl = $dc.viewParser.parse(template).getElement(o);
         var events = jQuery._data($el[0], 'events'),
             data = jQuery._data($el[0], 'data');
         // copy pre-existing events over

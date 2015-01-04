@@ -90,6 +90,7 @@ $dc-directive-editable-padding: 10px;
   padding: $dc-directive-editable-padding;
   position: relative;
   z-index: 1;
+  min-height: 36px;
 
 }
 

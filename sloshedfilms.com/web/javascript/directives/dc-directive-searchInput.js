@@ -3,7 +3,7 @@ var name = "directive.searchInput";
     // format the search query
     var reg = /[^a-z0-9~%.:_\-+\&\'///]/g;
     var getUrl = function(query) {
-        query = formatQuery(query).replace(reg, "");
+        query = formatQuery($.trim(query)).replace(reg, "");
         return query ? "/search/" + query : "";
     };
 
@@ -12,24 +12,18 @@ var name = "directive.searchInput";
     };
 
     var defaults = {
-        'change': function(e){
-            var url = getUrl($.trim($(this).val()));
-            $(this).trigger("updateAnchor", url);
-            //url ? $a.attr("href", url) : $a.removeAttr("href");
-        },
         'keyup': function(e){
             switch(e.keyCode){
                 case 13:
                     // enter
-                    var url = getUrl($.trim($(this).val()));
+                    var url = getUrl(this.content);
                     if (url) {
                         window.location.href = url;
                     }
                     break;
                 case 27:
                     // escape
-                    $(this).val("");
-                    $(this).trigger("updateAnchor");
+                    this.content = "";
                     break;
                 default:
                     break;
@@ -40,17 +34,15 @@ var name = "directive.searchInput";
 
     var searchInput = function(opts){
         this.init = function(){
-            // get the input and anchor
-            var $input = this.$el.find("input"),
-                $a = this.$el.find("a");
-
-            // set the event handlers
-            $input.on("change", this.change)
-                .on("keyup", this.keyup)
-                .on("updateAnchor", function(e, url){
-                    url ? $a.attr("href", url) : $a.removeAttr("href");
-                });
+            this.href = "";
+            this.$watch("content", function(n,o){
+               this.href = getUrl(this.content);
+            });
         }
     };
-    $dc.directive.add(name, searchInput, defaults);
+    $dc.directive.add(name, {
+        "directive": searchInput,
+        "defaults": defaults,
+        "template": "#dc-directive-search-input-template"
+    });
 })(name);

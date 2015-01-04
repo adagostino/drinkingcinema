@@ -34,10 +34,14 @@ var name = "directive.modal";
         this.init = function(){
             this.open = false;
             this.modalTemplate = this.modalTemplate || $("#dc-directive-modal-template").html();
-            this.$el = $dc.parseView(this.modalTemplate).getElement(this);
+            this.$el = $dc.viewParser.parse(this.modalTemplate).getElement(this);
             $("body").append(this.$el);
         }
 
     };
-    $dc.directive.add(name, modal, defaults);
+    $dc.directive.add(name, {
+        "directive": modal,
+        "template": "#dc-directive-modal-template",
+        "defaults": defaults
+    });
 })(name);

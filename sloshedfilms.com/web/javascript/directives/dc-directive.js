@@ -3,27 +3,32 @@ var name = "directive";
     var ct = 0;
     var directive = new function(){
         this.$dcType = "directive";
-        this.add = function(name, dir, defaults) {
+        this.add = function(name, dir) {
             var fn = new function(){
                 this.$dcName = name;
-                this.defaults = defaults;
+                this.defaults = dir.defaults;
                 this.init = function(opts, dontInit){
-                    opts = this.formatOpts(opts, defaults);
+                    opts = $dc.directive.formatOpts(opts, dir.defaults);
                     if (!opts) return;
                     var names = this.$dcName.split(".");
                     var parentName = names.splice(0,names.length - 1).join(".");
                     var parent = Path.get(parentName).getValueFrom($dc);
 
-                    var d = typeof parent.init === "function" ? $dc.subClass(parent.init(opts,true), new dir()) : new dir(opts);
-
+                    var d = typeof parent.init === "function" ? $dc.subClass(parent.init(opts,true), new dir.directive()) : new dir.directive(opts);
+                    $.extend(d,opts);
                     !dontInit && (function (){
-                        $.extend(d,opts);
                         typeof d.init === 'function' && d.init();
                     })();
                     return d;
                 }
             };
             $dc.extend(name, fn);
+            $dc.viewParser.addCustomDirective(name, {
+                "directive": fn,
+                "template": function (){
+                    return typeof dir.template === "function" ? dir.template() : $(dir.template).html()
+                }
+            });
         };
 
         this.formatOpts = function(opts, defaults) {

@@ -1,12 +1,14 @@
 {% extends _layout %}
 
 {% block body %}
-    {% embed '_subtemplates/header-medium-desktop.html' %}
-        {% block subheader %}
-            {% include '_subtemplates/share-input.html' with {'share': {'placeholder': 'Set Movie Name'} } %}
-        {% endblock %}
-    {% endembed %}
-    {% include '_subtemplates/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Party'} %}
+    <div class="dc-header-controller" dc-controller="header">
+        {% embed '_subtemplates/header-medium-desktop.html' %}
+            {% block subheader %}
+                {% include '_subtemplates/share-input.html' with {'share': {'placeholder': 'Set Movie Name'} } %}
+            {% endblock %}
+        {% endembed %}
+    </div>
+    {% include 'controllers/upload.html' %}
     <script type="dc-template" id="dc-directive-editable-template">
         {{ source('_subtemplates/dc-directive-editable.html') }}
     </script>
@@ -16,4 +18,12 @@
     <script type="dc-template" id="dc-directive-editable-modal-template">
         {{ source('_subtemplates/dc-directive-editable-modal.html') }}
     </script>
+    <script type="dc-template" id="dc-controller-upload-template">
+        {{ source('controllers/upload.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-search-input-template">
+        {{ source('_subtemplates/dc-directive-search-input.html') }}
+    </script>
+
+
 {% endblock %}

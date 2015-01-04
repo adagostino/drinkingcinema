@@ -63,13 +63,16 @@
     $(document).ready(function(){
         $dc.formatTemplates();
 
-        for (var name in $dc.controller){
-            var o = $dc.controller[name];
-            if (o.$dcType === "controller"){
-                var init = _getInit($dc.controller[name]);
-                typeof init === "function" && init();
-            }
+        $("[dc-controller]").each(function(){
+            var $this = $(this);
+            var name = $this.attr("dc-controller");
+            var controller = $dc.controller[name];
+            var init = _getInit(controller);
+            var template = $("#dc-controller-" + name +"-template").html();
 
-        }
+            init.call(controller);
+            var $c = $dc.watchElement($this, controller, template);
+            console.log("watch controller", name);
+        });
     });
 })();

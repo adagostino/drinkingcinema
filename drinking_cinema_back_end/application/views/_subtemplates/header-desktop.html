@@ -36,9 +36,8 @@
     {% block subheader %}
 
     {% endblock %}
-    <div class="dc-search-input dc-search-bubble">
-        <input class="dc-input" type="text" value="" placeholder="Search" />
-        <a class="dc-search-input-button dc-mag-glass"></a>
+    <div dc-directive-search-input="searchText">
+        {% include '_subtemplates/dc-directive-search-input.html' %}
     </div>
     <hr class="dc-hr-top">
 </div>

@@ -77,11 +77,10 @@ var name = "directive.editable";
 
     var editable = function(opts){
         this.init = function(){
-            var $scope = this;
-            this.$el = $dc.watchElement($scope.$el, $scope, $scope.template);
+            //this.$el = $dc.watchElement(this.$el, this, this.template);
             this.$ce = this.$el.find("[contenteditable]");
             // set up the oContent variable to revert
-            this.oContent = $scope.content;
+            this.oContent = this.content;
 
             this.$watch("editing", function(n, o){
                 if (n) {
@@ -94,7 +93,11 @@ var name = "directive.editable";
 
     };
 
-    $dc.directive.add(name, editable, defaults);
+    $dc.directive.add(name, {
+        "directive": editable,
+        "template": "#dc-directive-editable-template",
+        "defaults": defaults
+    });
 
 })(name);
 

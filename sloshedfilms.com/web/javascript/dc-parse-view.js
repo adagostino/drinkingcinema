@@ -1,4 +1,4 @@
-var name = "parseView";
+var name = "viewParser";
 (function(name){
     var ngReg = new RegExp("^dc-","i"),
         semiReg = new RegExp(";$"),
@@ -8,13 +8,23 @@ var name = "parseView";
 
     var _scopeMap = {};
 
-    var _vp = function(html){
-        return new _viewParser(html);
+    var _vp = new function(){
+        this.customDirectives = {};
+
+        this.addCustomDirective = function(name, directive){
+            name = name.replace(/\./g, "-").replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();});
+            this.customDirectives[name] = directive;
+        };
+
+        this.parse = function(html) {
+            return new _viewParser(html, this.customDirectives);
+        }
     };
 
-    function _viewParser(html){
+    function _viewParser(html, customDirectives){
         var _template = html,
-            _viewObj = _parseTemplate(_template),
+            _customDirectives = customDirectives || {},
+            _viewObj = _parseTemplate(_template, _customDirectives),
             _self = this,
             _parsedObj;
 
@@ -38,10 +48,10 @@ var name = "parseView";
             bind = typeof bind === "boolean" ? bind : true;
             if (!_parsedObj) _parsedObj = _viewObj.compile(obj);
             if (!bind) return $(this.getHTML(obj, $parent));
-
             var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj, $parent);
             var $el = parsedHTMLObj.$el;
-            if ($el.context.nodeType !== 11) return $el;
+
+            if (($el[0] || $el).nodeType !== 11) return $el;
 
             var a = [];
             for (var i=0; i<parsedHTMLObj.children.length; i++){
@@ -53,8 +63,8 @@ var name = "parseView";
 
     }
 
-    function _getEl(tag, attrs, unary){
-        var parsedAttrs = _parseAttributes(attrs);
+    function _getEl(tag, attrs, unary, customDirectives){
+        var parsedAttrs = _parseAttributes(attrs, customDirectives);
         // order the directives so repeat is first, then if, then everything else
         var directives = [];
         parsedAttrs.repeat && directives.push({name: "repeat", value: parsedAttrs.repeat}) && delete parsedAttrs.repeat;
@@ -171,12 +181,11 @@ var name = "parseView";
             $parent = $(parsedHTMLObj.$el[0].cloneNode(false));
             cloned = true;
         } else {
-            $parent = parsedHTMLObj.str ? $(parsedHTMLObj.str) : parsedHTMLObj.comment ? $(document.createComment(parsedHTMLObj.openTag + parsedHTMLObj.closeTag)) : $(document.createDocumentFragment());
+            $parent = parsedHTMLObj.str ? $(parsedHTMLObj.str) : parsedHTMLObj.comment ? $(document.createComment(parsedHTMLObj.openTag + parsedHTMLObj.closeTag)) : document.createDocumentFragment();
             var watches = [];
             var paths = {};
             var ct = 0;
             var addWatches = function(obj, type) {
-
                 for (key in obj) {
                     if (key !== "repeat" || (key === "repeat" && !parsedHTMLObj.inRepeat)){
                         watches.push({
@@ -212,8 +221,12 @@ var name = "parseView";
             if (typeof child === "string") {
                 if (!parsedHTMLObj.str) $parent = $(document.createTextNode(child));
             } else {
-                $parent.append(child.$el);
-                child.$el[0].nodeType === 1 && children.push(child.guid);
+                try {
+                    $parent.append(child.$el);
+                } catch(e) {
+                    $parent.appendChild(child.$el[0]);
+                }
+                (child.$el[0] || child.$el).nodeType === 1 && children.push(child.guid);
             }
         };
 
@@ -234,16 +247,19 @@ var name = "parseView";
                     // but I'll do that later
                     watches[i].compile && (function(){
                         item.attributes = $.extend(true,{},item.baseAttributes);
-                        watches[i].compile.call(item, {
+                        var $el = watches[i].compile.call(item, {
                             change: {
                                 object: scope
                             },
                             $el: $parent,
                             type: watches[i].type,
                             name: watches[i].name,
-                            item: item
+                            item: item,
+                            children: children
                         });
                         delete item.attributes;
+                        // this is in the case of a replacement
+                        if ($el) $parent = $el;
                     })();
                 };
                 //console.log(path, watches.length);
@@ -290,7 +306,7 @@ var name = "parseView";
                     });
                     observers.push(aObs);
                 }else if (typeof val === "object"){
-                    console.log("observe object", path);
+                    //console.log("observe object", path);
                     var objObs = new ObjectObserver(val);
                     objObs.open(function(added, removed, changed, getOldValueFn){
                         console.log("object changed", added, removed, changed);
@@ -314,7 +330,7 @@ var name = "parseView";
         // if it's actually an element, record it
         //if ($parent[0].nodeType === 1){
             _scopeMap[guid] = rObj;
-            $parent[0]._vpGUID = guid;
+            ($parent[0] || $parent)._vpGUID = guid;
         //}
         return rObj;
     };
@@ -402,7 +418,7 @@ var name = "parseView";
         };
     };
 
-    function _parseTemplate(html){
+    function _parseTemplate(html, customDirectives){
         var el = _getEl(),
             currEl = el,
             ct = [],
@@ -413,7 +429,7 @@ var name = "parseView";
 
         HTMLParser(html,{
             start: function(tag, attrs, unary){
-                var nEl = _getEl(tag, attrs, unary);
+                var nEl = _getEl(tag, attrs, unary, customDirectives);
                 currEl.children.push(nEl);
 
                 nEl.parent = currEl;
@@ -475,7 +491,7 @@ var name = "parseView";
         return el;
     };
 
-    function _parseAttributes(attrs){
+    function _parseAttributes(attrs, customDirectives){
         attrs = attrs || [];
         var obj = {
             directives: {},
@@ -491,7 +507,7 @@ var name = "parseView";
             if (ngReg.test(o.name)){
                 obj.attributes[o.name] = [o.value];
                 var name = o.name.toLowerCase().replace(ngReg,"");
-                var pd = _parseDirective(name, o.value);
+                var pd = _parseDirective(name, o.value, customDirectives);
                 obj.directives[name] = pd.link;
 
                 obj.watches.directives[name] = {
@@ -542,10 +558,10 @@ var name = "parseView";
         'mousedown': 'mousedown',
         'focus': 'focus',
         'blur': 'blur'
-    }
+    };
 
-    function _parseDirective(name,value){
-        //console.log(attr);
+    function _parseDirective(name,value, customDirectives){
+        customDirectives = customDirectives || {};
         switch(name){
             case "class":
                 // push each key / value into this.attributes.class array
@@ -567,7 +583,12 @@ var name = "parseView";
                 return _parseModelDirective(value);
                 break;
             default:
-                return _events[name] ? _parseListenDirective(value, _events[name]) : undefined;
+                if (_events[name]) {
+                    return _parseListenDirective(value, _events[name]);
+                } else if (customDirectives[name]) {
+                    return _parseCustomDirective(value, name, customDirectives);
+                }
+                return {};
                 break;
         }
     };
@@ -754,7 +775,6 @@ var name = "parseView";
                         children: []
                     };
                     var cO = this.compile(o.change.object);
-                    console.log(o.change.object);
                     var $c = _compileHTMLEl(cO, o.change.object);
                     o.$el.replaceWith($c.$el);
 
@@ -917,6 +937,55 @@ var name = "parseView";
                 var val = parseFunc(o.change.object),
                     fn = this.tag === "input" || this.tag === "textarea" ? "val" : "html";
                 o.$el[fn]() !== val && o.$el[fn](val || "");
+            },
+            paths: paths
+        }
+    };
+
+    function _parseCustomDirective(value, name, customDirectives) {
+        // value is the scope, if it exists
+        var parseFunc = $parse(value),
+            paths = getPaths(parseFunc.lexer.lex(value)),
+            dir = customDirectives[name];
+
+        return {
+            link: function(o) {
+                // don't do anything -- only do something on compile
+            },
+            compile: function(o) {
+                var val = parseFunc(o.change.object);
+                var $scope = val || o.change.object;
+                if (val) $scope.$parent = o.change.object;
+                // run the init function of the directive
+                $scope.$el = o.$el;
+                var dirScope = typeof dir.directive.init === "function" && dir.directive.init($scope, true);
+
+                var template = typeof dir.template === "function" ? dir.template.apply(this) : dir.template;
+                console.log(name);
+                var replace = false;
+                if (!template) {
+                    template = o.$el.clone().removeAttr("dc-"+ name).attr("clone", true)[0].outerHTML;
+                    replace = true;
+                }
+
+                var vO = _parseTemplate(template, customDirectives);
+                var c = vO.compile($scope);
+                var child = _compileHTMLEl(c, dirScope);
+
+                if (!replace) {
+                    try {
+                        o.$el.append(child.$el);
+                    } catch(e) {
+                        o.$el.appendChild(child.$el[0]);
+                    }
+                    (child.$el[0] || child.$el).nodeType === 1 && o.children.push(child.guid);
+                }
+
+                typeof dirScope.init === "function" && dirScope.init.call(dirScope);
+                return replace ? child.$el : undefined;
+            },
+            watch: function(o) {
+                console.log("in watch?");
             },
             paths: paths
         }

@@ -289,7 +289,6 @@ var name = "directive.editable.rte";
         this.init = function() {
             this._super();
             $scope = this;
-
             _initModal();
 
             this.$watch('editing', function(n,o){
@@ -312,5 +311,9 @@ var name = "directive.editable.rte";
         }
     };
 
-    $dc.directive.add(name, rte, defaults);
+    $dc.directive.add(name, {
+        "directive": rte,
+        "template": "#dc-directive-editable-template",
+        "defaults": defaults
+    }, defaults);
 })(name);
