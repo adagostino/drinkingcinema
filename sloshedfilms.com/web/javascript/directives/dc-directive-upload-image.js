@@ -40,14 +40,16 @@ var name = "directive.uploadImage";
                 'template': "#dc-directive-preview-image-modal-template",
                 'searchItemTemplate': "#dc-subtemplate-search-item-template",
                 'numComments': 0,
+                'isProcessing': false,
+                'uploadProgress': 0,
                 expand: function(){
                     this.isExpanded = !!!this.isExpanded;
                 },
                 beforeShow: function(){
                     $scope.previewModal.image = $scope.previewImage;
                 },
-                submit: function(fn){
-                    this.hide();
+                submit: function(){
+                    typeof $scope.submit === "function" && $scope.submit();
                 },
                 afterHide: function(){
                     $scope.$input.val("");

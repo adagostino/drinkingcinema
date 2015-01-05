@@ -25,7 +25,13 @@
         }
 
         function image_post() {
+            $fileName = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
+            if ($fileName){
+                $images = $this->game_service->upload_image($fileName);
+                $this->response($images, 200);
+            } else {
 
+            }
         }
 
         function thumbnail_post() {

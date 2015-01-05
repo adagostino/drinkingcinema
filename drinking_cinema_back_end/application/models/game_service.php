@@ -4,11 +4,15 @@
         function __construct() {
             // Call the Model constructor
             parent::__construct();
-            //$this->$jsJSON = $jsJSON;
         }
 
         function get($name){
             return "Getting Game Name ".$name;
+        }
+
+        function upload_image($name){
+            $path = $this->globals->get_games_dir().$name;
+            return $path;
         }
 
     }

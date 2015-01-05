@@ -111,8 +111,6 @@ var name = "directive";
                 var scope = this;
                 fn.apply(scope, Array.prototype.slice.call(arguments, 1));
                 Platform.performMicrotaskCheckpoint();
-
-
             };
 
             return opts;

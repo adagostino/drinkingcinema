@@ -24,5 +24,53 @@
 
 .dc-directive-upload-image-preview {
   padding: $dc-default-padding;
+}
 
+$upload-buttons-padding: $dc-default-padding;
+.dc-directive-upload-image-buttons {
+  position: relative;
+  text-align: right;
+  padding: $upload-buttons-padding;
+}
+
+$dc-progress-bar-width: 300px;
+.dc-upload-progress {
+  width: $dc-progress-bar-width;
+  position: absolute;
+  top: $upload-buttons-padding;
+  bottom: $upload-buttons-padding;
+  left: 50%;
+  margin-left: -$dc-progress-bar-width/2;
+  display: none;
+  text-align: center;
+  border: 1px solid $dc-light-gray;
+  @include box-shadow(inset 0px 1px 2px rgba(0,0,0,0.6));
+  &.show {
+    display: block;
+  }
+}
+
+.dc-upload-progress-bar {
+  height: 100%;
+  background-color: $dc-blue;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+$upload-text-shadow: $dc-black;
+.dc-upload-progress-bar-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0px;
+  top: 50%;
+  margin-top: -8px;
+  color: $dc-white;
+  @include text-shadow(
+    -2px 0px 1px $upload-text-shadow,
+    -1px 0px 1px $upload-text-shadow,
+    0px 0px 1px $upload-text-shadow,
+    1px 1px 1px $upload-text-shadow,
+    2px 1px 1px $upload-text-shadow
+  );
 }

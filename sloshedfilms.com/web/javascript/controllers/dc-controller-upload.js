@@ -28,9 +28,29 @@ var name = "controller.upload";
             };
 
             this.uploadImageScope = {
+                submit: function(){
+                    var modalScope = this.previewModal;
+                    modalScope.isProcessing = true;
+                    $dc.model.game.uploadGameImage({
+                        $scope: this,
+                        name: $scope.game.name,
+                        file: this.file,
+                        progress: function(e, percent){
+                            modalScope.uploadProgress = percent;
+                        },
+                        success: function(data){
+                            console.log("success", arguments);
+                        },
+                        error: function(){
+
+                        }
+                    })
+
+                },
                 onUrlChange: function(url) {
                     $scope.game.image = url;
                 }
+
             }
 
         };
