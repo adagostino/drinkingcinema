@@ -15,7 +15,10 @@ var name = "directive";
                     var parent = Path.get(parentName).getValueFrom($dc);
 
                     var d = typeof parent.init === "function" ? $dc.subClass(parent.init(opts,true), new dir.directive()) : new dir.directive(opts);
-                    $.extend(d,opts);
+
+                    //$.extend(d,opts);
+                    $dc.directive.extend(d, opts);
+
                     !dontInit && (function (){
                         typeof d.init === 'function' && d.init();
                     })();
@@ -31,19 +34,18 @@ var name = "directive";
             });
         };
 
-        this.formatOpts = function(opts, defaults) {
-            defaults = defaults || {};
+        this.extend = function(thisObj, withThatObj){
             var _superPattern = /xyz/.test(function() { xyz;}) ? /\b_super\b/ : /.*/;
             // extend the options
-            var _super = defaults;
-            for (var key in defaults) {
-                if (!opts[key]) {
-                    opts[key] = defaults[key];
+            var _super = withThatObj;
+            for (var key in withThatObj) {
+                if (!thisObj[key]) {
+                    thisObj[key] = withThatObj[key];
                 }else {
-                    if (typeof opts[key] === "function" &&
-                        typeof defaults[key] === "function" &&
-                        _superPattern.test(opts[key])){
-                        opts[key] = (function(name,fn) {
+                    if (typeof thisObj[key] === "function" &&
+                        typeof withThatObj[key] === "function" &&
+                        _superPattern.test(thisObj[key])){
+                        thisObj[key] = (function(name,fn) {
                             return function(){
                                 var tmp = this._super;
                                 this._super = _super[name];
@@ -51,10 +53,16 @@ var name = "directive";
                                 this._super = tmp;
                                 return ret;
                             }
-                        })(key, opts[key]);
+                        })(key, thisObj[key]);
                     }
                 }
-            }
+            };
+
+        };
+
+        this.formatOpts = function(opts, defaults) {
+            defaults = defaults || {};
+            this.extend(opts, defaults);
             // just so it's easier
             var $el = opts.$el || opts.$element || opts.element || opts.el;
             //if (!$el || !$el.length) return;
@@ -96,6 +104,15 @@ var name = "directive";
                 return function(){
                     clearTimeout(id);
                 }
+            };
+
+            opts.call = function(fn) {
+                if (typeof fn !== "function") return;
+                var scope = this;
+                fn.apply(scope, Array.prototype.slice.call(arguments, 1));
+                Platform.performMicrotaskCheckpoint();
+
+
             };
 
             return opts;

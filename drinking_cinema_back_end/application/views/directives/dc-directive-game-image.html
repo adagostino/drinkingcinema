@@ -1,0 +1,9 @@
+<div class="dc-game-image" style="background-image: url('{{game.image}}')">
+    <h1>A Movie Drinking Game for {{game.name}}</h1>
+    <div dc-directive-embed-game>
+        {% include 'directives/dc-directive-embed-game.html' %}
+    </div>
+    <div dc-directive-upload-image="uploadImageScope">
+        {% include 'directives/dc-directive-upload-image.html' %}
+    </div>
+</div>

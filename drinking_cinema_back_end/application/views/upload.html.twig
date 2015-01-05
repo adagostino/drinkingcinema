@@ -9,21 +9,34 @@
         {% endembed %}
     </div>
     {% include 'controllers/upload.html' %}
-    <script type="dc-template" id="dc-directive-editable-template">
-        {{ source('_subtemplates/dc-directive-editable.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-modal-template">
-        {{ source('_subtemplates/dc-directive-modal.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-editable-modal-template">
-        {{ source('_subtemplates/dc-directive-editable-modal.html') }}
-    </script>
     <script type="dc-template" id="dc-controller-upload-template">
         {{ source('controllers/upload.html') }}
     </script>
-    <script type="dc-template" id="dc-directive-search-input-template">
-        {{ source('_subtemplates/dc-directive-search-input.html') }}
+    <script type="dc-template" id="dc-directive-editable-template">
+        {{ source('directives/dc-directive-editable.html') }}
     </script>
-
-
+    <script type="dc-template" id="dc-directive-modal-template">
+        {{ source('directives/dc-directive-modal.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-editable-modal-template">
+        {{ source('directives/dc-directive-editable-modal.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-search-input-template">
+        {{ source('directives/dc-directive-search-input.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-upload-image-template">
+        {{ source('directives/dc-directive-upload-image.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-preview-image-modal-template">
+        {{ source('directives/dc-directive-preview-image-modal.html') }}
+    </script>
+    <script type="dc-template" id="dc-search-item-template">
+        {{ source('_subtemplates/dc-search-item-desktop.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-game-image-template">
+        {{ source('directives/dc-directive-game-image.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-embed-game-template">
+        {{ source('directives/dc-directive-embed-game.html') }}
+    </script>
 {% endblock %}

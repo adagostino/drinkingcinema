@@ -2,7 +2,7 @@
 @import "imports/dc-imports";
 
 html {
-  overflow: auto;
+  //overflow: auto;
   box-sizing: border-box;
 }
 
@@ -13,8 +13,19 @@ html,body{
 }
 
 body{
-  background: $dc-light-gray url($dc-background-url) 50% 50% repeat-y;
+  background-color: $dc-light-gray;
   min-height: 100vh;
+  position: relative;
+  &.modal-open{
+    overflow: hidden;
+  }
+}
+
+.dc-background {
+  position: relative;
+  background: $dc-light-gray url($dc-background-url) 50% 50% repeat-y;
+  width: 100%;
+  height: 100%;
 }
 
 *, *:before, *:after {

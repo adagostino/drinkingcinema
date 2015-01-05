@@ -192,7 +192,8 @@ var name = "viewParser";
                             name: key,
                             type: type,
                             watch: obj[key].watch,
-                            compile: obj[key].compile
+                            compile: obj[key].compile,
+                            custom: obj[key].custom
                         });
                         for (var i in obj[key].paths){
                             var path = obj[key].paths[i];
@@ -230,6 +231,32 @@ var name = "viewParser";
             }
         };
 
+        var compileWatch = function(item, watch){
+            item.attributes = $.extend(true,{},item.baseAttributes);
+            var $el = watch.compile.call(item, {
+                change: {
+                    object: scope
+                },
+                $el: $parent,
+                type: watch.type,
+                name: watch.name,
+                item: item,
+                children: children
+            });
+            delete item.attributes;
+            // this is in the case of a replacement
+            if ($el) $parent = $el;
+            delete customCompiles[watch.name];
+        };
+
+        // this only allows for one directive per element -- make more robust later
+        // get the compiles that need to happen
+        var customCompiles = {};
+        for (var i=0; i<parsedHTMLObj.watchList.length; i++){
+            var watch = parsedHTMLObj.watchList[i];
+            if (watch.custom && watch.compile) customCompiles[watch.name] = watch;
+        }
+
         var observers = [];
         var guid = generateGUID(16,true);
         for (var key in parsedHTMLObj.paths) {
@@ -243,24 +270,8 @@ var name = "viewParser";
 
                 for (var i=0; i<watchInds.length; i++){
                     watches.push(parsedHTMLObj.watchList[watchInds[i]]);
-                    // call the compile function -- definitely better place to do it than here,
-                    // but I'll do that later
-                    watches[i].compile && (function(){
-                        item.attributes = $.extend(true,{},item.baseAttributes);
-                        var $el = watches[i].compile.call(item, {
-                            change: {
-                                object: scope
-                            },
-                            $el: $parent,
-                            type: watches[i].type,
-                            name: watches[i].name,
-                            item: item,
-                            children: children
-                        });
-                        delete item.attributes;
-                        // this is in the case of a replacement
-                        if ($el) $parent = $el;
-                    })();
+                    // call the compile function for non-custom directives
+                    watches[i].compile && compileWatch(item, watches[i]);
                 };
                 //console.log(path, watches.length);
                 var callback = function(newValue, oldValue){
@@ -318,6 +329,9 @@ var name = "viewParser";
 
             })(key);
 
+        }
+        for (var key in customCompiles){
+            compileWatch(parsedHTMLObj, watch);
         }
 
         var rObj = {
@@ -514,7 +528,8 @@ var name = "viewParser";
                     watch: pd.watch,
                     compile: pd.compile,
                     paths: pd.paths,
-                    oValue: o.value
+                    oValue: o.value,
+                    custom: !!pd.custom
                 };
             } else {
                 var value = $.trim(o.value);
@@ -551,13 +566,15 @@ var name = "viewParser";
 
     var _events = {
         'input': 'input',
+        'change': 'change',
         'keyup': 'keyup',
         'keydown': 'keydown',
         'click': 'click',
         'mouseup': 'mouseup',
         'mousedown': 'mousedown',
         'focus': 'focus',
-        'blur': 'blur'
+        'blur': 'blur',
+        'load': 'load'
     };
 
     function _parseDirective(name,value, customDirectives){
@@ -587,6 +604,8 @@ var name = "viewParser";
                     return _parseListenDirective(value, _events[name]);
                 } else if (customDirectives[name]) {
                     return _parseCustomDirective(value, name, customDirectives);
+                } else {
+                    name !== "controller" && console.warn("could not parse '",name, ".' Have you added the directive to your code yet?");
                 }
                 return {};
                 break;
@@ -855,14 +874,19 @@ var name = "viewParser";
     };
 
     function _parseIncludeDirective(value){
-        var parseFunc = $parse(value);
+        var parseFunc;
+        try {
+            parseFunc = $parse(value);
+        } catch (e) {
+
+        }
         //var template = $(value).html();
             //vO = _parseTemplate(template);
 
         return {
             link: function(o){
-                var templateId = parseFunc(o),
-                    template = $(templateId || value).html(),
+                var templateId = parseFunc ? parseFunc(o) : value,
+                    template = $(templateId).html(),
                     vO = _parseTemplate(template);
                 this.children = vO.start ? [vO] : vO.children;
             },
@@ -955,13 +979,13 @@ var name = "viewParser";
             compile: function(o) {
                 var val = parseFunc(o.change.object);
                 var $scope = val || o.change.object;
-                if (val) $scope.$parent = o.change.object;
+                if (val)  $scope.parentScope = o.change.object;
+
                 // run the init function of the directive
                 $scope.$el = o.$el;
                 var dirScope = typeof dir.directive.init === "function" && dir.directive.init($scope, true);
 
                 var template = typeof dir.template === "function" ? dir.template.apply(this) : dir.template;
-                console.log(name);
                 var replace = false;
                 if (!template) {
                     template = o.$el.clone().removeAttr("dc-"+ name).attr("clone", true)[0].outerHTML;
@@ -979,6 +1003,8 @@ var name = "viewParser";
                         o.$el.appendChild(child.$el[0]);
                     }
                     (child.$el[0] || child.$el).nodeType === 1 && o.children.push(child.guid);
+                } else {
+                    console.log("probably should be copying data and event handlers over here");
                 }
 
                 typeof dirScope.init === "function" && dirScope.init.call(dirScope);
@@ -987,7 +1013,8 @@ var name = "viewParser";
             watch: function(o) {
                 console.log("in watch?");
             },
-            paths: paths
+            paths: paths,
+            custom: true
         }
     }
 

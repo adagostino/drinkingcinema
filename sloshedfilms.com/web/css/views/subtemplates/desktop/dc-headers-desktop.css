@@ -1,4 +1,4 @@
-.dc-buttons, .dc-hr-top, .dc-hr-bottom {
+.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-search-left-flare, .dc-search-left-flare-small, .dc-search-right-flare, .dc-search-right-flare-small, .dc-chug-to-this, .dc-num-comments {
   background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
 }
 
@@ -186,6 +186,42 @@
 
 .dc-icon-link:after {
   content: 'L';
+}
+
+.dc-search-left-flare {
+  height: 145px;
+  width: 60px;
+  background-position: -8px -165px;
+}
+
+.dc-search-left-flare-small {
+  height: 60px;
+  width: 35px;
+  background-position: -188px -168px;
+}
+
+.dc-search-right-flare {
+  height: 145px;
+  width: 60px;
+  background-position: -85px -165px;
+}
+
+.dc-search-right-flare-small {
+  height: 60px;
+  width: 35px;
+  background-position: -235px -173px;
+}
+
+.dc-chug-to-this {
+  width: 224px;
+  height: 48px;
+  background-position: -300px -159px;
+}
+
+.dc-num-comments {
+  width: 270px;
+  height: 40px;
+  background-position: -297px -213px;
 }
 
 .dc-social-media-header {

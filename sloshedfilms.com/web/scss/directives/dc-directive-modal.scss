@@ -1,6 +1,6 @@
 @import "imports/dc-imports";
 .dc-modal-animation {
-  @include animation-duration(0.218s);
+  @include animation-duration(.416s);
   @include animation-timing-function(ease-in-out);
   @include animation-iteration-count(1);
   @include animation-fill-mode(forwards);
@@ -17,9 +17,12 @@
   display: none;
   text-align: center;
   z-index: 100;
+  overflow: hidden;
 
   &.show {
     display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
     @include animation-name(showModal);
     .dc-modal-container{
       @include inline-block();
@@ -34,17 +37,16 @@
   @extend .dc-modal-animation;
   background-color: $dc-white;
   position: relative;
-  margin: 0 auto;
-  top: 45px;
+  margin: 45px auto 45px;
   display: none;
   will-change: transform, opacity;
   border: 1px solid $dc-med-gray;
   @include box-shadow(0px 1px 3px rgba(0,0,0,0.6));
-  padding: 10px;
+  padding: $dc-default-padding;
   .dc-x-out{
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: $dc-default-padding/2;
+    top: $dc-default-padding/2;
   }
 
 }

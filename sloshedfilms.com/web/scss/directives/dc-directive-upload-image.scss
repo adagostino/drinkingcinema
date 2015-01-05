@@ -1,0 +1,28 @@
+@import "imports/dc-imports";
+.dc-directive-upload-image {
+  position: absolute;
+  top: $dc-default-padding;
+  right: $dc-default-padding;
+  overflow: hidden;
+  padding: $dc-default-padding/2 $dc-default-padding;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    top: -100%;
+  }
+
+  span {
+    line-height: 30px;
+  }
+
+  .dc-pen {
+    @include inline-block();
+    vertical-align: top;
+  }
+}
+
+.dc-directive-upload-image-preview {
+  padding: $dc-default-padding;
+
+}

@@ -9,10 +9,11 @@ var name = "controller.upload";
             $scope = this;
 
             this.game = {
-                tags: "Party"
+                tags: "Party",
+                name: "Jam Zone Foreva"
             };
-            
-            this.tags = {
+
+            this.editTagsScope = {
                 content: this.game.tags,
                 isRTE: true,
                 submit: function() {
@@ -26,6 +27,11 @@ var name = "controller.upload";
                 }
             };
 
+            this.uploadImageScope = {
+                onUrlChange: function(url) {
+                    $scope.game.image = url;
+                }
+            }
 
         };
     };

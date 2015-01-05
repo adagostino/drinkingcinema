@@ -54,7 +54,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-.dc-buttons, .dc-hr-top, .dc-hr-bottom {
+.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-search-left-flare, .dc-search-left-flare-small, .dc-search-right-flare, .dc-search-right-flare-small, .dc-chug-to-this, .dc-num-comments {
   background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
 }
 
@@ -244,8 +244,43 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   content: 'L';
 }
 
+.dc-search-left-flare {
+  height: 145px;
+  width: 60px;
+  background-position: -8px -165px;
+}
+
+.dc-search-left-flare-small {
+  height: 60px;
+  width: 35px;
+  background-position: -188px -168px;
+}
+
+.dc-search-right-flare {
+  height: 145px;
+  width: 60px;
+  background-position: -85px -165px;
+}
+
+.dc-search-right-flare-small {
+  height: 60px;
+  width: 35px;
+  background-position: -235px -173px;
+}
+
+.dc-chug-to-this {
+  width: 224px;
+  height: 48px;
+  background-position: -300px -159px;
+}
+
+.dc-num-comments {
+  width: 270px;
+  height: 40px;
+  background-position: -297px -213px;
+}
+
 html {
-  overflow: auto;
   box-sizing: border-box;
 }
 
@@ -256,8 +291,19 @@ html, body {
 }
 
 body {
-  background: #e1e1e1 url("http://cdn.drinkingcinema.com/Images/DC_background.jpg") 50% 50% repeat-y;
+  background-color: #e1e1e1;
   min-height: 100vh;
+  position: relative;
+}
+body.modal-open {
+  overflow: hidden;
+}
+
+.dc-background {
+  position: relative;
+  background: #e1e1e1 url("http://cdn.drinkingcinema.com/Images/DC_background.jpg") 50% 50% repeat-y;
+  width: 100%;
+  height: 100%;
 }
 
 *, *:before, *:after {

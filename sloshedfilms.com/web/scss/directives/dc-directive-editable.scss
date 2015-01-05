@@ -3,12 +3,12 @@
 
 $time: 0.218s;
 $easing: ease-in-out;
-$dc-directive-editable-padding: 10px;
 
 .dc-directive-editable {
   position: relative;
-  padding: 0 $dc-directive-editable-padding;
-  margin-left: -$dc-directive-editable-padding;
+  z-index: 1;
+  padding: 0 $dc-default-padding;
+  margin-left: -$dc-default-padding;
   border: 1px solid $dc-white;
   border-top-width: 0px;
   border-bottom-width: 0px;
@@ -16,13 +16,13 @@ $dc-directive-editable-padding: 10px;
 
   .dc-x-out, .dc-pen {
     position: absolute;
-    top: $dc-directive-editable-padding;
-    right: $dc-directive-editable-padding;
+    top: $dc-default-padding;
+    right: $dc-default-padding;
     z-index: 2;
   }
 
   .dc-pen {
-    top: $dc-directive-editable-padding/2;
+    top: $dc-default-padding/2;
   }
 
   &:hover {
@@ -37,7 +37,6 @@ $dc-directive-editable-padding: 10px;
 
   &.editing {
     border-color: $dc-med-gray;
-
     .dc-pen{
       display: none;
     }
@@ -58,12 +57,12 @@ $dc-directive-editable-padding: 10px;
 }
 
 .dc-directive-editable-header{
-  padding: $dc-directive-editable-padding;
+  padding: $dc-default-padding;
   position: absolute;
   top: 0px;
   will-change: -webkit-transform, border;
   @include transition(border $time $easing, transform $time $easing);
-  @include transform(translate3D(0px,-$dc-directive-editable-padding,0px));
+  @include transform(translate3D(0px,-$dc-default-padding,0px));
   left: -1px;
   right: -1px;
   background: $dc-white;
@@ -87,7 +86,7 @@ $dc-directive-editable-padding: 10px;
 
 .dc-directive-editable-body {
   background: $dc-white;
-  padding: $dc-directive-editable-padding;
+  padding: $dc-default-padding;
   position: relative;
   z-index: 1;
   min-height: 36px;
@@ -96,12 +95,12 @@ $dc-directive-editable-padding: 10px;
 
 .dc-directive-editable-footer{
   background: $dc-white;
-  padding: $dc-directive-editable-padding;
+  padding: $dc-default-padding;
   position: absolute;
   bottom: 0px;
   will-change: -webkit-transform, border;
   @include transition(border $time $easing, transform $time $easing);
-  @include transform(translate3D(0px,$dc-directive-editable-padding,0px));
+  @include transform(translate3D(0px,$dc-default-padding,0px));
   left: -1px;
   right: -1px;
   background: $dc-white;
@@ -118,7 +117,7 @@ $dc-directive-editable-padding: 10px;
   background: $dc-white;
   border: 1px solid $dc-light-gray;
   z-index: 2;
-  padding: 5px 10px;
+  padding: $dc-default-padding/2 $dc-default-padding;
   font-size: 15px;
   a {
     @include inline-block();
@@ -138,7 +137,7 @@ $dc-directive-editable-padding: 10px;
 }
 
 .dc-rte-button {
-  padding: 10px;
+  padding: $dc-default-padding;
 }
 
 
@@ -163,7 +162,7 @@ $dc-directive-editable-padding: 10px;
 }
 
 .dc-directive-editable-link-modal-buttons{
-  padding: 10px 0px 0px;
+  padding: $dc-default-padding 0px 0px;
   text-align: right;
 }
 

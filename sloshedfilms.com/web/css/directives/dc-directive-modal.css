@@ -1,4 +1,4 @@
-.dc-buttons, .dc-hr-top, .dc-hr-bottom {
+.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-search-left-flare, .dc-search-left-flare-small, .dc-search-right-flare, .dc-search-right-flare-small, .dc-chug-to-this, .dc-num-comments {
   background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
 }
 
@@ -188,10 +188,46 @@
   content: 'L';
 }
 
+.dc-search-left-flare {
+  height: 145px;
+  width: 60px;
+  background-position: -8px -165px;
+}
+
+.dc-search-left-flare-small {
+  height: 60px;
+  width: 35px;
+  background-position: -188px -168px;
+}
+
+.dc-search-right-flare {
+  height: 145px;
+  width: 60px;
+  background-position: -85px -165px;
+}
+
+.dc-search-right-flare-small {
+  height: 60px;
+  width: 35px;
+  background-position: -235px -173px;
+}
+
+.dc-chug-to-this {
+  width: 224px;
+  height: 48px;
+  background-position: -300px -159px;
+}
+
+.dc-num-comments {
+  width: 270px;
+  height: 40px;
+  background-position: -297px -213px;
+}
+
 .dc-modal-animation, .dc-modal, .dc-modal-container {
-  -moz-animation-duration: 0.218s;
-  -webkit-animation-duration: 0.218s;
-  animation-duration: 0.218s;
+  -moz-animation-duration: 0.416s;
+  -webkit-animation-duration: 0.416s;
+  animation-duration: 0.416s;
   -moz-animation-timing-function: ease-in-out;
   -webkit-animation-timing-function: ease-in-out;
   animation-timing-function: ease-in-out;
@@ -213,9 +249,12 @@
   display: none;
   text-align: center;
   z-index: 100;
+  overflow: hidden;
 }
 .dc-modal.show {
   display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
   -moz-animation-name: showModal;
   -webkit-animation-name: showModal;
   animation-name: showModal;
@@ -233,8 +272,7 @@
 .dc-modal-container {
   background-color: #ffffff;
   position: relative;
-  margin: 0 auto;
-  top: 45px;
+  margin: 45px auto 45px;
   display: none;
   will-change: transform, opacity;
   border: 1px solid #888888;

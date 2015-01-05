@@ -62,7 +62,6 @@
 
     $(document).ready(function(){
         $dc.formatTemplates();
-
         $("[dc-controller]").each(function(){
             var $this = $(this);
             var name = $this.attr("dc-controller");
@@ -72,7 +71,6 @@
 
             init.call(controller);
             var $c = $dc.watchElement($this, controller, template);
-            console.log("watch controller", name);
         });
     });
 })();

@@ -1,0 +1,22 @@
+@import "imports/dc-imports";
+.dc-game-image {
+  margin: 0 auto;
+  margin-top: $dc-default-padding;
+  width: $dc-med-image-width;
+  height: $dc-med-image-height;
+  position: relative;
+
+  background-color: $dc-white;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+
+  h1 {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin-top: -14px;
+    z-index: -1;
+    color: $dc-white;
+  }
+
+}

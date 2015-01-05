@@ -40,7 +40,7 @@
   height: $dc-logo-long-height;
   width: $dc-logo-long-width;
   background-image: url($dc-logo-long-url);
-  margin: 10px 0px 25px;
+  margin: $dc-default-padding 0px 25px;
   &:hover, &:active {
     background-position: 0px -100px;
   }
@@ -48,7 +48,7 @@
 
 .dc-search-bar {
   position: relative;
-  width: 750px;
+  width: $dc-content-width;
   margin: 0 auto;
 }
 
@@ -61,7 +61,7 @@
     position: absolute;
     right: 30px;
     top: 50%;
-    margin-top: -10px;
+    margin-top: -$dc-default-padding;
     width: 123px;
 
   }
@@ -70,7 +70,7 @@
 .dc-search-input-button {
   display: block;
   position: absolute;
-  right: 10px;
+  right: $dc-default-padding;
   top: 50%;
   margin-top: -8px;
   cursor: pointer;
@@ -91,8 +91,8 @@
   .dc-input {
     position: absolute;
     top: 50%;
-    margin-top: -10px;
-    right: 10px;
+    margin-top: -$dc-default-padding;
+    right: $dc-default-padding;
     width: 225px;
     text-align: center;
   }
