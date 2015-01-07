@@ -252,6 +252,7 @@
 .dc-logo-main {
   height: 300px;
   width: 800px;
+  margin-left: -25px;
   background-image: url("http://cdn.drinkingcinema.com/Images/DC_header.jpg");
 }
 .dc-logo-main:hover, .dc-logo-main:active {
@@ -261,8 +262,9 @@
 .dc-logo-long {
   height: 100px;
   width: 800px;
-  background-image: url("http://cdn.drinkingcinema.com/Images/DC_header2.jpg");
   margin: 10px 0px 25px;
+  margin-left: -25px;
+  background-image: url("http://cdn.drinkingcinema.com/Images/DC_header2.jpg");
 }
 .dc-logo-long:hover, .dc-logo-long:active {
   background-position: 0px -100px;

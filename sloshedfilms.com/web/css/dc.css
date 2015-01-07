@@ -373,8 +373,7 @@ h1 {
   width: 800px;
   margin: 0 auto;
   background-color: #ffffff;
-  padding-top: 7px;
-  padding-bottom: 50px;
+  padding: 7px 25px 50px;
   position: relative;
   min-height: 100vh;
 }
@@ -392,4 +391,12 @@ h1 {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   opacity: 0.3;
   pointer-events: none;
+}
+
+.dc-thumbnail {
+  height: 60px;
+  width: 60px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
 }

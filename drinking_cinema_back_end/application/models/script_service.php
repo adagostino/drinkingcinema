@@ -68,11 +68,13 @@
 
                     ),
                     "admin" => array(
+                        "utilities/jquery.Jcrop.js",
                         "controllers/dc-controller-upload.js",
                         "directives/dc-directive-modal.js",
                         "directives/dc-directive-editable.js",
                         "directives/dc-directive-editable-rte.js",
                         "directives/dc-directive-game-image.js",
+                        "directives/dc-directive-upload-thumbnail.js",
                         "directives/dc-directive-upload-image.js",
                         "directives/dc-directive-embed-game.js"
                     )
@@ -108,9 +110,11 @@
                                 "directives/dc-directive-embed-game.css",
                             ),
                             "admin" => array(
+                                "utilities/jcrop.css",
                                 "directives/dc-directive-modal.css",
                                 "directives/dc-directive-editable.css",
                                 "directives/dc-directive-game-image.css",
+                                "directives/dc-directive-upload-thumbnail.css",
                                 "directives/dc-directive-upload-image.css",
                                 "views/subtemplates/desktop/dc-search-item-desktop.css"
                             )

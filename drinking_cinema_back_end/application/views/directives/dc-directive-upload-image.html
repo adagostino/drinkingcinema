@@ -1,6 +1,6 @@
 <div class="dc-directive-upload-image">
-    <div dc-click="openPicker">
-        <span>Upload Image</span><div class="dc-pen"></div>
+    <div dc-click="openPicker" class="dc-button" dc-class="{'processing': isProcessing}">
+        <span>Upload Image</span>
     </div>
     <input type="file" name="file" accept="image/*" dc-change="onChange" />
 </div>

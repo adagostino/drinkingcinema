@@ -2,6 +2,10 @@ $dc-default-padding: 10px;
 $dc-game-ratio: 8.5/11;
 $dc-content-width: 750px;
 
+$dc-border-radius: 10px;
+
+$dc-thumbnail-width: 60px;
+$dc-thumbnail-height: 60px;
 
 $dc-small-image-height: 800px;
 $dc-small-image-width: floor($dc-small-image-height * $dc-game-ratio);

@@ -26,15 +26,36 @@
 
         function image_post() {
             $fileName = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
-            if ($fileName){
-                $images = $this->game_service->upload_image($fileName);
-                $this->response($images, 200);
-            } else {
+            $name = $this->get('name');
 
+
+            if ($fileName){
+                $images = $this->game_service->upload_image($fileName, $name);
+                if ($images){
+                    $this->response($images, 200);
+                } else {
+                    $this->response(array('error'=> 'There was an error uploading your image'), 500);
+                }
+            }else {
+                $this->response(array('error' => 'Please provide an image to upload'), 400);
             }
+            exit();
+
         }
 
         function thumbnail_post() {
+            $name = $this->post('name');
+            $coords = $this->post('coords');
+            if ($name && $coords){
+                if ($coords["w"]) {
+                    $images = $this->game_service->upload_thumbnail($name, $coords);
+                    $this->response($images, 200);
+                } else {
+                    $this->response(array('error' => "Please provide a width of the thumbnail"), 400);
+                }
+            } else {
+                $this->response(array('error' => 'Please provide an name of image and coords to upload thumbnail'), 400);
+            }
 
         }
 

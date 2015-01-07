@@ -2,11 +2,9 @@
 .dc-directive-upload-image {
   position: absolute;
   top: $dc-default-padding;
-  right: $dc-default-padding;
+  right: 0px;
   overflow: hidden;
-  padding: $dc-default-padding/2 $dc-default-padding;
   cursor: pointer;
-
   input {
     position: absolute;
     top: -100%;

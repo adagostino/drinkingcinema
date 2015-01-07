@@ -1,0 +1,46 @@
+@import "imports/dc-imports";
+
+.dc-directive-upload-thumbnail {
+  position: absolute;
+  top: $dc-default-padding;
+  left: 0px;
+  padding: $dc-default-padding;
+
+}
+
+.dc-directive-upload-thumbnail-image {
+  width: $dc-small-image-width;
+  vertical-align: top;
+}
+
+.dc-directive-upload-thumbnail-preview-modal{
+  width: $dc-small-image-width + 4*$dc-default-padding + $dc-thumbnail-width;
+  position: relative;
+  padding: $dc-default-padding;
+  margin: $dc-default-padding 0 0;
+}
+
+.dc-directive-upload-thumbnail-preview-container{
+  margin-bottom: 2*$dc-default-padding;
+}
+
+.dc-directive-upload-thumbnail-thumbnails{
+  position: absolute;
+  right: $dc-default-padding;
+  top: $dc-default-padding;
+}
+
+.dc-directive-upload-thumbnail-current, .dc-directive-upload-thumbnail-preview{
+  @include border-radius(none);
+  border: 1px solid $dc-light-gray;
+  margin-bottom: $dc-default-padding;
+  &:hover {
+    @include border-radius($dc-border-radius);
+  }
+
+}
+
+.dc-directive-upload-thumbnail-preview{
+  overflow: hidden;
+
+}

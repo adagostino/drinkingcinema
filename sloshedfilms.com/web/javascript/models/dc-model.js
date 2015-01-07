@@ -12,9 +12,35 @@ var name = "model";
             Platform.performMicrotaskCheckpoint();
         };
 
+        this.setUrl = function(url, opts){
+            for (var key in opts){
+                url+="/"+encodeURI(key)+"/"+encodeURI(opts[key]);
+            }
+            return url;
+        };
+
         this.ajax = function(opts){
-            console.log("in ajax");
-            Platform.performMicrotaskCheckpoint();
+            var self = this;
+            var defaults = {
+                type: "POST"
+            };
+
+            $.extend(opts, defaults);
+            var sfn = opts.success;
+            opts.success = function(response){
+                self.call.call(opts.$scope || $dc, sfn, response);
+            };
+            var efn = opts.error;
+            opts.error = function(xhr, txt) {
+                self.call.call(opts.$scope || $dc, efn, xhr, txt);
+            };
+            if (!opts.url) opts.error(null, "no url provided for ajax");
+            opts.type = opts.type.toUpperCase();
+            if (opts.type === "GET" && opts.data) {
+                opts.url = this.setUrl(opts.url, data);
+                delete opts.data;
+            }
+            return $.ajax(opts);
         };
 
         this.test = function(){

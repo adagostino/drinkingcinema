@@ -624,6 +624,7 @@ var name = "viewParser";
             a.push(str.substring(lastIdx,idx));
             watch = true;
             var tMatch = match.replace(/({|})/g,"");
+
             var parseFunc = $parse(tMatch);
             var tPaths = getPaths(parseFunc.lexer.lex(tMatch));
             paths = paths.concat(tPaths);
@@ -646,7 +647,10 @@ var name = "viewParser";
     };
 
     function _clean(str, doItRight){
-        if (typeof str !== "string") return "";
+        if (typeof str !== "string") {
+            return typeof str === "number" ? str : "";
+        }
+
         doItRight = typeof doItRight === "boolean" ? doItRight : false;
         var str2 = "";
         if (doItRight) {

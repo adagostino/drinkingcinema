@@ -10,9 +10,6 @@ var name = "directive.uploadImage";
             this.showPreview();
             //this.$timeout(function(){ this.showPreview();}, 2000);
         },
-        'cancelPreview': function(){
-            this.cancelPreview();
-        },
         'onChange': function(e) {
             var file = e.target.files[0];
             this.file = file;
@@ -55,12 +52,15 @@ var name = "directive.uploadImage";
                     $scope.$input.val("");
                     this.image = undefined;
                     this.isExpanded = false;
-                },
-                onLoad: function(){
-                    this.show();
+                    this.uploadProgress = 0;
+
                 }
             });
             $scope.previewModal.$el.find("a").click(function(e){e.preventDefault()});
+
+            $scope.$watch('isProcessing', function(n, o){
+                this.previewModal.isProcessing = n;
+            });
         };
 
         this.showPreview = function(){

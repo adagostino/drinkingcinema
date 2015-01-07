@@ -30,6 +30,7 @@
 .dc-logo-main{
   height: $dc-logo-main-height;
   width: $dc-logo-main-width;
+  margin-left: ($dc-content-width - $dc-logo-main-width)/2;
   background-image: url($dc-logo-main-url);
   &:hover, &:active {
     background-position: 0px -300px;
@@ -39,8 +40,9 @@
 .dc-logo-long{
   height: $dc-logo-long-height;
   width: $dc-logo-long-width;
-  background-image: url($dc-logo-long-url);
   margin: $dc-default-padding 0px 25px;
+  margin-left: ($dc-content-width - $dc-logo-long-width)/2;
+  background-image: url($dc-logo-long-url);
   &:hover, &:active {
     background-position: 0px -100px;
   }
