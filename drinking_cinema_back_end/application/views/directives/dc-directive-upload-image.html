@@ -1,5 +1,5 @@
 <div class="dc-directive-upload-image">
-    <div dc-click="openPicker" class="dc-button" dc-class="{'processing': isProcessing}">
+    <div dc-click="openPicker" class="dc-button" dc-class="{'processing': isProcessing || !parentScope.game.name}">
         <span>Upload Image</span>
     </div>
     <input type="file" name="file" accept="image/*" dc-change="onChange" />

@@ -107,6 +107,7 @@
                         "mobile" => array(),
                         "desktop" => array(
                             "common" => array(
+                                "views/dc-game-desktop.css",
                                 "directives/dc-directive-embed-game.css",
                             ),
                             "admin" => array(

@@ -246,176 +246,27 @@
   background-position: -13px -175px;
 }
 
-.dc-directive-editable {
+.hidden-span, .header-image span, .dc-share-this-game span, .dc-mandatory-drinks span, .dc-bonus-drinks span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.header-image, .dc-share-this-game, .dc-mandatory-drinks, .dc-bonus-drinks {
   position: relative;
-  z-index: 1;
-  padding: 0 10px;
-  margin-left: -10px;
-  border: 1px solid #ffffff;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
-  -moz-transition: border 0.218s ease-in-out;
-  -o-transition: border 0.218s ease-in-out;
-  -webkit-transition: border 0.218s ease-in-out;
-  transition: border 0.218s ease-in-out;
-}
-.dc-directive-editable .dc-x-out, .dc-directive-editable .dc-pen {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-}
-.dc-directive-editable .dc-pen {
-  top: 5px;
-}
-.dc-directive-editable:hover {
-  border-color: #888888;
-}
-.dc-directive-editable:hover .dc-directive-editable-header {
-  border-color: #888888;
-}
-.dc-directive-editable:hover .dc-directive-editable-footer {
-  border-color: #888888;
-}
-.dc-directive-editable.editing {
-  border-color: #888888;
-}
-.dc-directive-editable.editing .dc-pen {
-  display: none;
-}
-.dc-directive-editable.editing .dc-directive-editable-header {
-  border-color: #888888;
-  -moz-transform: translate3D(0px, -100%, 0px);
-  -ms-transform: translate3D(0px, -100%, 0px);
-  -webkit-transform: translate3D(0px, -100%, 0px);
-  transform: translate3D(0px, -100%, 0px);
-}
-.dc-directive-editable.editing .dc-directive-editable-header .dc-directive-editable-header-container {
-  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-  opacity: 1;
-}
-.dc-directive-editable.editing .dc-directive-editable-footer {
-  border-color: #888888;
-  -moz-transform: translate3D(0px, 100%, 0px);
-  -ms-transform: translate3D(0px, 100%, 0px);
-  -webkit-transform: translate3D(0px, 100%, 0px);
-  transform: translate3D(0px, 100%, 0px);
 }
 
-.dc-directive-editable-header {
-  padding: 10px;
-  position: absolute;
-  top: 0px;
-  will-change: -webkit-transform, border;
-  -moz-transition: border 0.218s ease-in-out, -moz-transform 0.218s ease-in-out;
-  -o-transition: border 0.218s ease-in-out, -o-transform 0.218s ease-in-out;
-  -webkit-transition: border 0.218s ease-in-out, -webkit-transform 0.218s ease-in-out;
-  transition: border 0.218s ease-in-out, transform 0.218s ease-in-out;
-  -moz-transform: translate3D(0px, -10px, 0px);
-  -ms-transform: translate3D(0px, -10px, 0px);
-  -webkit-transform: translate3D(0px, -10px, 0px);
-  transform: translate3D(0px, -10px, 0px);
-  left: -1px;
-  right: -1px;
-  background: #ffffff;
-  z-index: 0;
-  border: 1px solid transparent;
-  border-bottom-width: 0px;
+.dc-share-this-game {
+  margin-bottom: 26px;
 }
 
-.dc-directive-editable-header-container {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  -moz-transition: opacity 0.218s ease-in-out;
-  -o-transition: opacity 0.218s ease-in-out;
-  -webkit-transition: opacity 0.218s ease-in-out;
-  transition: opacity 0.218s ease-in-out;
-  will-change: opacity;
-  min-height: 22px;
+.dc-mandatory-drinks {
+  margin-bottom: 10px;
 }
 
-.dc-rte-button {
-  border: 1px solid transparent;
-}
-
-.dc-directive-editable-body {
-  background: #ffffff;
-  padding: 10px;
-  position: relative;
-  z-index: 1;
-  min-height: 36px;
-}
-
-.dc-directive-editable-footer {
-  background: #ffffff;
-  padding: 10px;
-  position: absolute;
-  bottom: 0px;
-  will-change: -webkit-transform, border;
-  -moz-transition: border 0.218s ease-in-out, -moz-transform 0.218s ease-in-out;
-  -o-transition: border 0.218s ease-in-out, -o-transform 0.218s ease-in-out;
-  -webkit-transition: border 0.218s ease-in-out, -webkit-transform 0.218s ease-in-out;
-  transition: border 0.218s ease-in-out, transform 0.218s ease-in-out;
-  -moz-transform: translate3D(0px, 10px, 0px);
-  -ms-transform: translate3D(0px, 10px, 0px);
-  -webkit-transform: translate3D(0px, 10px, 0px);
-  transform: translate3D(0px, 10px, 0px);
-  left: -1px;
-  right: -1px;
-  background: #ffffff;
-  z-index: 0;
-  border: 1px solid transparent;
-  border-top-width: 0px;
-  text-align: right;
-}
-
-.dc-directive-editable-link-panel {
-  display: none;
-  position: absolute;
-  background: #ffffff;
-  border: 1px solid #e1e1e1;
-  z-index: 2;
-  padding: 5px 10px;
-  font-size: 15px;
-}
-.dc-directive-editable-link-panel a {
-  display: inline-block;
-  *display: inline;
-  zoom: 1;
-  vertical-align: top;
-  text-align: left;
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.dc-directive-editable-link-panel.show {
-  display: block;
-}
-
-.dc-rte-button {
-  padding: 10px;
-}
-
-.dc-directive-editable-link-modal {
-  width: 400px;
-}
-
-.dc-directive-editable-link-modal-body div {
-  line-height: 1.5em;
-  margin-bottom: 0.3em;
-}
-.dc-directive-editable-link-modal-body input {
-  margin-left: 36px;
-  width: 314px;
-}
-
-.dc-directive-editable-link-modal-text {
-  color: #888888;
-  font-size: 14px;
-}
-
-.dc-directive-editable-link-modal-buttons {
-  padding: 10px 0px 0px;
-  text-align: right;
+.dc-bonus-drinks {
+  margin: 10px 0;
 }

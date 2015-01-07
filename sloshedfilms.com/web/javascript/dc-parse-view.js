@@ -648,7 +648,12 @@ var name = "viewParser";
 
     function _clean(str, doItRight){
         if (typeof str !== "string") {
-            return typeof str === "number" ? str : "";
+            if (typeof str === "null" || typeof str === "undefined") return "";
+            try {
+                str = JSON.stringify(str);
+            } catch(e) {
+                return ""
+            }
         }
 
         doItRight = typeof doItRight === "boolean" ? doItRight : false;
@@ -958,7 +963,8 @@ var name = "viewParser";
                 // set up a listener
                 var fn = this.tag === "input" || this.tag === "textarea" ? "val" : "html";
                 _setListener(o, "input", parseFunc, value, function(){
-                    this[value] = o.$el[fn]();
+                    Path.get(value).setValueFrom(this, o.$el[fn]());
+                    //this[value] = o.$el[fn]();
                 });
             },
             watch: function(o) {

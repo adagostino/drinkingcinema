@@ -1,0 +1,32 @@
+@import "imports/dc-imports";
+
+.hidden-span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: $dc-white;
+}
+
+.header-image {
+  position: relative;
+  span {
+    @extend .hidden-span;
+  }
+}
+
+.dc-share-this-game{
+  @extend .header-image;
+  margin-bottom: 26px;
+}
+
+.dc-mandatory-drinks {
+  @extend .header-image;
+  margin-bottom: $dc-default-padding;
+}
+
+.dc-bonus-drinks {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}

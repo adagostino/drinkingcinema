@@ -15,10 +15,10 @@ var name = "model.game";
         };
 
         this.postThumbnail = function(opts){
-            if (!opts.coords || !opts.name || !opts.coords.w) this.call.call(opts.$scope, opts.error, null, "the dimensions or the name wasn't specified or the width was 0");
+            //if (!opts.coords || !opts.name || !opts.coords.w) this.call.call(opts.$scope, opts.error, null, "the dimensions or the name wasn't specified or the width was 0");
             opts.url = "/api/game_api/thumbnail";
             opts.data = {
-                name: this.toUrl(opts.name),
+                name: opts.name,
                 coords: opts.coords
             };
             this.ajax(opts);
@@ -26,7 +26,6 @@ var name = "model.game";
 
         this.postImage = function(opts){
             var self = this;
-            console.log(self);
             // b/c we use progress, we'll use xhr instead of ajax
             var xhr = new XMLHttpRequest();
             xhr.responseType = "json";

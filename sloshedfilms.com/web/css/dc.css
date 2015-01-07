@@ -54,7 +54,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-search-left-flare, .dc-search-left-flare-small, .dc-search-right-flare, .dc-search-right-flare-small, .dc-chug-to-this, .dc-num-comments {
+.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-search-left-flare, .dc-search-left-flare-small, .dc-search-right-flare, .dc-search-right-flare-small, .dc-chug-to-this, .dc-num-comments, .dc-share-this-game {
   background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
 }
 
@@ -68,6 +68,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .dc-header-controls, .dc-search-bubble, .dc-mag-glass {
   background-image: url("http://cdn.drinkingcinema.com/Images/headerControls.png");
+}
+
+.dc-headers, .dc-mandatory-drinks, .dc-bonus-drinks {
+  background-image: url("http://cdn.drinkingcinema.com/Images/headers.png");
 }
 
 .dc-thumbs-up {
@@ -278,6 +282,24 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 270px;
   height: 40px;
   background-position: -297px -213px;
+}
+
+.dc-share-this-game {
+  height: 31px;
+  width: 200px;
+  background-position: -22px -513px;
+}
+
+.dc-mandatory-drinks {
+  height: 88px;
+  width: 528px;
+  background-position: -8px -80px;
+}
+
+.dc-bonus-drinks {
+  width: 490px;
+  height: 70px;
+  background-position: -13px -175px;
 }
 
 html {

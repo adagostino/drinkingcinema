@@ -1,8 +1,24 @@
 <div class="dc-upload-controller" dc-controller="upload">
-    <div id="dc-game-tags" dc-directive-editable-rte="editTagsScope">
-        {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Party'} %}
+    <div id="dc-game-tags" dc-directive-editable="editTagsScope">
+        {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Set Tags Here'} %}
     </div>
     <div dc-directive-game-image>
         {% include 'directives/dc-directive-game-image.html' %}
+    </div>
+    <hr class="dc-hr-bottom">
+    <div class="dc-share-this-game">
+        <span>Share This Game</span>
+    </div>
+    <div class="dc-mandatory-drinks">
+        <span>Mandatory Drinks</span>
+    </div>
+    <div id="dc-game-rules" dc-directive-editable-rte="editRulesScope">
+        {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Set Mandatory Rules Here'} %}
+    </div>
+    <div class="dc-bonus-drinks">
+        <span>Bonus Drinks</span>
+    </div>
+    <div id="dc-game-optional-rules" dc-directive-editable-rte="editOptionalRulesScope">
+        {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Set Optional Rules Here'} %}
     </div>
 </div>

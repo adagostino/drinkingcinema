@@ -32,7 +32,7 @@ var name = "model";
             };
             var efn = opts.error;
             opts.error = function(xhr, txt) {
-                self.call.call(opts.$scope || $dc, efn, xhr, txt);
+                self.call.call(opts.$scope || $dc, efn, xhr, xhr.responseText);
             };
             if (!opts.url) opts.error(null, "no url provided for ajax");
             opts.type = opts.type.toUpperCase();

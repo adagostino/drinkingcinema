@@ -1,6 +1,9 @@
 (function(global){
 
     var $dc = new function(){
+        this.globals = {
+            "cdn": "http://cdn.drinkingcinema.com/"
+        };
 
         this.add = function(name, child) {
             if (!name || !child) return;

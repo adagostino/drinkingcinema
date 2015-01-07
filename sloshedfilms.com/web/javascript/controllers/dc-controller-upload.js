@@ -3,30 +3,65 @@ var name = "controller.upload";
     var upload = new function(){
         var $scope;
 
+        this.initGameName = function(){
+            // a little bad structure here b/c the input for the name lives outside this controller
+            var $el = $(".dc-share-input input");
+            // add the model and the input listener
+            $el.attr({
+                "dc-model": "game.name"
+            });
+            $dc.watchElement($el, this, null, true);
 
+        };
+
+        this.initEditors = function(ce){
+            for (var key in ce){
+                (function(name, opts){
+                    $scope[name] = {
+                        content: $scope.game[opts.key],
+                        isRTE: opts.isRTE,
+                        submit: function(){
+                            this.editing = false;
+                            $scope.game[opts.key] = this.content;
+                        }
+                    }
+
+                })(key, ce[key]);
+            }
+        }
 
         this.init = function(){
             $scope = this;
+            this.cdn = $dc.globals.cdn;
 
+            var defaultThumb = this.cdn + "Images/DC_thumbnail.png";
             this.game = {
-                tags: "Party",
-                name: "Jam Zone Foreva",
-                thumbnail: "http://cdn.drinkingcinema.com/Images/DC_thumbnail.png"
+                tags: "Set Tags Here",
+                name: "",
+                rules: "Set Mandatory Rules Here",
+                optionalRules: "Set Optional Rules Here",
+                image: "",
+                thumbnail: defaultThumb
             };
 
-            this.editTagsScope = {
-                content: this.game.tags,
-                isRTE: true,
-                submit: function() {
-                    this.processing = true;
-                    this.$timeout(function(){
-                        this.editing = false;
-                        this.processing = false;
-                        $scope.game.tags = this.content;
-                        console.log($scope.game);
-                    }, 1000)
+            var ce = {
+                "editTagsScope": {
+                    key: "tags",
+                    isRTE: false
+                },
+                "editRulesScope": {
+                    "key": "rules",
+                    isRTE: true
+                },
+                "editOptionalRulesScope": {
+                    "key": "optionalRules",
+                    isRTE: true
                 }
             };
+
+            this.initGameName();
+
+            this.initEditors(ce);
 
             this.uploadImageScope = {
                 submit: function(){
@@ -45,11 +80,11 @@ var name = "controller.upload";
                             }
                         },
                         success: function(data){
-                            //console.log("success", data);
+                            console.log("success", data);
                             this.isProcessing = false;
                         },
-                        error: function(){
-                            alert("error uploading image");
+                        error: function(xhr, text){
+                            alert(text);
                             $scope.game.image = oldImage;
                         }
                     })
@@ -61,6 +96,10 @@ var name = "controller.upload";
                 image: this.game.image,
                 thumbnail: this.game.thumbnail,
                 $scope: $scope,
+                ready: function(){
+                    // this is here until i take time to two way bind strings sent to the controller
+                    $scope.uploadThumbnailScope = this;
+                },
                 beforeShow: function(){
                     this.image = $scope.game.image;
                     this.thumbnail = $scope.game.thumbnail;
@@ -80,6 +119,8 @@ var name = "controller.upload";
                             modalScope.hide();
                         },
                         error: function(xhr, text){
+                            this.isProcessing = false;
+                            alert(text);
                             console.log("error uploading thumbnail", text, xhr);
                         }
                     });
@@ -87,8 +128,11 @@ var name = "controller.upload";
                 }
             };
 
-            this.$watch('game.image', function(n, o){
-                //this.uploadThumbnailScope.image = n;
+            this.$watch('game.name', function(n, o){
+                var name = n ? this.cdn + "Games/" + $dc.model.game.toUrl(n) : "";
+                this.game.image =  name ? name + "_large.jpg" : "";
+                this.game.thumbnail = name ? name + "_thumb.jpg" : "";
+                this.uploadThumbnailScope.thumbnail = this.game.thumbnail || defaultThumb;
             });
 
         };

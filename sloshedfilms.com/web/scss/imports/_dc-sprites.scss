@@ -23,6 +23,8 @@ $dc-header-controls-url: $spriteBase + "headerControls.png";
 
 $dc-rte-icons-url: $spriteBase + "glyphicons-halflings.png";
 
+$dc-headers-url: $spriteBase + "headers.png";
+
 .dc-buttons {
   background-image: url($dc-buttons-url);
 }
@@ -37,6 +39,10 @@ $dc-rte-icons-url: $spriteBase + "glyphicons-halflings.png";
 
 .dc-header-controls {
   background-image: url($dc-header-controls-url);
+}
+
+.dc-headers {
+  background-image: url($dc-headers-url);
 }
 
 .dc-thumbs-up {
@@ -317,4 +323,26 @@ $rte-button-size: 14px;
   width: 270px;
   height: 40px;
   background-position: -297px -213px;
+}
+
+.dc-share-this-game{
+  @extend .dc-buttons;
+  height: 31px;
+  width: 200px;
+  background-position: -22px -513px;
+}
+
+.dc-mandatory-drinks{
+  @extend .dc-headers;
+  height: 88px;
+  width: 528px;
+  background-position: -8px -80px;
+}
+
+.dc-bonus-drinks{
+  @extend .dc-headers;
+  width: 490px;
+  height: 70px;
+  background-position: -13px -175px;
+
 }

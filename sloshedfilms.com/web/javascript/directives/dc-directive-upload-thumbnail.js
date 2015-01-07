@@ -100,6 +100,7 @@ var name = "directive.uploadThumbnail";
         this.init = function(){
             $scope = this;
             _initPreview();
+            this.call(this.ready);
 
         };
     };
