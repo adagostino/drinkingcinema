@@ -21,4 +21,7 @@
     <div id="dc-game-optional-rules" dc-directive-editable-rte="editOptionalRulesScope">
         {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Set Optional Rules Here'} %}
     </div>
+    <div class="dc-upload-button-container">
+        <button class="dc-button-primary" dc-click="uploadModal.show" dc-class="{'processing': isProcessing || !game.name}">Upload Game</button>
+    </div>
 </div>

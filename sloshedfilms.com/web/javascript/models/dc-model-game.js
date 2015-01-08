@@ -43,7 +43,19 @@ var name = "model.game";
             xhr.open("POST", "/api/game_api/image/name/" + this.toUrl(opts.name || opts.file.name), true);
             xhr.setRequestHeader("X-FILENAME", opts.file.name);
             xhr.send(opts.file);
-        }
+        };
+
+        this.postGame = function(opts) {
+            opts.url = "/api/game_api/game";
+            opts.data = {};
+            opts.data.game = {
+                name: opts.game.name,
+                tags: opts.game.tags,
+                rules: opts.game.rules,
+                optionalRules: opts.game.optionalRules
+            };
+            this.ajax(opts);
+        };
 
     };
     $dc.extend(name,gameModel);

@@ -108,6 +108,7 @@
                         "desktop" => array(
                             "common" => array(
                                 "views/dc-game-desktop.css",
+                                "views/dc-upload-desktop.css",
                                 "directives/dc-directive-embed-game.css",
                             ),
                             "admin" => array(

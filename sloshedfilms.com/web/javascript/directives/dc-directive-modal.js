@@ -9,11 +9,10 @@ var name = "directive.modal";
             //console.log("default before show");
         },
         'show': function(callback){
-
-            this.beforeShow();
+            this.call(this.beforeShow);
             this.open = true;
             this.$timeout(function(){
-               this.afterShow(callback);
+               this.call(this.afterShow, callback);
             });
         },
         'afterShow': function(callback){
@@ -22,7 +21,7 @@ var name = "directive.modal";
         'hide': function(callback){
             this.open = false;
             this.$timeout(function(){
-                this.afterHide(callback);
+                this.call(this.afterHide,callback);
             });
 
         },

@@ -9,7 +9,6 @@ var name = "directive";
                 this.defaults = dir.defaults;
                 this.init = function(opts, dontInit){
                     opts = $dc.directive.formatOpts(opts, dir.defaults);
-                    if (!opts) return;
                     var names = this.$dcName.split(".");
                     var parentName = names.splice(0,names.length - 1).join(".");
                     var parent = Path.get(parentName).getValueFrom($dc);
@@ -112,6 +111,7 @@ var name = "directive";
                 fn.apply(scope, Array.prototype.slice.call(arguments, 1));
                 Platform.performMicrotaskCheckpoint();
             };
+            opts.$dcType = "directive";
 
             return opts;
         };

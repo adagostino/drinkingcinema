@@ -719,7 +719,6 @@ var name = "viewParser";
                     children.push(child);
                     ct++;
                 }
-                //console.log(children);
 
                 return {
                     html: str,
@@ -908,6 +907,23 @@ var name = "viewParser";
 
     };
 
+    var _getScopeOfFunction = function(obj, value){
+        var scope = obj;
+        var va = value.split(".");
+        va.pop();
+        var done = false;
+        while (va.length > 0 && !done){
+            var ts = Path.get(va.join(".")).getValueFrom(obj);
+            if (ts.$dcType) {
+                scope = ts;
+                done = true;
+            } else {
+                va.pop();
+            }
+        }
+        return scope;
+    }
+
     var _setListener = function(o, type, parseFunc, value, fn){
         var $el = o.$el,
             name = "dc-" + type + "-" + value,
@@ -918,8 +934,10 @@ var name = "viewParser";
         }
         var callback = fn || parseFunc(o.change.object);
         if (typeof callback !== "function") return;
+
         var fn = function(){
-            callback.apply(o.change.object, arguments);
+            var scope = _getScopeOfFunction(o.change.object, value);
+            callback.apply(scope, arguments);
             Platform.performMicrotaskCheckpoint();
         };
         $el.data(name, fn);

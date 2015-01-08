@@ -77,7 +77,7 @@
 
             if (empty($errors)){
                 // submit the game
-                //$game = $this->$game_service->upload($game);
+                $game = $this->$game_service->upload_game($game);
                 if ($game) {
                     $success = $game;
                 } else {
@@ -151,6 +151,29 @@
             $this->send($success, $errors, $input);
         }
 
+
+        function test_get(){
+
+            $url = "http://www.kaieteurnewsonline.com/images/2009/12/jamzone_girls.jpg";
+            //$url = "http://cdn.drinkingcinema.com/uli/66M.jpeg";
+            $start = time();
+            if ($ext = $this->image_service->is_image(null)){
+                echo "is image ".$ext;
+            } else {
+                echo "not image ".$ext;
+            };
+            return;
+            $fname = $this->image_service->getImage($url, $ext);
+            $end = time();
+
+            echo ($end - $start)." , ".$fname;
+
+            //$finfo = $this->image_service->get_file_info_from_url($url);
+            //$ulFileName = $this->image_service->getFileName($finfo["name"],$finfo["ext"]);
+            //echo $ulFileName;
+            //echo $uli;
+
+        }
 
 
     }

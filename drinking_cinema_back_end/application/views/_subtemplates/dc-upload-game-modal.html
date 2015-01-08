@@ -1,0 +1,16 @@
+<div class="dc-upload-game-modal">
+    <h1>Upload Game</h1>
+    <div dc-if="!errors">Would you like to upload <b>{{parentScope.game.name}}</b>?</div>
+    <div class="dc-upload-game-modal-errors" dc-if="errors">
+        There was a problem uploading the game. Please review the errors and try again.
+        <div ng-repeat="error in errors" class="dc-upload-game-error">{{error}}</div>
+    </div>
+    <div class="dc-upload-game-modal-buttons">
+        <button class="dc-button-secondary" dc-class="{'processing': isProcessing}" dc-click="cancel">
+            Cancel
+        </button>
+        <button class="dc-button-primary" dc-class="{'processing': isProcessing}" dc-click="submit">
+            Upload
+        </button>
+    </div>
+</div>

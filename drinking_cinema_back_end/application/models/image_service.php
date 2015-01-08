@@ -19,6 +19,7 @@
         function __construct() {
             // Call the Model constructor
             parent::__construct();
+            $this->uploadDirectory = $this->globals->get_upload_dir();
         }
 
         function upload_game($fileName, $name){
@@ -97,6 +98,18 @@
 
         }
 
+        function curl_image($url,$fname,$path){
+    		$ch = curl_init($url);
+    		$output_filename = $path.$fname;
+    		$fp = fopen($output_filename, 'wb');
+    		curl_setopt($ch, CURLOPT_FILE, $fp);
+    		curl_setopt($ch, CURLOPT_HEADER, 0);
+    		curl_exec($ch);
+    		curl_close($ch);
+    		fclose($fp);
+    		return str_replace("../","http://",$output_filename);
+    	}
+
         function upload_images_from_html($html){
             // find anchors with images as their href and uploads them if they're not already uploaded
             $dom = new DOMDocument();
@@ -104,39 +117,42 @@
             $anchors = $dom->getElementsByTagName("a");
             foreach ($anchors as $anchor) {
                 $href = $anchor->getAttribute("href");
-                if ($href) {
-
+                if ($ext = $this->is_image($href)) {
+                    $newHref = $this->getImage($href, $ext);
+                    $anchor->setAttribute("href", $newHref);
                 }
             }
+            return $dom->saveHTML();
+        }
+
+        function get_file_info_from_url($url){
+            $purl = parse_url($url);
+            $pup = $purl["path"];
+            $pupa = explode("/",$pup);
+            $last = "";
+            while ($last === "") {
+                $last = trim(array_pop($pupa));
+            }
+            $fImg = explode(".",$last);
+            return array(
+                "full" => $last,
+                "name" => $fImg[0],
+                "on_cdn" => $this->on_cdn($url),
+                "ext" => $fImg[1]
+            );
+        }
+
+        function on_cdn($url){
+            $uli = str_replace("../","http://",$this->globals->get_upload_dir());
+            return strrpos($url, $uli) !== false;
         }
 
         function is_image($url){
-    		$pu = parse_url($url);
-    		$uHost = strtolower($pu["host"]);
-    		$bu = parse_url(base_url());
-    		$bHost =  strtolower($bu["host"]);
-    		$data=array();
-    		if ($uHost == $bHost || ($uHost=="127.0.0.1" && $bHost=="localhost")){
-    			$pup = $pu["path"];
-    			$pupa = explode("/",$pup);
-    			$first = "";
-    			$ct = 0;
-    			while ($first=="" && $ct<count($pupa)){
-    				$first = trim($pupa[$ct]);
-    				$ct++;
-    			}
-    			if ($first=="uli"){
-    				$last = "";
-    				while ($last==""){
-    					$last = trim(array_pop($pupa));
-    				}
-    				$fImg = explode(".",$last);
-    				$ext = $fImg[1];
-    				$data["isImage"]=true;
-    				$data["ext"]=$ext;
-    				return $data;
-    			}
-    		}
+            if (!$url) return false;
+            if ($this->on_cdn($url)){
+                // no need to curl it
+                return true;
+            }
     		$ch = curl_init();
     		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
     		curl_setopt ($ch, CURLOPT_URL, $url);
@@ -149,66 +165,120 @@
 
     		$content = curl_exec ($ch);
     		$contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+    		$data = false;
     		if (substr($contentType, 0, 5) == "image") // strlen("Content-Type: image") == 19
             {
-            	$c = explode("/",$contentType);
-    			$data["isImage"]=true;
-    			$data["ext"]=end($c);
-            }else{
-            	$data["isImage"]=false;
+            	$data = end(explode("/",$contentType));
             }
     		return $data;
     	}
 
-        function getImage($url,$ext,$uploadDirectory="uli/"){
-    		$pu = parse_url($url);
-    		$uHost = strtolower($pu["host"]);
-    		$bu = parse_url(base_url());
-    		$bHost =  strtolower($bu["host"]);
-    		$pup = $pu["path"];
-    		$pupa = explode("/",$pup);
-    		if ($uHost == $bHost){
-    			//return $url;
-    			$first = "";
-    			$ct = 0;
-    			while ($first=="" && $ct<count($pupa)){
-    				$first = trim($pupa[$ct]);
-    				$ct++;
-    			}
-    			if ($first=="uli"){
-    				return $url;
-    			}else{
-    				return json_encode($pupa);
-    			}
-    		}
-    		$last = "";
-    		while ($last==""){
-    			$last = trim(array_pop($pupa));
-    		}
-    		$fImg = explode(".",$last);
-    		$fName = $fImg[0];
-    		$ulFileName = $this->getFileName($fName,$ext,$uploadDirectory);
-    		/*
-    		$uploadUrl = site_url(array("db_admin","gifURL_dcParty"));
-    		$this->curl_get_async($uploadUrl,array(
-    			"url"=>$url,
-    			"fileName"=>$ulFileName,
-    			"path"=>$uploadDirectory
-    		));
-    		*/
-    		$this->uploadImage($url,$ulFileName,$uploadDirectory);
-    		//{"scheme":"http","host":"localhost","port":81,"path":"\/"}
-    		$rurl = "";
-    		if ($bHost=="localhost"){
-    			$port = $bu["port"];
-    			$scheme = $bu["scheme"];
-    			$rurl = $scheme."://127.0.0.1".":".$port."/uli/".$ulFileName;
-    		}else{
-    			$rurl = site_url(array("uli",$ulFileName));
-    		}
+        function getImage($url, $ext, $uploadDirectory = null){
+            if (!$uploadDirectory){
+                $uploadDirectory = $this->uploadDirectory;
+            }
+            $finfo = $this->get_file_info_from_url($url);
+            if ($finfo["on_cdn"]) return $url;
 
-    		return $rurl;
+    		$ulFileName = $this->getFileName($finfo["name"],$ext,$uploadDirectory);
+    		return $this->curl_image($url,$ulFileName, $uploadDirectory);
+    	}
 
+        function getFileName($fname,$ext,$uploadDirectory = null){
+            if (!$uploadDirectory){
+                $uploadDirectory = $this->uploadDirectory;
+            }
+    		$tfilename = $fname;
+            $filename = $this->alphaID($this->countFiles($uploadDirectory),false,3,'party'.$tfilename);
+            while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
+            	$tfilename .= rand(10, 99);
+                $filename = $this->alphaID($this->countFiles($uploadDirectory),false,3,'party'.$tfilename);
+            }
+    		return $filename.'.'.$ext;
+    	}
+
+        function countFiles($dir,$type="*"){
+    		if (glob($dir."*.".$type) != false)
+    		{
+    			$filecount = count(glob($dir."*.".$type));
+    			return $filecount;
+    		}
+    		else
+    		{
+    			return 0;
+    		}
+    	}
+
+        function alphaID($in, $to_num = false, $pad_up = false, $passKey = null){
+    	    //http://kevin.vanzonneveld.net/techblog/article/create_short_ids_with_php_like_youtube_or_tinyurl/
+    	    //Running:
+    		//alphaID(9007199254740989);
+    		//will return 'PpQXn7COf' and:
+    		//alphaID('PpQXn7COf', true);
+    		//will return '9007199254740989'
+    	    $index = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    	    if ($passKey !== null) {
+    	        // Although this function's purpose is to just make the
+    	        // ID short - and not so much secure,
+    	        // with this patch by Simon Franz (http://blog.snaky.org/)
+    	        // you can optionally supply a password to make it harder
+    	        // to calculate the corresponding numeric ID
+    	        for ($n = 0; $n<strlen($index); $n++) {
+    	            $i[] = substr( $index,$n ,1);
+    	        }
+
+    	        $passhash = hash('sha256',$passKey);
+    	        $passhash = (strlen($passhash) < strlen($index))
+    	            ? hash('sha512',$passKey)
+    	            : $passhash;
+
+    	        for ($n=0; $n < strlen($index); $n++) {
+    	            $p[] =  substr($passhash, $n ,1);
+    	        }
+
+    	        array_multisort($p,  SORT_DESC, $i);
+    	        $index = implode($i);
+    	    }
+
+    	    $base  = strlen($index);
+
+    	    if ($to_num) {
+    	        // Digital number  <<--  alphabet letter code
+    	        $in  = strrev($in);
+    	        $out = 0;
+    	        $len = strlen($in) - 1;
+    	        for ($t = 0; $t <= $len; $t++) {
+    	            $bcpow = bcpow($base, $len - $t);
+    	            $out   = $out + strpos($index, substr($in, $t, 1)) * $bcpow;
+    	        }
+
+    	        if (is_numeric($pad_up)) {
+    	            $pad_up--;
+    	            if ($pad_up > 0) {
+    	                $out -= pow($base, $pad_up);
+    	            }
+    	        }
+    	        $out = sprintf('%F', $out);
+    	        $out = substr($out, 0, strpos($out, '.'));
+    	    } else {
+    	        // Digital number  -->>  alphabet letter code
+    	        if (is_numeric($pad_up)) {
+    	            $pad_up--;
+    	            if ($pad_up > 0) {
+    	                $in += pow($base, $pad_up);
+    	            }
+    	        }
+
+    	        $out = "";
+    	        for ($t = floor(log($in, $base)); $t >= 0; $t--) {
+    	            $bcp = bcpow($base, $t);
+    	            $a   = floor($in / $bcp) % $base;
+    	            $out = $out . substr($index, $a, 1);
+    	            $in  = $in - ($a * $bcp);
+    	        }
+    	        $out = strrev($out); // reverse
+    	    }
+    	    return $out;
     	}
 
 

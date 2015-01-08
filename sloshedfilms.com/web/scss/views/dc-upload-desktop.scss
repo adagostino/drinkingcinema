@@ -1,0 +1,17 @@
+@import "imports/dc-imports";
+.dc-upload-game-modal{
+  width: 500px;
+}
+
+.dc-upload-game-error{
+  color: $dc-red;
+}
+
+.dc-upload-button-container{
+  padding: 100px 0 25px;
+  text-align: right;
+}
+
+.dc-upload-game-modal-buttons{
+  text-align: right;
+}

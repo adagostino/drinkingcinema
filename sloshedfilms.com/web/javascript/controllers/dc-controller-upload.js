@@ -28,7 +28,7 @@ var name = "controller.upload";
 
                 })(key, ce[key]);
             }
-        }
+        };
 
         this.init = function(){
             $scope = this;
@@ -83,8 +83,9 @@ var name = "controller.upload";
                             console.log("success", data);
                             this.isProcessing = false;
                         },
-                        error: function(xhr, text){
-                            alert(text);
+                        error: function(err, xhr){
+                            alert("problem uploading image -- check console");
+                            console.log("error uploading image", err, xhr);
                             $scope.game.image = oldImage;
                         }
                     })
@@ -118,15 +119,41 @@ var name = "controller.upload";
                             $scope.game.thumbnail = this.thumbnail;
                             modalScope.hide();
                         },
-                        error: function(xhr, text){
+                        error: function(err, xhr){
                             this.isProcessing = false;
-                            alert(text);
-                            console.log("error uploading thumbnail", text, xhr);
+                            alert("problem uploading thumbnail -- check console");
+                            console.log("error uploading thumbnail", err, xhr);
                         }
                     });
 
                 }
             };
+
+            this.uploadModal = $dc.directive.modal.init({
+                template: "#dc-upload-game-modal-template",
+                isProcessing: false,
+                parentScope: this,
+                beforeShow: function() {
+                    this.errors = undefined;
+                },
+                submit: function(){
+                    this.isProcessing = true;
+                    $dc.model.game.postGame({
+                        game: $scope.game,
+                        $scope: this,
+                        success: function(response){
+                            this.isProcessing = false;
+                            console.log("success", response);
+                        },
+                        error: function(err, xhr){
+                            console.log(this);
+                            this.errors = err.errors;
+                            this.isProcessing = false;
+                        }
+                    })
+                }
+            });
+
 
             this.$watch('game.name', function(n, o){
                 var name = n ? this.cdn + "Games/" + $dc.model.game.toUrl(n) : "";
