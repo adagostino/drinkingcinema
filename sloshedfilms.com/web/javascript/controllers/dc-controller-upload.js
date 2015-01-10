@@ -34,7 +34,7 @@ var name = "controller.upload";
             $scope = this;
             this.cdn = $dc.globals.cdn;
             this.testText = "blah balh";
-            //this.test=["hello", "party", "boy"];
+            this.test=["hello", "party", "boy"];
             //this.test = [];
 
             var defaultThumb = this.cdn + "Images/DC_thumbnail.png";
@@ -165,7 +165,6 @@ var name = "controller.upload";
                 this.uploadThumbnailScope.thumbnail = this.game.thumbnail || defaultThumb;
             });
 
-            window.scope = this;
         };
     };
     $dc.extend(name, upload);

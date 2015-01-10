@@ -7,7 +7,6 @@ var name = "viewParser";
         $parse = window.ngParser;
 
     var _scopeMap = {};
-    window.scopeMap = _scopeMap;
 
     var _vp = new function(){
         this.customDirectives = {};
@@ -51,17 +50,11 @@ var name = "viewParser";
 
             if (!bind) return $(this.getHTML(obj, $parent));
 
-            var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj);
-            var $el = parsedHTMLObj.$el;
-
-            if (($el[0] || $el).nodeType !== 11) return $el;
-
-            var a = [];
-            for (var i=0; i<parsedHTMLObj.children.length; i++){
-                var child = _scopeMap[parsedHTMLObj.children[i]];
-                a.push(child.$el);
-            };
-            return a[0];
+            var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj),
+                $el = parsedHTMLObj.$el,
+                nodeType = ($el[0] || $el).nodeType;
+            // if it's a document fragment, return its child nodes
+            return nodeType === 11 ? $($el.childNodes) : $el;
         };
 
     }
@@ -170,13 +163,15 @@ var name = "viewParser";
     function _compileHTMLStr (parsedHTMLObj) {
         return parsedHTMLObj.html;
     };
-    var ect = 0;
-    function _compileHTMLEl (parsedHTMLObj, scope, repeatItem) {
+
+    function _compileHTMLEl (parsedHTMLObj, scope, repeatItem, parentGuid) {
         if (typeof parsedHTMLObj === "string") return parsedHTMLObj;
         // need concept of $prev and $next and $parent for each element
-        var $parent;
-        var $oEl;
-        var cloned = false;
+        var $parent,
+            $oEl,
+            cloned = false,
+            guid = generateGUID(16,true);
+
         //var $parsedEl = parsedHTMLObj.inRepeat && $toClone ? $toClone : parsedHTMLObj.$el;
         scope = parsedHTMLObj.repeatScope || scope;
         if (repeatItem) {
@@ -223,11 +218,10 @@ var name = "viewParser";
             parsedHTMLObj.$el = $parent;
         }
 
-        var children = [];
-        var commentGuid;
+        var children = {},
+            commentGuid;
         for (var i=0; i<parsedHTMLObj.children.length; i++){
-            var child = _compileHTMLEl(parsedHTMLObj.children[i], scope, parsedHTMLObj.repeatItem);
-
+            var child = _compileHTMLEl(parsedHTMLObj.children[i], scope, parsedHTMLObj.repeatItem, guid);
             if (typeof child === "string") {
                 if (!parsedHTMLObj.str) $parent = $(document.createTextNode(child));
             } else {
@@ -237,7 +231,12 @@ var name = "viewParser";
                     $parent.appendChild(child.$el[0]);
                 }
                 var nodeType = (child.$el[0] || child.$el).nodeType;
-                (nodeType === 1 || nodeType == 3) && children.push(child.guid);
+                //console.log(child.guid === guid, child.guid, guid);
+                children[child.guid] = {
+                    type: nodeType,
+                    index: i
+                };
+
                 // set the comment if it's a repeat object -- used later for adding elements when repeat array changes
                 if (i===0 && parsedHTMLObj.isRepeat && nodeType === 8) commentGuid = child.guid;
 
@@ -259,6 +258,7 @@ var name = "viewParser";
                 type: watch.type,
                 name: watch.name,
                 item: item,
+                guid: guid,
                 children: children
             });
             delete item.attributes;
@@ -276,18 +276,13 @@ var name = "viewParser";
         }
 
         var observers = [];
-        var guid = generateGUID(16,true);
-        //parsedHTMLObj.inRepeat && console.log(parsedHTMLObj.paths, guid);
-        //console.log(parsedHTMLObj.paths);
         for (var key in parsedHTMLObj.paths) {
             (function(path){
                 //console.log(path, guid);
-
                 var observer = new PathObserver(scope, path);
                 var watchInds = parsedHTMLObj.paths[path];
                 var watches = [];
                 var val = Path.get(path).getValueFrom(scope);
-                //console.log(path, val);
                 var item = parsedHTMLObj.item;
 
                 for (var i=0; i<watchInds.length; i++){
@@ -295,10 +290,9 @@ var name = "viewParser";
                     // call the compile function for non-custom directives
                     watches[i].compile && compileWatch(item, watches[i]);
                 };
-                //console.log(path, watches.length);
-                var callback = function(newValue, oldValue){
+
+                var callback = function(newValue, oldValue, splices){
                     //console.log("path changed", path, newValue, oldValue);
-                    //console.log(watches);
                     item.attributes = $.extend(true,{},item.baseAttributes);
                     for (var i=0; i<watches.length; i++){
                         watches[i].watch.call(item, {
@@ -308,7 +302,9 @@ var name = "viewParser";
                             $el: $parent,
                             type: watches[i].type,
                             name: watches[i].name,
-                            item: item
+                            item: item,
+                            guid: guid,
+                            splices: splices
                         });
                     }
                     delete item.attributes;
@@ -323,29 +319,16 @@ var name = "viewParser";
                 if ($.isArray(val)){
                     //console.log("############ observe array", path, ect, guid);
                     var aObs = new ArrayObserver(val);
-                    var callback = function(splices){
-                        //console.log("array changed", splices, val);
-                        for (var i=0; i<watches.length; i++){
-                            watches[i].watch.call(item, {
-                                change: {
-                                    object: scope
-                                },
-                                $el: $parent,
-                                type: watches[i].type,
-                                name: watches[i].name,
-                                item: item,
-                                splices: splices
-                            })
-                        }
-                    };
-
-                    aObs.open(callback);
+                    aObs.open(function(splices){
+                        callback("","",splices);
+                    });
                     observers.push({
                         observer: aObs,
                         callback: callback
                     });
                 }else if (typeof val === "object"){
-                    console.log("observe object", path);
+                    //console.log("observe object", path);
+                    /*
                     var objObs = new ObjectObserver(val);
                     objObs.open(function(added, removed, changed, getOldValueFn){
                         console.log("object changed", added, removed, changed);
@@ -353,6 +336,7 @@ var name = "viewParser";
                         // do the same as above
                     });
                     observers.push(objObs);
+                    */
                 }
             })(key);
 
@@ -360,13 +344,15 @@ var name = "viewParser";
         for (var key in customCompiles){
             compileWatch(parsedHTMLObj, watch);
         }
+        var nodeType = ($parent[0] || $parent).nodeType;
 
         var rObj = {
             $el: $parent,
             observers: observers,
             children: children,
-            guid: guid
-            //parsedHTMLObj:  parsedHTMLObj
+            guid: guid,
+            nodeType: nodeType,
+            parentGuid: parentGuid
         };
         if (parsedHTMLObj.inRepeat && !parsedHTMLObj.comment && !repeatItem){
             rObj.parsedHTMLObj = parsedHTMLObj;
@@ -377,11 +363,13 @@ var name = "viewParser";
         }
 
         // if it's actually an element, record it
+        if (_scopeMap[guid]){
+            console.log("it already exists", nodeType, _scopeMap[guid].nodeType);
+            //console.log("it already exits", guid, _scopeMap[guid])
+        }
         _scopeMap[guid] = rObj;
         ($parent[0] || $parent)._vpGUID = guid;
 
-
-        ect++;
         return rObj;
     };
 
@@ -635,27 +623,39 @@ var name = "viewParser";
         }
     };
 
+    function _removeElement(guid){
+        var o = _scopeMap[guid];
+        if (!o) return;
+
+        for (var i=0; i< o.observers.length; i++){
+            o.observers[i].observer.close();
+        };
+
+        for (var child in o.children){
+            _removeElement(child);
+        };
+        try {
+            o.$el.remove();
+        } catch (e) {
+
+        }
+        // remove from the parent
+        if (o.parentGuid) delete _scopeMap[o.parentGuid].children[guid];
+        // remove from the scopeMap
+        delete _scopeMap[guid];
+
+    }
+
     function _parseRepeatDirective(value){
         var list = value.match(/(?:\s*in\s*)([-A-Za-z0-9_\.]+)\s*/i)[1],
             keyMatch = value.match(/(?:\s*)\(*([-A-Za-z0-9_]+)(?:\s*\,*\s*)([-A-Za-z0-9_]+)*\)*(?:\s+in)/i),
             key = keyMatch[1],
             val = keyMatch[2],
             parseFunc = $parse(list);
-        var paths = getPaths(parseFunc.lexer.lex(value));
+        var paths = getPaths(parseFunc.lexer.lex(list));
 
         var dcRepeatItems = [],
             compiled = false;
-        var removeRepeatItem = function(guid){
-            var o = scopeMap[guid];
-            if (!o) return;
-            for (var i=0; i< o.observers.length; i++){
-                o.observers[i].observer.close();
-            }
-            for (var i=0; i< o.children.length; i++) {
-                removeRepeatItem(o.children[i]);
-                delete scopeMap[o.children[i]];
-            }
-        };
 
         return {
             link: function(o){
@@ -698,7 +698,7 @@ var name = "viewParser";
                     io.repeatFirst = ct === 0;
                     io.repeatLast = ct === length - 1;
                     io.repeatMiddle = !io.repeatFirst && !io.repeatLast;
-                    io.repeatEven = ct%2;
+                    io.repeatEven = !!(ct%2);
                     io.repeatOdd = !io.repeatEven;
 
                     io[key] = isObject ? i : a[i];
@@ -719,16 +719,17 @@ var name = "viewParser";
                 return robj;
             },
             compile: function(o){
-                if (!compiled){
-                    for (var i=0; i< o.children.length; i++){
-                        dcRepeatItems[i].guid = o.children[i];
-                    }
-                    compiled = true;
-                }
+                var nodeType = (o.$el[0] || o.$el).nodeType,
+                    $el = nodeType === 11 ? $(o.$el.childNodes) : o.$el;
+                $el.children().each(function(idx){
+                    dcRepeatItems[idx].guid = this._vpGUID;
+                    //console.log(this, this._vpGUID);
+                });
+                //console.log(dcRepeatItems);
             },
             watch: function(o) {
                 var splices = o.splices,
-                    guid = (o.$el[0] || o.$el)._vpGUID;
+                    guid = o.guid;
 
                 // get information about the changed object
                 var a = parseFunc(o.change.object),
@@ -751,9 +752,11 @@ var name = "viewParser";
 
                 var changed = [], removed = [], added = [];
                 for (var i=0; i<splices.length; i++){
+                    console.log(splices);
                     var idx = splices[i].index,
                         numAdded = splices[i].addedCount,
                         numRemoved = splices[i].removed.length;
+
                     // start with removed
                     for (var j=0; j<numRemoved; j++){
                         if (j < numAdded){
@@ -782,12 +785,15 @@ var name = "viewParser";
                     var prevGuid;
                     if (ct <= 0) {
                         ct = 0;
-                    } else if (ct > parent.children.length){
-                        ct = parent.children.length;
+                    } else if (ct > dcRepeatItems){
+                        ct = dcRepeatItems.length;
                     }
-                    parent.children.splice(ct,0,addedObj.guid);
+                    parent.children[addedObj.guid] = {
+                        type: (addedObj.$el[0] || addedObj.$el).nodeType
+                    };
+                    //parent.children.splice(ct,0,addedObj.guid);
                     // now add it into the dom
-                    var prevGuid = ct - 1 > -1 ? parent.children[ct - 1] : parent.commentGuid;
+                    var prevGuid = ct - 1 > -1 ? dcRepeatItems[ct - 1].guid : parent.commentGuid;
 
                     _scopeMap[prevGuid].$el.after(addedObj.$el);
                     dcRepeatItems.splice(ct, 0, {
@@ -808,16 +814,21 @@ var name = "viewParser";
 
                 for (var i=0; i<removed.length; i++) {
                     var ct = removed[i] - i;
-                    var child = scopeMap[dcRepeatItems[ct].guid];
-                    removeRepeatItem(child.guid);
-                    child.$el.remove();
-                    delete scopeMap[child.guid];
+                    _removeElement(dcRepeatItems[ct].guid);
                     dcRepeatItems.splice(ct,1);
-                    parent.children.splice(ct, 1);
                 }
+
                 // at the end, run through all of the items in the array and change them accordingly -- may be expensive
                 // depending on what you're doing -- adding classes based on even or odd could be rotten
-
+                for (var i=0; i<dcRepeatItems.length; i++){
+                    var io = dcRepeatItems[i].io;
+                    io.repeatIndex = i;
+                    io.repeatFirst = i === 0;
+                    io.repeatLast = i === length - 1;
+                    io.repeatMiddle = !io.repeatFirst && !io.repeatLast;
+                    io.repeatEven = !!(i%2);
+                    io.repeatOdd = !i.repeatEven;
+                }
 
             },
             paths: paths
@@ -839,17 +850,19 @@ var name = "viewParser";
                     var $ifEl = _compileHTMLEl(cO, o.change.object);
                     o.$el.replaceWith($ifEl.$el);
                 } else if (o.$el[0].nodeType !==8 && !parseFunc(o.change.object)){
+
                     var cObj = {
                         str: "",
                         comment: true,
                         openTag: this.start + " ng-if='" + this.watches.directives["if"].oValue + "' " + (this.unary ? " />" : ">"),
                         closeTag: this.end,
                         item: this,
-                        children: []
+                        children: {}
                     };
                     var cO = this.compile(o.change.object);
                     var $c = _compileHTMLEl(cO, o.change.object);
                     o.$el.replaceWith($c.$el);
+                    _removeElement(o.guid);
 
                 }
             },
@@ -1051,6 +1064,7 @@ var name = "viewParser";
                 // don't do anything -- only do something on compile
             },
             compile: function(o) {
+
                 var val = parseFunc(o.change.object);
                 var $scope = val || o.change.object;
                 if (val)  $scope.parentScope = o.change.object;
@@ -1075,12 +1089,14 @@ var name = "viewParser";
                         o.$el.append(child.$el);
                     } catch(e) {
                         o.$el.appendChild(child.$el[0]);
-                    }
-                    (child.$el[0] || child.$el).nodeType === 1 && o.children.push(child.guid);
+                    }//(nodeType === 1 || nodeType === 3) && o.children.push(child.guid);
                 } else {
                     console.log("probably should be copying data and event handlers over here");
                 }
-
+                var nodeType = (child.$el[0] || child.$el).nodeType;
+                o.children[child.guid] = {
+                    type: nodeType
+                };
                 typeof dirScope.init === "function" && dirScope.init.call(dirScope);
                 return replace ? child.$el : undefined;
             },
