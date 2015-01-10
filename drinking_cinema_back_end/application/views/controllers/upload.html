@@ -1,4 +1,8 @@
 <div class="dc-upload-controller" dc-controller="upload">
+    <div dc-repeat="item in test">
+        <div>{{item}}</div>
+    </div>
+    <!--
     <div id="dc-game-tags" dc-directive-editable="editTagsScope">
         {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': 'Set Tags Here'} %}
     </div>
@@ -24,4 +28,5 @@
     <div class="dc-upload-button-container">
         <button class="dc-button-primary" dc-click="uploadModal.show" dc-class="{'processing': isProcessing || !game.name}">Upload Game</button>
     </div>
+    -->
 </div>

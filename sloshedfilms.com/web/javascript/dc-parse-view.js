@@ -7,6 +7,7 @@ var name = "viewParser";
         $parse = window.ngParser;
 
     var _scopeMap = {};
+    window.scopeMap = _scopeMap;
 
     var _vp = new function(){
         this.customDirectives = {};
@@ -47,8 +48,10 @@ var name = "viewParser";
         this.getElement = function(obj, $parent, bind){
             bind = typeof bind === "boolean" ? bind : true;
             if (!_parsedObj) _parsedObj = _viewObj.compile(obj);
+
             if (!bind) return $(this.getHTML(obj, $parent));
-            var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj, $parent);
+
+            var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj);
             var $el = parsedHTMLObj.$el;
 
             if (($el[0] || $el).nodeType !== 11) return $el;
@@ -100,7 +103,7 @@ var name = "viewParser";
                         }
                     }else if (directive.name === "if") {
                         if (!directive.value.call(this, o)) {
-                            var open = this.start + " ng-if='" + this.watches.directives[directive.name].oValue + "' " + (this.unary ? " />" : ">");
+                            var open = this.start + " dc-if='" + this.watches.directives[directive.name].oValue + "' " + (this.unary ? " />" : ">");
                             return {
                                 str: "",
                                 comment: true,
@@ -167,18 +170,23 @@ var name = "viewParser";
     function _compileHTMLStr (parsedHTMLObj) {
         return parsedHTMLObj.html;
     };
-
-    function _compileHTMLEl (parsedHTMLObj, scope) {
+    var ect = 0;
+    function _compileHTMLEl (parsedHTMLObj, scope, repeatItem) {
         if (typeof parsedHTMLObj === "string") return parsedHTMLObj;
         // need concept of $prev and $next and $parent for each element
         var $parent;
         var $oEl;
         var cloned = false;
-        if (parsedHTMLObj.isRepeat){
-            console.log(parsedHTMLObj);
+        //var $parsedEl = parsedHTMLObj.inRepeat && $toClone ? $toClone : parsedHTMLObj.$el;
+        scope = parsedHTMLObj.repeatScope || scope;
+        if (repeatItem) {
+            parsedHTMLObj.$el = repeatItem.$el;
+            parsedHTMLObj.paths = repeatItem.paths;
+            parsedHTMLObj.watchList = repeatItem.watchList;
         }
+
         if (parsedHTMLObj.$el) {
-            $parent = $(parsedHTMLObj.$el[0].cloneNode(false));
+            $parent = $( (parsedHTMLObj.$el[0] || parsedHTMLObj.$el).cloneNode(false) );
             cloned = true;
         } else {
             $parent = parsedHTMLObj.str ? $(parsedHTMLObj.str) : parsedHTMLObj.comment ? $(document.createComment(parsedHTMLObj.openTag + parsedHTMLObj.closeTag)) : document.createDocumentFragment();
@@ -206,7 +214,7 @@ var name = "viewParser";
                     }
                 }
             };
-
+            if (!parsedHTMLObj.item) console.log(parsedHTMLObj);
             addWatches(parsedHTMLObj.item.watches.directives, "directive");
             addWatches(parsedHTMLObj.item.watches.attributes, "attribute");
             addWatches(parsedHTMLObj.item.watches.text ? [parsedHTMLObj.item.watches.text] : [], "text");
@@ -216,9 +224,10 @@ var name = "viewParser";
         }
 
         var children = [];
-        var ct = 0;
+        var commentGuid;
         for (var i=0; i<parsedHTMLObj.children.length; i++){
-            var child = _compileHTMLEl(parsedHTMLObj.children[i], scope);
+            var child = _compileHTMLEl(parsedHTMLObj.children[i], scope, parsedHTMLObj.repeatItem);
+
             if (typeof child === "string") {
                 if (!parsedHTMLObj.str) $parent = $(document.createTextNode(child));
             } else {
@@ -227,8 +236,17 @@ var name = "viewParser";
                 } catch(e) {
                     $parent.appendChild(child.$el[0]);
                 }
-                (child.$el[0] || child.$el).nodeType === 1 && children.push(child.guid);
+                var nodeType = (child.$el[0] || child.$el).nodeType;
+                (nodeType === 1 || nodeType == 3) && children.push(child.guid);
+                // set the comment if it's a repeat object -- used later for adding elements when repeat array changes
+                if (i===0 && parsedHTMLObj.isRepeat && nodeType === 8) commentGuid = child.guid;
+
+                // adding child to repeat parent for cloning later
+                if (parsedHTMLObj.isRepeat && !parsedHTMLObj.repeatItem) {
+                    parsedHTMLObj.repeatItem = child.parsedHTMLObj;
+                }
             }
+
         };
 
         var compileWatch = function(item, watch){
@@ -259,8 +277,12 @@ var name = "viewParser";
 
         var observers = [];
         var guid = generateGUID(16,true);
+        //parsedHTMLObj.inRepeat && console.log(parsedHTMLObj.paths, guid);
+        //console.log(parsedHTMLObj.paths);
         for (var key in parsedHTMLObj.paths) {
             (function(path){
+                //console.log(path, guid);
+
                 var observer = new PathObserver(scope, path);
                 var watchInds = parsedHTMLObj.paths[path];
                 var watches = [];
@@ -278,7 +300,6 @@ var name = "viewParser";
                     //console.log("path changed", path, newValue, oldValue);
                     //console.log(watches);
                     item.attributes = $.extend(true,{},item.baseAttributes);
-
                     for (var i=0; i<watches.length; i++){
                         watches[i].watch.call(item, {
                             change: {
@@ -294,14 +315,16 @@ var name = "viewParser";
                 };
                 observer.open(callback);
 
-                observers.push(observer);
+                observers.push({
+                    observer: observer,
+                    callback: callback
+                });
 
                 if ($.isArray(val)){
-                    console.log("observe array", path);
+                    //console.log("############ observe array", path, ect, guid);
                     var aObs = new ArrayObserver(val);
-                    aObs.open(function(splices){
+                    var callback = function(splices){
                         //console.log("array changed", splices, val);
-                        //console.log(watches);
                         for (var i=0; i<watches.length; i++){
                             watches[i].watch.call(item, {
                                 change: {
@@ -314,10 +337,15 @@ var name = "viewParser";
                                 splices: splices
                             })
                         }
+                    };
+
+                    aObs.open(callback);
+                    observers.push({
+                        observer: aObs,
+                        callback: callback
                     });
-                    observers.push(aObs);
                 }else if (typeof val === "object"){
-                    //console.log("observe object", path);
+                    console.log("observe object", path);
                     var objObs = new ObjectObserver(val);
                     objObs.open(function(added, removed, changed, getOldValueFn){
                         console.log("object changed", added, removed, changed);
@@ -326,7 +354,6 @@ var name = "viewParser";
                     });
                     observers.push(objObs);
                 }
-
             })(key);
 
         }
@@ -339,97 +366,23 @@ var name = "viewParser";
             observers: observers,
             children: children,
             guid: guid
+            //parsedHTMLObj:  parsedHTMLObj
+        };
+        if (parsedHTMLObj.inRepeat && !parsedHTMLObj.comment && !repeatItem){
+            rObj.parsedHTMLObj = parsedHTMLObj;
+        };
+        if (parsedHTMLObj.isRepeat){
+            rObj.repeatItem = parsedHTMLObj.repeatItem;
+            rObj.commentGuid = commentGuid;
         }
 
         // if it's actually an element, record it
-        //if ($parent[0].nodeType === 1){
-            _scopeMap[guid] = rObj;
-            ($parent[0] || $parent)._vpGUID = guid;
-        //}
+        _scopeMap[guid] = rObj;
+        ($parent[0] || $parent)._vpGUID = guid;
+
+
+        ect++;
         return rObj;
-    };
-
-    function _observe(viewObj, $el, scope, execute){
-        //var watchList = viewObj.watchList;
-        var executeWatches = function(watchList) {
-            //console.log(watchList);
-            if (!watchList.list.length) return;
-            //console.log(watchList, $el);
-            var item = viewObj.item;
-            item.attributes = $.extend(true,{},item.baseAttributes);
-
-            for (var i=0; i<watchList.list.length; i++){
-                var watchObj = watchList.list[i];
-
-                watchObj.watch.call(item, {
-                    change: watchList.change,
-                    $el: $el,
-                    type: watchObj.type,
-                    name: watchObj.name,
-                    item: item
-                });
-            }
-            delete item.attributes;
-        };
-
-        var observeFunc = function(changes) {
-            executeWatches(_compileWatches(changes, viewObj));
-        };
-        Object.observe(scope, observeFunc);
-
-        if (execute) {
-            var changes = [];
-            for (var key in viewObj.paths){
-                changes.push({
-                    'name' : key,
-                    'oldValue': undefined,
-                    'newValue': scope[key],
-                    'object': scope,
-                    'type': "update"
-                })
-            };
-
-            changes.length && executeWatches(_compileWatches(changes, viewObj));
-        }
-        // Object.unobserve(scope, observeFunc);
-        //viewObj.observeFunc = observeFunc;
-
-
-    }
-
-    function _compileWatches(changes, viewObj) {
-        var paths = viewObj.paths;
-        var watches = viewObj.watchList;
-
-        var change = {
-            object: changes[0].object
-        };
-
-        var a = [];
-        for (var i=0; i<changes.length; i++){
-            if (paths[changes[i].name]){
-                a = a.concat(paths[changes[i].name]);
-                change[changes[i].name] = {
-                    oldValue: changes[i].oldValue,
-                    newValue: changes[i].object[changes[i].name], // use parse here later
-                    type: changes[i].type
-                }
-            }
-        }
-        a.sort();
-        var map = {};
-        var b = [];
-        for (var i=0; i < a.length; i++){
-            if (!map[a[i]]){
-                map[a[i]] = true;
-                b.push(watches[a[i]]);
-            }
-        };
-
-        return {
-            change: change,
-            list: b
-        };
     };
 
     function _parseTemplate(html, customDirectives){
@@ -690,49 +643,111 @@ var name = "viewParser";
             parseFunc = $parse(list);
         var paths = getPaths(parseFunc.lexer.lex(value));
 
+        var dcRepeatItems = [],
+            compiled = false;
+        var removeRepeatItem = function(guid){
+            var o = scopeMap[guid];
+            if (!o) return;
+            for (var i=0; i< o.observers.length; i++){
+                o.observers[i].observer.close();
+            }
+            for (var i=0; i< o.children.length; i++) {
+                removeRepeatItem(o.children[i]);
+                delete scopeMap[o.children[i]];
+            }
+        };
+
         return {
             link: function(o){
                 var a = parseFunc(o),
                     isObject = typeof a === "object" && !$.isArray(a),
                     str = "",
-                    children = [],
                     length = _getLength(a),
-                    ct = 0;
+                    ct = 0,
+                    open = this.start + " dc-repeat='" + this.watches.directives.repeat.oValue + "' " + (this.unary ? " />" : ">"),
+                    robj = {
+                        html: str,
+                        str: "",
+                        openTag: "",
+                        closeTag: "",
+                        item: this,
+                        isRepeat: true,
+                        children: [
+                            {
+                                str: "",
+                                comment: true,
+                                openTag: open,
+                                closeTag: this.end,
+                                item: this,
+                                html: "<!-- " + open + this.end + " -->",
+                                inRepeat: true,
+                                children: []
+                            }
+                        ]
 
-                if (!length) return children;
+                    };
+                    // the comment above is used as a placeholder so we always know where to insert elements
 
+                if (!length) return robj;
+                //console.log("in repeat link", this);
                 for (var i in a){
                     // need to compile element for a[i] but not re-run repeat, also need to set $parent
                     var io = {};
-                    io.$parent = o;
-                    io.$index = ct;
-                    io.$first = ct === 0;
-                    io.$last = ct === length - 1;
-                    io.$middle = !io.$first && !io.$last;
-                    io.$even = ct%2;
-                    io.$odd = !io.$even;
+                    io.parentScope = o;
+                    io.repeatIndex = ct;
+                    io.repeatFirst = ct === 0;
+                    io.repeatLast = ct === length - 1;
+                    io.repeatMiddle = !io.repeatFirst && !io.repeatLast;
+                    io.repeatEven = ct%2;
+                    io.repeatOdd = !io.repeatEven;
 
                     io[key] = isObject ? i : a[i];
                     if (val) io[val] = a[i];
-                    var child = this.compile(io,true);
+                    dcRepeatItems.push({
+                        io: io
+                    });
+
+                    var child = this.compile(dcRepeatItems[i].io, true);
+                    child.repeatScope = dcRepeatItems[i].io;
+
                     str+=child.html;
-                    children.push(child);
+                    robj.children.push(child);
                     ct++;
                 }
+                robj.html = str;
 
-                return {
-                    html: str,
-                    str: "",
-                    openTag: "",
-                    closeTag: "",
-                    item: this,
-                    isRepeat: true,
-                    children: children
-                };
+                return robj;
+            },
+            compile: function(o){
+                if (!compiled){
+                    for (var i=0; i< o.children.length; i++){
+                        dcRepeatItems[i].guid = o.children[i];
+                    }
+                    compiled = true;
+                }
             },
             watch: function(o) {
                 var splices = o.splices,
-                    guid = o.$el[0]._vpGUID;
+                    guid = (o.$el[0] || o.$el)._vpGUID;
+
+                // get information about the changed object
+                var a = parseFunc(o.change.object),
+                    length = _getLength(a),
+                    isObject = typeof a === "object" && !$.isArray(a);
+
+                var parent = _scopeMap[guid];
+                // if !o.splices, then it's a whole new array and needs to be completely
+                // rebuilt j -- so fake out that splices array, brah!
+
+                if (!splices) {
+                    splices = [
+                        {
+                            addedCount: length,
+                            index: 0,
+                            removed: length ? [] : dcRepeatItems
+                        }
+                    ];
+                };
 
                 var changed = [], removed = [], added = [];
                 for (var i=0; i<splices.length; i++){
@@ -747,31 +762,63 @@ var name = "viewParser";
                             removed.push(idx + j);
                         }
                     }
-
+                    var lastChangedIdx = changed[changed.length - 1] || idx;
                     for (var j = 0; j < (numAdded - numRemoved); j++){
-                        added.push(idx + j + (numRemoved ? 1 : 0));
+                        added.push(lastChangedIdx + j + (numRemoved ? 1 : 0));
                     }
 
-                }
-                var a = parseFunc(o.change.object),
-                    length = _getLength(a),
-                    isObject = typeof a === "object" && !$.isArray(a);
-                //console.log(a, added) ;
+                };
+
                 for (var i=0; i<added.length; i++){
                     var ct = added[i];
                     var io = {};
-                    io.$parent = o.change.object;
-                    io.$index = ct;
-                    io.$first = ct === 0;
-                    io.$last = ct === length - 1;
-                    io.$middle = !io.$first && !io.$last;
-                    io.$even = ct%2;
-                    io.$odd = !io.$even;
-
-                    io[key] = isObject ? i : a[i];
+                    io.parentScope = o.change.object;
+                    io[key] = isObject ? ct : a[ct]; // item of "item in items" -- so the actual child object
                     if (val) io[val] = a[i];
-                    console.log(io);
+                    var childParsedHTML = this.compile(io, true);
+
+                    var addedObj = _compileHTMLEl(childParsedHTML, io, parent.repeatItem);
+                    _scopeMap[addedObj.guid] = addedObj;
+                    var prevGuid;
+                    if (ct <= 0) {
+                        ct = 0;
+                    } else if (ct > parent.children.length){
+                        ct = parent.children.length;
+                    }
+                    parent.children.splice(ct,0,addedObj.guid);
+                    // now add it into the dom
+                    var prevGuid = ct - 1 > -1 ? parent.children[ct - 1] : parent.commentGuid;
+
+                    _scopeMap[prevGuid].$el.after(addedObj.$el);
+                    dcRepeatItems.splice(ct, 0, {
+                        io: io,
+                        guid: addedObj.guid
+                    });
+
                 }
+
+                for (var i=0; i<changed.length; i++) {
+                    var ct = changed[i];
+                    //var changedObj = _scopeMap[parent.children[ct]];
+                    var io = {};
+                    io.parentScope = o.change.object;
+                    dcRepeatItems[ct].io[key] = isObject ? ct : a[ct];
+                    if (val) dcRepeatItems[ct].io[val] = a[i];
+                }
+
+                for (var i=0; i<removed.length; i++) {
+                    var ct = removed[i] - i;
+                    var child = scopeMap[dcRepeatItems[ct].guid];
+                    removeRepeatItem(child.guid);
+                    child.$el.remove();
+                    delete scopeMap[child.guid];
+                    dcRepeatItems.splice(ct,1);
+                    parent.children.splice(ct, 1);
+                }
+                // at the end, run through all of the items in the array and change them accordingly -- may be expensive
+                // depending on what you're doing -- adding classes based on even or odd could be rotten
+
+
             },
             paths: paths
         }
@@ -790,7 +837,6 @@ var name = "viewParser";
                     // add item
                     var cO = this.compile(o.change.object);
                     var $ifEl = _compileHTMLEl(cO, o.change.object);
-                    console.log($ifEl);
                     o.$el.replaceWith($ifEl.$el);
                 } else if (o.$el[0].nodeType !==8 && !parseFunc(o.change.object)){
                     var cObj = {
