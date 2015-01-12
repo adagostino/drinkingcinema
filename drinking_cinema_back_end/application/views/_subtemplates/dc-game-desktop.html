@@ -1,0 +1,50 @@
+{% if page.isAdmin %}
+    <div dc-if="isAdmin">
+        <div id="dc-game-tags" dc-directive-editable="editTagsScope">
+            {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.tags} %}
+        </div>
+    </div>
+{% endif %}
+<div dc-directive-game-image>
+    {% include 'directives/dc-directive-game-image.html' with {'game': page.game} %}
+</div>
+<hr class="dc-hr-bottom">
+<div class="dc-share-this-game">
+    <span>Share This Game</span>
+</div>
+<div class="dc-mandatory-drinks">
+    <span>Mandatory Drinks</span>
+</div>
+{% if page.isAdmin %}
+    <div dc-if="isAdmin">
+        <div id="dc-game-rules" dc-directive-editable-rte="editRulesScope">
+            {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.rules} %}
+        </div>
+    </div>
+{% else %}
+    <div dc-if="!isAdmin">
+        <div id="dc-game-rules">
+            <div class="dc-game-rules-content" dc-model="game.rules">
+                {{ page.game.rules|raw }}
+            </div>
+        </div>
+    </div>
+{% endif %}
+<div class="dc-bonus-drinks">
+    <span>Bonus Drinks</span>
+</div>
+{% if page.isAdmin %}
+<div dc-if="isAdmin">
+    <div id="dc-game-optional-rules" dc-directive-editable-rte="editOptionalRulesScope">
+        {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.optionalRules} %}
+    </div>
+</div>
+{% else %}
+<div dc-if="!isAdmin">
+    <div id="dc-game-optional-rules">
+        <div class="dc-game-rules-content" dc-model="game.optionalRules">
+            {{ page.game.optionalRules|raw }}
+        </div>
+    </div>
+</div>
+{% endif %}

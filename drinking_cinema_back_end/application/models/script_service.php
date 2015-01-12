@@ -5,9 +5,9 @@
         // each page is split over common code for mobile and desktop, then mobile, then desktop
         // desktop is split for common code over desktop and then admin code
 
-        private $jsBasePath = "web/javascript";
-        private $cssBasePath = "web/css";
-        private $minBasePath = "web/min";
+        private $jsBasePath = "/web/javascript";
+        private $cssBasePath = "/web/css";
+        private $minBasePath = "/web/min";
         private $jsJSON = array(
             "common" => array(
                 // utilites
@@ -51,10 +51,18 @@
                 "mobile" => array(),
                 "desktop" => array(
                     "common" => array(
-                        "controllers/dc-controller-game-desktop.js"
+                        "directives/dc-directive-game-image.js",
+                        "controllers/dc-controller-game-desktop.js",
+                        "directives/dc-directive-embed-game.js"
                     ),
                     "admin" => array(
-                        "controllers/dc-controller-game-desktop-admin.js"
+                        "utilities/jquery.Jcrop.js",
+                        "controllers/dc-controller-game-desktop-admin.js",
+                        "directives/dc-directive-modal.js",
+                        "directives/dc-directive-editable.js",
+                        "directives/dc-directive-editable-rte.js",
+                        "directives/dc-directive-upload-thumbnail.js",
+                        "directives/dc-directive-upload-image.js"
                     )
                 )
             ),
@@ -102,6 +110,24 @@
                             "admin" => array()
                         )
                     ),
+                    "game" => array(
+                        "common" => array(),
+                        "mobile" => array(),
+                        "desktop" => array(
+                            "common" => array(
+                                "views/dc-game-desktop.css",
+                                "directives/dc-directive-game-image.css",
+                                "directives/dc-directive-embed-game.css"
+                            ),
+                            "admin" => array(
+                                "utilities/jcrop.css",
+                                "directives/dc-directive-modal.css",
+                                "directives/dc-directive-editable.css",
+                                "directives/dc-directive-upload-thumbnail.css",
+                                "directives/dc-directive-upload-image.css"
+                            )
+                        )
+                    ),
                     "upload" => array(
                         "common" => array(),
                         "mobile" => array(),
@@ -109,7 +135,7 @@
                             "common" => array(
                                 "views/dc-game-desktop.css",
                                 "views/dc-upload-desktop.css",
-                                "directives/dc-directive-embed-game.css",
+                                "directives/dc-directive-embed-game.css"
                             ),
                             "admin" => array(
                                 "utilities/jcrop.css",

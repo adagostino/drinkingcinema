@@ -3,10 +3,15 @@
     <div dc-directive-embed-game>
         {% include 'directives/dc-directive-embed-game.html' %}
     </div>
-    <div dc-directive-upload-thumbnail="uploadThumbnailScope">
-        {% include 'directives/dc-directive-upload-thumbnail.html' %}
-    </div>
-    <div dc-directive-upload-image="uploadImageScope">
-        {% include 'directives/dc-directive-upload-image.html' %}
-    </div>
+    {% if page.isAdmin %}
+        <div dc-if="isAdmin">
+            <div dc-directive-upload-thumbnail="uploadThumbnailScope">
+                {% include 'directives/dc-directive-upload-thumbnail.html' %}
+            </div>
+
+            <div dc-directive-upload-image="uploadImageScope">
+                {% include 'directives/dc-directive-upload-image.html' %}
+            </div>
+        </div>
+    {% endif %}
 </div>

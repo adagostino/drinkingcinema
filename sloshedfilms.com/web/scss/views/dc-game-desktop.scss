@@ -30,3 +30,8 @@
   @extend .header-image;
   margin: $dc-default-padding 0;
 }
+
+.dc-game-rules-content{
+  padding: $dc-default-padding;
+  mine-height: 36px;
+}

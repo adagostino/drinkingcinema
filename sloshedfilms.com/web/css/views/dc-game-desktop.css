@@ -270,3 +270,8 @@
 .dc-bonus-drinks {
   margin: 10px 0;
 }
+
+.dc-game-rules-content {
+  padding: 10px;
+  mine-height: 36px;
+}

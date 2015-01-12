@@ -40,6 +40,7 @@
 
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
+$route['game/:any'] = "game/get";
 
 
 /* End of file routes.php */

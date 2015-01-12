@@ -112,17 +112,16 @@
 
         function upload_images_from_html($html){
             // find anchors with images as their href and uploads them if they're not already uploaded
-            $dom = new DOMDocument();
-            $dom->loadHTML($html);
-            $anchors = $dom->getElementsByTagName("a");
-            foreach ($anchors as $anchor) {
-                $href = $anchor->getAttribute("href");
-                if ($ext = $this->is_image($href)) {
-                    $newHref = $this->getImage($href, $ext);
-                    $anchor->setAttribute("href", $newHref);
+            $pattern = '/(?:href=[\'|\"]*)([^\'\"]+)(?:[\'\"]*)/i';
+            $html = preg_replace_callback($pattern, function ($matches) {
+                $match = $matches[1] ? str_replace(" ","%20",$matches[1]) : "";
+                if ($match && $ext = $this->image_service->is_image($match)){
+                    $fname = $this->image_service->getImage($match, $ext);
+                    return $fname ? "href='".$fname."'" : $matches[0];
                 }
-            }
-            return $dom->saveHTML();
+                return $matches[0];
+            }, $html);
+            return $html;
         }
 
         function get_file_info_from_url($url){

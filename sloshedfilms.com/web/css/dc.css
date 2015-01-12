@@ -307,7 +307,6 @@ html {
 }
 
 html, body {
-  font-family: 'Kameron', georgia, serif;
   font-weight: 400;
   -webkit-tap-highlight-color: transparent;
 }
@@ -418,6 +417,7 @@ h1 {
 .dc-thumbnail {
   height: 60px;
   width: 60px;
+  background-size: 100%;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: #ffffff;

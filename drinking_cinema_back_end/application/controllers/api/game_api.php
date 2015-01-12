@@ -14,15 +14,6 @@
             return $isAdmin;
         }
 
-        private function format_game_name($name){
-            $gameName = str_replace("+"," ", urldecode($name));
-            $url = str_replace(" ","+",$gameName);
-            return array(
-                "name" => $gameName,
-                "url" => $url
-            );
-        }
-
         private function send($success, $errors, $input) {
             if (empty($errors)){
                 $this->response($success, 200);
@@ -42,8 +33,7 @@
             if (!$name){
                 $errors[] = "EG_01";
             } else {
-                $nameUrl = $this->format_game_name($name)["url"];
-                $game = $this->game_service->get($nameUrl);
+                $game = $this->game_service->get($name);
                 if ($game) {
                     $success = $game;
                 } else {
@@ -58,11 +48,7 @@
             $input = $game;
             $success = array();
             $errors = array();
-            if ($game["name"]) {
-                $formatted_names = $this->format_game_name($game["name"]);
-                $game["name"] = $formatted_names["name"];
-                $game["nameUrl"] = $formatted_names["url"];
-            } else {
+            if (!$game["name"]) {
                 $errors[] = "EG_01";
             }
             if (!$game["rules"]){
@@ -77,7 +63,7 @@
 
             if (empty($errors)){
                 // submit the game
-                $game = $this->$game_service->upload_game($game);
+                $game = $this->game_service->upload_game($game);
                 if ($game) {
                     $success = $game;
                 } else {
@@ -106,8 +92,7 @@
             }
 
             if (empty($errors)){
-                $nameUrl = $this->format_game_name($name)["url"];
-                $images = $this->game_service->upload_image($fileName, $nameUrl);
+                $images = $this->game_service->upload_image($fileName, $name);
                 if ($images){
                     $success = $images;
                 } else {
@@ -137,8 +122,7 @@
 
             if (empty($errors)){
                 if ($coords["w"]) {
-                    $nameUrl = $this->format_game_name($name)["url"];
-                    $images = $this->game_service->upload_thumbnail($nameUrl, $coords);
+                    $images = $this->game_service->upload_thumbnail($name, $coords);
                     if ($images) {
                         $success = $images;
                     } else {
@@ -153,8 +137,19 @@
 
 
         function test_get(){
-
-            $url = "http://www.kaieteurnewsonline.com/images/2009/12/jamzone_girls.jpg";
+            $html = "";
+            $pattern = '/(?:href=[\'|\"]*)([^\'\"]+)(?:[\'\"]*)/i';
+            $line = preg_replace_callback($pattern, function ($matches) {
+                $match = $matches[1] ? str_replace(" ","%20",$matches[1]) : "";
+                if ($match && $ext = $this->image_service->is_image($match)){
+                    //echo "is image";
+                    $fname = $this->image_service->getImage($match, $ext);
+                    echo $fname;
+                    return "href='".$fname."'";
+                }
+            }, $html);
+            var_dump($line);
+            /*
             //$url = "http://cdn.drinkingcinema.com/uli/66M.jpeg";
             $start = time();
             if ($ext = $this->image_service->is_image(null)){
@@ -172,7 +167,7 @@
             //$ulFileName = $this->image_service->getFileName($finfo["name"],$finfo["ext"]);
             //echo $ulFileName;
             //echo $uli;
-
+            */
         }
 
 

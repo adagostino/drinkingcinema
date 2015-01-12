@@ -12,6 +12,9 @@
     <script type="dc-template" id="dc-controller-upload-template">
         {{ source('controllers/upload.html') }}
     </script>
+    <script type="dc-template" id="dc-game-template">
+        {{ source('_subtemplates/dc-game-desktop.html') }}
+    </script>
     <script type="dc-template" id="dc-upload-game-modal-template">
         {{ source('_subtemplates/dc-upload-game-modal.html') }}
     </script>
@@ -47,5 +50,8 @@
     </script>
     <script type="dc-template" id="dc-directive-embed-game-template">
         {{ source('directives/dc-directive-embed-game.html') }}
+    </script>
+    <script type="text/javascript" id="dc-game-json">
+        this.gameJSON = {{(page.game|json_encode)}};
     </script>
 {% endblock %}

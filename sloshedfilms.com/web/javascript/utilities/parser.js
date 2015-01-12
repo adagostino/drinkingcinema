@@ -11,6 +11,10 @@
         };
     }
 
+    function raw(string) {
+        return isString(string) ? string : string;
+    }
+
     function lowercase(string) {
         return isString(string) ? string.toLowerCase() : string;
     }
@@ -1437,7 +1441,7 @@
      register('orderBy', orderByFilter);*/
     instance.registerFilter('uppercase', valueFn(uppercase));
     instance.registerFilter('lowercase', valueFn(lowercase));
-
+    instance.registerFilter('raw',valueFn(raw));
     if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
         module.exports = instance;
     } else if (typeof define !== "undefined" && define.amd) {

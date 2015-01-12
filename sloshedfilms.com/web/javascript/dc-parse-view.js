@@ -535,7 +535,7 @@ var name = "viewParser";
                 return _parseStyleDirective(value);
                 break;
             case "include":
-                return _parseIncludeDirective(value);
+                return _parseIncludeDirective(value, customDirectives);
                 break;
             case "model":
                 return _parseModelDirective(value);
@@ -752,7 +752,6 @@ var name = "viewParser";
 
                 var changed = [], removed = [], added = [];
                 for (var i=0; i<splices.length; i++){
-                    console.log(splices);
                     var idx = splices[i].index,
                         numAdded = splices[i].addedCount,
                         numRemoved = splices[i].removed.length;
@@ -940,7 +939,7 @@ var name = "viewParser";
         }
     };
 
-    function _parseIncludeDirective(value){
+    function _parseIncludeDirective(value, customDirectives){
         var parseFunc;
         try {
             parseFunc = $parse(value);
@@ -954,7 +953,7 @@ var name = "viewParser";
             link: function(o){
                 var templateId = parseFunc ? parseFunc(o) : value,
                     template = $(templateId).html(),
-                    vO = _parseTemplate(template);
+                    vO = _parseTemplate(template, customDirectives);
                 this.children = vO.start ? [vO] : vO.children;
             },
             watch: function(o){
@@ -1091,7 +1090,7 @@ var name = "viewParser";
                         o.$el.appendChild(child.$el[0]);
                     }//(nodeType === 1 || nodeType === 3) && o.children.push(child.guid);
                 } else {
-                    console.log("probably should be copying data and event handlers over here");
+                    console.log("probably should be copying data and event handlers over here", value, name);
                 }
                 var nodeType = (child.$el[0] || child.$el).nodeType;
                 o.children[child.guid] = {

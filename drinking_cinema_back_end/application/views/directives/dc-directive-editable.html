@@ -29,7 +29,7 @@
         <span>Go to link: </span><a href="{{linkPanel.link}}" title="{{linkPanel.link}}" target="_blank">{{linkPanel.link}}</a><span class="dc-directive-editable-link-panel-controls"> | <span class="dc-fake-link" dc-click="changeLink">Change</span> | <span class="dc-fake-link" dc-click="unlink">Remove</span></span>
     </div>
     <div class="dc-directive-editable-body" contenteditable="{{editing ? 'true' : 'false'}}" dc-model="content" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur">
-        {{contentHTML}}
+        {{contentHTML|raw}}
     </div>
     <div class="dc-directive-editable-footer">
         <div class="dc-directive-editable-footer-buttons">

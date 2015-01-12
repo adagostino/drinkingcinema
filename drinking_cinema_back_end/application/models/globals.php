@@ -3,6 +3,7 @@
         private $cdn = "../cdn.drinkingcinema.com/";
         private $game_images_directory = "Games/";
         private $upload_images_directory = "uli/";
+        private $images_directory = "Images/";
 
         function __construct() {
             // Call the Model constructor
@@ -19,6 +20,10 @@
 
         function get_upload_dir() {
             return $this->cdn.$this->upload_images_directory;
+        }
+
+        function get_images_dir() {
+            return $this->cdn.$this->images_directory;
         }
     }
 

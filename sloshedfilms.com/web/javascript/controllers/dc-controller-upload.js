@@ -33,19 +33,8 @@ var name = "controller.upload";
         this.init = function(){
             $scope = this;
             this.cdn = $dc.globals.cdn;
-            this.testText = "blah balh";
-            this.test=["hello", "party", "boy"];
-            //this.test = [];
-
-            var defaultThumb = this.cdn + "Images/DC_thumbnail.png";
-            this.game = {
-                tags: "Set Tags Here",
-                name: "",
-                rules: "Set Mandatory Rules Here",
-                optionalRules: "Set Optional Rules Here",
-                image: "",
-                thumbnail: defaultThumb
-            };
+            this.isAdmin = true;
+            this.game = $dc.model.game.getGameJSON();
 
             var ce = {
                 "editTagsScope": {

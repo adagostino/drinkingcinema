@@ -8,6 +8,13 @@ var name = "model.game";
 
 
     var gameModel = new function(){
+        this.getGameJSON = function(){
+            if (!window.gameJSON) return;
+            var gameJSON = $.extend(true,{},window.gameJSON);
+            delete window.gameJSON;
+            $("#dc-game-json").remove();
+            return gameJSON;
+        };
 
         this.toUrl = function(str){
             str = str.replace(/\s+/g,"+");

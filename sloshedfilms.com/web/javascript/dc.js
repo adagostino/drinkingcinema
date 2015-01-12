@@ -66,6 +66,7 @@
     $(document).ready(function(){
         $dc.formatTemplates();
         $("[dc-controller]").each(function(){
+            //return;
             var $this = $(this);
             var name = $this.attr("dc-controller");
             var controller = $dc.controller[name];

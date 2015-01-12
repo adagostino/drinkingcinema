@@ -6,6 +6,13 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <title>{{page.title}}</title>
+        {% for tag in page.metaTags %}
+            <meta
+                {% for key, value in tag %}
+                    {{ key }} = "{{ value }}"
+                {% endfor %}
+            />
+        {%  endfor %}
 
         <link href='http://fonts.googleapis.com/css?family=Kameron:700,400' rel='stylesheet' type='text/css'>
         {% for href in page.stylesheets.relativePaths %}
