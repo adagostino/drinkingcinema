@@ -74,6 +74,27 @@
 
         }
 
+        function game_update_post() {
+            $game = $this->post('game');
+
+            $errors = array();
+            $success = array();
+            $input = $game;
+            if (!$game["name"]) {
+                $errors[] = "EG_01";
+            }
+            if (empty($errors)){
+                $game = $this->game_service->update_game($game);
+                if ($game) {
+                    $success = $game;
+                } else {
+                    $errors[] = "EG_12";
+                }
+            }
+            $this->send($success,$errors,$input);
+
+        }
+
         function image_post() {
             //if (!is_admin()) return;
             $fileName = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
@@ -134,42 +155,6 @@
             }
             $this->send($success, $errors, $input);
         }
-
-
-        function test_get(){
-            $html = "";
-            $pattern = '/(?:href=[\'|\"]*)([^\'\"]+)(?:[\'\"]*)/i';
-            $line = preg_replace_callback($pattern, function ($matches) {
-                $match = $matches[1] ? str_replace(" ","%20",$matches[1]) : "";
-                if ($match && $ext = $this->image_service->is_image($match)){
-                    //echo "is image";
-                    $fname = $this->image_service->getImage($match, $ext);
-                    echo $fname;
-                    return "href='".$fname."'";
-                }
-            }, $html);
-            var_dump($line);
-            /*
-            //$url = "http://cdn.drinkingcinema.com/uli/66M.jpeg";
-            $start = time();
-            if ($ext = $this->image_service->is_image(null)){
-                echo "is image ".$ext;
-            } else {
-                echo "not image ".$ext;
-            };
-            return;
-            $fname = $this->image_service->getImage($url, $ext);
-            $end = time();
-
-            echo ($end - $start)." , ".$fname;
-
-            //$finfo = $this->image_service->get_file_info_from_url($url);
-            //$ulFileName = $this->image_service->getFileName($finfo["name"],$finfo["ext"]);
-            //echo $ulFileName;
-            //echo $uli;
-            */
-        }
-
 
     }
 

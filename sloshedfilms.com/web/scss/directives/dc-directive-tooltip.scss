@@ -1,0 +1,42 @@
+@import "imports/dc-imports";
+
+$tailHeight: 16px;
+$ttshadow: 0 0 3px rgba(0,0,0,0.8);
+$ttbackground: $dc-white;
+$ttz: 1;
+.dc-directive-tooltip{
+  position: fixed;
+  z-index: $ttz;
+
+}
+
+.dc-directive-tooltip-tail-template{
+  height: $tailHeight;
+  width: $tailHeight;
+  background: $ttbackground;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: $tailHeight/2;
+  @include transform(rotate(45deg));
+}
+
+.dc-directive-tooltip-tail{
+  @extend .dc-directive-tooltip-tail-template;
+  @include box-shadow($ttshadow);
+}
+
+.dc-directive-tooltip-container{
+  position: relative;
+  background: $ttbackground;
+  z-index: $ttz;
+}
+
+.dc-directive-tooltip-tail-top{
+  @extend .dc-directive-tooltip-tail-template;
+  z-index: -1;
+}
+
+.dc-directive-tooltip-body{
+
+}

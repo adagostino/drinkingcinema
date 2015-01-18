@@ -5,6 +5,15 @@ var name = "model";
     var model = new function(){
         this.$dcType = "model";
 
+        this.getJSON = function(json, id){
+            if (!window[json]) return;
+            var nJSON = $.extend(true,{},window[json]);
+            delete window[json];
+            $("#"+id).remove();
+            return nJSON;
+        }
+
+
         this.call = function(fn) {
             if (typeof fn !== "function") return;
             var scope = this;

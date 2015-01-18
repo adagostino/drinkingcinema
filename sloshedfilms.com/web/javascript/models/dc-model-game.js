@@ -8,14 +8,6 @@ var name = "model.game";
 
 
     var gameModel = new function(){
-        this.getGameJSON = function(){
-            if (!window.gameJSON) return;
-            var gameJSON = $.extend(true,{},window.gameJSON);
-            delete window.gameJSON;
-            $("#dc-game-json").remove();
-            return gameJSON;
-        };
-
         this.toUrl = function(str){
             str = str.replace(/\s+/g,"+");
             return encodeURI(str);
@@ -61,6 +53,13 @@ var name = "model.game";
                 rules: opts.game.rules,
                 optionalRules: opts.game.optionalRules
             };
+            this.ajax(opts);
+        };
+
+        this.postGameUpdate = function(opts) {
+            opts.url = "/api/game_api/game_update";
+            opts.data = {};
+            opts.data.game = opts.game;
             this.ajax(opts);
         };
 

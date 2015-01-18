@@ -60,7 +60,15 @@
     var _getInit = function(controller){
         var platformController = (controller.desktop || controller.mobile) || controller;
         var init = platformController.init;
-        return platformController.admin && platformController.admin.init ? platformController.admin.init : init;
+        var o = {
+            init: init,
+            controller: platformController
+        };
+        if (platformController.admin && platformController.admin.init){
+            o.init = platformController.admin.init;
+            o.controller = platformController.admin;
+        }
+        return o;
     }
 
     $(document).ready(function(){
@@ -70,11 +78,11 @@
             var $this = $(this);
             var name = $this.attr("dc-controller");
             var controller = $dc.controller[name];
-            var init = _getInit(controller);
+            var o = _getInit(controller);
             var template = $("#dc-controller-" + name +"-template").html();
-
-            init.call(controller);
-            var $c = $dc.watchElement($this, controller, template);
+            //console.log(controller);
+            o.init.call(o.controller);
+            var $c = $dc.watchElement($this, o.controller, template);
         });
     });
 })();

@@ -81,12 +81,19 @@ var name = "directive.editable";
             this.$ce = this.$el.find("[contenteditable]");
             // set up the oContent variable to revert
             this.oContent = this.content;
+            this.isEditable = false;
 
             this.$watch("editing", function(n, o){
                 if (n) {
                     this.oContent = this.content;
                 }
+                this.isEditable = n && !this.processing;
             });
+
+            this.$watch("processing", function(n,o){
+                this.isEditable = !n && this.editing;
+            });
+
 
             return this;
         };

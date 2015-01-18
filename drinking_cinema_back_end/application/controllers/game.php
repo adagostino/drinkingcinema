@@ -21,7 +21,22 @@ class game extends CI_Controller
         $page["title"] = $game["name"];
         $page["game"] = $game;
 
+        $page["vendors"] = array(
+            array(
+                'name' => 'netflix',
+                'url' => 'http://www.netflix.com/WiSearch?v1='
+            ),
+            array(
+                'name' => 'hulu',
+                'url' => 'http://www.hulu.com/search?query='
+            ),
+            array(
+                'name' => 'amazon',
+                'url' => 'http://www.amazon.com/s/field-keywords='
+            )
+        );
 
+        $page["isAdmin"] = true;
         $this->twiggy->set('page', $page)->template('game')->display();
 
     }

@@ -65,19 +65,27 @@
 
         function format_game($game){
             // first format the tags so they can be searched for suggestions later (very crude - should be its own table)
-            $tags = explode(",",$game["tags"]);
-            $tagStr = "";
-            foreach ($tags as $tag){
-                $tag = trim($tag);
-                if ($tag){
-                    $tagStr.= $tagStr ? "," : "";
-                    $tagStr.=$tag;
+            if (isset($game["tags"])) {
+                $tags = explode(",", $game["tags"]);
+                $tagStr = "";
+                foreach ($tags as $tag) {
+                    $tag = trim($tag);
+                    if ($tag) {
+                        $tagStr .= $tagStr ? "," : "";
+                        $tagStr .= $tag;
+                    }
                 }
+                $game["tags"] = "," . $tagStr . ",";
             }
-            $game["tags"] = ",".$tagStr.",";
+
             // next replace all image links in rules and optionalRules
-            $game["rules"] = $this->image_service->upload_images_from_html($game["rules"]);
-            $game["optionalRules"] = $this->image_service->upload_images_from_html($game["optionalRules"]);
+            if (isset($game["rules"])){
+                $game["rules"] = $this->image_service->upload_images_from_html($game["rules"]);
+            }
+            if (isset($game["optionalRules"])){
+                $game["optionalRules"] = $this->image_service->upload_images_from_html($game["optionalRules"]);
+            }
+
             $names = $this->format_game_name($game["name"] ? $game["name"] : $game["nameUrl"]);
             $game["name"] = $names["name"];
             $game["nameUrl"] = $names["nameUrl"];
@@ -107,6 +115,28 @@
             $query = $this->db->query($sql);
             $id = $this->db->insert_id();
             return $game;
+        }
+
+        function update_game($game) {
+            $game = $this->format_game($game);
+            $sql = "UPDATE movieTable SET ";
+            $kvps = "";
+            $where = " WHERE movieNameUrl=".$this->db->escape($game["nameUrl"]);
+            foreach ($game as $key => $value) {
+                if ($key !== "name" && $key !== "nameUrl") {
+                    $dataKey = isset($this->_keyMap[$key]) ? $this->_keyMap[$key] : $key;
+                    $kvps.= $kvps ? ", " : "";
+                    $kvps.= $dataKey."=".$this->db->escape($value);
+                }
+            }
+            if (!$kvps) return $game;
+            $kvps.=", editDate=UTC_TIMESTAMP(), editUser=".$this->db->escape("admin");
+            $sql.=$kvps.$where;
+            $query = $this->db->query($sql);
+            if (isset($game["tags"])) $game["tags"] = trim($game["tags"]," \t\n\r\0\x0B\,");
+
+            return $game;
+
         }
 
         function get_movie($name,$params = 'movieName, movieNameUrl, tags, rulesHTML, optionalRulesHTML') {

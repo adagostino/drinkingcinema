@@ -21,12 +21,15 @@
     </head>
     <body>
         <div class="dc-background">
-        <div id="fb-root"></div>
-        <div class="dc-container">
-            {% block body %}
+            <div id="fb-root"></div>
+            <div class="dc-container">
+                {% block body %}
 
-            {% endblock %}
-        </div>
+                {% endblock %}
+                <script type="dc-template" id="dc-directive-search-input-template">
+                    {{ source('directives/dc-directive-search-input.html') }}
+                </script>
+            </div>
         </div>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         {% for src in page.javascripts.relativePaths %}

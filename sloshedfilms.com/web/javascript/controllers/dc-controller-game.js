@@ -3,9 +3,14 @@ var name = "controller.game";
 
     var controller = new function(){
         this.init = function(){
-            console.log("init the game controller");
-            this.game = $dc.model.game.getGameJSON();
-
+            this.game = $dc.model.getJSON('gameJSON','dc-game-json');
+            var vo = $dc.model.getJSON('vendorJSON','dc-vendor-json');
+            var va = [];
+            for (var i in vo){
+                va[parseInt(i)] = vo[i];
+            }
+            this.vendors = va;
+            window.scope = this;
         }
     };
 

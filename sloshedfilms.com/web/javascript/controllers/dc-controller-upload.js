@@ -17,6 +17,7 @@ var name = "controller.upload";
         this.initEditors = function(ce){
             for (var key in ce){
                 (function(name, opts){
+
                     $scope[name] = {
                         content: $scope.game[opts.key],
                         isRTE: opts.isRTE,

@@ -53,7 +53,8 @@
                     "common" => array(
                         "directives/dc-directive-game-image.js",
                         "controllers/dc-controller-game-desktop.js",
-                        "directives/dc-directive-embed-game.js"
+                        "directives/dc-directive-embed-game.js",
+                        "directives/dc-directive-tooltip.js"
                     ),
                     "admin" => array(
                         "utilities/jquery.Jcrop.js",
@@ -117,14 +118,16 @@
                             "common" => array(
                                 "views/dc-game-desktop.css",
                                 "directives/dc-directive-game-image.css",
-                                "directives/dc-directive-embed-game.css"
+                                "directives/dc-directive-embed-game.css",
+                                "directives/dc-directive-tooltip.css"
                             ),
                             "admin" => array(
                                 "utilities/jcrop.css",
                                 "directives/dc-directive-modal.css",
                                 "directives/dc-directive-editable.css",
                                 "directives/dc-directive-upload-thumbnail.css",
-                                "directives/dc-directive-upload-image.css"
+                                "directives/dc-directive-upload-image.css",
+                                "views/subtemplates/desktop/dc-search-item-desktop.css"
                             )
                         )
                     ),

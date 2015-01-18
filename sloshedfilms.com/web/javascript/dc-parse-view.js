@@ -228,7 +228,7 @@ var name = "viewParser";
                 try {
                     $parent.append(child.$el);
                 } catch(e) {
-                    $parent.appendChild(child.$el[0]);
+                    $parent.appendChild(child.$el[0] || child.$el);
                 }
                 var nodeType = (child.$el[0] || child.$el).nodeType;
                 //console.log(child.guid === guid, child.guid, guid);
@@ -341,10 +341,22 @@ var name = "viewParser";
             })(key);
 
         }
-        for (var key in customCompiles){
-            compileWatch(parsedHTMLObj, watch);
+        // if the element was cloned, then we need to fire a change
+        if (cloned){
+            for (var i=0; i<observers.length; i++){
+                observers[i].callback();
+            }
         }
+        if (($parent[0] || $parent).nodeType === 1){
+            // if it's actually an element, compile the custom directive
+            for (var key in customCompiles){
+                compileWatch(parsedHTMLObj, customCompiles[key]);
+            }
+        }
+
         var nodeType = ($parent[0] || $parent).nodeType;
+
+
 
         var rObj = {
             $el: $parent,
@@ -493,6 +505,7 @@ var name = "viewParser";
                             for (var j=0; j<this.attributes[key].length; j++){
                                 str+= typeof this.attributes[key][j] === "function" ? this.attributes[key][j](o.change.object) : this.attributes[key][j];
                             }
+                            !$el.attr && console.log($el, key);
                             $el && $el.attr(key) !== str && $el.attr(key, str);
                         },
                         paths: pa.paths,
@@ -723,9 +736,7 @@ var name = "viewParser";
                     $el = nodeType === 11 ? $(o.$el.childNodes) : o.$el;
                 $el.children().each(function(idx){
                     dcRepeatItems[idx].guid = this._vpGUID;
-                    //console.log(this, this._vpGUID);
                 });
-                //console.log(dcRepeatItems);
             },
             watch: function(o) {
                 var splices = o.splices,
@@ -1068,36 +1079,32 @@ var name = "viewParser";
                 var $scope = val || o.change.object;
                 if (val)  $scope.parentScope = o.change.object;
 
-                // run the init function of the directive
+                // run the init function of the directive to get an instance of the directive
                 $scope.$el = o.$el;
                 var dirScope = typeof dir.directive.init === "function" && dir.directive.init($scope, true);
-
                 var template = typeof dir.template === "function" ? dir.template.apply(this) : dir.template;
-                var replace = false;
-                if (!template) {
-                    template = o.$el.clone().removeAttr("dc-"+ name).attr("clone", true)[0].outerHTML;
-                    replace = true;
-                }
 
-                var vO = _parseTemplate(template, customDirectives);
-                var c = vO.compile($scope);
-                var child = _compileHTMLEl(c, dirScope);
+                if (template){
+                    // parse and compile the template
+                    var vO = _parseTemplate(template, customDirectives);
+                    var c = vO.compile($scope);
+                    var child = _compileHTMLEl(c, dirScope);
 
-                if (!replace) {
                     try {
                         o.$el.append(child.$el);
                     } catch(e) {
-                        o.$el.appendChild(child.$el[0]);
-                    }//(nodeType === 1 || nodeType === 3) && o.children.push(child.guid);
-                } else {
-                    console.log("probably should be copying data and event handlers over here", value, name);
-                }
-                var nodeType = (child.$el[0] || child.$el).nodeType;
-                o.children[child.guid] = {
-                    type: nodeType
+                        o.$el.appendChild(child.$el[0] || child.$el);
+                    }
+
+                    var nodeType = (child.$el[0] || child.$el).nodeType;
+                    o.children[child.guid] = {
+                        type: nodeType
+                    };
                 };
+                // initialize the directive
                 typeof dirScope.init === "function" && dirScope.init.call(dirScope);
-                return replace ? child.$el : undefined;
+
+                return;
             },
             watch: function(o) {
                 console.log("in watch?");

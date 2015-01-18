@@ -8,6 +8,7 @@ var name = "directive";
                 this.$dcName = name;
                 this.defaults = dir.defaults;
                 this.init = function(opts, dontInit){
+
                     opts = $dc.directive.formatOpts(opts, dir.defaults);
                     var names = this.$dcName.split(".");
                     var parentName = names.splice(0,names.length - 1).join(".");
@@ -25,6 +26,7 @@ var name = "directive";
                 }
             };
             $dc.extend(name, fn);
+
             $dc.viewParser.addCustomDirective(name, {
                 "directive": fn,
                 "template": function (){

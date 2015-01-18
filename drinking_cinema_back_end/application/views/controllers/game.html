@@ -2,4 +2,8 @@
     <div dc-include="#dc-game-template">
         {% include '_subtemplates/dc-game-desktop.html' %}
     </div>
+    <div class="dc-find-this-movie"></div>
+    <div dc-include="#dc-vendors-template">
+        {% include '_subtemplates/dc-vendors-desktop.html' with {'vendors': page.vendors, 'parentScope': page} %}
+    </div>
 </div>

@@ -18,6 +18,12 @@
     <script type="dc-template" id="dc-directive-game-image-template">
         {{ source('directives/dc-directive-game-image.html') }}
     </script>
+    <script type="dc-template" id="dc-vendors-template">
+        {{ source('_subtemplates/dc-vendors-desktop.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-tooltip-template">
+        {{ source('directives/dc-directive-tooltip.html') }}
+    </script>
     {% if page.isAdmin %}
         <script type="dc-template" id="dc-directive-editable-template">
             {{ source('directives/dc-directive-editable.html') }}
@@ -40,8 +46,14 @@
         <script type="dc-template" id="dc-directive-preview-image-modal-template">
             {{ source('directives/dc-directive-preview-image-modal.html') }}
         </script>
+        <script type="dc-template" id="dc-search-item-template">
+            {{ source('_subtemplates/dc-search-item-desktop.html') }}
+        </script>
     {%  endif %}
     <script type="text/javascript" id="dc-game-json">
         this.gameJSON = {{(page.game|json_encode)}};
+    </script>
+    <script type="text/javascript" id="dc-vendor-json">
+        this.vendorJSON = {{ (page.vendors|json_encode) }}
     </script>
 {% endblock %}

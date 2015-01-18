@@ -1,0 +1,7 @@
+{% spaceless %}
+{% for vendor in vendors %}
+    <a dc-directive-tooltip dc-repeat="vendor in vendors" class="dc-find-this-movie-{{vendor.name}}" href="{{vendor.url}}{{parentScope.game.nameUrl}}" target="_blank">
+        <span>Find This Movie On {{vendor.name}}</span>
+    </a>
+{% endfor %}
+{% endspaceless %}

@@ -14,7 +14,7 @@
   background-image: url("http://cdn.drinkingcinema.com/Images/headerControls.png");
 }
 
-.dc-headers, .dc-mandatory-drinks, .dc-bonus-drinks {
+.dc-headers, .dc-mandatory-drinks, .dc-bonus-drinks, .dc-find-this-movie {
   background-image: url("http://cdn.drinkingcinema.com/Images/headers.png");
 }
 
@@ -244,6 +244,12 @@
   width: 490px;
   height: 70px;
   background-position: -13px -175px;
+}
+
+.dc-find-this-movie {
+  width: 495px;
+  height: 70px;
+  background-position: -11px -245px;
 }
 
 .dc-social-media-header {

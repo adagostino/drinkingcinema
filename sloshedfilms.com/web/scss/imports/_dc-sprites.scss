@@ -344,5 +344,11 @@ $rte-button-size: 14px;
   width: 490px;
   height: 70px;
   background-position: -13px -175px;
+}
 
+.dc-find-this-movie{
+  @extend .dc-headers;
+  width: 495px;
+  height: 70px;
+  background-position: -11px -245px;
 }
