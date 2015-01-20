@@ -51,12 +51,26 @@ var name = "viewParser";
             if (!bind) return $(this.getHTML(obj, $parent));
 
             var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj),
-                $el = parsedHTMLObj.$el,
-                nodeType = ($el[0] || $el).nodeType;
-            // if it's a document fragment, return its child nodes
-            return nodeType === 11 ? $($el.childNodes) : $el;
+                el = _getNode(parsedHTMLObj);
+
+            return el.length ? el : $(el);
         };
 
+    }
+
+    function _getNode(rObj) {
+        var $el = rObj.$el,
+            nodeType = ($el[0] || $el).nodeType;
+
+        if (nodeType === 11) {
+            var a = [];
+            for (var child in rObj.children){
+                var idx = rObj.children[child].index;
+                a[idx] = _getNode(_scopeMap[child]);
+            }
+            return $(a);
+        }
+        return $el[0];
     }
 
     function _getEl(tag, attrs, unary, customDirectives){
@@ -364,21 +378,20 @@ var name = "viewParser";
             children: children,
             guid: guid,
             nodeType: nodeType,
-            parentGuid: parentGuid
+            parentGuid: parentGuid,
+            scope: scope
         };
+
         if (parsedHTMLObj.inRepeat && !parsedHTMLObj.comment && !repeatItem){
             rObj.parsedHTMLObj = parsedHTMLObj;
         };
+
         if (parsedHTMLObj.isRepeat){
             rObj.repeatItem = parsedHTMLObj.repeatItem;
             rObj.commentGuid = commentGuid;
         }
 
-        // if it's actually an element, record it
-        if (_scopeMap[guid]){
-            console.log("it already exists", nodeType, _scopeMap[guid].nodeType);
-            //console.log("it already exits", guid, _scopeMap[guid])
-        }
+        // record the scope and put it into the scopemap
         _scopeMap[guid] = rObj;
         ($parent[0] || $parent)._vpGUID = guid;
 
@@ -526,6 +539,8 @@ var name = "viewParser";
         'click': 'click',
         'mouseup': 'mouseup',
         'mousedown': 'mousedown',
+        'mouseenter': 'mouseenter',
+        'mouseleave': 'mouseleave',
         'focus': 'focus',
         'blur': 'blur',
         'load': 'load'
@@ -1122,6 +1137,6 @@ var name = "viewParser";
         }
         return keys;
     };
-
+    $dc.scopeMap = _scopeMap;
     $dc[name] = _vp;
 })(name);

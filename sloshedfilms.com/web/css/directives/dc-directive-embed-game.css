@@ -251,3 +251,9 @@
   height: 70px;
   background-position: -11px -245px;
 }
+
+.dc-loader {
+  background-image: url("http://cdn.drinkingcinema.com/Images/loader.gif");
+  width: 16px;
+  height: 16px;
+}

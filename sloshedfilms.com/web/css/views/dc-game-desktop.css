@@ -252,6 +252,12 @@
   background-position: -11px -245px;
 }
 
+.dc-loader {
+  background-image: url("http://cdn.drinkingcinema.com/Images/loader.gif");
+  width: 16px;
+  height: 16px;
+}
+
 .hidden-span, .header-image span, .dc-share-this-game span, .dc-mandatory-drinks span, .dc-bonus-drinks span {
   position: absolute;
   top: 50%;

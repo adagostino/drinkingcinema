@@ -48,6 +48,12 @@
                 $this.html(template.replace(/\{\%.*\%\}/g, ""));
 
             });
+        };
+
+        this.getScope = function(el){
+            var vpGUID = el._vpGUID;
+            if (!vpGUID) return;
+            return this.scopeMap[vpGUID].scope;
         }
 
     };

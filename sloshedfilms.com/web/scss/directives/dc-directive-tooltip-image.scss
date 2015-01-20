@@ -1,0 +1,50 @@
+@import "imports/dc-imports";
+$time: 0.218s;
+$easing: ease-in-out;
+$maxWidth: 200px;
+$maxHeight: 150px;
+.dc-tooltip-image-container{
+
+  &.loaded {
+    .dc-loader{
+      display: none;
+    }
+    .dc-tooltip-image{
+      display: block;
+      img.original {
+        @include animation-name(showImage);
+        max-width: $maxWidth;
+        max-height: $maxHeight;
+
+      }
+    }
+
+  }
+}
+
+.dc-tooltip-image{
+  display: none;
+  img {
+    max-width: $maxWidth;
+    max-height: $maxHeight;
+
+    &.original {
+      @include animation-duration($time*4);
+      @include animation-timing-function($easing);
+      @include animation-iteration-count(1);
+      @include animation-fill-mode(forwards);
+      max-width: 16px;
+      max-height: 16px;
+    }
+  }
+}
+
+@include keyframes(showImage) {
+  from {
+    @include opacity(0);
+  }
+  to {
+    @include opacity(1.0);
+  }
+}
+

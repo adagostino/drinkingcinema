@@ -24,6 +24,12 @@
     <script type="dc-template" id="dc-directive-tooltip-template">
         {{ source('directives/dc-directive-tooltip.html') }}
     </script>
+    <script type="dc-template" id="dc-tooltip-text-template">
+        {{ source('_subtemplates/dc-tooltip-text.html') }}
+    </script>
+    <script type="dc-template" id="dc-tooltip-image-template">
+        {{ source('_subtemplates/dc-tooltip-image.html') }}
+    </script>
     {% if page.isAdmin %}
         <script type="dc-template" id="dc-directive-editable-template">
             {{ source('directives/dc-directive-editable.html') }}

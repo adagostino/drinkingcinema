@@ -10,6 +10,7 @@ var name = "directive";
                 this.init = function(opts, dontInit){
 
                     opts = $dc.directive.formatOpts(opts, dir.defaults);
+
                     var names = this.$dcName.split(".");
                     var parentName = names.splice(0,names.length - 1).join(".");
                     var parent = Path.get(parentName).getValueFrom($dc);
@@ -63,6 +64,7 @@ var name = "directive";
 
         this.formatOpts = function(opts, defaults) {
             defaults = defaults || {};
+            opts = opts || {};
             this.extend(opts, defaults);
             // just so it's easier
             var $el = opts.$el || opts.$element || opts.element || opts.el;

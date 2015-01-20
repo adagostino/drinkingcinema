@@ -252,9 +252,38 @@
   background-position: -11px -245px;
 }
 
+.dc-loader {
+  background-image: url("http://cdn.drinkingcinema.com/Images/loader.gif");
+  width: 16px;
+  height: 16px;
+}
+
 .dc-directive-tooltip {
   position: fixed;
   z-index: 1;
+  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  will-change: opacity;
+}
+.dc-directive-tooltip.show {
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.dc-directive-tooltip.hide {
+  -moz-transition: opacity 0.218s ease-in-out, top 0s ease-in-out 0.218s, left 0s ease-in-out 0.218s;
+  -o-transition: opacity 0.218s ease-in-out, top 0s ease-in-out 0.218s, left 0s ease-in-out 0.218s;
+  -webkit-transition: opacity 0.218s ease-in-out, top 0s ease-in-out, left 0s ease-in-out;
+  -webkit-transition-delay: 0s, 0.218s, 0.218s;
+  transition: opacity 0.218s ease-in-out, top 0s ease-in-out 0.218s, left 0s ease-in-out 0.218s;
+  top: -100% !important;
+  left: -100% !important;
 }
 
 .dc-directive-tooltip-tail-template, .dc-directive-tooltip-tail, .dc-directive-tooltip-tail-top {
@@ -264,7 +293,7 @@
   position: absolute;
   top: 0;
   left: 50%;
-  margin-left: 8px;
+  margin-left: -8px;
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
@@ -285,4 +314,11 @@
 
 .dc-directive-tooltip-tail-top {
   z-index: -1;
+}
+
+.dc-directive-tooltip-body {
+  background: #ffffff;
+  padding: 10px;
+  max-width: 220px;
+  text-transform: capitalize;
 }

@@ -7,7 +7,18 @@ $ttz: 1;
 .dc-directive-tooltip{
   position: fixed;
   z-index: $ttz;
-
+  @include box-shadow($ttshadow);
+  @include opacity(0);
+  will-change: opacity;
+  &.show{
+    @include transition(opacity .218s ease-in-out);
+    @include opacity(1);
+  }
+  &.hide{
+    @include transition(opacity .218s ease-in-out, top 0s ease-in-out .218s, left 0s ease-in-out .218s);
+    top: -100% !important;
+    left: -100% !important;
+  }
 }
 
 .dc-directive-tooltip-tail-template{
@@ -17,7 +28,7 @@ $ttz: 1;
   position: absolute;
   top: 0;
   left: 50%;
-  margin-left: $tailHeight/2;
+  margin-left: -$tailHeight/2;
   @include transform(rotate(45deg));
 }
 
@@ -38,5 +49,10 @@ $ttz: 1;
 }
 
 .dc-directive-tooltip-body{
-
+  background: $ttbackground;
+  padding: $dc-default-padding;
+  max-width: 220px;
+  text-transform: capitalize;
 }
+
+

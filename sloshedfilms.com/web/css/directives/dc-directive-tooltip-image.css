@@ -258,48 +258,65 @@
   height: 16px;
 }
 
-.dc-directive-upload-thumbnail {
-  position: absolute;
-  top: 10px;
-  left: 0px;
-  padding: 10px;
+.dc-tooltip-image-container.loaded .dc-loader {
+  display: none;
+}
+.dc-tooltip-image-container.loaded .dc-tooltip-image {
+  display: block;
+}
+.dc-tooltip-image-container.loaded .dc-tooltip-image img.original {
+  -moz-animation-name: showImage;
+  -webkit-animation-name: showImage;
+  animation-name: showImage;
+  max-width: 200px;
+  max-height: 150px;
 }
 
-.dc-directive-upload-thumbnail-image {
-  width: 618px;
-  vertical-align: top;
+.dc-tooltip-image {
+  display: none;
+}
+.dc-tooltip-image img {
+  max-width: 200px;
+  max-height: 150px;
+}
+.dc-tooltip-image img.original {
+  -moz-animation-duration: 0.872s;
+  -webkit-animation-duration: 0.872s;
+  animation-duration: 0.872s;
+  -moz-animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -moz-animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -moz-animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  max-width: 16px;
+  max-height: 16px;
 }
 
-.dc-directive-upload-thumbnail-preview-modal {
-  width: 718px;
-  position: relative;
-  padding: 10px;
-  margin: 10px 0 0;
+@-moz-keyframes showImage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-
-.dc-directive-upload-thumbnail-preview-container {
-  margin-bottom: 20px;
+@-webkit-keyframes showImage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-
-.dc-directive-upload-thumbnail-thumbnails {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
-.dc-directive-upload-thumbnail-current, .dc-directive-upload-thumbnail-preview {
-  -moz-border-radius: none;
-  -webkit-border-radius: none;
-  border-radius: none;
-  border: 1px solid #e1e1e1;
-  margin-bottom: 10px;
-}
-.dc-directive-upload-thumbnail-current:hover, .dc-directive-upload-thumbnail-preview:hover {
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
-
-.dc-directive-upload-thumbnail-preview {
-  overflow: hidden;
+@keyframes showImage {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
