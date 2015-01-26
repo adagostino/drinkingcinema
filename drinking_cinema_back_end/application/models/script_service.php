@@ -46,7 +46,10 @@
             "game" => array(
                 "common" => array(
                     "models/dc-model-game.js",
-                    "controllers/dc-controller-game.js"
+                    "models/dc-model-comments.js",
+                    "controllers/dc-controller-game.js",
+                    "controllers/dc-controller-comments.js",
+                    "directives/dc-directive-input.js"
                 ),
                 "mobile" => array(),
                 "desktop" => array(
@@ -113,11 +116,14 @@
                         )
                     ),
                     "game" => array(
-                        "common" => array(),
+                        "common" => array(
+                            "directives/dc-directive-input.css"
+                        ),
                         "mobile" => array(),
                         "desktop" => array(
                             "common" => array(
                                 "views/dc-game-desktop.css",
+                                "views/subtemplates/desktop/dc-comment-form-desktop.css",
                                 "directives/dc-directive-game-image.css",
                                 "directives/dc-directive-embed-game.css",
                                 "directives/dc-directive-tooltip.css",

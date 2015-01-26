@@ -151,13 +151,13 @@
             if (!$tags) return;
             $tagArray = explode(",", $tags);
             $movieNameUrl = $this->db->escape($nameUrl);
-            $sql1 = "SELECT movieNameUrl, SUM(matchCount) AS count FROM(";
+            $sql1 = "SELECT movieName, movieNameUrl, SUM(matchCount) AS count FROM(";
             $sql2 = "";
             foreach ($tagArray as $tag) {
                 $t = $this->db->escape(trim($tag));
                 if ($tag){
                     $sql2.= $sql2 ? " UNION " : "";
-                    $sql2.= "SELECT movieNameUrl,".$t." AS tag, 1 as matchCount FROM movieTable WHERE tags LIKE '%,".$tag.",%' AND movieNameUrl <> ".$movieNameUrl;
+                    $sql2.= "SELECT movieName,movieNameUrl,".$t." AS tag, 1 as matchCount FROM movieTable WHERE tags LIKE '%,".$tag.",%' AND movieNameUrl <> ".$movieNameUrl;
                 }
             }
             $sql3 = ") a GROUP BY movieNameUrl ORDER BY count DESC";
@@ -166,7 +166,10 @@
             $query = $this->db->query($sql);
             $suggestions = array();
             foreach ($query->result() as $row){
-                $suggestions[] =  htmlspecialchars_decode($row->movieNameUrl,ENT_QUOTES);
+                $suggestions[] =  array(
+                    "url" => htmlspecialchars_decode($row->movieNameUrl,ENT_QUOTES),
+                    "name" => htmlspecialchars_decode($row->movieName,ENT_QUOTES)
+                );
             }
             return $suggestions;
         }

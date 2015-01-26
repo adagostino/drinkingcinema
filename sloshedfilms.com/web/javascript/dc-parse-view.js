@@ -53,6 +53,7 @@ var name = "viewParser";
             var parsedHTMLObj = _compileHTMLEl(_parsedObj, obj),
                 el = _getNode(parsedHTMLObj);
 
+            Platform.performMicrotaskCheckpoint();
             return el.length ? el : $(el);
         };
 
@@ -543,7 +544,8 @@ var name = "viewParser";
         'mouseleave': 'mouseleave',
         'focus': 'focus',
         'blur': 'blur',
-        'load': 'load'
+        'load': 'load',
+        'paste': 'paste'
     };
 
     function _parseDirective(name,value, customDirectives){
@@ -1013,7 +1015,7 @@ var name = "viewParser";
             name = "dc-" + type + "-" + value,
             oldFn = $el.data(name);
         if (oldFn){
-            $el.off(type, "div, span", oldFn);
+            $el.off(type, oldFn);
             $el.data(name, null);
         }
         var callback = fn || parseFunc(o.change.object);
@@ -1089,10 +1091,9 @@ var name = "viewParser";
                 // don't do anything -- only do something on compile
             },
             compile: function(o) {
-
                 var val = parseFunc(o.change.object);
-                var $scope = val || o.change.object;
-                if (val)  $scope.parentScope = o.change.object;
+                var $scope = dir.$scope || val || o.change.object;
+                if (dir.$scope || val)  $scope.parentScope = o.change.object;
 
                 // run the init function of the directive to get an instance of the directive
                 $scope.$el = o.$el;
@@ -1118,7 +1119,6 @@ var name = "viewParser";
                 };
                 // initialize the directive
                 typeof dirScope.init === "function" && dirScope.init.call(dirScope);
-
                 return;
             },
             watch: function(o) {

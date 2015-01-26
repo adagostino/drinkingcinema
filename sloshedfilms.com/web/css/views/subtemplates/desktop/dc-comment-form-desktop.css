@@ -274,48 +274,44 @@
   height: 16px;
 }
 
-.dc-directive-upload-thumbnail {
-  position: absolute;
-  top: 10px;
-  left: 0px;
-  padding: 10px;
+.dc-comment-form {
+  width: 480px;
+  background-image: url("http://cdn.drinkingcinema.com/Images/commentsContainer.png");
+  background-size: 480px auto;
+  background-repeat: no-repeat;
+  padding: 35px 50px 35px 30px;
+  margin-left: -25px;
+}
+.dc-comment-form .dc-text-area {
+  background: transparent;
+}
+.dc-comment-form .dc-text-area .dc-text-input {
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.dc-directive-upload-thumbnail-image {
-  width: 618px;
-  vertical-align: top;
+.dc-comment-form-header {
+  width: 360px;
 }
 
-.dc-directive-upload-thumbnail-preview-modal {
-  width: 718px;
+.dc-comment-form-top {
+  margin-left: 5px;
+  margin-right: 50px;
+}
+
+.dc-comment-form-bottom {
+  min-height: 46px;
+  margin-left: 5px;
+  margin-right: 50px;
   position: relative;
-  padding: 10px;
-  margin: 10px 0 0;
 }
 
-.dc-directive-upload-thumbnail-preview-container {
-  margin-bottom: 20px;
+.dc-comment-form-body {
+  margin-left: 5px;
+  margin-right: 50px;
 }
 
-.dc-directive-upload-thumbnail-thumbnails {
+.dc-comment-form-submit {
   position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
-.dc-directive-upload-thumbnail-current, .dc-directive-upload-thumbnail-preview {
-  -moz-border-radius: none;
-  -webkit-border-radius: none;
-  border-radius: none;
-  border: 1px solid #e1e1e1;
-  margin-bottom: 10px;
-}
-.dc-directive-upload-thumbnail-current:hover, .dc-directive-upload-thumbnail-preview:hover {
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-}
-
-.dc-directive-upload-thumbnail-preview {
-  overflow: hidden;
+  right: 0px;
+  top: 6px;
 }

@@ -17,22 +17,27 @@ class game extends CI_Controller
         if (!$game){
             return show_404();
         }
+        $imageDir = $this->globals->get_images_dir(true);
+
         $page = $this->page_service->get('game', $game);
         $page["title"] = $game["name"];
         $page["game"] = $game;
-
+        $page["cdn"] = $this->globals->get_CDN(true);
         $page["vendors"] = array(
             array(
                 'name' => 'netflix',
-                'url' => 'http://www.netflix.com/WiSearch?v1='
+                'url' => 'http://www.netflix.com/WiSearch?v1=',
+                'image' => $imageDir.'netflixIcon.png'
             ),
             array(
                 'name' => 'hulu',
-                'url' => 'http://www.hulu.com/search?query='
+                'url' => 'http://www.hulu.com/search?query=',
+                'image' => $imageDir.'huluIcon.png'
             ),
             array(
                 'name' => 'amazon',
-                'url' => 'http://www.amazon.com/s/field-keywords='
+                'url' => 'http://www.amazon.com/s/field-keywords=',
+                'image' => $imageDir.'amazonIcon.png'
             )
         );
 

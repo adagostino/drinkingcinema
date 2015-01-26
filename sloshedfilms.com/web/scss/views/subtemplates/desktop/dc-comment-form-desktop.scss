@@ -1,0 +1,50 @@
+@import "imports/dc-imports";
+
+$formWidth: 480px;
+.dc-comment-form{
+  width: $formWidth;
+  background-image: url($dc-comment-container-url);
+  background-size: $formWidth auto;
+  background-repeat: no-repeat;
+  padding: 35px 50px 35px 30px;
+  margin-left: -25px;
+
+  .dc-text-area{
+    background:transparent;
+    .dc-text-input{
+      background: rgba(255,255,255,0.9);
+    }
+  }
+
+}
+
+.dc-comment-form-header{
+  width: 360px;
+
+}
+
+.dc-comment-form-top{
+  margin-left:5px;
+  margin-right:50px;
+}
+
+.dc-comment-form-bottom{
+  min-height: 46px;
+  margin-left:5px;
+  margin-right:50px;
+  position: relative;
+}
+
+.dc-comment-form-body{
+  margin-left:5px;
+  margin-right:50px;
+}
+
+.dc-comment-form-submit{
+  position: absolute;
+  right: 0px;
+  top: 6px;
+}
+
+
+

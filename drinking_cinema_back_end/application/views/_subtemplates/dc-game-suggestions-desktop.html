@@ -1,0 +1,13 @@
+{% spaceless %}
+{% for suggestion in game.suggestions %}
+<a dc-directive-tooltip
+   tooltip-content="{{suggestion.name}}"
+   dc-repeat="suggestion in game.suggestions"
+   class="dc-game-suggestion dc-button-icon"
+   href="/game/{{suggestion.url}}"
+   style="background-image: url('{{parentScope.cdn}}Games/{{suggestion.url}}_thumb.jpg')"
+>
+    <span>A Movie Drinking Game For {{suggestion.name}}</span>
+</a>
+{% endfor %}
+{% endspaceless %}

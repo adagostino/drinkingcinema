@@ -10,20 +10,28 @@
             parent::__construct();
         }
 
-        function get_CDN() {
-            return $this->cdn;
+        private function get_url($url){
+            return str_replace("../","http://", $url);
         }
 
-        function get_games_dir() {
-            return $this->cdn.$this->game_images_directory;
+        function get_CDN($url = null) {
+            $dir = $this->cdn;
+            return $url ? $this->get_url($dir) : $dir;
         }
 
-        function get_upload_dir() {
-            return $this->cdn.$this->upload_images_directory;
+        function get_games_dir($url = null) {
+            $dir = $this->cdn.$this->game_images_directory;
+            return $url ? $this->get_url($dir) : $dir;
         }
 
-        function get_images_dir() {
-            return $this->cdn.$this->images_directory;
+        function get_upload_dir($url = null) {
+            $dir = $this->cdn.$this->upload_images_directory;
+            return $url ? $this->get_url($dir) : $dir;
+        }
+
+        function get_images_dir($url = null) {
+            $dir = $this->cdn.$this->images_directory;
+            return $url ? $this->get_url($dir) : $dir;
         }
     }
 

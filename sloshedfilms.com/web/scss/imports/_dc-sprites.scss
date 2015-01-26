@@ -25,6 +25,10 @@ $dc-rte-icons-url: $spriteBase + "glyphicons-halflings.png";
 
 $dc-headers-url: $spriteBase + "headers.png";
 
+$dc-comment-words-url: $spriteBase + "commentsWords.png";
+
+$dc-comment-container-url: $spriteBase + "commentsContainer.png";
+
 .dc-buttons {
   background-image: url($dc-buttons-url);
 }
@@ -43,6 +47,10 @@ $dc-headers-url: $spriteBase + "headers.png";
 
 .dc-headers {
   background-image: url($dc-headers-url);
+}
+
+.dc-comment-words {
+  background-image: url($dc-comment-words-url);
 }
 
 .dc-thumbs-up {
@@ -351,6 +359,20 @@ $rte-button-size: 14px;
   width: 495px;
   height: 70px;
   background-position: -11px -245px;
+}
+
+.dc-movies-like-this{
+  @extend .dc-headers;
+  width: 542px;
+  height: 72px;
+  background-position: -7px -325px;
+}
+
+.dc-leave-a-comment{
+  @extend .dc-comment-words;
+  height: 48px;
+  background-position: -2px -2px;
+  background-size: 133%;
 }
 
 .dc-loader{

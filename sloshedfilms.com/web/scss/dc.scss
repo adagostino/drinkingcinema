@@ -23,7 +23,7 @@ body{
 
 .dc-background {
   position: relative;
-  background: $dc-light-gray url($dc-background-url) 50% 50% repeat-y;
+  background: $dc-light-gray url($dc-background-url) 50% 0% repeat-y;
   width: 100%;
   height: 100%;
 }

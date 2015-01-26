@@ -9,7 +9,7 @@ var name = "directive";
                 this.defaults = dir.defaults;
                 this.init = function(opts, dontInit){
 
-                    opts = $dc.directive.formatOpts(opts, dir.defaults);
+                    opts = $dc.directive.formatOpts(opts, dir.defaults, name);
 
                     var names = this.$dcName.split(".");
                     var parentName = names.splice(0,names.length - 1).join(".");
@@ -21,8 +21,9 @@ var name = "directive";
                     $dc.directive.extend(d, opts);
 
                     !dontInit && (function (){
-                        typeof d.init === 'function' && d.init();
+                        d.call(d.init);
                     })();
+
                     return d;
                 }
             };
@@ -32,7 +33,8 @@ var name = "directive";
                 "directive": fn,
                 "template": function (){
                     return typeof dir.template === "function" ? dir.template() : $(dir.template).html()
-                }
+                },
+                $scope: dir.$scope
             });
         };
 
@@ -62,7 +64,7 @@ var name = "directive";
 
         };
 
-        this.formatOpts = function(opts, defaults) {
+        this.formatOpts = function(opts, defaults, nameo) {
             defaults = defaults || {};
             opts = opts || {};
             this.extend(opts, defaults);
@@ -112,8 +114,9 @@ var name = "directive";
             opts.call = function(fn) {
                 if (typeof fn !== "function") return;
                 var scope = this;
-                fn.apply(scope, Array.prototype.slice.call(arguments, 1));
+                var result = fn.apply(scope, Array.prototype.slice.call(arguments, 1));
                 Platform.performMicrotaskCheckpoint();
+                return result;
             };
             opts.$dcType = "directive";
 

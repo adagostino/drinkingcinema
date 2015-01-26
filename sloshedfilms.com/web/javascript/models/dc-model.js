@@ -17,8 +17,9 @@ var name = "model";
         this.call = function(fn) {
             if (typeof fn !== "function") return;
             var scope = this;
-            fn.apply(scope, Array.prototype.slice.call(arguments, 1));
+            var result = fn.apply(scope, Array.prototype.slice.call(arguments, 1));
             Platform.performMicrotaskCheckpoint();
+            return result;
         };
 
         this.setUrl = function(url, opts){

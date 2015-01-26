@@ -2,8 +2,16 @@
     <div dc-include="#dc-game-template">
         {% include '_subtemplates/dc-game-desktop.html' %}
     </div>
-    <div class="dc-find-this-movie"></div>
+    <div class="dc-find-this-movie">
+        <span>Find This Movie</span>
+    </div>
     <div dc-include="#dc-vendors-template">
         {% include '_subtemplates/dc-vendors-desktop.html' with {'vendors': page.vendors, 'parentScope': page} %}
+    </div>
+    <div class="dc-movies-like-this">
+        <span>Movies Like This</span>
+    </div>
+    <div dc-include="#dc-game-suggestions-template">
+        {% include '_subtemplates/dc-game-suggestions-desktop.html' with {'game': page.game, 'parentScope': page} %}
     </div>
 </div>

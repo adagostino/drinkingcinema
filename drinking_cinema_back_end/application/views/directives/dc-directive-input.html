@@ -1,0 +1,6 @@
+<div class="dc-text-input-container" dc-class="{'show-placeholder': isEmpty && !hasFocus, 'error': !!errors.length}">
+    <div class="dc-text-input" dc-class="{'error': !!errors.length}" contenteditable="true" dc-focus="onFocus" dc-blur="onBlur" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-paste="onPaste" dc-input="onInput"></div>
+    <div class="dc-text-input-placeholder">{{placeholder}}</div>
+    <div class="dc-text-input-x"></div>
+    <div class="dc-text-input-error" dc-if="errors.length">{{errors[0]}}</div>
+</div>

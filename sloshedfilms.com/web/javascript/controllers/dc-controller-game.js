@@ -10,7 +10,7 @@ var name = "controller.game";
                 va[parseInt(i)] = vo[i];
             }
             this.vendors = va;
-            window.scope = this;
+            this.cdn = $dc.globals.cdn;
         }
     };
 

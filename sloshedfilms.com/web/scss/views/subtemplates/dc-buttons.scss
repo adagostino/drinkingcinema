@@ -54,3 +54,9 @@ $time: 0.109s;
     pointer-events: none;
   }
 }
+
+.dc-button-icon{
+  @extend .dc-button;
+  width: 60px;
+  height: 60px;
+}

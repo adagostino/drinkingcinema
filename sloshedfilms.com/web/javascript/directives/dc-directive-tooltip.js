@@ -16,7 +16,7 @@ var name = "directive.tooltip";
                 this.show();
             });
         },
-        'mouseleave': function(){
+        'mouseleave': function(e){
             this.hide();
         },
         'setContent': function(clone, content){
@@ -28,11 +28,11 @@ var name = "directive.tooltip";
     var tooltip = function(opts){
         var $scope;
         this.show = function(){
-            this.ttScope.show = true;
+            this.ttScope.showing = true;
         };
 
         this.hide = function(){
-            this.ttScope.show = false;
+            this.ttScope.showing = false;
         };
 
         this.positionToolTip = function($el) {
@@ -54,7 +54,7 @@ var name = "directive.tooltip";
             if (!$tt.length) {
                 var vp = $dc.viewParser.parse($("#dc-directive-tooltip-template").html()),
                     o = {
-                        show: false,
+                        showing: false,
                         top: "-100%",
                         left: "-100%",
                         right: 'auto',

@@ -31,7 +31,50 @@
   margin: $dc-default-padding 0;
 }
 
+.dc-find-this-movie {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-movies-like-this {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
 .dc-game-rules-content{
   padding: $dc-default-padding;
-  mine-height: 36px;
+  min-height: 36px;
+}
+
+.dc-button-icon{
+  margin: $dc-default-padding;
+  margin-left: 0px;
+  span{
+    @extend .hidden-span;
+  }
+}
+
+.dc-leave-a-comment {
+  span{
+    @extend .hidden-span;
+  }
+}
+
+.dc-vendor, .dc-game-suggestion{
+  @include inline-block();
+}
+
+.dc-vendor-netflix{
+  @extend .dc-vendor;
+  background-image: url($spriteBase + "netflixIcon.png");
+}
+
+.dc-vendor-hulu{
+  @extend .dc-vendor;
+  background-image: url($spriteBase + "huluIcon.png");
+}
+
+.dc-vendor-amazon{
+  @extend .dc-vendor;
+  background-image: url($spriteBase + "amazonIcon.png");
 }

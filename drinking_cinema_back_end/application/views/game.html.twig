@@ -9,8 +9,12 @@
         {% endembed %}
     </div>
     {% include 'controllers/game.html' %}
+    {% include 'controllers/comments.html' %}
     <script type="dc-template" id="dc-controller-game-template">
         {{ source('controllers/game.html') }}
+    </script>
+    <script type="dc-template" id="dc-controller-comments-template">
+        {{ source('controllers/comments.html') }}
     </script>
     <script type="dc-template" id="dc-game-template">
         {{ source('_subtemplates/dc-game-desktop.html') }}
@@ -21,8 +25,17 @@
     <script type="dc-template" id="dc-vendors-template">
         {{ source('_subtemplates/dc-vendors-desktop.html') }}
     </script>
+    <script type="dc-template" id="dc-game-suggestions-template">
+        {{ source('_subtemplates/dc-game-suggestions-desktop.html') }}
+    </script>
+    <script type="dc-template" id="dc-comment-form-template">
+        {{ source('_subtemplates/dc-comment-form-desktop.html') }}
+    </script>
     <script type="dc-template" id="dc-directive-tooltip-template">
         {{ source('directives/dc-directive-tooltip.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-input-template">
+        {{ source('directives/dc-directive-input.html') }}
     </script>
     <script type="dc-template" id="dc-tooltip-text-template">
         {{ source('_subtemplates/dc-tooltip-text.html') }}

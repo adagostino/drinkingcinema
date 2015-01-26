@@ -4,6 +4,9 @@ $tailHeight: 16px;
 $ttshadow: 0 0 3px rgba(0,0,0,0.8);
 $ttbackground: $dc-white;
 $ttz: 1;
+$timing: 0.218s;
+$easing: ease-in-out;
+$easing2: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 .dc-directive-tooltip{
   position: fixed;
   z-index: $ttz;
@@ -11,11 +14,13 @@ $ttz: 1;
   @include opacity(0);
   will-change: opacity;
   &.show{
-    @include transition(opacity .218s ease-in-out);
+    @include transform(translate3d(0,0,0));
+    @include transition(opacity $timing $easing, transform $timing $easing2);
     @include opacity(1);
   }
   &.hide{
-    @include transition(opacity .218s ease-in-out, top 0s ease-in-out .218s, left 0s ease-in-out .218s);
+    @include transform(translate3d(0,20px,0));
+    @include transition(opacity $timing $easing, top 0s $easing $timing, left 0s $easing $timing, transform 0s $easing2 $timing);
     top: -100% !important;
     left: -100% !important;
   }

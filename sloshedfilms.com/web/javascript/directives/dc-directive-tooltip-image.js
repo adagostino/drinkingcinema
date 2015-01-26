@@ -15,6 +15,9 @@ var name = "directive.tooltip.image";
 
             }
         },
+        'mouseleave': function(e){
+            reg.test(e.target.href) && this._super(e);
+        },
         'setContent': function(clone){
             this[clone ? "cttScope" : "ttScope"].image = this.getImage(this.delegate[0].href, function(image){
                 if (this.delegate[0].href === image.href) {

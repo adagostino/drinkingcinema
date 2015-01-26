@@ -14,8 +14,12 @@
   background-image: url("http://cdn.drinkingcinema.com/Images/headerControls.png");
 }
 
-.dc-headers, .dc-mandatory-drinks, .dc-bonus-drinks, .dc-find-this-movie {
+.dc-headers, .dc-mandatory-drinks, .dc-bonus-drinks, .dc-find-this-movie, .dc-movies-like-this {
   background-image: url("http://cdn.drinkingcinema.com/Images/headers.png");
+}
+
+.dc-comment-words, .dc-leave-a-comment {
+  background-image: url("http://cdn.drinkingcinema.com/Images/commentsWords.png");
 }
 
 .dc-thumbs-up {
@@ -252,13 +256,25 @@
   background-position: -11px -245px;
 }
 
+.dc-movies-like-this {
+  width: 542px;
+  height: 72px;
+  background-position: -7px -325px;
+}
+
+.dc-leave-a-comment {
+  height: 48px;
+  background-position: -2px -2px;
+  background-size: 133%;
+}
+
 .dc-loader {
   background-image: url("http://cdn.drinkingcinema.com/Images/loader.gif");
   width: 16px;
   height: 16px;
 }
 
-.dc-button, .dc-button-primary, .dc-button-secondary {
+.dc-button, .dc-button-primary, .dc-button-secondary, .dc-button-icon {
   background: #ffffff;
   border: none;
   outline: 0;
@@ -274,16 +290,16 @@
   font-weight: 700;
   color: #333333;
 }
-.dc-button:hover, .dc-button-primary:hover, .dc-button-secondary:hover {
+.dc-button:hover, .dc-button-primary:hover, .dc-button-secondary:hover, .dc-button-icon:hover {
   color: #000000;
   border: 1px solid #888888;
 }
-.dc-button.active, .active.dc-button-primary, .active.dc-button-secondary, .dc-button:active, .dc-button-primary:active, .dc-button-secondary:active {
+.dc-button.active, .active.dc-button-primary, .active.dc-button-secondary, .active.dc-button-icon, .dc-button:active, .dc-button-primary:active, .dc-button-secondary:active, .dc-button-icon:active {
   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
 }
-.dc-button.processing, .processing.dc-button-primary, .processing.dc-button-secondary {
+.dc-button.processing, .processing.dc-button-primary, .processing.dc-button-secondary, .processing.dc-button-icon {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   opacity: 0.3;
   pointer-events: none;
@@ -310,4 +326,9 @@
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   opacity: 0.3;
   pointer-events: none;
+}
+
+.dc-button-icon {
+  width: 60px;
+  height: 60px;
 }
