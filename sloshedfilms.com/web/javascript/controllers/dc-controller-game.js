@@ -1,10 +1,10 @@
 var name = "controller.game";
 (function(name){
 
-    var controller = new function(){
+    var controller = function(){
         this.init = function(){
-            this.game = $dc.model.getJSON('gameJSON','dc-game-json');
-            var vo = $dc.model.getJSON('vendorJSON','dc-vendor-json');
+            this.game = $dc.utils.getJSON('gameJSON','dc-game-json');
+            var vo = $dc.utils.getJSON('vendorJSON','dc-vendor-json');
             var va = [];
             for (var i in vo){
                 va[parseInt(i)] = vo[i];
@@ -14,5 +14,5 @@ var name = "controller.game";
         }
     };
 
-    $dc.extend(name, controller);
+    $dc.add(name, controller);
 })(name);

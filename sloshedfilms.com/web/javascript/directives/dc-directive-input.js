@@ -15,71 +15,6 @@ var name = "directive.input";
         'down':     40,
         'return':   13
     };
-
-    var defaults = {
-        'onFocus': function(e){
-            this.hasFocus = true;
-            //this.errors = [];
-        },
-        'onBlur': function(e){
-            this.hasFocus = false;
-            var text = $dc.model.comments.getText(this.$input.html());
-            if (!$.trim(text).length) Path.get(this.model).setValueFrom(this,"");
-            if (this.errors && this.errors.length) this.errors = this.validate();
-
-        },
-        'onKeydown': function(e){
-            switch(e.which){
-                case keys["ctrl"]:
-                    this.ctrl = true;
-                    break;
-                case keys["cmd"]:
-                    this.cmd = true;
-                    break;
-                case keys["shift"]:
-                    this.shift = true;
-                    break;
-                case keys["b"]:
-                    (this.ctrl || this.cmd) && e.preventDefault();
-                    break;
-                case keys["i"]:
-                    (this.ctrl || this.cmd) && e.preventDefault();
-                    break;
-                case keys["u"]:
-                    (this.ctrl || this.cmd) && e.preventDefault();
-                    break;
-                case keys["return"]:
-                    !this.allowBreaks && e.preventDefault();
-                    break;
-                default:
-                    break;
-            }
-        },
-        'onKeyup': function(e){
-            switch(e.which){
-                case keys["ctrl"]:
-                    this.ctrl = false;
-                    break;
-                case keys["cmd"]:
-                    this.cmd = false;
-                    break;
-                case keys["shift"]:
-                    this.shift = false;
-                    break;
-                default:
-                    break;
-            }
-        },
-        'onPaste': function(e){
-            this.pasted = true;
-        },
-        'onInput': function(e){
-            // if it was just pasted, get rid of all the html
-            Path.get(this.model).setValueFrom(this, this.pasted ? this.text()  : this.$input.html());
-            this.pasted = false;
-        }
-    };
-
     // validators for the text -- return true or false, the scope (ie 'this') is the scope of the text input
     var _validators = {
         'required': {
@@ -110,72 +45,137 @@ var name = "directive.input";
     };
 
 
-    var input = function(opts){
-        var $scope;
+    var input = function(){};
 
-        var _setValidator = function(){
-            if (!$scope.$el.attr("validators")) return;
-            var validators = $scope.$el.attr("validators").split(",");
-            var reg = new RegExp('=');
-            var va = [];
-            for (var i=0; i<validators.length; i++){
-                var name = validators[i], input;
-                if (reg.test(name)){
-                    var a = name.split("=");
-                    name = a[0];
-                    input = a[1];
-                }
-                (function(validator,input, name){
-                    validator && va.push(function(){
-                        return this.call(validator.test, input) || (typeof validator.msg === "function" ? this.call(validator.msg, input) : validator.msg);
-                    }.bind($scope));
-                })(_validators[name], input, name);
-            };
-            return va.length ? function(){
-                var ea = [];
-                for (var i=0; i<va.length; i++){
-                    var err = va[i]();
-                    typeof err === 'string' && ea.push(err);
-                }
-                return ea;
-            } : undefined;
+    input.prototype.setValidator = function(){
+        if (!this.$el.attr("validators")) return;
+        var validators = this.$el.attr("validators").split(","),
+            reg = new RegExp('='),
+            va = [],
+            self = this;
+        for (var i=0; i<validators.length; i++){
+            var name = validators[i], input;
+            if (reg.test(name)){
+                var a = name.split("=");
+                name = a[0];
+                input = a[1];
+            }
+            (function(validator,input, name){
+                validator && va.push(function(){
+                    return this.$call(validator.test, input) || (typeof validator.msg === "function" ? this.$call(validator.msg, input) : validator.msg);
+                }.bind(self));
+            })(_validators[name], input, name);
         };
+        return va.length ? function(){
+            var ea = [];
+            for (var i=0; i<va.length; i++){
+                var err = va[i]();
+                typeof err === 'string' && ea.push(err);
+            }
+            return ea;
+        } : undefined;
+    };
 
-        this.text = function(){
-            return $dc.model.comments.getText(this.$input.html());
-        };
+    input.prototype.init = function(){
+        this.model = this.$el.attr("input-model");
+        this.name = this.$el.attr("name");
+        this.placeholder = this.$el.attr("placeholder");
 
-        this.init = function(){
-            $scope = this;
-            this.model = this.$el.attr("input-model");
-            this.name = this.$el.attr("name");
-            this.placeholder = this.$el.attr("placeholder");
+        var val = Path.get(this.model).getValueFrom(this) || "";
+        this.$input = this.$el.find("[contenteditable]").html(val).attr("placeholder",this.$el.attr("placeholder"));
+        this.isEmpty = !!!$.trim(val).length;
+        this.hasFocus = false;
 
-            var val = Path.get(this.model).getValueFrom(this) || "";
-            this.$input = this.$el.find("[contenteditable]").html(val).attr("placeholder",this.$el.attr("placeholder"));
-            this.isEmpty = !!!$.trim(val).length;
-            this.hasFocus = false;
+        this.validate = this.setValidator();
 
-            this.validate = _setValidator();
+        this.$watch(this.model,function(n, o){
+            this.$input.html() !== n && this.$input.html(n || "");
+            this.isEmpty = !!!$.trim(n).length;
+        });
+        // watch parent scope
+        this.validate && this.$watch("parentScope.submit",function(n,o){
+            if (n) {
+                this.errors = this.validate();
+            }
+        });
+    };
 
-            this.$watch(this.model,function(n, o){
-                this.$input.html() !== n && this.$input.html(n || "");
-                this.isEmpty = !!!$.trim(n).length;
-            });
-            // watch parent scope
-            this.validate && this.$watch("parentScope.submit",function(n,o){
-               if (n) {
-                   this.errors = this.validate();
-               }
-            });
+    input.prototype.text = function(){
+        return $dc.utils.getText(this.$input.html());
+    };
+
+    //Events:
+    input.prototype.onFocus = function(e){
+        this.hasFocus = true;
+    };
+
+    input.prototype.onBlur = function(e){
+        this.hasFocus = false;
+        var text = $dc.utils.getText(this.$input.html());
+        if (!$.trim(text).length) Path.get(this.model).setValueFrom(this,"");
+        if (this.errors && this.errors.length) this.errors = this.validate();
+
+    };
+
+    input.prototype.onKeydown = function(e){
+        switch(e.which){
+            case keys["ctrl"]:
+                this.ctrl = true;
+                break;
+            case keys["cmd"]:
+                this.cmd = true;
+                break;
+            case keys["shift"]:
+                this.shift = true;
+                break;
+            case keys["b"]:
+                (this.ctrl || this.cmd) && e.preventDefault();
+                break;
+            case keys["i"]:
+                (this.ctrl || this.cmd) && e.preventDefault();
+                break;
+            case keys["u"]:
+                (this.ctrl || this.cmd) && e.preventDefault();
+                break;
+            case keys["return"]:
+                !this.allowBreaks && e.preventDefault();
+                break;
+            default:
+                break;
         }
     };
 
-    $dc.directive.add(name, {
-        "directive": input,
-        "template": "#dc-directive-input-template",
-        "defaults": defaults,
-        "$scope": {}
+    input.prototype.onKeyup = function(e){
+        switch(e.which){
+            case keys["ctrl"]:
+                this.ctrl = false;
+                break;
+            case keys["cmd"]:
+                this.cmd = false;
+                break;
+            case keys["shift"]:
+                this.shift = false;
+                break;
+            default:
+                break;
+        }
+    };
+
+    input.prototype.onPaste = function(e){
+        this.pasted = true;
+    };
+
+    input.prototype.onInput = function(e){
+        // if it was just pasted, get rid of all the html
+        Path.get(this.model).setValueFrom(this, this.pasted ? this.text()  : this.$input.html());
+        this.pasted = false;
+    };
+
+    $dc.addDirective({
+        name: name,
+        directive: input,
+        template: "#dc-directive-input-template",
+        $scope: {}
     });
 
 
@@ -183,18 +183,16 @@ var name = "directive.input";
 
 var name = "directive.input.textArea";
 (function(){
-    var textArea = function(opts){
-        var $scope;
-        this.init = function(){
-            $scope = this;
-            this.allowBreaks = true;
-            this._super();
-        };
-    }
-
-    $dc.directive.add(name, {
-        "directive": textArea,
-        "template": "#dc-directive-input-template",
-        "$scope": {}
+    var textArea = function(){};
+    textArea.prototype.init = function(){
+        this.allowBreaks = true;
+        this._super();
+    };
+    $dc.addDirective({
+        name: name,
+        directive: textArea,
+        template: "#dc-directive-input-template",
+        $scope: {}
     });
+
 })(name);

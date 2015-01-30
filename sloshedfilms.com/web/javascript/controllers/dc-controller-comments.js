@@ -1,9 +1,9 @@
 var name = "controller.comments";
 (function(name){
-    var controller = new function(){
+    var controller = function(){
 
         this.init = function(){
-            this.comments = $dc.model.getJSON('commentJSON','dc-comment-json');
+            this.comments = $dc.utils.getJSON('commentJSON','dc-comment-json');
             this.comment = {
                 name: '',
                 email: '',
@@ -15,5 +15,5 @@ var name = "controller.comments";
         }
     };
 
-    $dc.extend(name, controller);
+    $dc.add(name, controller);
 })(name);

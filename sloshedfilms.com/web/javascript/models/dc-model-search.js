@@ -1,12 +1,8 @@
 var name = "model.search";
 (function(name){
-    var searchModel = new function(){
-        this.test = function(){
-            this._super();
-            console.log("sup y'all -- in the child!");
+    var searchModel = function(){
 
-        };
     };
 
-    $dc.extend(name,searchModel);
+    $dc.add(name,searchModel);
 })(name);

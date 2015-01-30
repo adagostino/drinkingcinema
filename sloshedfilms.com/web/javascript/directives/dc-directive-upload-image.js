@@ -1,87 +1,80 @@
 var name = "directive.uploadImage";
 (function(name){
 
-    var defaults = {
-        'openPicker': function(e) {
-            this.$input.trigger("click");
-        },
-        'onFileChange': function(url) {
-            this.previewImage = url;
-            this.showPreview();
-            //this.$timeout(function(){ this.showPreview();}, 2000);
-        },
-        'onChange': function(e) {
-            var file = e.target.files[0];
-            this.file = file;
-            var reader = new FileReader();
-            var self = this;
-            reader.onloadend = function() {
-                var url = reader.result;
-                self.call(self.onFileChange, url);
-            };
-            if (file) {
-                reader.readAsDataURL(file);
+    var uploadImage = function(){};
+
+    uploadImage.prototype.init = function(){
+        this.$input = this.$el.find("input");
+        this.initPreview();
+    };
+
+    uploadImage.prototype.initPreview = function(){
+        var self = this;
+        var opts = {
+            'template': "#dc-directive-preview-image-modal-template",
+            'searchItemTemplate': "#dc-subtemplate-search-item-template",
+            'numComments': 0,
+            'isProcessing': false,
+            'uploadProgress': 0,
+            'parentScope': this,
+            'expand': function(){
+                this.isExpanded = !!!this.isExpanded;
+            },
+            'beforeShow': function(){
+                self.previewModal.image = self.previewImage;
+            },
+            'afterHide': function(){
+                self.$input.val("");
+                this.image = undefined;
+                this.isExpanded = false;
+                this.uploadProgress = 0;
             }
-        },
-        'submit': function(){
+        };
 
+        var previewModal = $dc.subClass(opts,$dc.directive.modal);
+        this.previewModal = new previewModal().initManual();
+        // disable all anchors from the search item template
+        this.previewModal.$el.find("a").click(function(e){e.preventDefault()});
+    };
+
+    uploadImage.prototype.showPreview = function(){
+        this.previewModal.show();
+    };
+
+    uploadImage.prototype.cancelPreview = function(){
+        this.previewModal.hide();
+    }
+
+    uploadImage.prototype.openPicker = function(e) {
+        this.$input.trigger("click");
+    };
+
+    uploadImage.prototype.onFileChange = function(url) {
+        this.previewImage = url;
+        this.showPreview();
+    };
+
+    uploadImage.prototype.onChange = function(e) {
+        var file = e.target.files[0];
+        this.file = file;
+        var reader = new FileReader();
+        var self = this;
+        reader.onloadend = function() {
+            var url = reader.result;
+            self.$call(self.onFileChange, url);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
         }
     };
 
-    var uploadImage = function(opts){
-        var $scope;
-
-        var _initPreview = function(){
-
-            $scope.previewModal = $dc.directive.modal.init({
-                'template': "#dc-directive-preview-image-modal-template",
-                'searchItemTemplate': "#dc-subtemplate-search-item-template",
-                'numComments': 0,
-                'isProcessing': false,
-                'uploadProgress': 0,
-                expand: function(){
-                    this.isExpanded = !!!this.isExpanded;
-                },
-                beforeShow: function(){
-                    $scope.previewModal.image = $scope.previewImage;
-                },
-                submit: function(){
-                    typeof $scope.submit === "function" && $scope.submit();
-                },
-                afterHide: function(){
-                    $scope.$input.val("");
-                    this.image = undefined;
-                    this.isExpanded = false;
-                    this.uploadProgress = 0;
-
-                }
-            });
-            $scope.previewModal.$el.find("a").click(function(e){e.preventDefault()});
-
-            $scope.$watch('isProcessing', function(n, o){
-                this.previewModal.isProcessing = n;
-            });
-        };
-
-        this.showPreview = function(){
-            $scope.previewModal.show();
-        };
-
-        this.cancelPreview = function(){
-            $scope.previewModel.hide();
+    $dc.addDirective({
+        name: name,
+        directive: uploadImage,
+        template: "#dc-directive-upload-image-template",
+        $scope: {
+            submit: "&submit"
         }
-
-        this.init = function(){
-            $scope = this;
-            this.$input = this.$el.find("input");
-            _initPreview();
-        };
-    };
-
-    $dc.directive.add(name, {
-        'directive': uploadImage,
-        'template': "#dc-directive-upload-image-template",
-        'defaults': defaults
     });
 
 })(name);

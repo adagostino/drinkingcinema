@@ -1,35 +1,5 @@
 var name = "directive.modal";
 (function(name){
-    var defaults = {
-        'cancel': function(){
-            this.hide();
-            this.call(this.onCancel);
-        },
-        'beforeShow': function(){
-            //console.log("default before show");
-        },
-        'show': function(callback){
-            this.call(this.beforeShow);
-            this.open = true;
-            this.$timeout(function(){
-               this.call(this.afterShow, callback);
-            });
-        },
-        'afterShow': function(callback){
-
-        },
-        'hide': function(callback){
-            this.open = false;
-            this.$timeout(function(){
-                this.call(this.afterHide,callback);
-            });
-
-        },
-        'afterHide': function(callback){
-            //console.log("default after hide");
-        }
-    };
-
     // https://tylercipriani.com/2014/07/12/crossbrowser-javascript-scrollbar-detection.html
     var hasScrollbar = function() {
         // The Modern solution
@@ -64,35 +34,73 @@ var name = "directive.modal";
 
     var getScrollBarPadding = function(){
         return typeof window.innerWidth === 'number' ? window.innerWidth - document.documentElement.clientWidth : 15;
-    }
+    };
 
-    var modal = function(opts){
+    var modal = function(){};
 
-        this.init = function(){
-            this.open = false;
-            this.modalTemplate = this.modalTemplate || $("#dc-directive-modal-template").html();
-            this.$el = $dc.viewParser.parse(this.modalTemplate).getElement(this);
+    modal.prototype.init = function(){
+        this.open = false;
+        this.modalTemplate = this.modalTemplate || $("#dc-directive-modal-template").html();
+        this.$el = $dc.viewParser.parse(this.modalTemplate).getElement(this);
 
-            this.paddingRight;
-            $("body").append(this.$el);
+        this.paddingRight;
+        $("body").append(this.$el);
 
-            this.$watch("open", function(n,o){
-               if (n) {
-                   this.paddingRight = hasScrollbar() ? getScrollBarPadding() : 0;
-                   $("body").addClass("modal-open");
-                   this.paddingRight && $("body").css("padding-right", this.paddingRight + "px");
-               } else {
-                   $("body").removeClass("modal-open").css("padding-right","");
-                   this.paddingRight = 0;
-               }
-            });
+        this.$watch("open", function(n,o){
+            if (n) {
+                this.paddingRight = hasScrollbar() ? getScrollBarPadding() : 0;
+                $("body").addClass("modal-open");
+                this.paddingRight && $("body").css("padding-right", this.paddingRight + "px");
+            } else {
+                $("body").removeClass("modal-open").css("padding-right","");
+                this.paddingRight = 0;
+            }
+        });
+        return this;
+    };
 
-        }
+    modal.prototype.initManual = function(){
+        // if there's a parent scope, parse the isolate scope
+        this.parentScope && this.$call(this.parseIsolateScope);
+        // init the modal
+        this.init();
+
+        return this;
+    };
+
+    modal.prototype.cancel = function(){
+        this.hide();
+        this.$call(this.onCancel);
+    };
+
+    modal.prototype.beforeShow = function(){
+        //console.log("default before show");
+    };
+
+    modal.prototype.show = function(callback){
+        this.$call(this.beforeShow);
+        this.open = true;
+        this.$timeout(function(){
+            this.$call(this.afterShow, callback);
+        });
+    };
+
+    modal.prototype.hide = function(callback){
+        this.open = false;
+        this.$timeout(function(){
+            this.$call(this.afterHide,callback);
+        });
 
     };
-    $dc.directive.add(name, {
-        "directive": modal,
-        "template": "#dc-directive-modal-template",
-        "defaults": defaults
+
+    modal.prototype.afterHide = function(callback){
+        //console.log("default after hide");
+    };
+
+    $dc.addDirective({
+        name: name,
+        directive: modal,
+        template: "#dc-directive-modal-template",
+        $scope: {}
     });
 })(name);

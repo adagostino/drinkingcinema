@@ -1,19 +1,19 @@
 <div class="dc-directive-upload-thumbnail-preview-modal">
     <div class="dc-directive-upload-thumbnail-preview-container">
-        <img class="dc-directive-upload-thumbnail-image" src="{{image}}">
+        <img class="dc-directive-upload-thumbnail-image" src="{{parentScope.image}}">
         <div class="dc-directive-upload-thumbnail-thumbnails">
-            <div class="dc-directive-upload-thumbnail-current dc-thumbnail" style="background-image: url('{{thumbnail}}')"></div>
+            <div class="dc-directive-upload-thumbnail-current dc-thumbnail" style="background-image: url('{{parentScope.thumbnail}}')"></div>
             <div class="dc-directive-upload-thumbnail-preview dc-thumbnail">
-                <img src="{{image}}" dc-style="{'width': preview.width, 'height': preview.height, 'margin-left': preview.left, 'margin-top': preview.top}">
+                <img src="{{parentScope.image}}" dc-style="{'width': preview.width, 'height': preview.height, 'margin-left': preview.left, 'margin-top': preview.top}">
             </div>
             {{preview.coords.w}}
         </div>
     </div>
     <div class="dc-directive-upload-image-buttons">
-        <button class="dc-button-secondary" dc-class="{'processing': isProcessing}" dc-click="cancel">
+        <button class="dc-button-secondary" dc-class="{'processing': isProcessing || parentScope.isProcessing}" dc-click="cancel">
             Cancel
         </button>
-        <button class="dc-button-primary" dc-class="{'processing': isProcessing}" dc-click="submit">
+        <button class="dc-button-primary" dc-class="{'processing': isProcessing || parentScope.isProcessing}" dc-click="parentScope.submit">
             Submit
         </button>
     </div>

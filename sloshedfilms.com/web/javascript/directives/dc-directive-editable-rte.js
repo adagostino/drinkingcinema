@@ -29,291 +29,315 @@ var name = "directive.editable.rte";
     var _cssStyleMap = {};
     for (var key in _styleMap) _cssStyleMap[_styleMap[key][0]] = _styleMap[key][1];
 
-    var defaults = {
-        'onKeydown': function(e){
-            switch(e.which){
-                case keys["ctrl"]:
-                    this.ctrl = true;
-                    break;
-                case keys["cmd"]:
-                    this.cmd = true;
-                    break;
-                case keys["shift"]:
-                    this.shift = true;
-                    break;
-                case keys["b"]:
-                    if (this.ctrl || this.cmd) {
-                        e.preventDefault();
-                        this.insert("bold");
-                    }
-                    break;
-                case keys["i"]:
-                    if (this.ctrl || this.cmd) {
-                        e.preventDefault();
-                        this.insert("italic");
-                    }
-                    break;
-                case keys["u"]:
-                    if (this.ctrl || this.cmd) {
-                        e.preventDefault();
-                        this.insert("underline");
-                    }
-                    break;
-                default:
-                    break;
+    var rte = function() {};
+
+    rte.prototype.isRTE = true;
+
+    rte.prototype.init = function(){
+        this._super();
+        this.initModal();
+        this.$watch('editing', function(n,o){
+            if (!n) {
+                this.reset();
             }
-        },
-        'onKeyup': function(e){
-            switch(e.which){
-                case keys["ctrl"]:
-                    this.ctrl = false;
-                    break;
-                case keys["cmd"]:
-                    this.cmd = false;
-                    break;
-                case keys["shift"]:
-                    this.shift = false;
-                    break;
-                case keys["up"]:
-                case keys["down"]:
-                case keys["left"]:
-                case keys["right"]:
-                    this.update();
-                    break;
-                default:
-                    this.selection.inAnchor && this.update();
-                    break;
-            }
-        },
-        'onMouseup': function(e){
-            this.update();
-        },
-        'bold': function(){
-            this.insert("bold");
-        },
-        'italic': function(){
-            this.insert("italic");
-        },
-        'underline': function(){
-            this.insert('underline');
-        },
-        'alignLeft': function(){
-            this.insert('justifyLeft');
-        },
-        'alignCenter': function(){
-            this.insert('justifyCenter');
-        },
-        'alignRight': function(){
-            this.insert('justifyRight');
-        },
-        'alignFull': function(){
-            this.insert('justifyFull');
-        },
-        'list': function(){
-            this.insert("insertOrderedList");
-        },
-        'bullets': function(){
-            this.insert("insertUnorderedList");
-        },
-        'indent': function(){
-            this.insert("indent");
-        },
-        'outdent': function(){
-            this.insert("outdent");
-        },
-        'link': function(){
-            this.modal.linkText = $dc.utils.rangeHelper.getSelectionText();
-            this.modal.show();
-        },
-        'unlink': function(){
-            this.removeLink();
-        }
-    };
+        });
 
-    var rte = function(opts){
-        var $scope;
-        this.isRTE = true;
-
-        this.reset = function(){
-            this.selection = {};
-            this.ctrl = false;
-            this.cmd = false;
-            this.shift = false;
-        };
-
-        this.setStyle = function(key){
-            if (!this.selection) this.selection = {};
-            if (!this.selection.styles) this.selection.styles = {};
-
-            var command = this.isCommandSet(key);
-            this.selection.styles[command.key] = command.isset ? undefined : command.expected;
-        };
-
-        this.isCommandSet = function(key){
-            var a = _styleMap[key] || [];
-            var o = {
-                isset: false,
-                key: a[0]
-            };
+        this.$watch('selection', function(n,o){
             try {
-                var curr = this.selection.styles[a[0]];
-                o.isset = curr === a[1];
-                o.curr = curr;
-                o.expected = a[1];
-            } catch (e){
-                //console.log(e);
-            }
-            return o;
-        };
-
-        this.insert = function(key, val) {
-            if (!this.hasFocus) return;
-            var expectedValue = _styleMap[key] ? !this.isCommandSet(key).isset : false;
-            var o = document.execCommand(key, false, val || null);
-            this.update();
-            var value = _styleMap[key] ? this.isCommandSet(key).isset : false;
-            value !== expectedValue && this.setStyle(key);
-            return o;
-        };
-
-        this.update = function($el){
-            var selection = $dc.utils.rangeHelper.getSelectionObject(_cssStyleMap,$el);
-            this.selection = selection;
-        };
-
-        this.removeLink = function(){
-            // manually remove the anchor so we don't have to select text
-            var oRange = this.selection.range;
-            try {
-                $dc.utils.rangeHelper.selectText(this.linkPanel.anchor);
-                this.insert("unlink");
-                $dc.utils.rangeHelper.setSelection(oRange);
-                this.update();
+                this.selection.inAnchor ? this.showLinkPanel() : this.hideLinkPanel();
             } catch (e) {
+                this.hideLinkPanel();
+            }
 
+        });
+
+        this.reset();
+    };
+
+    rte.prototype.initModal = function(){
+        var $scope = this,
+            $ce = $scope.$ce,
+            oRange,
+            $a;
+        var opts = {
+            'template': "#dc-directive-editable-modal-template",
+            'parentScope': $scope,
+            'onKeyup': function(e){
+                switch(e.which){
+                    case keys["return"]:
+                        this.submit();
+                        break;
+                    default:
+                        break;
+                }
+            },
+            'beforeShow': function(){
+                oRange = $scope.selection.range;
+                $a = $scope.selection.inAnchor;
+            },
+            'afterShow': function(){
+                $ce.blur();
+                var $input = this.$el.find("input");
+                $input.focus();
+            },
+            'afterHide': function(){
+                $ce.focus();
+                $dc.utils.rangeHelper.setSelection(oRange);
+                this.addLink && !this.editLink && $scope.insert("createLink", this.linkHref);
+                this.editLink && this.linkHref && $a && $a.attr("href", this.linkHref);
+                $scope.processLinks();
+                this.reset();
+                $scope.update();
+                // remember, the model is only listening to "input", so changing the html directly won't
+                // trigger an input event. instead we have to trigger it manually;
+                $ce.trigger('input');
+
+            },
+            submit: function(fn){
+                this.linkHref = $.trim(this.linkHref);
+                this.addLink = !!this.linkHref;
+                this.hide();
+            },
+            reset: function(){
+                this.linkText = "";
+                this.linkHref = "";
+                this.addLink = false;
+                this.editLink = false;
             }
         };
 
-        this.changeLink = function(){
-            var oRange = this.selection.range;
-            var $a = this.selection.inAnchor;
-            if (!$a) return;
-            this.modal.linkText = $a.text();
-            this.modal.linkHref = $a.attr("href");
-            this.modal.editLink = true;
+        var editableModal = $dc.subClass(opts,$dc.directive.modal);
+        this.modal = new editableModal().initManual();
 
-            $scope.modal.show();
+
+    };
+
+    rte.prototype.reset = function(){
+        this.selection = {};
+        this.ctrl = false;
+        this.cmd = false;
+        this.shift = false;
+    };
+
+    rte.prototype.showLinkPanel = function(){
+        var parentRect = this.$el[0].getBoundingClientRect(),
+            rect = this.selection.boundingClientRect,
+            $a = this.selection.inAnchor,
+            link = $a.attr("href"),
+            maxWidth = 435,
+            useRight = rect.left + maxWidth >= parentRect.right;
+
+        var linkPanel = {
+            link: link,
+            top: rect.bottom - parentRect.top,
+            left: useRight ? 'auto' : rect.left - parentRect.left,
+            right: useRight ? parentRect.right - rect.right : 'auto',
+            anchor: this.selection.inAnchor
         };
 
-        this.processLinks = function(){
-            // unfortunately there's no easy way to get the anchor you just dropped in,
-            // so we'll have to create a fake one, then find it, then set the
-            // correct href and attributes manually.
-            $("a").not("[target]").attr("target","_blank");
+        this.linkPanel = linkPanel;
+    };
+
+    rte.prototype.hideLinkPanel = function(){
+        this.linkPanel = undefined;
+    };
+
+    rte.prototype.setStyle = function(key){
+        if (!this.selection) this.selection = {};
+        if (!this.selection.styles) this.selection.styles = {};
+
+        var command = this.isCommandSet(key);
+        this.selection.styles[command.key] = command.isset ? undefined : command.expected;
+    };
+
+    rte.prototype.isCommandSet = function(key){
+        var a = _styleMap[key] || [];
+        var o = {
+            isset: false,
+            key: a[0]
+        };
+        try {
+            var curr = this.selection.styles[a[0]];
+            o.isset = curr === a[1];
+            o.curr = curr;
+            o.expected = a[1];
+        } catch (e){
+            //console.log(e);
         }
+        return o;
+    };
 
-        var _showLinkPanel = function(){
-            var parentRect = $scope.$el[0].getBoundingClientRect(),
-                rect = $scope.selection.boundingClientRect,
-                $a = $scope.selection.inAnchor,
-                link = $a.attr("href"),
-                maxWidth = 435,
-                useRight = rect.left + maxWidth >= parentRect.right;
+    rte.prototype.insert = function(key, val) {
+        if (!this.hasFocus) return;
+        var expectedValue = _styleMap[key] ? !this.isCommandSet(key).isset : false;
+        var o = document.execCommand(key, false, val || null);
+        this.update();
+        var value = _styleMap[key] ? this.isCommandSet(key).isset : false;
+        value !== expectedValue && this.setStyle(key);
+        return o;
+    };
 
-            var linkPanel = {
-                link: link,
-                top: rect.bottom - parentRect.top,
-                left: useRight ? 'auto' : rect.left - parentRect.left,
-                right: useRight ? parentRect.right - rect.right : 'auto',
-                anchor: $scope.selection.inAnchor
-            };
+    rte.prototype.update = function($el){
+        var selection = $dc.utils.rangeHelper.getSelectionObject(_cssStyleMap,$el);
+        this.selection = selection;
+    };
 
-            $scope.linkPanel = linkPanel;
-        };
-
-        var _hideLinkPanel = function(){
-            $scope.linkPanel = undefined;
-        };
-
-        var _initModal = function(){
-            var $ce = $scope.$ce,
-                oRange,
-                $a;
-            $scope.modal = $dc.directive.modal.init({
-                'template': "#dc-directive-editable-modal-template",
-                'onKeyup': function(e){
-                    switch(e.which){
-                        case keys["return"]:
-                            this.submit();
-                            break;
-                        default:
-                            break;
-                    }
-                },
-                'beforeShow': function(){
-                    oRange = $scope.selection.range;
-                    $a = $scope.selection.inAnchor;
-                },
-                'afterShow': function(){
-                    $ce.blur();
-                    var $input = this.$el.find("input");
-                    $input.focus();
-                },
-                'afterHide': function(){
-                    $ce.focus();
-                    $dc.utils.rangeHelper.setSelection(oRange);
-                    this.addLink && !this.editLink && $scope.insert("createLink", this.linkHref);
-                    this.editLink && this.linkHref && $a && $a.attr("href", this.linkHref);
-                    $scope.processLinks();
-                    this.reset();
-                    $scope.update();
-                    // remember, the model is only listening to "input", so changing the html directly won't
-                    // trigger an input event. instead we have to trigger it manually;
-                    $ce.trigger('input');
-
-                },
-                submit: function(fn){
-                    this.linkHref = $.trim(this.linkHref);
-                    this.addLink = !!this.linkHref;
-                    this.hide();
-                },
-                reset: function(){
-                    this.linkText = "";
-                    this.linkHref = "";
-                    this.addLink = false;
-                    this.editLink = false;
-                }
-            });
-        };
-
-        this.init = function() {
-            this._super();
-            $scope = this;
-            _initModal();
-
-            this.$watch('editing', function(n,o){
-               if (!n) {
-                   this.reset();
-               }
-            });
-
-            this.$watch('selection', function(n,o){
-                try {
-                    this.selection.inAnchor ? _showLinkPanel() : _hideLinkPanel();
-                } catch (e) {
-                    _hideLinkPanel();
-                }
-
-            });
-
-            this.reset();
+    rte.prototype.removeLink = function(){
+        // manually remove the anchor so we don't have to select text
+        var oRange = this.selection.range;
+        try {
+            $dc.utils.rangeHelper.selectText(this.linkPanel.anchor);
+            this.insert("unlink");
+            $dc.utils.rangeHelper.setSelection(oRange);
+            this.update();
+        } catch (e) {
 
         }
     };
 
-    $dc.directive.add(name, {
-        "directive": rte,
-        "template": "#dc-directive-editable-template",
-        "defaults": defaults
-    }, defaults);
+    rte.prototype.changeLink = function(){
+        var oRange = this.selection.range;
+        var $a = this.selection.inAnchor;
+        if (!$a) return;
+        this.modal.linkText = $a.text();
+        this.modal.linkHref = $a.attr("href");
+        this.modal.editLink = true;
+
+        this.modal.show();
+    };
+
+    rte.prototype.processLinks = function(){
+        // unfortunately there's no easy way to get the anchor you just dropped in,
+        // so we'll have to create a fake one, then find it, then set the
+        // correct href and attributes manually.
+        $("a").not("[target]").attr("target","_blank");
+    }
+
+    // Events:
+    rte.prototype.onKeydown = function(e) {
+        switch (e.which) {
+            case keys["ctrl"]:
+                this.ctrl = true;
+                break;
+            case keys["cmd"]:
+                this.cmd = true;
+                break;
+            case keys["shift"]:
+                this.shift = true;
+                break;
+            case keys["b"]:
+                if (this.ctrl || this.cmd) {
+                    e.preventDefault();
+                    this.insert("bold");
+                }
+                break;
+            case keys["i"]:
+                if (this.ctrl || this.cmd) {
+                    e.preventDefault();
+                    this.insert("italic");
+                }
+                break;
+            case keys["u"]:
+                if (this.ctrl || this.cmd) {
+                    e.preventDefault();
+                    this.insert("underline");
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
+    rte.prototype.onKeyup = function(e){
+        switch(e.which){
+            case keys["ctrl"]:
+                this.ctrl = false;
+                break;
+            case keys["cmd"]:
+                this.cmd = false;
+                break;
+            case keys["shift"]:
+                this.shift = false;
+                break;
+            case keys["up"]:
+            case keys["down"]:
+            case keys["left"]:
+            case keys["right"]:
+                this.update();
+                break;
+            default:
+                this.selection.inAnchor && this.update();
+                break;
+        }
+    };
+
+    rte.prototype.onMouseup = function(e){
+        this.update();
+    };
+
+    // RTE Buttons:
+    rte.prototype.bold = function(){
+        this.insert("bold");
+    };
+
+    rte.prototype.italic = function(){
+        this.insert("italic");
+    };
+
+    rte.prototype.underline = function(){
+        this.insert('underline');
+    };
+
+    rte.prototype.alignLeft = function(){
+        this.insert('justifyLeft');
+    };
+
+    rte.prototype.alignCenter = function(){
+        this.insert('justifyCenter');
+    };
+
+    rte.prototype.alignRight = function(){
+        this.insert('justifyRight');
+    };
+
+    rte.prototype.alignFull = function(){
+        this.insert('justifyFull');
+    };
+
+    rte.prototype.list = function(){
+        this.insert("insertOrderedList");
+    };
+
+    rte.prototype.bullets = function(){
+        this.insert("insertUnorderedList");
+    };
+
+    rte.prototype.indent = function(){
+        this.insert("indent");
+    };
+
+    rte.prototype.outdent = function(){
+        this.insert("outdent");
+    };
+
+    rte.prototype.link = function(){
+        this.modal.linkText = $dc.utils.rangeHelper.getSelectionText();
+        this.modal.show();
+    };
+
+    rte.prototype.unlink = function(){
+        this.removeLink();
+    };
+
+    $dc.addDirective({
+        name: name,
+        directive: rte,
+        template: "#dc-directive-editable-template",
+        $scope: {
+            content: "content",
+            submit: "&submit"
+        }
+
+    });
+
 })(name);

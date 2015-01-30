@@ -1,18 +1,11 @@
 var name = "controller.header";
 (function(name){
 
-    var controller = new function(){
+    var controller = function(){
         this.init = function(){
-            this.searchText = {
-                content: ""
-            }
-            /*
-            $dc.directive.searchInput.init({
-                $el: $(".dc-search-input")
-            });
-            */
+            this.searchText = "";
         }
     };
 
-    $dc.extend(name, controller);
+    $dc.add(name, controller);
 })(name);

@@ -11,14 +11,16 @@
         private $jsJSON = array(
             "common" => array(
                 // utilites
-                "utilities/subClass.js",
                 "utilities/htmlparser.js",
                 "utilities/parser.js",
                 "utilities/observe.js",
                 "utilities/generateGUID.js",
+                // view parser
+                "viewParser/dc-view-parser.js",
+                "viewParser/dc-view-parser-parsing.js",
+                "viewParser/dc-view-parser-directives.js",
                 // base functions
                 "dc.js",
-                "dc-parse-view.js",
                 "dc-watch-element.js",
                 // model
                 "models/dc-model.js",

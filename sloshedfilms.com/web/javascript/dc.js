@@ -1,94 +1,329 @@
 (function(global){
+    // a subclassing method so we can add _super to our inheritance
+    var _superPattern = /xyz/.test(function() { xyz;}) ? /\b_super\b/ : /.*/,
+        _subClass = function(child, parent){
+            parent = parent || function(){};
+            var _super = parent.prototype;
+            var proto = new parent(),
+                properties = typeof child === "function" ? new child() : child;
 
-    var $dc = new function(){
+            for (var name in properties){
+                if (typeof properties[name] === "function" &&
+                    typeof _super[name] === "function" &&
+                    _superPattern.test(properties[name])){
+                    proto[name] = (function(name,fn) {
+                        return function(){
+                            var tmp = this._super;
+                            this._super = _super[name];
+                            var ret = fn.apply(this, arguments);
+                            this._super = tmp;
+                            return ret;
+                        }
+                    })(name, properties[name]);
+                }else{
+                    proto[name] = properties[name];
+                }
+            };
+
+            function Class() {
+
+            };
+
+            Class.prototype = proto;
+            Class.constructor = Class;
+            Class.subClass = arguments.callee;
+            return Class;
+        };
+
+    var dc = function(){
         this.globals = {
             "cdn": "http://cdn.drinkingcinema.com/"
         };
 
-        this.add = function(name, child) {
-            if (!name || !child) return;
-            var names = name.split("."),
-                parent = this;
-            for (var i=0; i<names.length; i++){
-                if (!parent[names[i]]) {
-                    // don't subclass $dc
-                    parent[names[i]] = i === names.length - 1 ? child : {};
-                }
-                parent = parent[names[i]];
-            }
-            return this;
-        };
+        var _mvc = {},
+            _paths = [],
+            _pathsStr = "";
 
-        this.extend = function(name, child, inherit) {
-            if (!name || !child) return;
-            inherit = typeof inherit === "boolean" ? inherit : true;
-            var names = name.split("."),
-                parent = this;
-            for (var i=0; i<names.length; i++){
-                var o = parent[names[i]];
-                if (!o) {
-                    // don't subclass $dc
-                    o = inherit ? this.subClass(parent, child) : child;
-                    parent[names[i]] = o;
-                }
-                parent = o;
-            }
-            return this;
-        };
-
-        this.subClass = function(parent, child){
-            var c = Object.subClass.call(parent, child);
-            return new c();
-        };
-
-        this.formatTemplates = function(){
-            $("[type='dc-template']").each(function(){
-               var $this = $(this),
-                   template = $(this).html();
-                $this.html(template.replace(/\{\%.*\%\}/g, ""));
-
+        // a way to add classes to dc
+        this.add = function(name, fn) {
+            // add the fn to an array which we'll use to extend these items later
+            _paths.push({
+                name: name,
+                fn: fn
             });
         };
 
-        this.getScope = function(el){
-            var vpGUID = el._vpGUID;
-            if (!vpGUID) return;
-            return this.scopeMap[vpGUID].scope;
+        this.subClass = function(child,parent){
+            return _subClass(child,parent);
+        };
+
+        var _namePattern = /(.*)\.([^.]*)$/; //0: full, 1: parent, 2: child
+        this.extend = function(name,fn){
+            if (!name || typeof name !== "string") return;
+            var match = name.match(_namePattern),
+            // store these in _mvc so we can initialize under the real name later
+                parent = match ? Path.get(match[1]).getValueFrom(_mvc) : undefined;
+            // make a sanity check so that we don't try to extend from something that isn't there
+            if (!!match && !parent) {
+                console.warn('Could not find parent', match[1], 'when trying to extend', name, '. Are you sure you included that file or class?');
+                return;
+            };
+            // adding the name for the hell of it
+            fn.prototype.$dcName = name;
+            // can add some defaults here like type, timeout, watch, etc
+            var self = this;
+            if (!match) {
+                fn.prototype.$dcType = name;
+                fn.prototype.$watch = function () {return self.$watch.apply(this, arguments)};
+                fn.prototype.$timeout = function () {return self.$timeout.apply(this, arguments)};
+                fn.prototype.$call = function(){return self.$call.apply(this,arguments)};
+                fn.prototype.preventDefault = function(e){e.preventDefault()};
+            }
+            var child = _subClass(fn,parent);
+            // set the path
+            Path.get(name).setValueFrom(_mvc,child);
+            _pathsStr += _pathsStr ? "," + name : name;
+        };
+
+        // use this to build up the controllers, models, directives added to dc
+        this.initComponent = function(str, initializeOnce){
+            // initialize once is used to set the value to a class instead of a constructor
+            initializeOnce = !!initializeOnce;
+            var itemReg = new RegExp(str + '[-A-Za-z0-9_\\.]*','ig'),
+                components = {};
+
+            _pathsStr.replace(itemReg, function(match){
+                var fn = Path.get(match).getValueFrom(_mvc),
+                    val = initializeOnce ? new fn() : fn;
+                Path.get(match).setValueFrom(this, val);
+                components[match] = val;
+            }.bind(this));
+            return components;
+        };
+
+        this.extendAll = function(){
+            // first sort all of the paths so we can extend them all correctly
+            _paths.sort(function(o1,o2){
+                if (o1.name > o2.name) {
+                    return 1;
+                }
+                if (o1.name < o2.name) {
+                    return -1;
+                }
+                return 0;
+            });
+            // next loop through the paths and extend everything using _mvc
+            for (var i=0; i<_paths.length; i++) {
+                this.extend(_paths[i].name, _paths[i].fn);
+            };
+        };
+
+        // add watch, timeout
+        this.$watch = function(path, fn){
+            var $scope = this,
+                observer = new PathObserver($scope, path);
+            var callback = function(newValue, oldValue){
+                fn.apply($scope, arguments);
+                Platform.performMicrotaskCheckpoint();
+            };
+            observer.open(callback);
+            // return the unobserve function
+            return function(){
+                observer.close();
+            }
+        };
+
+        this.$timeout = function(fn, time){
+            if (!fn) return;
+            time = time || 0;
+            var $scope = this;
+            var callback = function(){
+                fn.apply($scope, arguments);
+                Platform.performMicrotaskCheckpoint();
+            };
+            var id = setTimeout(callback, time);
+            // return the cleartimeout function
+            return function(){
+                clearTimeout(id);
+            }
+        };
+
+        this.$call = function(fn){
+            if (typeof fn !== "function") return;
+            var $scope = this;
+            var result = fn.apply($scope, Array.prototype.slice.call(arguments, 1));
+            Platform.performMicrotaskCheckpoint();
+            // return the result of the function call
+            return result;
+        };
+
+        var _getDescendant = function(str){
+            var itemReg = new RegExp(str + '[-A-Za-z0-9_\\.]*','ig'),
+                max = str;
+
+            _pathsStr.replace(itemReg, function(match){
+                if (match > max) max = match;
+            });
+            return max;
         }
+
+        this.initControllers = function(){
+            var self = this;
+            $("[dc-controller]").each(function(){
+                var $this = $(this);
+                var name = $this.attr("dc-controller");
+                var template = $("#dc-controller-" + name +"-template").html();
+                var controller = Path.get(_getDescendant("controller." + name)).getValueFrom(self);
+                controller.$call(controller.init);
+                var $c = self.watchElement($this, controller, template);
+            });
+        }
+
+        this.init = function(){
+            this.viewParser = new viewParser();
+            // extend and subclass controllers, models, directives
+            this.extendAll();
+            this.initComponent("controller", true);
+            this.initComponent("model", true);
+            var directives = this.initComponent("directive");
+            // add the custom directives to the view parser
+            for (var key in directives){
+                this.viewParser.addCustomDirective(key,directives[key]);
+            };
+            // get rid of all the twig stuff
+            this.formatTemplates();
+            // initialize any controllers that are found
+            this.initControllers();
+
+            return this;
+        };
 
     };
 
-    global.drinkingCinema = global.$dc = $dc;
-})(window);
-// initialize
-(function(){
-    // assume controller.[desktop or mobile].[admin?]
-    var _getInit = function(controller){
-        var platformController = (controller.desktop || controller.mobile) || controller;
-        var init = platformController.init;
-        var o = {
-            init: init,
-            controller: platformController
-        };
-        if (platformController.admin && platformController.admin.init){
-            o.init = platformController.admin.init;
-            o.controller = platformController.admin;
-        }
-        return o;
-    }
+    dc.prototype.getScope = function(el) {
+        if (!el) return;
+        var vpGUID = el._vpGUID;
+        if (!vpGUID) return;
+        var scopeObj = this.viewParser.getScopeObj(vpGUID);
+        return scopeObj ? scopeObj.scope : undefined;
+    };
 
-    $(document).ready(function(){
-        $dc.formatTemplates();
-        $("[dc-controller]").each(function(){
-            //return;
-            var $this = $(this);
-            var name = $this.attr("dc-controller");
-            var controller = $dc.controller[name];
-            var o = _getInit(controller);
-            var template = $("#dc-controller-" + name +"-template").html();
-            //console.log(controller);
-            o.init.call(o.controller);
-            var $c = $dc.watchElement($this, o.controller, template);
+    dc.prototype.formatTemplates = function(){
+        // get rid of twig stuff
+        $("[type='dc-template']").each(function(){
+            var $this = $(this),
+                template = $(this).html();
+            $this.html(template.replace(/\{\%.*\%\}/g, ""));
+
         });
+    };
+
+    dc.prototype.parseIsolateScope = function($scope, $dc){
+        // get paths of the parentScope from the element attributes and set up binding
+        // default - one-way binding from parent to child
+        // "=" - 2-way binding from child to parent and vise versa
+        // "@" - no binding, just the initial value
+        // "&" - means it's a function to call
+        var reg = /^[@=&]/,
+            observers = [],
+            self = this;
+        for (var key in $scope){
+            var match = $scope[key].match(reg),
+                symbol = match ? match[0] : "",
+                attr = symbol ? $scope[key].slice(1) : $scope[key],
+                str = this.$el.attr(attr),
+                value = Path.get(str).getValueFrom(self.parentScope);
+
+            switch(symbol){
+                case "@":
+                    break;
+                case "&":
+                    if (typeof value === "function"){
+                        var fn = value;
+                        value = function(){
+                            return fn.apply(self,arguments);
+                        }
+                    }
+                    break;
+                case "=":
+                    // set a watch on the child and change the parent when the child changes
+                    var observer = new PathObserver(this, key);
+                    observer.open(function(n,o){
+                        Path.get(str).setValueFrom(self.parentScope,n);
+                    });
+                    observers.push(observer);
+                default:
+                    // set a watch on the parent and change the child when the parent changes
+                    var observer = new PathObserver(self.parentScope, str);
+                    observer.open(function(n,o){
+                        Path.get(key).setValueFrom(self,n);
+                    });
+                    observers.push(observer);
+                    break;
+            };
+
+            Path.get(key).setValueFrom(self,value);
+        }
+
+        // set the observers here
+        if (observers.length){
+            var scopeObj = $dc.viewParser.getScopeObj(this.$el[0]._vpGUID);
+            if (!scopeObj) console.log("didn't find scope", this.$el);
+            observers.splice(0,0,scopeObj.observers.length, 0);
+            Array.prototype.splice.apply(scopeObj.observers,observers);
+        }
+    };
+
+    dc.prototype.addDirective = function(opts){
+        if (!opts) return;
+        var name = opts.name,
+            dir = opts.directive;
+        if (!name || !dir) return;
+        var self = this;
+        if (opts.$scope){
+            dir.prototype.isolateScope = opts.$scope;
+            dir.prototype.parseIsolateScope = function(){
+                self.parseIsolateScope.call(this, opts.$scope, self);
+            };
+        };
+        if (opts.template){
+            dir.prototype.template = opts.template;
+        }
+        this.add(name,dir);
+    };
+
+    global.drinkingCinema = global.$dc = new dc();
+    $(document).ready(function() {
+        global.$dc.init();
     });
+
+})(window);
+
+(function(){
+    var utils = function(){
+        this.$pre = $("<pre>");
+    };
+
+    utils.prototype.getJSON = function(json, id){
+        if (!window[json]) return;
+        var nJSON = $.extend(true,{},window[json]);
+        delete window[json];
+        $("#"+id).remove();
+        return nJSON;
+    };
+
+    utils.prototype.getText = function(html){
+        // kind of bootleg way of doing this -- it's not meant as a way of sanitizing
+        // the input, more of a way to preserve line breaks for when I format the input
+        // on the backend
+        // http://stackoverflow.com/questions/3455931/extracting-text-from-a-contenteditable-div
+        this.$pre.html(html);
+        this.$pre.find("p").replaceWith(function() { return this.innerHTML + "<br>"; });
+        this.$pre.find("div").replaceWith(function() { return "\n" + this.innerHTML; });
+        this.$pre.find("br").replaceWith("\n");
+
+        return this.$pre.text();
+    };
+
+    $dc.utils = new utils();
 })();

@@ -1,6 +1,6 @@
 var name = "controller.upload";
 (function(name){
-    var upload = new function(){
+    var upload = function(){
         var $scope;
 
         this.initGameName = function(){
@@ -35,7 +35,7 @@ var name = "controller.upload";
             $scope = this;
             this.cdn = $dc.globals.cdn;
             this.isAdmin = true;
-            this.game = $dc.model.game.getGameJSON();
+            this.game = $dc.utils.game.getGameJSON();
 
             var ce = {
                 "editTagsScope": {
@@ -157,5 +157,5 @@ var name = "controller.upload";
 
         };
     };
-    $dc.extend(name, upload);
+    $dc.add(name, upload);
 })(name);

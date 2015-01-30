@@ -1,14 +1,14 @@
 <div class="dc-directive-upload-image-preview">
     <div dc-include="#dc-search-item-template"></div>
     <div class="dc-directive-upload-image-buttons">
-        <div class="dc-upload-progress" dc-class="{'show': isProcessing}">
+        <div class="dc-upload-progress" dc-class="{'show': isProcessing || parentScope.isProcessing}">
             <div class="dc-upload-progress-bar" dc-style="{'width': uploadProgress + '%'}"></div>
             <div class="dc-upload-progress-bar-text">{{uploadProgress + '%'}}</div>
         </div>
-        <button class="dc-button-secondary" dc-class="{'processing': isProcessing}" dc-click="cancel">
+        <button class="dc-button-secondary" dc-class="{'processing': isProcessing || parentScope.isProcessing}" dc-click="cancel">
             Cancel
         </button>
-        <button class="dc-button-primary" dc-class="{'processing': isProcessing}" dc-click="submit">
+        <button class="dc-button-primary" dc-class="{'processing': isProcessing || parentScope.isProcessing}" dc-click="parentScope.submit">
             Submit
         </button>
     </div>

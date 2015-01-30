@@ -1,6 +1,6 @@
 {% if page.isAdmin %}
     <div dc-if="isAdmin">
-        <div id="dc-game-tags" dc-directive-editable="editTagsScope">
+        <div id="dc-game-tags" dc-directive-editable content="game.tags" submit="submitTags">
             {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.tags} %}
         </div>
     </div>
@@ -17,7 +17,7 @@
 </div>
 {% if page.isAdmin %}
     <div dc-if="isAdmin">
-        <div id="dc-game-rules" dc-directive-editable-rte="editRulesScope">
+        <div id="dc-game-rules" dc-directive-editable-rte content="game.rules" submit="submitRules">
             {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.rules} %}
         </div>
     </div>
@@ -35,7 +35,7 @@
 </div>
 {% if page.isAdmin %}
 <div dc-if="isAdmin">
-    <div id="dc-game-optional-rules" dc-directive-editable-rte="editOptionalRulesScope">
+    <div id="dc-game-optional-rules" dc-directive-editable-rte content="game.optionalRules" submit="submitOptionalRules">
         {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.optionalRules} %}
     </div>
 </div>
