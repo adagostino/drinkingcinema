@@ -17,9 +17,11 @@ class game extends CI_Controller
         if (!$game){
             return show_404();
         }
+        $isAdmin = true;
+
         $imageDir = $this->globals->get_images_dir(true);
 
-        $page = $this->page_service->get('game', $game);
+        $page = $this->page_service->get('game', $isAdmin, $game);
         $page["title"] = $game["name"];
         $page["game"] = $game;
         $page["cdn"] = $this->globals->get_CDN(true);
@@ -41,7 +43,7 @@ class game extends CI_Controller
             )
         );
 
-        $page["isAdmin"] = true;
+        $page["isAdmin"] = $isAdmin;
         $this->twiggy->set('page', $page)->template('game')->display();
 
     }

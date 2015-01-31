@@ -27,7 +27,9 @@
                 // controller
                 "controllers/dc-controller.js",
                 // directive
-                "directives/dc-directive.js"
+                "directives/dc-directive.js",
+                // service
+                "services/dc-service.js"
             ),
             "desktop" => array(
                 "common" => array(
@@ -69,7 +71,8 @@
                         "directives/dc-directive-editable.js",
                         "directives/dc-directive-editable-rte.js",
                         "directives/dc-directive-upload-thumbnail.js",
-                        "directives/dc-directive-upload-image.js"
+                        "directives/dc-directive-upload-image.js",
+                        "services/dc-service-modal.js"
                     )
                 )
             ),
@@ -91,7 +94,8 @@
                         "directives/dc-directive-game-image.js",
                         "directives/dc-directive-upload-thumbnail.js",
                         "directives/dc-directive-upload-image.js",
-                        "directives/dc-directive-embed-game.js"
+                        "directives/dc-directive-embed-game.js",
+                        "services/dc-service-modal.js"
                     )
                 )
             )
@@ -170,7 +174,7 @@
             //$this->$jsJSON = $jsJSON;
         }
 
-        function getScripts($path = "", $platform = "desktop", $isAdmin = true, $isDebug = false){
+        function getScripts($path = "", $platform = "desktop", $isAdmin = false, $isDebug = false){
             return array(
                 'js' => $this->getJS($path, $platform, $isAdmin, $isDebug),
                 'css' => $this->getCSS($path, $platform, $isAdmin, $isDebug)

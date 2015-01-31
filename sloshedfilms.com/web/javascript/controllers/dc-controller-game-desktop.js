@@ -4,9 +4,7 @@ var name = "controller.game.desktop";
 
         this.init = function(){
             this._super();
-            //console.log($dc.directive.tooltip.image);
-            //$dc.directive.tooltip.image.init();
-
+            new $dc.directive.tooltip.image().init();
         }
     };
 

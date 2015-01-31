@@ -59,15 +59,6 @@ var name = "directive.modal";
         return this;
     };
 
-    modal.prototype.initManual = function(){
-        // if there's a parent scope, parse the isolate scope
-        this.parentScope && this.$call(this.parseIsolateScope);
-        // init the modal
-        this.init();
-
-        return this;
-    };
-
     modal.prototype.cancel = function(){
         this.hide();
         this.$call(this.onCancel);

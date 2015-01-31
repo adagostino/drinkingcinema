@@ -1,3 +1,4 @@
+var startTime = new Date().getTime();
 (function(global){
     // a subclassing method so we can add _super to our inheritance
     var _superPattern = /xyz/.test(function() { xyz;}) ? /\b_super\b/ : /.*/,
@@ -45,11 +46,12 @@
             _pathsStr = "";
 
         // a way to add classes to dc
-        this.add = function(name, fn) {
+        this.add = function(name, fn, dontSubclass) {
             // add the fn to an array which we'll use to extend these items later
             _paths.push({
                 name: name,
-                fn: fn
+                fn: fn,
+                dontSubclass: dontSubclass
             });
         };
 
@@ -58,7 +60,7 @@
         };
 
         var _namePattern = /(.*)\.([^.]*)$/; //0: full, 1: parent, 2: child
-        this.extend = function(name,fn){
+        this.extend = function(name,fn,dontSubclass){
             if (!name || typeof name !== "string") return;
             var match = name.match(_namePattern),
             // store these in _mvc so we can initialize under the real name later
@@ -72,14 +74,14 @@
             fn.prototype.$dcName = name;
             // can add some defaults here like type, timeout, watch, etc
             var self = this;
-            if (!match) {
+            if (!match && !dontSubclass) {
                 fn.prototype.$dcType = name;
                 fn.prototype.$watch = function () {return self.$watch.apply(this, arguments)};
                 fn.prototype.$timeout = function () {return self.$timeout.apply(this, arguments)};
                 fn.prototype.$call = function(){return self.$call.apply(this,arguments)};
                 fn.prototype.preventDefault = function(e){e.preventDefault()};
             }
-            var child = _subClass(fn,parent);
+            var child = dontSubclass ? fn : this.subClass(fn, parent);
             // set the path
             Path.get(name).setValueFrom(_mvc,child);
             _pathsStr += _pathsStr ? "," + name : name;
@@ -114,7 +116,7 @@
             });
             // next loop through the paths and extend everything using _mvc
             for (var i=0; i<_paths.length; i++) {
-                this.extend(_paths[i].name, _paths[i].fn);
+                this.extend(_paths[i].name, _paths[i].fn, _paths[i].dontSubclass);
             };
         };
 
@@ -177,15 +179,18 @@
                 controller.$call(controller.init);
                 var $c = self.watchElement($this, controller, template);
             });
-        }
+        };
 
         this.init = function(){
+            var startInit = new Date().getTime();
             this.viewParser = new viewParser();
             // extend and subclass controllers, models, directives
             this.extendAll();
             this.initComponent("controller", true);
             this.initComponent("model", true);
+            this.initComponent("service");
             var directives = this.initComponent("directive");
+
             // add the custom directives to the view parser
             for (var key in directives){
                 this.viewParser.addCustomDirective(key,directives[key]);
@@ -193,8 +198,14 @@
             // get rid of all the twig stuff
             this.formatTemplates();
             // initialize any controllers that are found
+            var startInitControllers = new Date().getTime();
             this.initControllers();
+            var endTime = new Date().getTime();
 
+            console.log("Add Components", startInit - startTime);
+            console.log("Init Components", startInitControllers - startInit);
+            console.log("Init Controllers", endTime - startInitControllers);
+            console.log("total time", endTime - startTime);
             return this;
         };
 
@@ -228,41 +239,43 @@
             observers = [],
             self = this;
         for (var key in $scope){
-            var match = $scope[key].match(reg),
-                symbol = match ? match[0] : "",
-                attr = symbol ? $scope[key].slice(1) : $scope[key],
-                str = this.$el.attr(attr),
-                value = Path.get(str).getValueFrom(self.parentScope);
+            (function(key){
+                var match = $scope[key].match(reg),
+                    symbol = match ? match[0] : "",
+                    attr = symbol ? $scope[key].slice(1) : $scope[key],
+                    str = this.$el.attr(attr),
+                    value = Path.get(str).getValueFrom(self.parentScope);
 
-            switch(symbol){
-                case "@":
-                    break;
-                case "&":
-                    if (typeof value === "function"){
-                        var fn = value;
-                        value = function(){
-                            return fn.apply(self,arguments);
+                switch(symbol){
+                    case "@":
+                        break;
+                    case "&":
+                        if (typeof value === "function"){
+                            var fn = value;
+                            value = function(){
+                                return fn.apply(self,arguments);
+                            }
                         }
-                    }
-                    break;
-                case "=":
-                    // set a watch on the child and change the parent when the child changes
-                    var observer = new PathObserver(this, key);
-                    observer.open(function(n,o){
-                        Path.get(str).setValueFrom(self.parentScope,n);
-                    });
-                    observers.push(observer);
-                default:
-                    // set a watch on the parent and change the child when the parent changes
-                    var observer = new PathObserver(self.parentScope, str);
-                    observer.open(function(n,o){
-                        Path.get(key).setValueFrom(self,n);
-                    });
-                    observers.push(observer);
-                    break;
-            };
+                        break;
+                    case "=":
+                        // set a watch on the child and change the parent when the child changes
+                        var observer = new PathObserver(this, key);
+                        observer.open(function(n,o){
+                            Path.get(str).setValueFrom(self.parentScope,n);
+                        });
+                        observers.push(observer);
+                    default:
+                        // set a watch on the parent and change the child when the parent changes
+                        var observer = new PathObserver(self.parentScope, str);
+                        observer.open(function(n,o){
+                            Path.get(key).setValueFrom(self,n);
+                        });
+                        observers.push(observer);
+                        break;
+                };
 
-            Path.get(key).setValueFrom(self,value);
+                Path.get(key).setValueFrom(self,value);
+            }.bind(this))(key);
         }
 
         // set the observers here
@@ -292,6 +305,10 @@
         this.add(name,dir);
     };
 
+    dc.prototype.addService = function(name,service){
+        this.add(name,service,true);
+    }
+
     global.drinkingCinema = global.$dc = new dc();
     $(document).ready(function() {
         global.$dc.init();
@@ -302,6 +319,17 @@
 (function(){
     var utils = function(){
         this.$pre = $("<pre>");
+    };
+
+    utils.prototype.roundNum = function(num, dec){
+        var sign = num < 0 ? -1 : 1,
+            pow = Math.pow(10, dec || 0);
+        return sign * Math.round(sign*num*pow)/pow;
+    };
+
+    utils.prototype.toUrl = function(str){
+        str = str.replace(/\s+/g,"+");
+        return encodeURI(str);
     };
 
     utils.prototype.getJSON = function(json, id){

@@ -7,12 +7,12 @@
             $this->load->library('tank_auth');
         }
 
-        function get($pageName, $game = null){
+        function get($pageName, $isAdmin = false, $game = null){
             if ($this->tank_auth->is_admin()){
                 // do some stuff -- or don't!!
                 //echo $this->tank_auth->get_username()." is an admin";
             }
-            $scripts = $this->script_service->getScripts($pageName);
+            $scripts = $this->script_service->getScripts($pageName, "desktop", $isAdmin);
             $page = array(
                 'javascripts' => $scripts['js'],
                 'stylesheets' => $scripts['css'],

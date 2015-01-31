@@ -31,8 +31,7 @@ var name = "directive.uploadImage";
             }
         };
 
-        var previewModal = $dc.subClass(opts,$dc.directive.modal);
-        this.previewModal = new previewModal().initManual();
+        this.previewModal = $dc.service.modal(opts);
         // disable all anchors from the search item template
         this.previewModal.$el.find("a").click(function(e){e.preventDefault()});
     };

@@ -87,10 +87,9 @@ var name = "directive.tooltip.image";
         reg.test(e.target.href) && this._super(e);
     };
 
-    /*
-    $dc.directive.add(name, {
-        "directive": imageToolTip,
-        "defaults": defaults
+    $dc.addDirective({
+        name: name,
+        directive: imageToolTip,
+        $scope: {}
     });
-    */
 })(name);

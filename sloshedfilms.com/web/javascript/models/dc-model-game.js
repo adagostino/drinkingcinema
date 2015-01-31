@@ -1,17 +1,5 @@
 var name = "model.game";
 (function(name){
-    var _roundNum = function(num, dec){
-            var sign = num < 0 ? -1 : 1,
-                pow = Math.pow(10, dec || 0);
-            return sign * Math.round(sign*num*pow)/pow;
-        },
-        _toUrl = function(str) {
-            str = str.replace(/\s+/g,"+");
-            return encodeURI(str);
-        }
-
-
-
     var gameModel = function(){};
 
     gameModel.prototype.postThumbnail = function(opts){
@@ -30,7 +18,7 @@ var name = "model.game";
         var xhr = new XMLHttpRequest();
         xhr.responseType = "json";
         xhr.upload.addEventListener("progress", function(e){
-            var percent = _roundNum(100*(e.loaded / e.total), 3);
+            var percent = $dc.utils.roundNum(100*(e.loaded / e.total), 3);
             self.$call.call(opts.$scope || self , opts.progress, e, percent);
         }, false);
         xhr.addEventListener("load", function(){
@@ -39,7 +27,7 @@ var name = "model.game";
         xhr.addEventListener("error", function(){
             self.$call.call(opts.$scope || self, opts.error, xhr);
         }, false);
-        xhr.open("POST", "/api/game_api/image/name/" + _toUrl(opts.name || opts.file.name), true);
+        xhr.open("POST", "/api/game_api/image/name/" + $dc.utils.toUrl(opts.name || opts.file.name), true);
         xhr.setRequestHeader("X-FILENAME", opts.file.name);
         xhr.send(opts.file);
     };

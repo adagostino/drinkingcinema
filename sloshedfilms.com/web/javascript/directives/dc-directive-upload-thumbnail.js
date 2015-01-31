@@ -57,8 +57,7 @@ var name = "directive.uploadThumbnail";
             }
         };
 
-        var previewModal = $dc.subClass(opts,$dc.directive.modal);
-        this.previewModal = new previewModal().initManual();
+        this.previewModal = $dc.service.modal(opts);
 
         this.$watch('image', function(n,o){
             // the problems of using a jquery plugin

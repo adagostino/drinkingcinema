@@ -105,11 +105,7 @@ var name = "directive.editable.rte";
                 this.editLink = false;
             }
         };
-
-        var editableModal = $dc.subClass(opts,$dc.directive.modal);
-        this.modal = new editableModal().initManual();
-
-
+        this.modal = $dc.service.modal(opts);
     };
 
     rte.prototype.reset = function(){
