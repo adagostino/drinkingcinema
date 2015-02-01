@@ -11,7 +11,10 @@ var name = "directive.gameImage";
     $dc.addDirective({
         name: name,
         directive: gameImage,
-        template: "#dc-directive-game-image-template"
+        template: "#dc-directive-game-image-template",
+        $scope: {
+            'game': '=game'
+        }
     });
 
 })(name);

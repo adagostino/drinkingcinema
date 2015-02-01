@@ -4,10 +4,18 @@
             {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.game.tags} %}
         </div>
     </div>
+    <div dc-if="isAdmin">
+        <div dc-directive-game-image-admin game="game">
+            {% include 'directives/dc-directive-game-image.html' with {'game': page.game} %}
+        </div>
+    </div>
+{% else %}
+    <div dc-if="!isAdmin">
+        <div dc-directive-game-image game="game">
+            {% include 'directives/dc-directive-game-image.html' with {'game': page.game} %}
+        </div>
+    </div>
 {% endif %}
-<div dc-directive-game-image>
-    {% include 'directives/dc-directive-game-image.html' with {'game': page.game} %}
-</div>
 <hr class="dc-hr-bottom">
 <div class="dc-share-this-game">
     <span>Share This Game</span>

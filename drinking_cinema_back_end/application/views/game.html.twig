@@ -44,6 +44,9 @@
         {{ source('_subtemplates/dc-tooltip-image.html') }}
     </script>
     {% if page.isAdmin %}
+        <script type="dc-template" id="dc-directive-game-image-admin-template">
+            {{ source('directives/dc-directive-game-image-admin.html') }}
+        </script>
         <script type="dc-template" id="dc-directive-editable-template">
             {{ source('directives/dc-directive-editable.html') }}
         </script>
