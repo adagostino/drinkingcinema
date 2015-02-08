@@ -85,6 +85,7 @@ var name = "directive.input";
         this.$input = this.$el.find("[contenteditable]").html(val).attr("placeholder",this.$el.attr("placeholder"));
         this.isEmpty = !!!$.trim(val).length;
         this.hasFocus = false;
+        this.isEditable = true;
 
         this.validate = this.setValidator();
 
@@ -93,10 +94,13 @@ var name = "directive.input";
             this.isEmpty = !!!$.trim(n).length;
         });
         // watch parent scope
-        this.validate && this.$watch("parentScope.submit",function(n,o){
+        this.validate && this.$watch("parentScope.processing",function(n,o){
+            this.isEditable = !n;
             if (n) {
                 this.errors = this.validate();
+                this.$call(this.onValidate);
             }
+
         });
     };
 
@@ -175,7 +179,9 @@ var name = "directive.input";
         name: name,
         directive: input,
         template: "#dc-directive-input-template",
-        $scope: {}
+        $scope: {
+            'onValidate': '&onValidate'
+        }
     });
 
 
@@ -192,7 +198,9 @@ var name = "directive.input.textArea";
         name: name,
         directive: textArea,
         template: "#dc-directive-input-template",
-        $scope: {}
+        $scope: {
+            'onValidate': '&onValidate'
+        }
     });
 
 })(name);

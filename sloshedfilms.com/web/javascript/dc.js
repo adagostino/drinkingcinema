@@ -353,5 +353,14 @@ var startTime = new Date().getTime();
         return this.$pre.text();
     };
 
+    utils.prototype.getLocal = function(key){
+        return localStorage ? (localStorage.getItem(key) || "") : "";
+    };
+
+    utils.prototype.setLocal = function(key, value){
+        value = typeof value === "string" ? value : JSON.stringify(value);
+        localStorage && localStorage.setItem(key, value);
+    };
+
     $dc.utils = new utils();
 })();

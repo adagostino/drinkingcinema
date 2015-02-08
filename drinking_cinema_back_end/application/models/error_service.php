@@ -10,7 +10,7 @@
                 "message" => "Permission denied. The user is not an admin.",
                 "code" => 403
             ),
-            // Game_api erros
+            // Game_api errors
             "EG_01" => array(
                 "message" => "No game name given.",
                 "code" => 400
@@ -44,20 +44,69 @@
                 "code" => 400
             ),
             "EG_09" => array(
-                "message" => "Please provide rules for the game you'd like to upload/edit",
+                "message" => "Please provide rules for the game you'd like to upload/edit.",
                 "code" => 400
             ),
             "EG_10" => array(
-                "message" => "Please provide optional rules for the game you'd like to upload/edit",
+                "message" => "Please provide optional rules for the game you'd like to upload/edit.",
                 "code" => 400
             ),
             "EG_11" => array(
-                "message" => "Please provide tags for the game you'd like to upload/edit",
+                "message" => "Please provide tags for the game you'd like to upload/edit.",
                 "code" => 400
             ),
             "EG_12" => array(
-                "message" => "There was a DB error uploading/editing your game",
+                "message" => "There was a DB error uploading/editing your game.",
                 "code" => 500
+            ),
+            // Comment Errors
+            "EC_01" => array(
+                "message" => "Please provide a home for your comment.",
+                "code" => 400
+            ),
+            "EC_02" => array(
+                "message" => "Comment was not received.",
+                "code" => 400,
+            ),
+            "EC_03" => array(
+                "message" => "Please provide a name for your comment.",
+                "code" => 400
+            ),
+            "EC_04" => array(
+                "message" => "Comment name is too long.",
+                "code" => 400
+            ),
+            "EC_05" => array(
+                "message" => "Please provide an email for your comment",
+                "code" => 400
+            ),
+            "EC_06" => array(
+                "message" => "Email address is too long.",
+                "code" => 400
+            ),
+            "EC_07" => array(
+                "message" => "Please provide a valid email for your comment.",
+                "code" => 400
+            ),
+            "EC_08" => array(
+                "message" => "Please provide a comment.",
+                "code" => 400
+            ),
+            "EC_09" => array(
+                "message" => "Comment is too long.",
+                "code" => 400
+            ),
+            "EC_10" => array(
+                "message" => "There was a DB error uploading/updating your comment.",
+                "code" => 500
+            ),
+            "EC_11" => array(
+                "message" => "Please provide an Id for the comment you are trying to update/remove.",
+                "code" => 400
+            ),
+            "EC_12" => array(
+                "message" => "Please provide the number of comments you'd like to fetch",
+                "code" => 400
             )
         );
 

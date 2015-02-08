@@ -53,7 +53,8 @@
                     "models/dc-model-comments.js",
                     "controllers/dc-controller-game.js",
                     "controllers/dc-controller-comments.js",
-                    "directives/dc-directive-input.js"
+                    "directives/dc-directive-input.js",
+                    "services/dc-service-getter.js"
                 ),
                 "mobile" => array(),
                 "desktop" => array(
@@ -65,6 +66,7 @@
                         "directives/dc-directive-tooltip-image.js"
                     ),
                     "admin" => array(
+                        "models/dc-model-comments-admin.js",
                         "utilities/jquery.Jcrop.js",
                         "controllers/dc-controller-game-desktop-admin.js",
                         "directives/dc-directive-game-image-admin.js",

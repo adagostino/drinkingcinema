@@ -8,18 +8,15 @@ var name = "model";
 
     model.prototype.setUrl = function(url, opts){
         for (var key in opts){
-            url+="/"+encodeURI(key)+"/"+encodeURI(opts[key]);
+            if (opts[key]) url+="/"+encodeURI(key)+"/"+encodeURI(opts[key]);
         }
         return url;
     };
 
     model.prototype.ajax = function(opts){
         var self = this;
-        var defaults = {
-            type: "POST"
-        };
+        if (!opts.type) opts.type = "POST";
 
-        $.extend(opts, defaults);
         var sfn = opts.success;
         opts.success = function(response){
             self.$call.call(opts.$scope || $dc, sfn, response);
@@ -38,7 +35,7 @@ var name = "model";
         if (!opts.url) opts.error(null, "no url provided for ajax");
         opts.type = opts.type.toUpperCase();
         if (opts.type === "GET" && opts.data) {
-            opts.url = this.setUrl(opts.url, data);
+            opts.url = this.setUrl(opts.url, opts.data);
             delete opts.data;
         }
         return $.ajax(opts);

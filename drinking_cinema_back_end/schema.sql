@@ -122,3 +122,38 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`movieTable` (
   FULLTEXT INDEX `movieName` (`movieName` ASC) ,
   FULLTEXT INDEX `tags` (`tags` ASC)
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `commentsTable`
+--
+
+CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`commentsTable` (
+  `p_Id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `subjectId` VARCHAR(333) NOT NULL ,
+  `uploadDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `movieNameUrl` VARCHAR(333) NULL DEFAULT NULL ,
+  `userName` VARCHAR(512) NOT NULL ,
+  `userEmail` VARCHAR(512) NOT NULL ,
+  `userWebsite` VARCHAR(512) NULL DEFAULT NULL ,
+  `userSubject` VARCHAR(512) NULL DEFAULT NULL ,
+  `userComment` VARCHAR(2048) NOT NULL ,
+  `flagged` INT(11) NULL DEFAULT '0' ,
+  `flaggedDate` TIMESTAMP NULL DEFAULT NULL ,
+  `editDate` TIMESTAMP NULL DEFAULT NULL ,
+  `editUser` VARCHAR(512) NULL DEFAULT NULL ,
+  `removed` TINYINT(1) NULL DEFAULT '0' ,
+  `removeDate` TIMESTAMP NULL DEFAULT NULL ,
+  `removeUser` VARCHAR(512) NULL DEFAULT NULL ,
+  `notified` INT(11) NULL DEFAULT NULL ,
+  PRIMARY KEY (`p_Id`) ,
+  INDEX `subjectId` (`subjectId` ASC) ,
+  INDEX `movieNameUrl` (`movieNameUrl` ASC) ,
+  INDEX `flagged` (`flagged` ASC) ,
+  INDEX `uploadDate` (`uploadDate` ASC) ,
+  INDEX `removed` (`removed` ASC) ,
+  INDEX `flaggedDate` (`flaggedDate` ASC) ,
+  INDEX `removeDate` (`removeDate` ASC) ,
+  INDEX `notified` (`notified` ASC)
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;

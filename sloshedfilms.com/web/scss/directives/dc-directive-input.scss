@@ -64,6 +64,11 @@ $phTop: $inputPaddingTop + $inputPadding + ($inputHeight - 2px - $inputLineHeigh
   white-space: nowrap;
   overflow-x: hidden;
 
+  &.processing{
+    @include opacity(0.3);
+    pointer-events: none;
+  }
+
   &:hover{
     color: $dc-black;
     border: 1px solid $dc-med-gray;

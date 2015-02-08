@@ -337,6 +337,11 @@
   white-space: nowrap;
   overflow-x: hidden;
 }
+.dc-text-input.processing {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+  pointer-events: none;
+}
 .dc-text-input:hover {
   color: #000000;
   border: 1px solid #888888;
