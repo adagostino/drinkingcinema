@@ -119,6 +119,7 @@ var name = "directive.editable";
     var rangeHelper = function() {
 
     };
+
     rangeHelper.prototype.moveCursor = function(el, atStart) {
         http://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser
             atStart = !!atStart;

@@ -102,5 +102,9 @@ $phTop: $inputPaddingTop + $inputPadding + ($inputHeight - 2px - $inputLineHeigh
     overflow-x: visible;
     height: auto;
     min-height: 3*$inputHeight;
+    font-size: inherit;
+    width: 100%;
+    font-family: inherit;
+    resize: none;
   }
 }

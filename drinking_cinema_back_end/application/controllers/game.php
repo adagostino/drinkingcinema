@@ -6,6 +6,7 @@ class game extends CI_Controller
         parent::__construct();
         $this->load->helper('url');
         $this->load->model('game_service');
+        $this->load->model('comments_service');
     }
 
     function index(){
@@ -25,6 +26,7 @@ class game extends CI_Controller
         $page["title"] = $game["name"];
         $page["game"] = $game;
         $page["cdn"] = $this->globals->get_CDN(true);
+        $page["comments"] = $this->comments_service->get_comments($game["nameUrl"], 5);
         $page["vendors"] = array(
             array(
                 'name' => 'netflix',

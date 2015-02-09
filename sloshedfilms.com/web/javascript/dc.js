@@ -245,9 +245,9 @@ var startTime = new Date().getTime();
                     attr = symbol ? $scope[key].slice(1) : $scope[key],
                     str = this.$el.attr(attr),
                     value = Path.get(str).getValueFrom(self.parentScope);
-
                 switch(symbol){
                     case "@":
+                        value = str;
                         break;
                     case "&":
                         if (typeof value === "function"){
@@ -273,7 +273,6 @@ var startTime = new Date().getTime();
                         observers.push(observer);
                         break;
                 };
-
                 Path.get(key).setValueFrom(self,value);
             }.bind(this))(key);
         }
@@ -335,8 +334,8 @@ var startTime = new Date().getTime();
     utils.prototype.getJSON = function(json, id){
         if (!window[json]) return;
         var nJSON = $.extend(true,{},window[json]);
-        delete window[json];
-        $("#"+id).remove();
+        //delete window[json];
+        //$("#"+id).remove();
         return nJSON;
     };
 

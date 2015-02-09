@@ -1,0 +1,8 @@
+<div class="dc-comment">
+    <div class="dc-comment-header">
+        <span class="dc-comment-name">{{comment.name}}</span><span class="dc-comment-upload-date"> on {{comment.uploadDate}}</span>
+    </div>
+    <pre class="dc-comment-body" dc-model="comment.comment">{{commentPlaceholderText}}</pre>
+    <div dc-if="isAdmin" dc-click="editComment">Edit</div>
+    <hr>
+</div>

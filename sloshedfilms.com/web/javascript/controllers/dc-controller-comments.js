@@ -6,14 +6,15 @@ var name = "controller.comments";
         this.postComment = function(){
             $dc.utils.setLocal("commenterName",this.comment.name);
             $dc.utils.setLocal("commenterEmail",this.comment.email);
-
             $dc.model.comments.postComment({
                 "comment": this.comment,
                 "commentHome": this.commentHome,
                 "$scope": this,
                 success: function(comment){
-                    console.log("success", arguments);
-                    this.commentGetter.prev();
+                    this.commentGetter.prev(function(){
+                        $scope.comment.comment = "";
+                        $scope.processing = false;
+                    });
                 },
                 error: function(){
                     console.log("error", arguments);
@@ -34,9 +35,18 @@ var name = "controller.comments";
             $scope.numErrors+= this.errors.length;
         };
 
+        // assumes weird object that looks like an array but doesn't have a length
+        var _obj2array = function(obj){
+            var a = [];
+            for (var key in obj){
+                a[parseInt(key)] = obj[key];
+            }
+            return a;
+        };
+
         this.init = function(){
             $scope = this;
-            this.comments = $dc.utils.getJSON('commentJSON','dc-comment-json') || [];
+            this.comments = _obj2array($dc.utils.getJSON('commentsJSON','dc-comments-json'));
             this.numErrors = 0;
             this.comment = {
                 name: $dc.utils.getLocal("commenterName"),

@@ -18,25 +18,24 @@ var name = "directive.input";
     // validators for the text -- return true or false, the scope (ie 'this') is the scope of the text input
     var _validators = {
         'required': {
-            test: function() {
+            test: function(text) {
                 // basically just check if it's a non-empty string
-                return !!$.trim(this.text()).length;
+                return !!text.length;
             },
             msg: function(){
                 return (this.name || "This") + " is required."
             }
         },
         'email': {
-            test: function(){
-                var email = $.trim(this.text());
-                return !!email.match(/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i);
+            test: function(text){
+                return !!text.match(/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i);
             },
             msg: "Please input a valid Email address."
         },
         'maxLength': {
-            test: function(max){
+            test: function(text, max){
                 if (!max) return true; // if max isn't supplied, then it'll always work
-                return this.text().length <= max;
+                return text.length <= max;
             },
             msg: function(max){
                 return (this.name || "This") + " exceeds the maximum length" + (max ? " of " + max + "characters" : "") + ".";
@@ -62,7 +61,8 @@ var name = "directive.input";
             }
             (function(validator,input, name){
                 validator && va.push(function(){
-                    return this.$call(validator.test, input) || (typeof validator.msg === "function" ? this.$call(validator.msg, input) : validator.msg);
+                    var text = $.trim(this.text());
+                    return this.$call(validator.test, text, input) || (typeof validator.msg === "function" ? this.$call(validator.msg, input) : validator.msg);
                 }.bind(self));
             })(_validators[name], input, name);
         };
@@ -83,6 +83,7 @@ var name = "directive.input";
 
         var val = Path.get(this.model).getValueFrom(this) || "";
         this.$input = this.$el.find("[contenteditable]").html(val).attr("placeholder",this.$el.attr("placeholder"));
+
         this.isEmpty = !!!$.trim(val).length;
         this.hasFocus = false;
         this.isEditable = true;
@@ -90,7 +91,7 @@ var name = "directive.input";
         this.validate = this.setValidator();
 
         this.$watch(this.model,function(n, o){
-            this.$input.html() !== n && this.$input.html(n || "");
+            this.$input[this.isTextArea ? "val" : "html"]() !== n && this.$input[this.isTextArea ? "val" : "html"](n || "");
             this.isEmpty = !!!$.trim(n).length;
         });
         // watch parent scope
@@ -105,7 +106,7 @@ var name = "directive.input";
     };
 
     input.prototype.text = function(){
-        return $dc.utils.getText(this.$input.html());
+        return this.isTextArea ? this.$input.val() : $dc.utils.getText(this.$input.html());
     };
 
     //Events:
@@ -115,10 +116,9 @@ var name = "directive.input";
 
     input.prototype.onBlur = function(e){
         this.hasFocus = false;
-        var text = $dc.utils.getText(this.$input.html());
+        var text = this.text();
         if (!$.trim(text).length) Path.get(this.model).setValueFrom(this,"");
         if (this.errors && this.errors.length) this.errors = this.validate();
-
     };
 
     input.prototype.onKeydown = function(e){
@@ -171,7 +171,7 @@ var name = "directive.input";
 
     input.prototype.onInput = function(e){
         // if it was just pasted, get rid of all the html
-        Path.get(this.model).setValueFrom(this, this.pasted ? this.text()  : this.$input.html());
+        Path.get(this.model).setValueFrom(this, this.pasted ? this.text()  : this.$input[this.isTextArea ? "val" : "html"]());
         this.pasted = false;
     };
 
@@ -184,16 +184,20 @@ var name = "directive.input";
         }
     });
 
-
 })(name);
 
 var name = "directive.input.textArea";
 (function(){
     var textArea = function(){};
     textArea.prototype.init = function(){
+        this.isTextArea = true;
         this.allowBreaks = true;
         this._super();
+        this.$timeout(function(){
+           this.$input = this.$el.find("textarea");
+        });
     };
+
     $dc.addDirective({
         name: name,
         directive: textArea,

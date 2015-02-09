@@ -1,0 +1,5 @@
+{% for item in items %}
+    <div dc-repeat="item in items" dc-include="parentScope.itemTemplate">
+        {% include item_template %}
+    </div>
+{% endfor %}

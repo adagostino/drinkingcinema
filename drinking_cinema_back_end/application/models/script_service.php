@@ -54,6 +54,8 @@
                     "controllers/dc-controller-game.js",
                     "controllers/dc-controller-comments.js",
                     "directives/dc-directive-input.js",
+                    "directives/dc-directive-infinite-scroll.js",
+                    "directives/dc-directive-comment.js",
                     "services/dc-service-getter.js"
                 ),
                 "mobile" => array(),
@@ -75,6 +77,7 @@
                         "directives/dc-directive-editable-rte.js",
                         "directives/dc-directive-upload-thumbnail.js",
                         "directives/dc-directive-upload-image.js",
+                        "directives/dc-directive-comment-admin.js",
                         "services/dc-service-modal.js"
                     )
                 )
@@ -137,7 +140,8 @@
                                 "directives/dc-directive-game-image.css",
                                 "directives/dc-directive-embed-game.css",
                                 "directives/dc-directive-tooltip.css",
-                                "directives/dc-directive-tooltip-image.css"
+                                "directives/dc-directive-tooltip-image.css",
+                                "directives/desktop/dc-directive-comment-desktop.css"
                             ),
                             "admin" => array(
                                 "utilities/jcrop.css",

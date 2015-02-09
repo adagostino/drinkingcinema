@@ -43,6 +43,12 @@
     <script type="dc-template" id="dc-tooltip-image-template">
         {{ source('_subtemplates/dc-tooltip-image.html') }}
     </script>
+    <script type="dc-template" id="dc-directive-infinite-scroll-template">
+        {{ source('directives/dc-directive-infinite-scroll.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-comment-template">
+        {{ source('directives/dc-directive-comment.html') }}
+    </script>
     {% if page.isAdmin %}
         <script type="dc-template" id="dc-directive-game-image-admin-template">
             {{ source('directives/dc-directive-game-image-admin.html') }}
@@ -71,11 +77,24 @@
         <script type="dc-template" id="dc-search-item-template">
             {{ source('_subtemplates/dc-search-item-desktop.html') }}
         </script>
+        <script type="dc-template" id="dc-infinite-scroll-comments-template">
+            {{ source('_subtemplates/dc-infinite-scroll-comments-admin.html') }}
+        </script>
+    {% else %}
+        <script type="dc-template" id="dc-infinite-scroll-comments-template">
+            {{ source('_subtemplates/dc-infinite-scroll-comments.html') }}
+        </script>
     {%  endif %}
     <script type="text/javascript" id="dc-game-json">
         this.gameJSON = {{(page.game|json_encode)}};
     </script>
     <script type="text/javascript" id="dc-vendor-json">
         this.vendorJSON = {{ (page.vendors|json_encode) }}
+    </script>
+    <script type="text/javascript" id="dc-vendor-json">
+        this.vendorJSON = {{ (page.vendors|json_encode) }}
+    </script>
+    <script type="text/javascript" id="dc-comments-json">
+        this.commentsJSON = {{ (page.comments|json_encode) }}
     </script>
 {% endblock %}

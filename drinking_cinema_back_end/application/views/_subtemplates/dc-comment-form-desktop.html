@@ -14,7 +14,7 @@
     </div>
     <div class="dc-comment-form-body">
         <div dc-directive-input-text-area input-model="parentScope.comment.comment" placeholder="Comment" name="Comment" validators="required" onValidate="onValidate" class="dc-text-area">
-            {% include 'directives/dc-directive-input.html' with {'placeholder': 'Comment'} %}
+            {% include 'directives/dc-directive-input.html' with {'placeholder': 'Comment', 'isTextArea': true} %}
         </div>
     </div>
     <div class="dc-comment-form-bottom">

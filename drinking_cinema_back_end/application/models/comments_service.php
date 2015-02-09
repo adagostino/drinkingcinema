@@ -84,6 +84,15 @@ class comments_service extends CI_Model {
 
     }
 
+    function format_output_comment($c){
+        $comment = array();
+        foreach ($c as $key=>$value){
+            $newKey = isset($this->_reverseKeyMap[$key]) ? $this->_reverseKeyMap[$key] : $key;
+            $comment[$newKey] = htmlspecialchars_decode($value, ENT_QUOTES);
+        }
+        return $comment;
+    }
+
     function get_comments($commentHome, $increment, $lastCommentDate = null, $isAdmin = true){
         $commentHome = $this->format_comment_home($commentHome);
         $selectors = "p_Id, uploadDate, userName, userComment, flagged";
@@ -94,14 +103,15 @@ class comments_service extends CI_Model {
         if ($lastCommentDate) $this->db->where($timeStr, $lastCommentDate);
         $or_where = "(subjectId = '$commentHome' OR movieNameUrl = '$commentHome')";
         $this->db->where($or_where);
-        //$this->db->where("subjectId", $commentHome);
-        //$this->db->or_where("movieNameUrl",$commentHome);
 
         $this->db->order_by("uploadDate", "desc");
         if ($increment > 0) $this->db->limit($increment);
         $query = $this->db->get('commentsTable');
-        //return $this->db->last_query();
-        return $query->result();
+        $a = array();
+        foreach ($query->result() as $row){
+            $a[] = $this->format_output_comment($row);
+        }
+        return $a;
     }
 
 
