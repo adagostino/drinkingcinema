@@ -44,7 +44,7 @@
         }
 
         function isYouTube($str){
-            preg_match('#(?:http://)?(?:www\.)?(?:youtube\.com/(?:v/|watch\?v=)|youtu\.be/)([\w-]+)(?:\S+)?#', $str, $match);
+            preg_match('#(?:http://)?(?:www\.)?(?:youtube\.com/(?:v/|watch\?v=|embed/)|youtu\.be/)([\w-]+)(?:\S+)?#', $str, $match);
             if (isset($match) && count($match)>0){
                 return "http://www.youtube.com/embed/".$match[1]."?wmode=transparent";
             }
