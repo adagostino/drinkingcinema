@@ -80,7 +80,7 @@ class Comments_api extends REST_Controller {
             if (!$comment["email"]) $errors[] = "EC_05";
             if (!$comment["comment"]) $errors[] = "EC_08";
         }
-        // now scurb and validate the fields
+        // now scrub and validate the fields
         if (empty($errors)) {
             $obj = $this->scrubAndValidateComment($comment,$errors);
             $comment = $obj["comment"];
@@ -145,7 +145,7 @@ class Comments_api extends REST_Controller {
     }
 
     function comment_remove_delete(){
-        $id = $this->post('id');
+        $id = $this->delete('id');
         $errors = array();
         $success = array();
         $input = array('id' => $id);
@@ -163,16 +163,16 @@ class Comments_api extends REST_Controller {
 
     function comments_get(){
         $commentHome = $this->get('commentHome');
-        $lastCommentDate = $this->get('lastCommentDate');
+        $lastComment = $this->get('lastComment');
         $increment = $this->get('increment');
         $errors = array();
         $success = array();
-        $input = array('commentHome' => $commentHome, 'lastCommentDate'=>$lastCommentDate, 'increment'=>$increment);
+        $input = array('commentHome' => $commentHome, 'lastComment'=>$lastComment, 'increment'=>$increment);
         if (!$commentHome) $errors[] = "EC_01";
         if (!$increment) $errors[] = "EC_12";
         if ($increment && !intval($increment)) $errors[] = "EC_12";
         if (empty($errors)){
-            $comments = $this->comments_service->get_comments($commentHome,$increment,$lastCommentDate);
+            $comments = $this->comments_service->get_comments($commentHome,$increment,$lastComment);
             if ($comments){
                 $success = $comments;
             } else {

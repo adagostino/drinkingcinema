@@ -30,11 +30,11 @@ class comments_service extends CI_Model {
         if (isset($comment["comment"])){
             $comment["comment"] = $this->scrubber_service->scrub($comment["comment"]);
         }
+        return $comment;
     }
 
     function upload_comment($commentHome, $comment){
         $commentHome = $this->format_comment_home($commentHome);
-        $this->format_comment($comment);
         $data = array();
         $sql = "INSERT INTO commentsTable (";
         $keys = "";
@@ -57,11 +57,10 @@ class comments_service extends CI_Model {
         return $comment;
     }
 
-    function update_comment($commentId, $comment) {
-        $comment = $this->format_comment($comment);
+    function update_comment($comment) {
         $sql = "UPDATE commentsTable SET ";
         $kvps = "";
-        $where = " WHERE p_Id=".$this->db->escape($commentId);
+        $where = " WHERE p_Id=".$this->db->escape($comment["p_Id"]);
         foreach ($comment as $key => $value) {
             $dataKey = isset($this->_keyMap[$key]) ? $this->_keyMap[$key] : $key;
             $kvps.= $kvps ? ", " : "";
@@ -81,7 +80,12 @@ class comments_service extends CI_Model {
     }
 
     function remove_comment($commentId) {
-
+        $sql = "UPDATE commentsTable SET ";
+        $kvps = "removed=1, removeDate=UTC_TIMESTAMP(), removeUser=".$this->db->escape("admin");
+        $where = " WHERE p_Id=".$this->db->escape($commentId);
+        $sql.=$kvps.$where;
+        $query = $this->db->query($sql);
+        return $commentId;
     }
 
     function format_output_comment($c){
@@ -93,14 +97,14 @@ class comments_service extends CI_Model {
         return $comment;
     }
 
-    function get_comments($commentHome, $increment, $lastCommentDate = null, $isAdmin = true){
+    function get_comments($commentHome, $increment, $lastComment = null, $isAdmin = true){
         $commentHome = $this->format_comment_home($commentHome);
         $selectors = "p_Id, uploadDate, userName, userComment, flagged";
         if ($isAdmin) $selectors.=", userEmail";
         $this->db->select($selectors);
         $this->db->where("removed",0);
-        $timeStr = "uploadDate ". ($increment < 0 ? ">" : "<");
-        if ($lastCommentDate) $this->db->where($timeStr, $lastCommentDate);
+        $timeStr = "p_Id ". ($increment < 0 ? ">" : "<");
+        if ($lastComment) $this->db->where($timeStr, $lastComment);
         $or_where = "(subjectId = '$commentHome' OR movieNameUrl = '$commentHome')";
         $this->db->where($or_where);
 

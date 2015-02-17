@@ -4,12 +4,7 @@ var name = "directive.comment.admin";
 
     comment.prototype.init = function(){
         this.isAdmin = true;
-
         this._super();
-    };
-
-    comment.prototype.editComment = function(){
-        console.log(this.comment);
     };
 
     $dc.addDirective({
@@ -17,7 +12,9 @@ var name = "directive.comment.admin";
         directive: comment,
         template: "#dc-directive-comment-template",
         $scope: {
-            'comment': 'comment'
+            'comment': '=comment',
+            'edit': '&comment-edit',
+            'remove': '&comment-remove'
         }
     });
 })(name);

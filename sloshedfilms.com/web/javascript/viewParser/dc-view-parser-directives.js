@@ -168,6 +168,7 @@
                     var childParsedHTML = this.compile(io, true);
 
                     var addedObj = self.compileHTMLEl(childParsedHTML, io, parent.repeatItem);
+
                     self.setScopeObj(addedObj);
                     var prevGuid;
                     if (ct <= 0) {
@@ -214,8 +215,7 @@
                     io.repeatMiddle = !io.repeatFirst && !io.repeatLast;
                     io.repeatEven = !!(i%2);
                     io.repeatOdd = !i.repeatEven;
-                }
-
+                };
             },
             paths: paths
         }
@@ -488,41 +488,7 @@
                         type: nodeType
                     };
                 };
-
                 $scope.$call($scope.init);
-
-
-                return;
-                var val = parseFunc(o.change.object);
-                var $scope = dir.$scope || val || o.change.object;
-                if (dir.$scope || val)  $scope.parentScope = o.change.object;
-
-                // run the init function of the directive to get an instance of the directive
-                $scope.$el = o.$el;
-                var dirScope = typeof dir.directive.init === "function" && dir.directive.init($scope, true);
-                var template = typeof dir.template === "function" ? dir.template.apply(this) : dir.template;
-
-                if (template){
-                    // if non-alphanumeric first char, then get html, else take string as literal
-                    // parse and compile the template
-                    var vO = self.parseTemplate(template);
-                    var c = vO.compile($scope);
-                    var child = self.compileHTMLEl(c, dirScope);
-
-                    try {
-                        o.$el.append(child.$el);
-                    } catch(e) {
-                        o.$el.appendChild(child.$el[0] || child.$el);
-                    }
-
-                    var nodeType = (child.$el[0] || child.$el).nodeType;
-                    o.children[child.guid] = {
-                        type: nodeType
-                    };
-                };
-                // initialize the directive
-                typeof dirScope.init === "function" && dirScope.init.call(dirScope);
-                return;
             },
             watch: function(o) {
                 console.log("in watch?");

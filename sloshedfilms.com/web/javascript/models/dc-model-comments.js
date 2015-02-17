@@ -17,7 +17,7 @@ var name = "model.comments";
         opts.type = "GET";
         opts.data = {
             'commentHome': opts.commentHome,
-            'lastCommentDate': opts.lastCommentDate,
+            'lastComment': opts.lastComment,
             'increment': opts.increment
         };
         this.ajax(opts);

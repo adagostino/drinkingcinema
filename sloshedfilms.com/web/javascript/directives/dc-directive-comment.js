@@ -6,6 +6,10 @@ var name = "directive.comment";
 
     };
 
+    comment.prototype.flag = function(){
+
+    };
+
     $dc.addDirective({
         name: name,
         directive: comment,

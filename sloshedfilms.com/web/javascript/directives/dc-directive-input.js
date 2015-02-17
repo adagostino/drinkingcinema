@@ -95,7 +95,7 @@ var name = "directive.input";
             this.isEmpty = !!!$.trim(n).length;
         });
         // watch parent scope
-        this.validate && this.$watch("parentScope.processing",function(n,o){
+        this.validate && this.$watch("parentScope.isProcessing",function(n,o){
             this.isEditable = !n;
             if (n) {
                 this.errors = this.validate();

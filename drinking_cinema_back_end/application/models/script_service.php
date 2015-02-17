@@ -71,6 +71,7 @@
                         "models/dc-model-comments-admin.js",
                         "utilities/jquery.Jcrop.js",
                         "controllers/dc-controller-game-desktop-admin.js",
+                        "controllers/dc-controller-comments-admin.js",
                         "directives/dc-directive-game-image-admin.js",
                         "directives/dc-directive-modal.js",
                         "directives/dc-directive-editable.js",

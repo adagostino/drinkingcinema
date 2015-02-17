@@ -13,7 +13,7 @@ var name = "controller.comments";
                 success: function(comment){
                     this.commentGetter.prev(function(){
                         $scope.comment.comment = "";
-                        $scope.processing = false;
+                        $scope.isProcessing = false;
                     });
                 },
                 error: function(){
@@ -24,9 +24,9 @@ var name = "controller.comments";
 
         this.submitComment = function(){
             this.numErrors = 0;
-            this.processing = true;
+            this.isProcessing = true;
             this.$timeout(function(){
-                this.processing = !!!this.numErrors;
+                this.isProcessing = !!!this.numErrors;
                 if (!this.numErrors) this.postComment();
             });
         };
@@ -65,7 +65,7 @@ var name = "controller.comments";
                     return {
                         '$scope': $scope,
                         'commentHome': $scope.commentHome,
-                        'lastCommentDate': currItem ? currItem.uploadDate : ""
+                        'lastComment': currItem ? currItem.p_Id : ""
                     }
                 }
             });

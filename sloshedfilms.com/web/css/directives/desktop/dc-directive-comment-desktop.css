@@ -276,4 +276,31 @@
 
 .dc-comment {
   width: 400px;
+  max-width: 400px;
+  position: relative;
+}
+.dc-comment img {
+  max-width: 100%;
+}
+.dc-comment .dc-pen {
+  position: absolute;
+  top: 5px;
+  right: 24px;
+}
+.dc-comment .dc-x-out {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.dc-remove-comment-modal {
+  width: 400px;
+}
+
+.dc-remove-comment-modal-error {
+  color: #D14836;
+}
+
+.dc-remove-comment-modal-buttons {
+  text-align: right;
 }

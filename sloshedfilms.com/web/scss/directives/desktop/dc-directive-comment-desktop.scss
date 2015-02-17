@@ -1,9 +1,36 @@
 @import "imports/dc-imports";
 
+$commentWidth: 400px;
 .dc-comment{
-  width: 400px;
-
+  width: $commentWidth;
+  max-width: $commentWidth;
+  position: relative;
   img{
-
+    max-width: 100%;
   }
+
+  .dc-pen{
+    position: absolute;
+    top: 5px;
+    right: 24px;
+  }
+
+  .dc-x-out{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+}
+
+.dc-remove-comment-modal{
+  width: $commentWidth;
+}
+
+.dc-remove-comment-modal-error{
+  color: $dc-red;
+}
+
+.dc-remove-comment-modal-buttons{
+  text-align: right;
 }

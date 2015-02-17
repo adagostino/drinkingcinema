@@ -1,13 +1,14 @@
 @import "imports/dc-imports";
 
 $formWidth: 480px;
+$formOffset: 25px;
 .dc-comment-form{
   width: $formWidth;
   background-image: url($dc-comment-container-url);
   background-size: $formWidth auto;
   background-repeat: no-repeat;
   padding: 35px 50px 35px 30px;
-  margin-left: -25px;
+  margin-left: -$formOffset;
 
   .dc-text-area{
     background:transparent;
@@ -44,6 +45,16 @@ $formWidth: 480px;
   position: absolute;
   right: 0px;
   top: 6px;
+}
+
+.dc-modal {
+  .dc-comment-form-header{
+    margin-left: $formOffset;
+  }
+
+  .dc-comment-form {
+    margin-left: 0px;
+  }
 }
 
 

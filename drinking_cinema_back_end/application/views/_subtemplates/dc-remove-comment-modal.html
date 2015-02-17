@@ -1,0 +1,18 @@
+<div class="dc-remove-comment-modal">
+    <h1>Remove Comment</h1>
+    <div dc-if="!errors">Would you like to remove this comment?</div>
+    <div class="dc-remove-comment-modal-errors" dc-if="errors">
+        There was a problem removing this comment. Please review the errors and try again.
+        <div dc-repeat="error in errors" class="dc-remove-comment-modal-error">{{error.message}}</div>
+    </div>
+    <br>
+    <div dc-directive-comment comment="comment"></div>
+    <div class="dc-remove-comment-modal-buttons">
+        <button class="dc-button-secondary" dc-class="{'processing': isProcessing}" dc-click="cancel">
+            Cancel
+        </button>
+        <button class="dc-button-primary" dc-class="{'processing': isProcessing}" dc-click="submit">
+            Remove
+        </button>
+    </div>
+</div>

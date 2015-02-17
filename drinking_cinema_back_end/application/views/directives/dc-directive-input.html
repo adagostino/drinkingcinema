@@ -1,8 +1,8 @@
 <div class="dc-text-input-container show-placeholder" dc-class="{'show-placeholder': isEmpty && !hasFocus, 'error': !!errors.length}">
     {% if isTextArea %}
-        <textarea dc-if="isTextArea" class="dc-text-input" dc-class="{'error': !!errors.length, 'processing': processing || parentScope.processing}" dc-focus="onFocus" dc-blur="onBlur" dc-input="onInput"></textarea>
+        <textarea dc-if="isTextArea" class="dc-text-input" dc-class="{'error': !!errors.length, 'processing': isProcessing || parentScope.isProcessing}" dc-focus="onFocus" dc-blur="onBlur" dc-input="onInput"></textarea>
     {% else %}
-        <div dc-if="!isTextArea" class="dc-text-input" dc-class="{'error': !!errors.length, 'processing': processing || parentScope.processing}" contenteditable="{{isEditable}}" dc-focus="onFocus" dc-blur="onBlur" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-paste="onPaste" dc-input="onInput"></div>
+        <div dc-if="!isTextArea" class="dc-text-input" dc-class="{'error': !!errors.length, 'processing': isProcessing || parentScope.isProcessing}" contenteditable="{{isEditable}}" dc-focus="onFocus" dc-blur="onBlur" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-paste="onPaste" dc-input="onInput"></div>
     {% endif %}
     <div class="dc-text-input-placeholder">{{placeholder}}</div>
     <div class="dc-text-input-x"></div>

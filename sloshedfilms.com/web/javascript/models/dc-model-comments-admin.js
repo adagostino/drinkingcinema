@@ -3,11 +3,19 @@ var name = "model.comments.admin";
     var commentModel = function(){};
 
     commentModel.prototype.postCommentUpdate = function(opts) {
-        opts.url = "/api/comment_api/comment_update";
+        opts.url = "/api/comments_api/comment_update";
         opts.data = {};
         opts.data.comment = opts.comment;
         this.ajax(opts);
     };
+
+    commentModel.prototype.removeComment = function(opts){
+        opts.url = "/api/comments_api/comment_remove";
+        opts.data = {};
+        opts.data.id = opts.comment ? opts.comment.p_Id : opts.id;
+        opts.type = "DELETE";
+        this.ajax(opts);
+    }
 
     $dc.add(name,commentModel);
 })(name);

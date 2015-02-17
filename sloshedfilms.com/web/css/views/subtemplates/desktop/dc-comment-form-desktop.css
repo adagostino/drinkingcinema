@@ -315,3 +315,10 @@
   right: 0px;
   top: 6px;
 }
+
+.dc-modal .dc-comment-form-header {
+  margin-left: 25px;
+}
+.dc-modal .dc-comment-form {
+  margin-left: 0px;
+}

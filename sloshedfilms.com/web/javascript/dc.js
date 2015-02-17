@@ -260,17 +260,25 @@ var startTime = new Date().getTime();
                     case "=":
                         // set a watch on the child and change the parent when the child changes
                         var observer = new PathObserver(this, key);
-                        observer.open(function(n,o){
+                        var callback = function(n,o){
                             Path.get(str).setValueFrom(self.parentScope,n);
+                        };
+                        observer.open(callback);
+                        observers.push({
+                            observer: observer,
+                            callback: callback
                         });
-                        observers.push(observer);
                     default:
                         // set a watch on the parent and change the child when the parent changes
                         var observer = new PathObserver(self.parentScope, str);
-                        observer.open(function(n,o){
+                        var callback = function(n,o){
                             Path.get(key).setValueFrom(self,n);
+                        };
+                        observer.open(callback);
+                        observers.push({
+                            observer: observer,
+                            callback: callback
                         });
-                        observers.push(observer);
                         break;
                 };
                 Path.get(key).setValueFrom(self,value);
