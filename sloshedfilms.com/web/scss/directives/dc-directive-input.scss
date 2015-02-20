@@ -79,9 +79,9 @@ $phTop: $inputPaddingTop + $inputPadding + ($inputHeight - 2px - $inputLineHeigh
   }
 
   &.error {
-    border: 1px solid rgba(209,72,54,0.4);
+    border-color: rgba(209,72,54,0.4);
     &:focus{
-      border: 1px solid $dc-red;
+      border-color: $dc-red;
     }
   }
 }
@@ -96,11 +96,14 @@ $phTop: $inputPaddingTop + $inputPadding + ($inputHeight - 2px - $inputLineHeigh
 }
 
 .dc-text-area{
+  .dc-text-input-container{
+    height: inherit;
+  }
   .dc-text-input{
     max-height: none;
     white-space: normal;
     overflow-x: visible;
-    height: auto;
+    height: inherit;
     min-height: 3*$inputHeight;
     font-size: inherit;
     width: 100%;

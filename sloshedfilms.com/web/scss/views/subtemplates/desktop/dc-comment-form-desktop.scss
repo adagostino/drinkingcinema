@@ -9,14 +9,7 @@ $formOffset: 25px;
   background-repeat: no-repeat;
   padding: 35px 50px 35px 30px;
   margin-left: -$formOffset;
-
-  .dc-text-area{
-    background:transparent;
-    .dc-text-input{
-      background: rgba(255,255,255,0.9);
-    }
-  }
-
+  height: 367px;
 }
 
 .dc-comment-form-header{
@@ -35,10 +28,78 @@ $formOffset: 25px;
   margin-right:50px;
   position: relative;
 }
-
+$dcCommentFormHeight: 245px;
 .dc-comment-form-body{
   margin-left:5px;
   margin-right:50px;
+  position: relative;
+  //height: $dcCommentFormHeight;
+  .dc-text-input{
+    border-width: 0;
+  }
+
+  .dc-text-area{
+    background:transparent;
+    border-width: 0;
+  }
+}
+$errorLineHeight: 14px;
+$inputPaddingTop: 2*$dc-default-padding - $errorLineHeight;
+$time: 0.218s;
+$easing: ease-in-out;
+.dc-comment-form-text-area-container{
+  position: relative;
+  border: 1px solid $dc-light-gray;
+  margin: $inputPaddingTop  0px 0px;
+  height: 110px;
+  @include transition(height $time $easing);
+  will-change: height;
+  .dc-text-input-container{
+    padding: 0px;
+    &.show-placeholder{
+      .dc-text-input-placeholder{
+        @include transform(translate3d(0,0, 0));
+      }
+    }
+
+    .dc-text-input-placeholder {
+      @include transform(translate3d(-3px,-32px, 0));
+    }
+
+    textarea{
+      vertical-align: top;
+    }
+  }
+
+}
+
+.dc-comment-form-inputs{
+  position: absolute;
+  bottom: $dc-default-padding/2;
+  left: $dc-default-padding;
+  right: $dc-default-padding*3;
+  display: none;
+  @include opacity(0);
+  @include animation-duration($time);
+  @include animation-delay($time);
+  @include animation-timing-function($easing);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+  .dc-text-input {
+    border-bottom-width: 1px;
+  }
+
+}
+
+.show-inputs{
+  .dc-comment-form-text-area-container{
+    height: $dcCommentFormHeight;
+  }
+  .dc-comment-form-inputs{
+    display: block;
+    @include animation-name(showInputs);
+  }
+
 }
 
 .dc-comment-form-submit{
@@ -57,5 +118,15 @@ $formOffset: 25px;
   }
 }
 
+@include keyframes(showInputs) {
+  from {
+    @include opacity(0);
+    //@include transform(translate3d(0, -$dc-modal-top, 0));
+  }
+  to {
+    @include opacity(1);
+    //@include transform(translate3d(0,0,0));
+  }
+}
 
 

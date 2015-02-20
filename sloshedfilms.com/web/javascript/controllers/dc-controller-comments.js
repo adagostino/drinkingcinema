@@ -35,6 +35,14 @@ var name = "controller.comments";
             $scope.numErrors+= this.errors.length;
         };
 
+        this.onTextAreaFocusBlur = function(hasFocus){
+            $scope.textAreaHasFocus = hasFocus;
+        };
+
+        this.onTextInputFocusBlur = function(hasFocus){
+            $scope.textInputHasFocus = hasFocus;
+        };
+
         // assumes weird object that looks like an array but doesn't have a length
         var _obj2array = function(obj){
             var a = [];

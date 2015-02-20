@@ -94,6 +94,11 @@ var name = "directive.input";
             this.$input[this.isTextArea ? "val" : "html"]() !== n && this.$input[this.isTextArea ? "val" : "html"](n || "");
             this.isEmpty = !!!$.trim(n).length;
         });
+
+        this.$watch("hasFocus", function(n,o){
+            this.$call(this.onFocusBlur,n);
+        });
+
         // watch parent scope
         this.validate && this.$watch("parentScope.isProcessing",function(n,o){
             this.isEditable = !n;
@@ -180,7 +185,8 @@ var name = "directive.input";
         directive: input,
         template: "#dc-directive-input-template",
         $scope: {
-            'onValidate': '&onValidate'
+            'onValidate': '&onValidate',
+            'onFocusBlur': '&onFocusBlur'
         }
     });
 
@@ -203,7 +209,8 @@ var name = "directive.input.textArea";
         directive: textArea,
         template: "#dc-directive-input-template",
         $scope: {
-            'onValidate': '&onValidate'
+            'onValidate': '&onValidate',
+            'onFocusBlur': '&onFocusBlur'
         }
     });
 

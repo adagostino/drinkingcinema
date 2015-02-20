@@ -350,10 +350,10 @@
   border: 1px solid #888888;
 }
 .dc-text-input.error {
-  border: 1px solid rgba(209, 72, 54, 0.4);
+  border-color: rgba(209, 72, 54, 0.4);
 }
 .dc-text-input.error:focus {
-  border: 1px solid #D14836;
+  border-color: #D14836;
 }
 
 .dc-text-input-error {
@@ -365,11 +365,14 @@
   bottom: 0px;
 }
 
+.dc-text-area .dc-text-input-container {
+  height: inherit;
+}
 .dc-text-area .dc-text-input {
   max-height: none;
   white-space: normal;
   overflow-x: visible;
-  height: auto;
+  height: inherit;
   min-height: 108px;
   font-size: inherit;
   width: 100%;
