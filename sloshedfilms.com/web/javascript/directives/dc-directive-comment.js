@@ -2,6 +2,10 @@ var name = "directive.comment";
 (function(name){
     var _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var _formatDate = function(dateStr){
+        if (!dateStr) return dateStr;
+        dateStr = dateStr.replace(/(\d{4})-(\d{2})-(\d{2})/,function(match,$1,$2,$3){
+            return $2 + "/" + $3 + "/" + $1;
+        });
         var utc = new Date(dateStr),
             d = new Date(utc.getTime() - utc.getTimezoneOffset()*60*1000);
 

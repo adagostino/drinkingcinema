@@ -137,12 +137,14 @@
                         "desktop" => array(
                             "common" => array(
                                 "views/dc-game-desktop.css",
+                                "views/dc-comments-desktop.css",
                                 "views/subtemplates/desktop/dc-comment-form-desktop.css",
                                 "directives/dc-directive-game-image.css",
                                 "directives/dc-directive-embed-game.css",
                                 "directives/dc-directive-tooltip.css",
                                 "directives/dc-directive-tooltip-image.css",
-                                "directives/desktop/dc-directive-comment-desktop.css"
+                                "directives/desktop/dc-directive-comment-desktop.css",
+                                "directives/dc-directive-infinite-scroll.css"
                             ),
                             "admin" => array(
                                 "utilities/jcrop.css",

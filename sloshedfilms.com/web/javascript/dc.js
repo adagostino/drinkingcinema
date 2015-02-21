@@ -151,7 +151,7 @@ var startTime = new Date().getTime();
         };
 
         this.$call = function(fn){
-            if (typeof fn !== "function") return;
+            if (typeof fn !== "function") return Platform.performMicrotaskCheckpoint();
             var $scope = this;
             var result = fn.apply($scope, Array.prototype.slice.call(arguments, 1));
             Platform.performMicrotaskCheckpoint();

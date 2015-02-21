@@ -73,7 +73,6 @@ var name = "service.getter";
     };
 
     getter.prototype.getItemsFromBuffer = function(){
-        return;
         var items = this.bufferItems.splice(0,this.increment);
         items.splice(0,0, this.items.length, 0);
         Array.prototype.splice.apply(this.items, items);
