@@ -1,23 +1,27 @@
 <div class="dc-comment-form-header dc-leave-a-comment">
     <span>Leave A Comment</span>
 </div>
-<div class="dc-comment-form">
-    <div class="dc-comment-form-body" dc-class="{'show-inputs': textAreaHasFocus || textInputHasFocus || !!comment.comment}">
+<div class="dc-comment-form" dc-class="{'show-inputs': inputHasFocus || !!comment.comment}">
+    <div class="dc-comment-form-message">
+        Hello, Earthling. Please leave a comment or die.
+    </div>
+    <div class="dc-comment-form-body">
         <div class="dc-comment-form-text-area-container">
-            <div dc-directive-input-text-area input-model="parentScope.comment.comment" placeholder="Comment" name="Comment" validators="required" onValidate="onValidate" onFocusBlur="onTextAreaFocusBlur" class="dc-text-area">
+            <div dc-directive-input-text-area input-model="parentScope.comment.comment" placeholder="Comment" name="Comment" validators="required" onValidate="onValidate" onFocusBlur="onInputFocusBlur" class="dc-text-area">
                 {% include 'directives/dc-directive-input.html' with {'placeholder': 'Comment', 'isTextArea': true} %}
             </div>
         </div>
         <div class="dc-comment-form-inputs">
-            <div dc-directive-input input-model="parentScope.comment.name" placeholder="Name" name="Name" validators="required" onValidate="onValidate" onFocusBlur="onTextInputFocusBlur">
+            <div dc-directive-input input-model="parentScope.comment.name" placeholder="Name" name="Name" validators="required" onValidate="onValidate" onFocusBlur="onInputFocusBlur">
                 {% include 'directives/dc-directive-input.html' with {'placeholder': 'Name'} %}
             </div>
-            <div dc-directive-input input-model="parentScope.comment.email" placeholder="E-Mail" name="E-Mail" validators="required,email" onValidate="onValidate" onFocusBlur="onTextInputFocusBlur">
+            <div dc-directive-input input-model="parentScope.comment.email" placeholder="E-Mail" name="E-Mail" validators="required,email" onValidate="onValidate" onFocusBlur="onInputFocusBlur">
                 {% include 'directives/dc-directive-input.html' with {'placeholder': 'E-Mail'} %}
             </div>
         </div>
+        <div class="dc-comment-form-bottom">
+            <button class="dc-button-primary dc-comment-form-submit" dc-class="{'processing': isProcessing}" dc-click="submitComment">Submit</button>
+        </div>
     </div>
-    <div class="dc-comment-form-bottom">
-        <button class="dc-button-primary dc-comment-form-submit" dc-class="{'processing': isProcessing}" dc-click="submitComment">Submit</button>
-    </div>
+
 </div>

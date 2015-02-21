@@ -1,9 +1,12 @@
 <div class="dc-comment">
-    <div class="dc-comment-header">
-        <span class="dc-comment-name">{{comment.name}}</span><span class="dc-comment-upload-date"> on {{comment.uploadDate}}</span>
+    <div class="dc-comment-name">
+        {{comment.name}}
+    </div>
+    <div class="dc-comment-date">
+        {{comment.uploadDateFormatted}}
     </div>
     <pre class="dc-comment-body" dc-model="comment.comment">{{commentPlaceholderText}}</pre>
     <div dc-if="isAdmin" dc-click="edit" class="dc-pen"></div>
     <div dc-if="isAdmin" dc-click="remove" class="dc-x-out"></div>
-    <hr>
+    <hr class="dc-comment-hr">
 </div>

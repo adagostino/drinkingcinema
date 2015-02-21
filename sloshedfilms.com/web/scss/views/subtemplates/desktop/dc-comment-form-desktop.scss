@@ -10,11 +10,11 @@ $formOffset: 25px;
   padding: 35px 50px 35px 30px;
   margin-left: -$formOffset;
   height: 367px;
+  position: relative;
 }
 
 .dc-comment-form-header{
   width: 360px;
-
 }
 
 .dc-comment-form-top{
@@ -24,15 +24,16 @@ $formOffset: 25px;
 
 .dc-comment-form-bottom{
   min-height: 46px;
-  margin-left:5px;
-  margin-right:50px;
   position: relative;
 }
 $dcCommentFormHeight: 245px;
 .dc-comment-form-body{
   margin-left:5px;
   margin-right:50px;
-  position: relative;
+  position: absolute;
+  left:35px;
+  right:50px;
+  bottom: 40px;
   //height: $dcCommentFormHeight;
   .dc-text-input{
     border-width: 0;
@@ -43,12 +44,14 @@ $dcCommentFormHeight: 245px;
     border-width: 0;
   }
 }
+
 $errorLineHeight: 14px;
 $inputPaddingTop: 2*$dc-default-padding - $errorLineHeight;
 $time: 0.218s;
 $easing: ease-in-out;
 .dc-comment-form-text-area-container{
   position: relative;
+  bottom: 0px;
   border: 1px solid $dc-light-gray;
   margin: $inputPaddingTop  0px 0px;
   height: 110px;
@@ -75,10 +78,11 @@ $easing: ease-in-out;
 
 .dc-comment-form-inputs{
   position: absolute;
-  bottom: $dc-default-padding/2;
+  bottom: 46px;
   left: $dc-default-padding;
   right: $dc-default-padding*3;
   display: none;
+  will-change: opacity;
   @include opacity(0);
   @include animation-duration($time);
   @include animation-delay($time);
@@ -91,6 +95,14 @@ $easing: ease-in-out;
 
 }
 
+.dc-comment-form-message{
+  margin-left: $dc-default-padding;
+  margin-right: 50px;
+  will-change: opacity;
+  @include transition(opacity $time $easing);
+  @include opacity(1);
+}
+
 .show-inputs{
   .dc-comment-form-text-area-container{
     height: $dcCommentFormHeight;
@@ -98,6 +110,9 @@ $easing: ease-in-out;
   .dc-comment-form-inputs{
     display: block;
     @include animation-name(showInputs);
+  }
+  .dc-comment-form-message{
+    @include opacity(0);
   }
 
 }

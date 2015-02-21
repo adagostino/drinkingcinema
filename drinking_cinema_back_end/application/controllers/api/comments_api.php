@@ -3,6 +3,12 @@ require APPPATH.'/libraries/REST_Controller.php';
 class Comments_api extends REST_Controller {
     private $maxFieldLength = 512;
     private $maxCommentLength = 2048;
+    private $validFields = array(
+        'name',
+        'email',
+        'comment'
+    );
+
 
     function __construct() {
         parent::__construct();
@@ -29,13 +35,14 @@ class Comments_api extends REST_Controller {
 
     private function scrubAndValidateComment($comment){
         $errors = array();
-        foreach ($comment as $key => $value) {
-            $obj = $this->validate($key,$value);
-            $comment[$key] = $obj["value"];
+        $c = array();
+        foreach ($this->validFields as $key => $value) {
+            $obj = $this->validate($value,$comment[$value]);
+            $c[$value] = $obj["value"];
             array_merge($errors,$obj["errors"]);
         }
         return array(
-            'comment'=> $comment,
+            'comment'=> $c,
             'errors' => $errors
         );
     }
@@ -110,8 +117,10 @@ class Comments_api extends REST_Controller {
         }
         // now scurb and validate the fields
         if (empty($errors)) {
+            $p_Id = $comment["p_Id"];
             $obj = $this->scrubAndValidateComment($comment,$errors);
             $comment = $obj["comment"];
+            $comment["p_Id"] = $p_Id;
             array_merge($errors,$obj["errors"]);
         }
         // after everything is said and done, add the comment
@@ -189,13 +198,10 @@ class Comments_api extends REST_Controller {
     }
 
     function test_get(){
-        $obj = array(
-            'party' => 'all the time'
-        );
-        $a = array();
-        $a[] = "first one";
-        $obj = $this->test($obj,'party', $a);
-        echo json_encode($obj).".".json_encode($a);
+
+        foreach ($this->validFields as $key => $value) {
+            echo $key." ".$value;
+        }
     }
 }
 

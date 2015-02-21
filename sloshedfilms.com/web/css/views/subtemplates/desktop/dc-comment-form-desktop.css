@@ -282,6 +282,7 @@
   padding: 35px 50px 35px 30px;
   margin-left: -25px;
   height: 367px;
+  position: relative;
 }
 
 .dc-comment-form-header {
@@ -295,15 +296,16 @@
 
 .dc-comment-form-bottom {
   min-height: 46px;
-  margin-left: 5px;
-  margin-right: 50px;
   position: relative;
 }
 
 .dc-comment-form-body {
   margin-left: 5px;
   margin-right: 50px;
-  position: relative;
+  position: absolute;
+  left: 35px;
+  right: 50px;
+  bottom: 40px;
 }
 .dc-comment-form-body .dc-text-input {
   border-width: 0;
@@ -315,6 +317,7 @@
 
 .dc-comment-form-text-area-container {
   position: relative;
+  bottom: 0px;
   border: 1px solid #e1e1e1;
   margin: 6px 0px 0px;
   height: 110px;
@@ -345,10 +348,11 @@
 
 .dc-comment-form-inputs {
   position: absolute;
-  bottom: 5px;
+  bottom: 46px;
   left: 10px;
   right: 30px;
   display: none;
+  will-change: opacity;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -moz-animation-duration: 0.218s;
@@ -371,6 +375,18 @@
   border-bottom-width: 1px;
 }
 
+.dc-comment-form-message {
+  margin-left: 10px;
+  margin-right: 50px;
+  will-change: opacity;
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
 .show-inputs .dc-comment-form-text-area-container {
   height: 245px;
 }
@@ -379,6 +395,10 @@
   -moz-animation-name: showInputs;
   -webkit-animation-name: showInputs;
   animation-name: showInputs;
+}
+.show-inputs .dc-comment-form-message {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
 }
 
 .dc-comment-form-submit {

@@ -11,6 +11,7 @@ var name = "controller.comments";
                 "commentHome": this.commentHome,
                 "$scope": this,
                 success: function(comment){
+                    console.log(comment);
                     this.commentGetter.prev(function(){
                         $scope.comment.comment = "";
                         $scope.isProcessing = false;
@@ -35,12 +36,8 @@ var name = "controller.comments";
             $scope.numErrors+= this.errors.length;
         };
 
-        this.onTextAreaFocusBlur = function(hasFocus){
-            $scope.textAreaHasFocus = hasFocus;
-        };
-
-        this.onTextInputFocusBlur = function(hasFocus){
-            $scope.textInputHasFocus = hasFocus;
+        this.onInputFocusBlur = function(hasFocus){
+            $scope.inputHasFocus = hasFocus;
         };
 
         // assumes weird object that looks like an array but doesn't have a length
@@ -66,6 +63,7 @@ var name = "controller.comments";
             var self = this;
             this.commentGetter = new $dc.service.getter({
                 increment: 10,
+                buffer: 50,
                 items: this.comments,
                 model: $dc.model.comments,
                 modelFunc: "get",

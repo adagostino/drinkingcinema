@@ -3,9 +3,11 @@ var name = "service.getter";
     var getter = function(opts){
         $.extend(this, opts);
         if (!this.items) this.items = [];
-
+        if (!this.bufferItems) this.bufferItems = [];
+        if (!this.buffer || this.buffer < this.increment) this.buffer = this.increment;
         this.fetching = false;
         this.endOfSetNext = false;
+        this.endOfSet = false;
         this.disabled = false;
     };
 
@@ -27,19 +29,29 @@ var name = "service.getter";
 
     getter.prototype.get = function(increment, callback){
         var self = this,
-            currItem = increment < 0 ? this.items[0] : this.items[this.items.length - 1];
+            currItem = increment < 0 ? this.items[0] : this.items[this.items.length - 1],
+            serverInc = increment < 0 ? increment : self.buffer;
 
         this.fetching = true;
+
         var opts = {
-            'increment': increment,
+            'increment': serverInc,
             success: function(newItems){
-                var idx = increment < 0 ? 0 : self.items.length;
-                if (newItems.length < Math.abs(increment) && increment > 0){
+                // if it's prev, then append to items directly, otherwise append to the buffer
+                var a = increment < 0 ? self.items : self.bufferItems;
+                var idx = increment < 0 ? 0 : a.length;
+
+                if (newItems.length < Math.abs(serverInc) && serverInc > 0){
                     self.endOfSetNext = true;
                 };
+
                 newItems.splice(0,0,idx,0);
-                Array.prototype.splice.apply(self.items,newItems);
+                Array.prototype.splice.apply(a,newItems);
                 self.fetching = false;
+                // if appended to the buffer, then grab the increment amount and shove it onto the items
+                if (increment > 0){
+                    self.getItemsFromBuffer();
+                }
                 $dc.$call.call(this,callback);
             },
             error: function(){
@@ -50,11 +62,26 @@ var name = "service.getter";
         var customOpts = $dc.$call.call(this, this.setModelOpts, currItem, increment) || {};
 
         $.extend(true, opts,customOpts);
-        (this.modelFunc && this.model) && this.model[this.modelFunc](opts);
+        if (this.modelFunc && this.model && !this.bufferItems.length){
+            this.model[this.modelFunc](opts);
+        } else {
+            this.getItemsFromBuffer();
+            this.fetching = false;
+            $dc.$call.call(opts.$scope || this, callback);
+        }
+
+    };
+
+    getter.prototype.getItemsFromBuffer = function(){
+        return;
+        var items = this.bufferItems.splice(0,this.increment);
+        items.splice(0,0, this.items.length, 0);
+        Array.prototype.splice.apply(this.items, items);
+        this.endOfSet = this.endOfSetNext && !this.bufferItems.length;
     };
 
     getter.prototype.next = function(callback){
-        (!this.endOfSetNext && !this.fetching && !this.disabled) && this.get(this.increment, callback);
+        (!this.endOfSet && !this.fetching && !this.disabled) && this.get(this.increment, callback);
     };
 
     getter.prototype.prev = function(callback){

@@ -279,18 +279,57 @@
   max-width: 400px;
   position: relative;
 }
-.dc-comment img {
+.dc-comment img, .dc-comment .dc-iframe-container {
   max-width: 100%;
+  max-height: 300px;
+  margin: 10px 0px;
+  vertical-align: top;
 }
-.dc-comment .dc-pen {
+.dc-comment .dc-pen, .dc-comment .dc-x-out {
   position: absolute;
   top: 5px;
   right: 24px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+  opacity: 0.4;
+  will-change: opacity;
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+  display: none;
+}
+.dc-comment .dc-pen:hover, .dc-comment .dc-x-out:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
 }
 .dc-comment .dc-x-out {
-  position: absolute;
-  top: 5px;
   right: 5px;
+}
+.dc-comment:hover .dc-pen, .dc-comment:hover .dc-x-out {
+  display: block;
+}
+
+.dc-comment-name {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.dc-comment-date {
+  font-size: 0.8em;
+  font-style: italic;
+  line-height: 1.2em;
+  min-height: 1.2em;
+  color: #888888;
+}
+
+.dc-comment-body {
+  margin: 15px 0px;
+}
+
+.dc-comment-hr {
+  margin: 15px 0px;
+  border-width: 0px;
+  border-bottom-width: 1px;
 }
 
 .dc-remove-comment-modal {
