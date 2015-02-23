@@ -1,0 +1,7 @@
+{% extends "_layouts/email.html.twig" %}
+
+{% block body %}
+    {%  include "email/components/header.html" %}
+    {%  include "email/components/comment.html" with {'comment': email.comment} %}
+    {%  include "email/components/footer.html" %}
+{% endblock %}

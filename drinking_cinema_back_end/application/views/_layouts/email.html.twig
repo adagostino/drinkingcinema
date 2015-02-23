@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{email.subject}}</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
+</head>
+<body>
+    <table cellpadding="0" width="100%" style="background-color: #e1e1e1; border-spacing: 0; border-collapse: collapse; font-family: sans-serif;">
+        <tbody>
+            <tr>
+                <td bgcolor="#ffffff" align="center">
+                    <table width="100%" cellpadding="0" style="background-color: #ffffff; border-spacing: 0; border-collapse: collapse;max-width:640px;min-width: 320px;">
+                        <tbody>
+                            {% spaceless %}
+                                {% block body %}
+
+                                {% endblock %}
+                            {%  endspaceless %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

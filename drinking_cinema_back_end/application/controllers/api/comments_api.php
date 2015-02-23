@@ -12,6 +12,7 @@ class Comments_api extends REST_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->load->model('email_service');
         $this->load->model('comments_service');
         $this->load->model('error_service');
         $this->load->model('scrubber_service');
@@ -75,6 +76,7 @@ class Comments_api extends REST_Controller {
 
     function comment_post() {
         $commentHome = $this->post('commentHome');
+        $commentPath = $this->post('commentPath');
         $comment = $this->post('comment');
         $errors = array();
         $success = array();
@@ -96,7 +98,7 @@ class Comments_api extends REST_Controller {
 
         // after everything is said and done, add the comment
         if (empty($errors)){
-            $comment = $this->comments_service->upload_comment($commentHome, $comment);
+            $comment = $this->comments_service->upload_comment($commentHome, $commentPath, $comment);
             if ($comment) {
                 $success = $comment;
             } else {
@@ -106,8 +108,8 @@ class Comments_api extends REST_Controller {
         $this->send($success,$errors,$input);
     }
 
-    function comment_update_post(){
-        $comment = $this->post('comment');
+    function comment_update_put(){
+        $comment = $this->put('comment');
         $errors = array();
         $success = array();
         $input = array('comment' => $comment);
@@ -182,7 +184,7 @@ class Comments_api extends REST_Controller {
         if ($increment && !intval($increment)) $errors[] = "EC_12";
         if (empty($errors)){
             $comments = $this->comments_service->get_comments($commentHome,$increment,$lastComment);
-            if ($comments){
+            if (is_array($comments)){ // use is_array b/c [] is falsey
                 $success = $comments;
             } else {
                 $errors[] = "EC_10";
@@ -191,17 +193,36 @@ class Comments_api extends REST_Controller {
         $this->send($success,$errors,$input);
     }
 
-    function test($obj, $key, $a){
-        $obj[$key] = "Whatever";
-        $a[] = "testing";
-        return $obj;
+    function send_comment_email_post(){
+        $this->email_service->send_emails();
+    }
+
+    function test($str){
+        return $str." from test";
     }
 
     function test_get(){
+        $a = array("name" => "Tony D", "email" => "tj.dagostino@gmail.com", "comment" => "testes");
+        //var_dump($this->comments_service->upload_comment("Ghost+Rider", "game", $a));
+        $email = array(
+            'subject' => "This is a test email",
+            'email_type' => "comment",
+            'email_from' => "support@drinkingcinema.com",
+            'email_to' => "tj.dagostino@gmail.com",
+            'email_body' => "42"
+        );
+        //$this->email_service->send_comment_email($email);
+        //$this->email_service->send_emails();
+        //var_dump("sent dem emilz bruh!!");
+        //echo $email["email_body"];
+        //var_dump($p_Id);
+        var_dump($this->email_service->get_comment_email($email));
+        //$email["comment"] = $this->email_service->get_comment_by_id($email["email_body"]);
 
-        foreach ($this->validFields as $key => $value) {
-            echo $key." ".$value;
-        }
+        //$this->twiggy->set('email',$email)->template('email/new-comment-email')->display();
+
+        //var_dump($this->comments_service->get_comment_by_id(1));
+        //$this->twiggy->set('page', $page)->template('game')->display();
     }
 }
 

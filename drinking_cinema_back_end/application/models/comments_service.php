@@ -12,7 +12,9 @@ class comments_service extends CI_Model {
     function __construct() {
         // Call the Model constructor
         parent::__construct();
+        //$this->ci =& get_instance();
         $this->load->model('scrubber_service');
+        $this->load->model('email_service');
         $this->load->database();
         foreach ($this->_keyMap as $key => $value){
             $this->_reverseKeyMap[$value] = $key;
@@ -33,7 +35,7 @@ class comments_service extends CI_Model {
         return $comment;
     }
 
-    function upload_comment($commentHome, $comment){
+    function upload_comment($commentHome, $commentPath, $comment){
         $commentHome = $this->format_comment_home($commentHome);
         $data = array();
         $sql = "INSERT INTO commentsTable (";
@@ -49,11 +51,12 @@ class comments_service extends CI_Model {
         }
         $data["uploadDate"] = "UTC_TIMESTAMP";
         $data["subjectId"] = $commentHome;
-        $keys.= ",uploadDate, subjectId";
-        $values.=",UTC_TIMESTAMP,".$this->db->escape($commentHome);
+        $keys.= ",uploadDate, subjectId, path";
+        $values.=",UTC_TIMESTAMP,".$this->db->escape($commentHome).",".$this->db->escape(strtolower($commentPath));
         $sql.=$keys.") VALUES (".$values.")";
         $query = $this->db->query($sql);
         $id = $this->db->insert_id();
+        $this->add_comment_email_to_emailsTable($id);
         return $comment;
     }
 
@@ -117,6 +120,21 @@ class comments_service extends CI_Model {
         }
         return $a;
     }
+
+    function get_comment_by_id($p_Id) {
+        $query = $this->db->get_where('commentsTable', array('p_Id' => $p_Id), 1);
+        return $query->result()[0];
+    }
+
+    function add_comment_email_to_emailsTable($p_Id){
+        $email = array(
+            "email_type" => "comment",
+            "email_to" => "CommentPolice@drinkingcinema.com",
+            "email_body"=> $p_Id
+        );
+        $this->email_service->add_email($email);
+    }
+
 
 
 

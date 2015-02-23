@@ -9,13 +9,14 @@ var name = "controller.comments";
             $dc.model.comments.postComment({
                 "comment": this.comment,
                 "commentHome": this.commentHome,
+                "commentPath": this.commentPath,
                 "$scope": this,
                 success: function(comment){
-                    console.log(comment);
                     this.commentGetter.prev(function(){
                         $scope.comment.comment = "";
                         $scope.isProcessing = false;
                     });
+                    $dc.model.comments.sendEmail();
                 },
                 error: function(){
                     console.log("error", arguments);
@@ -58,7 +59,10 @@ var name = "controller.comments";
                 email: $dc.utils.getLocal("commenterEmail"),
                 comment: ''
             };
-            this.commentHome = window.location.pathname.split('/')[2];
+            var pathname = window.location.pathname.split('/');
+            this.commentPath = pathname[2] ? pathname[1] : "";
+            this.commentHome = pathname[2] || pathname[1];
+
 
             var self = this;
             this.commentGetter = new $dc.service.getter({

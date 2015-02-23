@@ -132,6 +132,7 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`movieTable` (
 CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`commentsTable` (
   `p_Id` INT(11) NOT NULL AUTO_INCREMENT ,
   `subjectId` VARCHAR(333) NOT NULL ,
+  `path` VARCHAR(333) NOT NULL ,
   `uploadDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   `movieNameUrl` VARCHAR(333) NULL DEFAULT NULL ,
   `userName` VARCHAR(512) NOT NULL ,
@@ -156,4 +157,29 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`commentsTable` (
   INDEX `flaggedDate` (`flaggedDate` ASC) ,
   INDEX `removeDate` (`removeDate` ASC) ,
   INDEX `notified` (`notified` ASC)
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emailsTable`
+--
+
+CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`emailsTable` (
+  `p_Id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `email_type` VARCHAR(333) NOT NULL ,
+  `email_from` VARCHAR(333) NOT NULL ,
+  `email_to` VARCHAR(333) NOT NULL ,
+  `email_subject` VARCHAR(512) NULL DEFAULT NULL ,
+  `email_body` VARCHAR(2048) NOT NULL ,
+  `email_added_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `email_sent` TINYINT(1) NOT NULL DEFAULT '0',
+  `email_sent_date` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`p_Id`) ,
+  INDEX `email_type` (`email_type` ASC) ,
+  INDEX `email_from` (`email_from` ASC) ,
+  INDEX `email_to` (`email_to` ASC) ,
+  INDEX `email_added_date` (`email_added_date` ASC) ,
+  INDEX `email_sent` (`email_sent` ASC) ,
+  INDEX `email_sent_date` (`email_sent_date` ASC)
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
