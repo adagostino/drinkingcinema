@@ -134,9 +134,5 @@ class comments_service extends CI_Model {
         );
         $this->email_service->add_email($email);
     }
-
-
-
-
 }
 ?>

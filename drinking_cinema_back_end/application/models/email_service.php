@@ -47,11 +47,11 @@ class email_service extends CI_Model {
     }
 
     function send_email($email){
+        // remember to mark the email as read
+        $this->update_email($email);
         $fn = $this->_typeMap[$email["email_type"]];
         if (!$fn) return;
         $this->$fn($email);
-        // remember to mark the email as read
-        $this->update_email($email);
     }
 
     function update_email($email){
@@ -93,39 +93,6 @@ class email_service extends CI_Model {
         $this->email->message($comment_email);
         $this->email->send();
     }
-
-    /*
-    function sendCommentEmail($p_Id){
-        $comment_a = $this->getComment($p_Id);
-        $email = "CommentPolice@drinkingcinema.com";
-        $type = "commentSubmitted";
-        if ($comment_a != "no results"){
-            $data = array();
-            foreach ($comment_a as $json_a){
-                foreach ($json_a as $json_o) {
-                    //echo $json_o->name.','.$json_o->value;
-                    $data[$json_o->name]= $json_o->value;
-                }
-            }
-            if ($data["notified"]==0){
-                $sql = "UPDATE commentsTable SET notified=1 WHERE p_Id=".$this->ci->db->escape($p_Id);
-                $query = $this->ci->db->query($sql);
-            }else{
-                return;
-            }
-            $this->ci->load->library('email');
-            $this->ci->email->from($this->ci->config->item('webmaster_email', 'tank_auth'), $this->ci->config->item('website_name', 'tank_auth'));
-            $this->ci->email->reply_to($this->ci->config->item('webmaster_email', 'tank_auth'), $this->ci->config->item('website_name', 'tank_auth'));
-            $this->ci->email->to($email);
-            $subj = "New Comment Under ".$data["movieName"];
-            $this->ci->email->subject($subj);
-            //$this->email->subject(sprintf($this->lang->line('auth_subject_'.$type), $this->config->item('website_name', 'tank_auth')));
-            $this->ci->email->message($this->ci->load->view('email/'.$type.'-html', $data, TRUE));
-            $this->ci->email->set_alt_message($this->ci->load->view('email/'.$type.'-txt', $data, TRUE));
-            echo $this->ci->email->send();
-        }
-    }
-    */
 }
 
 ?>
