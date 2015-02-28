@@ -197,32 +197,10 @@ class Comments_api extends REST_Controller {
         $this->email_service->send_emails();
     }
 
-    function test($str){
-        return $str." from test";
-    }
+
 
     function test_get(){
-        $a = array("name" => "Tony D", "email" => "tj.dagostino@gmail.com", "comment" => "testes");
-        //var_dump($this->comments_service->upload_comment("Ghost+Rider", "game", $a));
-        $email = array(
-            'subject' => "This is a test email",
-            'email_type' => "comment",
-            'email_from' => "support@drinkingcinema.com",
-            'email_to' => "tj.dagostino@gmail.com",
-            'email_body' => "42"
-        );
-        //$this->email_service->send_comment_email($email);
-        //$this->email_service->send_emails();
-        //var_dump("sent dem emilz bruh!!");
-        //echo $email["email_body"];
-        //var_dump($p_Id);
-        var_dump($this->email_service->get_comment_email($email));
-        //$email["comment"] = $this->email_service->get_comment_by_id($email["email_body"]);
 
-        //$this->twiggy->set('email',$email)->template('email/new-comment-email')->display();
-
-        //var_dump($this->comments_service->get_comment_by_id(1));
-        //$this->twiggy->set('page', $page)->template('game')->display();
     }
 }
 

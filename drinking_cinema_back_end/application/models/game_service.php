@@ -22,20 +22,23 @@
         }
 
         function get($name){
-            $gameRow = $this->get_movie($name);
-            if (!$gameRow) return null;
+            if ($game = $this->post_process_game($this->get_movie($name))){
+                $game["suggestions"] = $this->get_suggestions_for_movie($game["nameUrl"], $game["tags"]);
+            };
+            return $game;
+        }
 
+        function post_process_game($queryRow, $imageSize = null){
+            if (!$queryRow) return null;
+            if (!$imageSize) $imageSize = "large";
             $game = array();
             foreach ($this->_reverseKeyMap as $key => $value) {
-                $game[$value] = htmlspecialchars_decode($gameRow->$key,ENT_QUOTES);
+                $game[$value] = htmlspecialchars_decode($queryRow->$key,ENT_QUOTES);
             }
             $game["tags"] = trim($game["tags"]," \t\n\r\0\x0B\,");
-            if ($game) {
-                $game["suggestions"] = $this->get_suggestions_for_movie($game["nameUrl"], $game["tags"]);
-                $game["imageBase"] =  str_replace("../","http://",$this->globals->get_games_dir().$game["nameUrl"]);
-                $game["image"] = $game["imageBase"]."_large.jpg";
-                $game["thumbnail"] = $game["imageBase"]."_thumb.jpg";
-            }
+            $game["imageBase"] =  str_replace("../","http://",$this->globals->get_games_dir().$game["nameUrl"]);
+            $game["image"] = $game["imageBase"]."_".$imageSize.".jpg";
+            $game["thumbnail"] = $game["imageBase"]."_thumb.jpg";
             return $game;
         }
 

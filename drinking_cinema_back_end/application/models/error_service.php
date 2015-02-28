@@ -107,6 +107,19 @@
             "EC_12" => array(
                 "message" => "Please provide the number of comments you'd like to fetch",
                 "code" => 400
+            ),
+            // SEARCH ERRORS
+            "ES_01" => array(
+                "message" => "Please provide a numeric value for the page number of your search query",
+                "code" => 400
+            ),
+            "ES_02" => array(
+                "message" => "Please provide a numeric value for the max number of results for your search query",
+                "code" => 400
+            ),
+            "ES_03" => array(
+                "message" => "There was a DB error fetching your search results.",
+                "code" => 500
             )
         );
 
