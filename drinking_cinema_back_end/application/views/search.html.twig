@@ -1,0 +1,36 @@
+{% extends _layout %}
+
+{% block body %}
+    <div class="dc-header-controller">
+        {% embed '_subtemplates/header-large-desktop.html' %}
+            {% block subheader %}
+                {#{% include '_subtemplates/share-input.html' with {'share': {'value':  'http://chug.to/'~page.game.nameUrl} } %}#}
+            {% endblock %}
+        {% endembed %}
+    </div>
+    {% include 'controllers/search.html' %}
+    <script type="dc-template" id="dc-controller-search-template">
+        {{ source('controllers/search.html') }}
+    </script>
+    <script type="dc-template" id="dc-controller-header-template">
+        {{ source('_subtemplates/header-large-desktop.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-infinite-scroll-template">
+        {{ source('directives/dc-directive-infinite-scroll.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-infinite-scroll-template">
+        {{ source('directives/dc-directive-infinite-scroll.html') }}
+    </script>
+    <script type="dc-template" id="dc-search-item-template">
+        {{ source('_subtemplates/dc-search-item-desktop.html') }}
+    </script>
+    {% if page.isAdmin %}
+
+    {% else %}
+
+    {%  endif %}
+    <script type="text/javascript" id="dc-search-json">
+        this.searchJSON = {{(page.results|json_encode)}};
+    </script>
+
+{% endblock %}

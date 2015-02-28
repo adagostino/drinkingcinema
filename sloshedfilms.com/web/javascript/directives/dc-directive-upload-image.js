@@ -17,11 +17,14 @@ var name = "directive.uploadImage";
             'isProcessing': false,
             'uploadProgress': 0,
             'parentScope': this,
+            'item': {
+                'image': undefined
+            },
             'expand': function(){
                 this.isExpanded = !!!this.isExpanded;
             },
             'beforeShow': function(){
-                self.previewModal.image = self.previewImage;
+                self.previewModal.item.image = self.previewImage;
             },
             'afterHide': function(){
                 self.$input.val("");

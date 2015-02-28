@@ -4,7 +4,6 @@ var name = "watchElement";
         template = template || $el[0].outerHTML;
         // TODO: do this non-destructively sometime
         var $nEl = $dc.viewParser.parse(template).getElement(o);
-
         if (!dontCopy) {
             var events = jQuery._data($el[0], 'events'),
                 data = jQuery._data($el[0], 'data');

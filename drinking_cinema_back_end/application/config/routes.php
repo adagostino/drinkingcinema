@@ -38,9 +38,11 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "search";
 $route['404_override'] = '';
+$route['search/:any'] = "search/get";
 $route['game/:any'] = "game/get";
+
 
 
 /* End of file routes.php */

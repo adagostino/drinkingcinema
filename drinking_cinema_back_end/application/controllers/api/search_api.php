@@ -13,16 +13,16 @@ class Search_api extends REST_Controller {
 
     private function search($type){
         $searchTerms = $this->get('searchTerms');
-        $page = $this->get('page');
+        $offset = $this->get('offset');
         $limit = $this->get('limit');
         $errors = array();
-        if (!$this->form_validation->is_numeric($page)) $errors[] = "ES_01";
+        if (!$this->form_validation->is_numeric($offset)) $errors[] = "ES_01";
         if (!$this->form_validation->is_numeric($limit)) $errors[] = "ES_02";
         $success = array();
-        $input = array('searchTerms' => $searchTerms, 'page'=>$page, 'limit'=>$limit);
+        $input = array('searchTerms' => $searchTerms, 'offset'=>$offset, 'limit'=>$limit);
         if (empty($errors)){
             $fn = "search_".$type;
-            $results = $this->search_service->$fn($searchTerms,$page,$limit);
+            $results = $this->search_service->$fn($searchTerms,$offset,$limit);
             if (is_array($results)){ // use is_array b/c [] is falsey
                 $success = $results;
             } else {
@@ -42,7 +42,7 @@ class Search_api extends REST_Controller {
     function search_games_get(){
         $this->search("movies");
     }
-    
+
     function test_get(){
 
     }

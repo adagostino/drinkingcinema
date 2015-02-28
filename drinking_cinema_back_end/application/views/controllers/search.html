@@ -1,0 +1,5 @@
+<div class="dc-search-controller" dc-controller="search">
+    <div dc-directive-infinite-scroll items="results" item-template="#dc-search-item-template" getter="searchGetter" class="dc-search-results-container">
+        {% include 'directives/dc-directive-infinite-scroll.html' with {'items': page.results, 'item_template': '_subtemplates/dc-search-item-desktop.html'} %}
+    </div>
+</div>

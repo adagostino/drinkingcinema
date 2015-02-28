@@ -39,7 +39,10 @@
             ),
             "search" => array(
                 "common" => array(
-                    "models/dc-model-search.js"
+                    "models/dc-model-search.js",
+                    "controllers/dc-controller-search.js",
+                    "directives/dc-directive-infinite-scroll.js",
+                    "services/dc-service-getter.js"
                 ),
                 "mobile" => array(),
                 "desktop" => array(
@@ -125,7 +128,9 @@
                         "common" => array(),
                         "mobile" => array(),
                         "desktop" => array(
-                            "common" => array(),
+                            "common" => array(
+                                "views/subtemplates/desktop/dc-search-item-desktop.css"
+                            ),
                             "admin" => array()
                         )
                     ),

@@ -176,8 +176,11 @@ var startTime = new Date().getTime();
                 var name = $this.attr("dc-controller");
                 var template = $("#dc-controller-" + name +"-template").html();
                 var controller = Path.get(_getDescendant("controller." + name)).getValueFrom(self);
-                controller.$call(controller.init);
-                var $c = self.watchElement($this, controller, template);
+                if (controller){
+                    controller.$call(controller.init);
+                    var $c = self.watchElement($this, controller, template);
+                }
+
             });
         };
 
@@ -326,6 +329,15 @@ var startTime = new Date().getTime();
 (function(){
     var utils = function(){
         this.$pre = $("<pre>");
+    };
+
+    // assumes weird object that looks like an array but doesn't have a length
+    utils.prototype.obj2array = function(obj){
+        var a = [];
+        for (var key in obj){
+            a[parseInt(key)] = obj[key];
+        }
+        return a;
     };
 
     utils.prototype.roundNum = function(num, dec){

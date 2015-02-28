@@ -22,8 +22,8 @@ class search_service extends CI_Model {
         $this->load->database();
     }
 
-    function search_movies($searchTerms,$page = 0,$limit = null) {
-        $queryResult = $this->search($searchTerms,$this->_movieTableSearchOptions,$page,$limit);
+    function search_movies($searchTerms,$offset = 0,$limit = 0) {
+        $queryResult = $this->search($searchTerms,$this->_movieTableSearchOptions,$offset,$limit);
         // do post-processing here
         $results = array();
         foreach ($queryResult as $row) {
@@ -32,16 +32,15 @@ class search_service extends CI_Model {
         return $results;
     }
 
-    function search($searchTerms, $opts, $page = 0, $limit = null){
+    function search($searchTerms, $opts, $offset = 0, $limit = 0){
         $searchTerms = $this->clean_search_terms($searchTerms);
         $results = null;
         $type = "";
         if ($searchTerms){
             $searchOpts = $opts;
             $searchOpts["searchTerms"] = $searchTerms;
-            $limit = $limit ? intval($limit) : 0;
+            $limit = intval($limit);
             if ($limit > $this->_maxSearchResults) $limit = $this->_maxSearchResults;
-            $offset = intval($page) * $limit;
             switch ($searchTerms) {
                 case "newest":
                     $type = "time";

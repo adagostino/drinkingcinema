@@ -41,18 +41,11 @@ var name = "controller.comments";
             $scope.inputHasFocus = hasFocus;
         };
 
-        // assumes weird object that looks like an array but doesn't have a length
-        var _obj2array = function(obj){
-            var a = [];
-            for (var key in obj){
-                a[parseInt(key)] = obj[key];
-            }
-            return a;
-        };
+
 
         this.init = function(){
             $scope = this;
-            this.comments = _obj2array($dc.utils.getJSON('commentsJSON','dc-comments-json'));
+            this.comments = $dc.utils.obj2array($dc.utils.getJSON('commentsJSON','dc-comments-json'));
             this.numErrors = 0;
             this.comment = {
                 name: $dc.utils.getLocal("commenterName"),
