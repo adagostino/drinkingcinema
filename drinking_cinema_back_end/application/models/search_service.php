@@ -19,6 +19,7 @@ class search_service extends CI_Model {
         // Call the Model constructor
         parent::__construct();
         $this->load->model('game_service');
+        $this->load->model('comments_service');
         $this->load->database();
     }
 
@@ -26,9 +27,21 @@ class search_service extends CI_Model {
         $queryResult = $this->search($searchTerms,$this->_movieTableSearchOptions,$offset,$limit);
         // do post-processing here
         $results = array();
+        $names = array();
         foreach ($queryResult as $row) {
-            $results[] = $this->game_service->post_process_game($row);
+            $game = $this->game_service->post_process_game($row);
+            $names[] = $game["nameUrl"];
+            $results[] = $game;
         }
+        // get the comments. This assumes that getting them all at once is faster than multiple queries
+        $comments = $this->comments_service->get_num_comments($names);
+        $ct = 0;
+        foreach ($results as $result){
+            $numComments = $comments[$result["nameUrl"]];
+            $results[$ct]["numComments"] = $numComments ? $numComments : 0;
+            $ct++;
+        }
+
         return $results;
     }
 

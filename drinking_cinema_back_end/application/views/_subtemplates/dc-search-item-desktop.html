@@ -1,12 +1,12 @@
 <div class="dc-search-item">
-    <a class="dc-search-item-image" dc-class="{'expanded': isExpanded}" dc-click="expand" href="game/{{item.nameUrl}}" style="background-image: url('{{item.image}}')">
+    <a class="dc-search-item-image" dc-class="{'expanded': isExpanded}" dc-click="expand" href="/game/{{item.nameUrl}}" style="background-image: url('{{item.image}}')">
         <h2>A Movie Drinking Game For {{item.name}}</h2>
     </a>
     <div class="dc-search-item-info">
-        <a class="dc-search-item-chug" href="game/{{item.nameUrl}}">
+        <a class="dc-search-item-chug" href="/game/{{item.nameUrl}}">
             <h3>Chug To This</h3>
         </a>
-        <a class="dc-search-item-comments" href="game/{{item.nameUrl}}/comments">
+        <a class="dc-search-item-comments" href="/game/{{item.nameUrl}}/comments">
             <h3>{{item.numComments}} comments for {{item.name}}</h3>
             <span class="dc-search-item-comments-num">{{item.numComments}}</span>
         </a>

@@ -1,0 +1,20 @@
+@import "imports/dc-imports";
+
+
+@include keyframes(fadeIn) {
+  from {
+    @include opacity(0);
+  }
+  to {
+    @include opacity(1);
+  }
+}
+
+@include keyframes(rotate) {
+  from {
+    @include transform(rotate3d(0, 0, 1, 0deg));
+  }
+  to {
+    @include transform(rotate3d(0, 0, 1, 360deg));
+  }
+}

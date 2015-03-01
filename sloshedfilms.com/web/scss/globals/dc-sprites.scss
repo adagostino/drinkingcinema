@@ -1,33 +1,4 @@
-@import "dc-mixins";
-
-$cdn: "http://cdn.drinkingcinema.com/";
-$spriteFolder: "Images/";
-$spriteBase: $cdn + $spriteFolder;
-
-$dc-background-url: $spriteBase + "DC_background.jpg";
-$dc-logo-main-url: $spriteBase + "DC_header.jpg";
-$dc-logo-long-url: $spriteBase + "DC_header2.jpg";
-
-$dc-buttons-url: $spriteBase + "buttons.jpg";
-
-$dc-logo-main-width: 800px;
-$dc-logo-main-height: 300px;
-
-$dc-logo-long-width: 800px;
-$dc-logo-long-height: 100px;
-
-$dc-controls-url: $spriteBase + "controls.png";
-$dc-controls-reverse-url: $spriteBase + "controls_reverse";
-
-$dc-header-controls-url: $spriteBase + "headerControls.png";
-
-$dc-rte-icons-url: $spriteBase + "glyphicons-halflings.png";
-
-$dc-headers-url: $spriteBase + "headers.png";
-
-$dc-comment-words-url: $spriteBase + "commentsWords.png";
-
-$dc-comment-container-url: $spriteBase + "commentsContainer.png";
+@import "imports/dc-imports";
 
 .dc-buttons {
   background-image: url($dc-buttons-url);
@@ -291,6 +262,8 @@ $rte-button-size: 14px;
     content: 'L';
   }
 }
+
+/*
 .dc-search-left-flare {
   @extend .dc-buttons;
   height: 145px;
@@ -332,6 +305,7 @@ $rte-button-size: 14px;
   height: 40px;
   background-position: -297px -213px;
 }
+*/
 
 .dc-share-this-game{
   @extend .dc-buttons;
@@ -375,8 +349,25 @@ $rte-button-size: 14px;
   background-size: 133%;
 }
 
+$rotateTime: 1.2s;
+$rotateEasing: linear;
+$tvLoaderSize: 60px;
 .dc-loader{
   background-image: url($spriteBase + "loader.gif");
   width: 16px;
   height: 16px;
+  &.dc-tv{
+    background-image: url($dc-thumbnail);
+    width: $tvLoaderSize;
+    height: $tvLoaderSize;
+    background-size: 100%;
+    will-change: transform, -webkit-transform;
+    @include transform-origin(0.5*$tvLoaderSize,0.6*$tvLoaderSize);
+    @include animation-duration($rotateTime);
+    @include animation-delay($rotateTime);
+    @include animation-timing-function($rotateEasing);
+    @include animation-iteration-count(infinite);
+    @include animation-name(rotate);
+  }
+
 }

@@ -12,7 +12,7 @@ $maxHeight: 150px;
     .dc-tooltip-image{
       display: block;
       img.original {
-        @include animation-name(showImage);
+        @include animation-name(fadeIn);
         max-width: $maxWidth;
         max-height: $maxHeight;
 
@@ -29,6 +29,7 @@ $maxHeight: 150px;
     max-height: $maxHeight;
 
     &.original {
+      will-change: opacity;
       @include animation-duration($time*4);
       @include animation-timing-function($easing);
       @include animation-iteration-count(1);
@@ -36,15 +37,6 @@ $maxHeight: 150px;
       max-width: 16px;
       max-height: 16px;
     }
-  }
-}
-
-@include keyframes(showImage) {
-  from {
-    @include opacity(0);
-  }
-  to {
-    @include opacity(1.0);
   }
 }
 

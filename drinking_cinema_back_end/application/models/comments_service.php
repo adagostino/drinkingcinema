@@ -121,6 +121,26 @@ class comments_service extends CI_Model {
         return $a;
     }
 
+    function get_num_comments($commentHomes){
+        // $commentHomes is an array of subjectIds
+        $sql = "SELECT subjectId, movieNameUrl";
+        $sql.= ", COUNT(*) total";
+        foreach ($commentHomes as $id){
+            $id = $this->db->escape($this->format_comment_home($id));
+            $sql.=", sum(CASE WHEN subjectId=".$id." OR movieNameUrl=".$id." then 1 else 0 end) ".$id;
+        }
+        $sql.=" FROM commentsTable WHERE removed='0'";
+        $query = $this->db->query($sql);
+        $row = $query->result()[0];
+        // format the result into an array of key/value pairs
+        $a = array();
+        foreach ($row as $key=>$value)
+        {
+            $a[$key] = $value;
+        }
+        return $a;
+    }
+
     function get_comment_by_id($p_Id) {
         $query = $this->db->get_where('commentsTable', array('p_Id' => $p_Id), 1);
         return $query->result()[0];

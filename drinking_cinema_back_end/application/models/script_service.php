@@ -115,6 +115,8 @@
         private $cssJSON = array(
                     "common" => array(
                         "dc.css",
+                        "globals/dc-keyframes.css",
+                        "globals/dc-sprites.css",
                         "views/subtemplates/dc-buttons.css"
                     ),
                     "desktop" => array(
@@ -129,7 +131,8 @@
                         "mobile" => array(),
                         "desktop" => array(
                             "common" => array(
-                                "views/subtemplates/desktop/dc-search-item-desktop.css"
+                                "views/subtemplates/desktop/dc-search-item-desktop.css",
+                                "directives/dc-directive-infinite-scroll.css"
                             ),
                             "admin" => array()
                         )

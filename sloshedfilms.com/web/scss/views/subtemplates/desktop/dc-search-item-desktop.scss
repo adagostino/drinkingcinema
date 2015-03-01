@@ -1,5 +1,51 @@
 @import "imports/dc-imports";
 
+.dc-buttons {
+  background-image: url($dc-buttons-url);
+}
+
+.dc-search-left-flare {
+  @extend .dc-buttons;
+  height: 145px;
+  width: 60px;
+  background-position: -8px -165px;
+}
+
+.dc-search-left-flare-small {
+  @extend .dc-buttons;
+  height: 60px;
+  width: 35px;
+  background-position: -188px -168px;
+}
+
+.dc-search-right-flare {
+  @extend .dc-buttons;
+  height: 145px;
+  width: 60px;
+  background-position: -85px -165px;
+}
+
+.dc-search-right-flare-small {
+  @extend .dc-buttons;
+  height: 60px;
+  width: 35px;
+  background-position: -235px -173px;
+}
+
+.dc-chug-to-this {
+  @extend .dc-buttons;
+  width: 224px;
+  height: 48px;
+  background-position: -300px -159px;
+}
+
+.dc-num-comments {
+  @extend .dc-buttons;
+  width: 270px;
+  height: 40px;
+  background-position: -297px -213px;
+}
+
 .dc-search-item {
   position: relative;
   width: $dc-content-width;
@@ -117,8 +163,9 @@
   text-align: center;
   top: 13px;
   right: 6px;
-  background: red;
-  color: inherit;
+  color: initial;
+  font-size: 0.8em;
+  line-height: 1.2em;
 }
 
 $easing: ease-in-out;

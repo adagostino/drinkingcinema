@@ -6,12 +6,11 @@ var name = "controller.search";
         this.init = function(){
             $scope = this;
             this.results = $dc.utils.obj2array($dc.utils.getJSON('searchJSON','dc-search-json'));
-
+            console.log(this.results);
             var pathname = window.location.pathname.split('/');
             this.searchTerms = pathname[2];
 
             window.$scope = this;
-
             this.searchGetter = new $dc.service.getter({
                 increment: 10,
                 buffer: 50,

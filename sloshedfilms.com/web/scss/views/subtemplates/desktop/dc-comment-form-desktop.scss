@@ -67,6 +67,7 @@ $easing: ease-in-out;
     }
 
     .dc-text-input-placeholder {
+      will-change: transform, -webkit-transform;
       @include transform(translate3d(-3px,-32px, 0));
     }
 
@@ -110,7 +111,7 @@ $easing: ease-in-out;
   }
   .dc-comment-form-inputs{
     display: block;
-    @include animation-name(showInputs);
+    @include animation-name(fadeIn);
   }
   .dc-comment-form-message{
     @include opacity(0);
@@ -131,17 +132,6 @@ $easing: ease-in-out;
 
   .dc-comment-form {
     margin-left: 0px;
-  }
-}
-
-@include keyframes(showInputs) {
-  from {
-    @include opacity(0);
-    //@include transform(translate3d(0, -$dc-modal-top, 0));
-  }
-  to {
-    @include opacity(1);
-    //@include transform(translate3d(0,0,0));
   }
 }
 

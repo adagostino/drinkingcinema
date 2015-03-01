@@ -72,8 +72,6 @@ var name = "controller.comments";
                     }
                 }
             });
-
-            window.scope = this;
         };
 
     };
