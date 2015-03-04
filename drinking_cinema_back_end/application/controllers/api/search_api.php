@@ -44,7 +44,7 @@ class Search_api extends REST_Controller {
     }
 
     function test_get(){
-
+        var_dump($this->search_service->search_movies("party",0,5));
     }
 }
 

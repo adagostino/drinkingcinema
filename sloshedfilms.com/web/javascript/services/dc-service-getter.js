@@ -37,6 +37,7 @@ var name = "service.getter";
         var opts = {
             'increment': serverInc,
             success: function(newItems){
+                
                 // if it's prev, then append to items directly, otherwise append to the buffer
                 var a = increment < 0 ? self.items : self.bufferItems;
                 var idx = increment < 0 ? 0 : a.length;
