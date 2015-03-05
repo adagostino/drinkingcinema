@@ -4,5 +4,7 @@
         {% include item_template %}
     </div>
 {% endfor %}
+{% if items|length != numResults %}
     <div class="dc-loader dc-tv" dc-if="!getter.endOfSet"></div>
+{% endif %}
 </div>
