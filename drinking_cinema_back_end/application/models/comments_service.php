@@ -4,7 +4,9 @@ class comments_service extends CI_Model {
         "name" => "userName",
         "email" => "userEmail",
         "comment" => "userComment",
-        "flagged" => "flagged"
+        "flagged" => "flagged",
+        "p_Id" => "p_Id",
+        "uploadDate" => "uploadDate"
     );
 
     private $_reverseKeyMap = array();
@@ -91,34 +93,13 @@ class comments_service extends CI_Model {
         return $commentId;
     }
 
-    function format_output_comment($c){
+    function post_process_comment($queryRow){
+        if (!$queryRow) return null;
         $comment = array();
-        foreach ($c as $key=>$value){
-            $newKey = isset($this->_reverseKeyMap[$key]) ? $this->_reverseKeyMap[$key] : $key;
-            $comment[$newKey] = htmlspecialchars_decode($value, ENT_QUOTES);
+        foreach ($this->_reverseKeyMap as $key => $value) {
+            $comment[$value] = htmlspecialchars_decode($queryRow->$key,ENT_QUOTES);
         }
         return $comment;
-    }
-
-    function get_comments($commentHome, $increment, $lastComment = null, $isAdmin = true){
-        $commentHome = $this->format_comment_home($commentHome);
-        $selectors = "p_Id, uploadDate, userName, userComment, flagged";
-        if ($isAdmin) $selectors.=", userEmail";
-        $this->db->select($selectors);
-        $this->db->where("removed",0);
-        $timeStr = "p_Id ". ($increment < 0 ? ">" : "<");
-        if ($lastComment) $this->db->where($timeStr, $lastComment);
-        $or_where = "(subjectId = '$commentHome' OR movieNameUrl = '$commentHome')";
-        $this->db->where($or_where);
-
-        $this->db->order_by("uploadDate", "desc");
-        if ($increment > 0) $this->db->limit($increment);
-        $query = $this->db->get('commentsTable');
-        $a = array();
-        foreach ($query->result() as $row){
-            $a[] = $this->format_output_comment($row);
-        }
-        return $a;
     }
 
     function get_num_comments($commentHomes){

@@ -14,6 +14,7 @@ class Comments_api extends REST_Controller {
         parent::__construct();
         $this->load->model('email_service');
         $this->load->model('comments_service');
+        $this->load->model('search_service');
         $this->load->model('error_service');
         $this->load->model('scrubber_service');
         $this->load->library('tank_auth');
@@ -183,7 +184,7 @@ class Comments_api extends REST_Controller {
         if (!$increment) $errors[] = "EC_12";
         if ($increment && !intval($increment)) $errors[] = "EC_12";
         if (empty($errors)){
-            $comments = $this->comments_service->get_comments($commentHome,$increment,$lastComment);
+            $comments = $this->search_service->search_comments($commentHome,$lastComment,$increment);
             if (is_array($comments)){ // use is_array b/c [] is falsey
                 $success = $comments;
             } else {

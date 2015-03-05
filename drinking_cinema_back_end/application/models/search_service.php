@@ -10,10 +10,17 @@ class search_service extends CI_Model {
             "rulesHTML" => 1,
             "optionalRulesHTML" => 1
         ),
+        "idField" => "p_Id",
         "timeField" => "uploadDate", // used for time_search
         "titleField" => "movieName" // used for alpha_search
     );
 
+    private $_commentsTableSearchOptions = array(
+        "table" => "commentsTable",
+        "timeField" => "uploadDate",
+        "idField" => "p_Id",
+        "titleField" => array("subjectId","movieNameUrl")
+    );
 
     function __construct() {
         // Call the Model constructor
@@ -42,11 +49,33 @@ class search_service extends CI_Model {
             $results[$ct]["numComments"] = $numComments ? $numComments : 0;
             $ct++;
         }
-
         return array(
             'numResults'=> $queryResult["numResults"],
             'results' => $results
         );
+    }
+
+    function search_comments($searchTerms, $offsetId = null, $limit = 0){
+        $searchOpts = $this->_commentsTableSearchOptions;
+        $searchOpts["offsetId"] = $offsetId ? $this->db->escape($offsetId) : null;
+        $limit = intval($limit);
+        if ($limit > $this->_maxSearchResults) $limit = $this->_maxSearchResults;
+        $searchOpts["direction"] = $limit < 0 ? -1 : 1;
+        if ($limit > 0) $searchOpts["limit"] = $limit;
+        $searchOpts["searchTerms"] = str_replace(" ", "+", $this->clean_search_terms($searchTerms));
+        $searchOpts["order"] = "DESC";
+        $sql = $this->id_search_sql($searchOpts);
+
+        $query = $this->db->query($sql);
+        $results = array();
+        $queryResults = $query->result();
+        $comments = array();
+        foreach ($queryResults as $row){
+            $comments[] = $this->comments_service->post_process_comment($row);
+        }
+        $results['numResults'] = $queryResults[0] ? intval($queryResults[0]->numResults) : 0;
+        $results['results'] = $comments;
+        return $results;
     }
 
     function search($searchTerms, $opts, $offset = 0, $limit = 0){
@@ -75,16 +104,18 @@ class search_service extends CI_Model {
                     $type = "alpha";
                     $searchOpts["order"] = "DESC";
                     break;
+                case "id":
+                    $type = "id";
+                    $searchOpts["order"] = "DESC";
+                    break;
                 default:
                     $type = "weighted";
                     break;
             }
             $fn = $type."_search_sql";
+            $searchOpts["limit"] = $limit;
+            $searchOpts["offset"] = $offset;
             $sql = $this->$fn($searchOpts);
-            if ($limit) {
-                $sql.=" LIMIT ".$limit;
-                $sql.=" OFFSET ".$offset;
-            }
             $query = $this->db->query($sql);
             $results = array(
                 'numResults' => 0,
@@ -101,9 +132,17 @@ class search_service extends CI_Model {
         return $searchTerms ? trim(urldecode(strtolower($searchTerms))) : "";
     }
 
-    function select_sql($opts){
+    function select_sql_start($opts){
         // maybe pass opts into it sometime to customize
-        return "SELECT *, Results.numResults";
+        return "SELECT *, Results.numResults from (SELECT *";
+    }
+
+    function select_sql_end($opts){
+        $offset = isset($opts["offset"]) ? $opts["offset"] : "0";
+        $limit = isset($opts["limit"]) && $opts["limit"] ? $opts["limit"] : "";
+        $sql = $limit ? " limit ".$offset.",".$limit : "";
+        $sql.=") res ";
+        return $sql;
     }
 
     function count_sql($opts, $search = "", $where = ""){
@@ -119,16 +158,19 @@ class search_service extends CI_Model {
     }
 
     function time_search_sql($opts){
-        $sql = $this->select_sql($opts)." FROM ".$opts["table"];
-        $sql.=$this->count_sql($opts);
+        $sql = $this->select_sql_start($opts)." FROM ".$opts["table"];
         $sql.=" ORDER BY ".$opts["timeField"]." ".$opts["order"];
+        $sql.=$this->select_sql_end($opts);
+        $sql.=$this->count_sql($opts);
+
         return $sql;
     }
 
     function alpha_search_sql($opts){
         $titleField = $opts["titleField"];
+        $titleField = is_array($titleField) ? $titleField[0] : $titleField;
         $table = $opts["table"];
-        $sql = $this->select_sql($opts).", ";
+        $sql = $this->select_sql_start($opts).", ";
         $sql.= "CASE WHEN SUBSTRING_INDEX(".$titleField.", ' ', 1)
                     IN ('a', 'an', 'the')
                 THEN CONCAT(
@@ -138,9 +180,10 @@ class search_service extends CI_Model {
                 ELSE ".$titleField."
                 END AS TitleSort
                 FROM ".$table;
-        $sql.= $this->count_sql($opts);
-        $sql.= "ORDER BY TitleSort ";
+        $sql.= " ORDER BY TitleSort ";
         $sql.= $opts["order"];
+        $sql.= $this->select_sql_end($opts);
+        $sql.= $this->count_sql($opts);
         return $sql;
     }
 
@@ -150,8 +193,8 @@ class search_service extends CI_Model {
         //              searchFields: object of {field : weight}, Note: All weighted fields must be indexed in sql as "FULLTEXT INDEX"
         //              order: ASC or DESC
         //          }
-        $searchTerms = $opts["searchTerms"];
-        $sql = $this->select_sql($opts).", ";
+        $searchTerms = $this->db->escape($opts["searchTerms"]);
+        $sql = $this->select_sql_start($opts).", ";
         $fields = "";
         $orderBy = "ORDER BY ";
         $ct = 1;
@@ -161,7 +204,7 @@ class search_service extends CI_Model {
             if ($fields) $fields.=",";
             $fields.= $field;
             if ($ct > 1) $search.=", ";
-            $search.= "MATCH (".$field.") AGAINST (" . $this->db->escape($searchTerms) . ") AS rel".$ct;
+            $search.= "MATCH (".$field.") AGAINST (" . $searchTerms . ") AS rel".$ct;
             if ($ct > 1) $orderBy.="+";
             $orderBy.="(rel".$ct."*".($weight ? $weight : 1).")";
             $ct++;
@@ -171,14 +214,37 @@ class search_service extends CI_Model {
 
         $where=" WHERE MATCH(";
         $where.=$fields;
-        $where.=") AGAINST (" . $this->db->escape($searchTerms) . ") ";
-
-        $sql.=$this->count_sql($opts, $search, $where);
-
+        $where.=") AGAINST (" . $searchTerms . ") ";
         $sql.=$where;
-
         $sql.=$orderBy." ";
         $sql.= isset($opts["order"]) ? $opts["order"] : "DESC";
+        $sql.=$this->select_sql_end($opts);
+        $sql.=$this->count_sql($opts, $search, $where);
+
+        return $sql;
+    }
+
+    function id_search_sql($opts){
+        $idField = $opts["idField"];
+        $titleFields = is_array($opts["titleField"]) ? $opts["titleField"] : array($opts["titleField"]);
+        $searchTerms = $this->db->escape($opts["searchTerms"]);
+        $sql = $this->select_sql_start($opts);
+        $sql.=" FROM ".$opts["table"];
+        $where=" WHERE ";
+        $where.="(";
+        $ct = 0;
+        foreach ($titleFields as $num => $field){
+            if ($ct > 0) $where.=" OR ";
+            $where.= $field."=".$searchTerms;
+            $ct++;
+        }
+        $where.=") AND removed=0 ";
+        $sql.=$where;
+        if ($opts["offsetId"]) $sql.="AND ".$idField.($opts["direction"] < 0 ? " > " : " < ").$opts["offsetId"]." ";
+        $sql.="ORDER BY ".$opts["timeField"]." ";
+        $sql.=isset($opts["order"]) ? $opts["order"] : "DESC";
+        $sql.=$this->select_sql_end($opts);
+        $sql.=$this->count_sql($opts,null,$where);
 
         return $sql;
     }
