@@ -121,7 +121,7 @@ class search_service extends CI_Model {
                 'numResults' => 0,
                 'results' => $query->result()
             );
-            if ($results["results"][0]){
+            if ($results["results"]){
                 $results['numResults'] = intval($results["results"][0]->numResults);
             }
         }

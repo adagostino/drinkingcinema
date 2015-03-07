@@ -19,6 +19,7 @@ var name = "controller.search";
                 'data': this.results,
                 'getter': function(success, error, lastItem, dir){
                     $dc.model.search.get({
+                        'searchTerms': $scope.searchTerms,
                         'limit': this.buffer,
                         'offset': this.numItems(),
                         'success': success,
