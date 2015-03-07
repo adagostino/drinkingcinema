@@ -282,14 +282,14 @@
 }
 .dc-loader.dc-tv {
   background-image: url("http://cdn.drinkingcinema.com/Images/DC_sn_thumbnail.png");
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   background-size: 100%;
   will-change: transform, -webkit-transform;
-  -moz-transform-origin: 30px 36px;
-  -ms-transform-origin: 30px 36px;
-  -webkit-transform-origin: 30px 36px;
-  transform-origin: 30px 36px;
+  -moz-transform-origin: 20px 24px;
+  -ms-transform-origin: 20px 24px;
+  -webkit-transform-origin: 20px 24px;
+  transform-origin: 20px 24px;
   -moz-animation-duration: 1.2s;
   -webkit-animation-duration: 1.2s;
   animation-duration: 1.2s;

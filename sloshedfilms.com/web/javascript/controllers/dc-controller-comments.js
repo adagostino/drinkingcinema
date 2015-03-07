@@ -12,7 +12,7 @@ var name = "controller.comments";
                 "commentPath": this.commentPath,
                 "$scope": this,
                 success: function(comment){
-                    this.commentGetter.prev(function(){
+                    this.commentSource.prev(function(){
                         $scope.comment.comment = "";
                         $scope.isProcessing = false;
                     });
@@ -45,7 +45,7 @@ var name = "controller.comments";
 
         this.init = function(){
             $scope = this;
-            this.comments = $dc.utils.obj2array($dc.utils.getJSON('commentsJSON','dc-comments-json'));
+            this.results = $dc.utils.getJSON('commentsJSON','dc-comments-json');
             this.numErrors = 0;
             this.comment = {
                 name: $dc.utils.getLocal("commenterName"),
@@ -58,18 +58,18 @@ var name = "controller.comments";
 
 
             var self = this;
-            this.commentGetter = new $dc.service.getter({
-                increment: 10,
-                buffer: 50,
-                items: this.comments,
-                model: $dc.model.comments,
-                modelFunc: "get",
-                setModelOpts: function(currItem){
-                    return {
-                        '$scope': $scope,
+            this.commentSource = new $dc.service.dataSource({
+                'increment': 10,
+                'buffer': 50,
+                'data': this.results,
+                'getter': function(success,error,lastItem, dir){
+                    $dc.model.comments.get({
                         'commentHome': $scope.commentHome,
-                        'lastComment': currItem ? currItem.p_Id : ""
-                    }
+                        'lastComment': lastItem ? lastItem.p_Id : "",
+                        'increment': dir * this.buffer,
+                        'success': success,
+                        'error': error
+                    });
                 }
             });
         };

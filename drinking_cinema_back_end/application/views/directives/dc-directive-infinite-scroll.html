@@ -1,10 +1,12 @@
 <div class="dc-infinite-scroll-container">
 {% for item in items %}
-    <div dc-repeat="item in items" dc-include="parentScope.itemTemplate">
+    <div dc-repeat="item in source.items" dc-include="parentScope.itemTemplate">
         {% include item_template %}
     </div>
 {% endfor %}
-{% if items|length != numResults %}
-    <div class="dc-loader dc-tv" dc-if="!getter.endOfSet"></div>
-{% endif %}
+    <div class="dc-infinite-scroll-loader-container">
+    {% if items|length != numResults %}
+        <div class="dc-loader dc-tv" dc-if="!source.endOfSet || (source.endOfSet && source.bufferItems.length)"></div>
+    {% endif %}
+    </div>
 </div>

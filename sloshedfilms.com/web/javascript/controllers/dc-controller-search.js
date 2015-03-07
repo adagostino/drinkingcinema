@@ -8,24 +8,23 @@ var name = "controller.search";
             this.results = $dc.utils.getJSON('searchJSON', 'dc-search-json');
 
             //this.results = $dc.utils.obj2array($dc.utils.getJSON('searchJSON','dc-search-json'));
-            console.log(this.results);
             var pathname = window.location.pathname.split('/');
             this.searchTerms = pathname[2];
 
             window.$scope = this;
-            this.searchGetter = new $dc.service.getter({
-                increment: 10,
-                buffer: 50,
-                items: this.results,
-                model: $dc.model.search,
-                modelFunc: "get",
-                setModelOpts: function(currItem){
-                    return {
-                        '$scope': $scope,
-                        'searchTerms': $scope.searchTerms,
+
+            this.searchSource = new $dc.service.dataSource({
+                'increment': 10,
+                'buffer': 50,
+                'data': this.results,
+                'getter': function(success, error, lastItem, dir){
+                    $dc.model.search.get({
                         'limit': this.buffer,
-                        'offset': this.items.length
-                    }
+                        'offset': this.numItems(),
+                        'success': success,
+                        'error': error
+
+                    })
                 }
             });
 

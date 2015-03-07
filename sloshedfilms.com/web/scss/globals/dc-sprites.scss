@@ -351,7 +351,7 @@ $rte-button-size: 14px;
 
 $rotateTime: 1.2s;
 $rotateEasing: linear;
-$tvLoaderSize: 60px;
+$tvLoaderSize: $dc-tv-loader-size;
 .dc-loader{
   background-image: url($spriteBase + "loader.gif");
   width: 16px;

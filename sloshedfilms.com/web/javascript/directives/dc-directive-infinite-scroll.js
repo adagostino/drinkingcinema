@@ -21,7 +21,7 @@ var name = "directive.infiniteScroll";
     };
 
     infiniteScroll.prototype.next = function(){
-        this.getter && this.getter.next();
+        this.source && this.source.next();
     };
 
     $dc.addDirective({
@@ -29,9 +29,8 @@ var name = "directive.infiniteScroll";
         directive: infiniteScroll,
         template: "#dc-directive-infinite-scroll-template",
         $scope: {
-            items: "items",
             itemTemplate: "@item-template",
-            getter: "getter"
+            source: "source"
         }
 
     });

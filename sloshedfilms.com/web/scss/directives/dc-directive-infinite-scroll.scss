@@ -1,8 +1,10 @@
 @import "imports/dc-imports";
-$time: 2.218s;
-$easing: linear;
 .dc-infinite-scroll-container{
   .dc-loader{
     margin: 0 auto;
   }
+}
+
+.dc-infinite-scroll-loader-container{
+  height: $dc-tv-loader-size;
 }

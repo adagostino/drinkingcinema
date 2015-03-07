@@ -42,7 +42,7 @@
                     "models/dc-model-search.js",
                     "controllers/dc-controller-search.js",
                     "directives/dc-directive-infinite-scroll.js",
-                    "services/dc-service-getter.js"
+                    "services/dc-service-data-source.js"
                 ),
                 "mobile" => array(),
                 "desktop" => array(
@@ -59,7 +59,7 @@
                     "directives/dc-directive-input.js",
                     "directives/dc-directive-infinite-scroll.js",
                     "directives/dc-directive-comment.js",
-                    "services/dc-service-getter.js"
+                    "services/dc-service-data-source.js"
                 ),
                 "mobile" => array(),
                 "desktop" => array(

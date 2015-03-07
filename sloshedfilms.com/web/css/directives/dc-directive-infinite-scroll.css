@@ -1,3 +1,7 @@
 .dc-infinite-scroll-container .dc-loader {
   margin: 0 auto;
 }
+
+.dc-infinite-scroll-loader-container {
+  height: 40px;
+}

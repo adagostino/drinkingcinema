@@ -2,7 +2,7 @@
     <div dc-include="#dc-comment-form-template">
         {% include '_subtemplates/dc-comment-form-desktop.html' %}
     </div>
-    <div dc-directive-infinite-scroll items="comments" item-template="#dc-infinite-scroll-comments-template" getter="commentGetter" class="dc-comments-container">
+    <div dc-directive-infinite-scroll item-template="#dc-infinite-scroll-comments-template" source="commentSource" class="dc-comments-container">
         {% include 'directives/dc-directive-infinite-scroll.html' with {'items': page.comments.results, 'numResults': page.comments.numResults, 'item_template': '_subtemplates/dc-infinite-scroll-comments.html'} %}
     </div>
 </div>

@@ -12,3 +12,5 @@ $dc-small-image-width: floor($dc-small-image-height * $dc-game-ratio);
 
 $dc-med-image-width: $dc-content-width;
 $dc-med-image-height: floor($dc-med-image-width/$dc-game-ratio);
+
+$dc-tv-loader-size: 40px;

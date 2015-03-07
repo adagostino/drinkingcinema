@@ -17,9 +17,9 @@ var name = "model.comments";
         opts.url = "/api/comments_api/comments";
         opts.type = "GET";
         opts.data = {
-            'commentHome': opts.commentHome,
-            'lastComment': opts.lastComment,
-            'increment': opts.increment
+            'commentHome': opts.commentHome, // searchTerms
+            'lastComment': opts.lastComment, // offset
+            'increment': opts.increment //limit
         };
         this.ajax(opts);
     };
