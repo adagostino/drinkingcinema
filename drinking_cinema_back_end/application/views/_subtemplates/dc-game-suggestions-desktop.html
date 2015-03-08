@@ -1,5 +1,5 @@
 {% spaceless %}
-{% for suggestion in game.suggestions %}
+{% for suggestion in page.game.suggestions %}
 <a dc-directive-tooltip
    tooltip-content="{{suggestion.name}}"
    dc-repeat="suggestion in game.suggestions"
