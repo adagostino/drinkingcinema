@@ -63,13 +63,15 @@ var name = "controller.comments";
                 'buffer': 50,
                 'data': this.results,
                 'getter': function(success,error,lastItem, dir){
-                    $dc.model.comments.get({
+                    var opts = {
                         'commentHome': $scope.commentHome,
                         'lastComment': lastItem ? lastItem.p_Id : "",
                         'increment': dir * this.buffer,
                         'success': success,
                         'error': error
-                    });
+                    };
+                    console.log(opts);
+                    $dc.model.comments.get(opts);
                 }
             });
         };

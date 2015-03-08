@@ -99,9 +99,10 @@ var name = "controller.comments.admin";
     };
 
     controller.prototype.removeCommentById = function(id){
-        for (var i=0; i<this.comments.length; i++){
-            if (this.comments[i].p_Id === id) {
-                this.comments.splice(i,1);
+        for (var i=0; i<this.commentSource.items.length; i++){
+            var comment = this.commentSource.items[i];
+            if (comment.p_Id === id) {
+                this.commentSource.items.splice(i,1);
                 break;
             }
         }

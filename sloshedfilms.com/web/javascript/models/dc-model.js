@@ -8,7 +8,7 @@ var name = "model";
 
     model.prototype.setUrl = function(url, opts){
         for (var key in opts){
-            if (key in opts) url+="/"+encodeURI(key)+"/"+encodeURI(opts[key]);
+            if (typeof opts[key] === "number" || opts[key]) url+="/"+encodeURI(key)+"/"+encodeURI(opts[key]);
         }
         return url;
     };

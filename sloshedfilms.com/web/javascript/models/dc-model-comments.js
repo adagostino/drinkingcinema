@@ -21,6 +21,7 @@ var name = "model.comments";
             'lastComment': opts.lastComment, // offset
             'increment': opts.increment //limit
         };
+        console.log(opts);
         this.ajax(opts);
     };
 

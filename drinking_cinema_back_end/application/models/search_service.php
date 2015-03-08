@@ -73,7 +73,7 @@ class search_service extends CI_Model {
         foreach ($queryResults as $row){
             $comments[] = $this->comments_service->post_process_comment($row);
         }
-        $results['numResults'] = $queryResults[0] ? intval($queryResults[0]->numResults) : 0;
+        $results['numResults'] = $queryResults ? intval($queryResults[0]->numResults) : 0;
         $results['results'] = $comments;
         return $results;
     }
