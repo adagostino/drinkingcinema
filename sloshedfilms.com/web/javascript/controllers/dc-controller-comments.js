@@ -70,7 +70,6 @@ var name = "controller.comments";
                         'success': success,
                         'error': error
                     };
-                    console.log(opts);
                     $dc.model.comments.get(opts);
                 }
             });

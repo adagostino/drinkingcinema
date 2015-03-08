@@ -45,7 +45,7 @@ var name = "controller.comments.admin";
             'parentScope': this,
             'comment': {},
             'onValidate': function(){
-                console.log("on validate");
+                //console.log("on validate");
             },
             'submitComment': function(){
                 this.isProcessing = true;
