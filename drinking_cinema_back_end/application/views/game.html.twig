@@ -1,20 +1,27 @@
 {% extends _layout %}
 
 {% block body %}
-    <div class="dc-header-controller" dc-controller="header">
-        {% embed '_subtemplates/header-medium-desktop.html' %}
-            {% block subheader %}
-                {% include '_subtemplates/share-input.html' with {'share': {'value':  'http://chug.to/'~page.game.nameUrl} } %}
-            {% endblock %}
-        {% endembed %}
-    </div>
+    {% embed 'controllers/header.html' %}
+        {% block subheader %}
+            {% include '_subtemplates/dc-share-input.html' %}
+        {% endblock %}
+    {% endembed %}
     {% include 'controllers/game.html' %}
     {% include 'controllers/comments.html' %}
+    <script type="dc-template" id="dc-controller-header-template">
+        {{ source('controllers/header.html') }}
+    </script>
     <script type="dc-template" id="dc-controller-game-template">
         {{ source('controllers/game.html') }}
     </script>
     <script type="dc-template" id="dc-controller-comments-template">
         {{ source('controllers/comments.html') }}
+    </script>
+    <script type="dc-template" id="dc-nav-bar-template">
+        {{ source('_subtemplates/dc-nav-bar.html') }}
+    </script>
+    <script type="dc-template" id="dc-share-input-template">
+        {{ source('_subtemplates/dc-share-input.html') }}
     </script>
     <script type="dc-template" id="dc-game-template">
         {{ source('_subtemplates/dc-game-desktop.html') }}
@@ -88,6 +95,10 @@
             {{ source('_subtemplates/dc-infinite-scroll-comments.html') }}
         </script>
     {%  endif %}
+    <script type="text/javascript" id="dc-page-json">
+        this.pageJSON = {{(page|json_encode)}};
+    </script>
+
     <script type="text/javascript" id="dc-game-json">
         this.gameJSON = {{(page.game|json_encode)}};
     </script>

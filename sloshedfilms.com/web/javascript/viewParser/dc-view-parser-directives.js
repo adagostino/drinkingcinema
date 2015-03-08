@@ -30,7 +30,7 @@
     };
 
     viewParser.prototype.parseRepeatDirective = function(value){
-        var list = value.match(/(?:\s*in\s*)([-A-Za-z0-9_\.]+)\s*/i)[1],
+        var list = value.match(/(?:\s+in\s+)([-A-Za-z0-9_\.]+)\s*/i)[1],
             keyMatch = value.match(/(?:\s*)\(*([-A-Za-z0-9_]+)(?:\s*\,*\s*)([-A-Za-z0-9_]+)*\)*(?:\s+in)/i),
             key = keyMatch[1],
             val = keyMatch[2],
@@ -72,7 +72,6 @@
 
                     };
                 // the comment above is used as a placeholder so we always know where to insert elements
-
                 if (!length) return robj;
                 //console.log("in repeat link", this);
                 for (var i in a){
@@ -251,6 +250,37 @@
                     o.$el.replaceWith($c.$el);
                     self.removeElement(o.guid);
 
+                }
+            },
+            paths: paths
+        }
+    };
+
+    viewParser.prototype.parseAttrDirective = function(value) {
+        var parseFunc = $parse(value);
+        var paths = this.getPaths(parseFunc.lexer.lex(value));
+        return {
+            link: function(o){
+                //console.log(this);
+                var attrs = parseFunc(o);
+                for (var key in attrs){
+                    if (attrs[key]){
+                        this.attributes[key] = attrs[key];
+                    }
+                    else {
+                        delete this.attributes[key];
+                    }
+                }
+            },
+            watch: function(o){
+                var attrs = parseFunc(o.change.object);
+                for (var key in attrs){
+                    if (attrs[key]) {
+                        this.attributes[key] = attrs[key];
+                        o.$el.attr(key, attrs[key]);
+                    }else{
+                        o.$el.removeAttr(key);
+                    }
                 }
             },
             paths: paths

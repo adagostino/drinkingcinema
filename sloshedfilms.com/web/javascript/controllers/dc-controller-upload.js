@@ -11,7 +11,6 @@ var name = "controller.upload";
                 "dc-model": "game.name"
             });
             $dc.watchElement($el, this, null, true);
-
         };
 
         this.submit = function(key){
@@ -64,7 +63,8 @@ var name = "controller.upload";
             $scope = this;
             this.cdn = $dc.globals.cdn;
             this.isAdmin = true;
-            this.game = $dc.utils.getJSON('gameJSON','dc-game-json');
+            this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
+            this.game = this.page.game;
             var defaultThumb = this.game.thumbnail;
 
 

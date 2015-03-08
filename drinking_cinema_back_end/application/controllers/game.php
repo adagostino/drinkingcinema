@@ -44,7 +44,10 @@ class game extends CI_Controller
                 'image' => $imageDir.'amazonIcon.png'
             )
         );
-
+        $page["subheader"] = "#dc-share-input-template";
+        $page["share"] = array(
+            'value' => 'http://chug.to/'.$page["game"]["nameUrl"]
+        );
         $page["isAdmin"] = $isAdmin;
         $this->twiggy->set('page', $page)->template('game')->display();
 

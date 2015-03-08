@@ -229,6 +229,7 @@ var startTime = new Date().getTime();
                 template = $(this).html();
             $this.html(template.replace(/\{\%.*\%\}/g, ""));
 
+
         });
     };
 

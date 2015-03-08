@@ -5,7 +5,8 @@ var name = "controller.search";
 
         this.init = function(){
             $scope = this;
-            this.results = $dc.utils.getJSON('searchJSON', 'dc-search-json');
+            this.page = $dc.utils.getJSON('pageJSON', 'dc-page-json');
+            this.results = this.page.results;
 
             //this.results = $dc.utils.obj2array($dc.utils.getJSON('searchJSON','dc-search-json'));
             var pathname = window.location.pathname.split('/');

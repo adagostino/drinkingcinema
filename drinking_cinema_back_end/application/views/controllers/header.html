@@ -1,0 +1,26 @@
+<div class="dc-header-controller" dc-controller="header">
+    <div dc-include="#dc-nav-bar-template">
+        {% include '_subtemplates/dc-nav-bar.html' %}
+    </div>
+    {% if page.headerSize == 'large' %}
+        <div class="dc-social-media-header" dc-include="#dc-social-media-template" dc-if="page.headerSize === 'large'"></div>
+        <a dc-if="page.headerSize == 'large'" href="/" class="dc-logo-main">
+            <h1>Drinking Cinema: Movie Drinking Games That Hammer Ass</h1>
+        </a>
+    {% elseif page.headerSize == 'medium' %}
+    <a dc-if="page.headerSize == 'medium'" href="/" class="dc-logo-long">
+        <h1>Drinking Cinema: Movie Drinking Games That Hammer Ass</h1>
+    </a>
+    {% endif %}
+    <div class="dc-search-bar">
+        <div dc-include="page.subheader">
+            {% block subheader %}
+
+            {% endblock %}
+        </div>
+        <div dc-directive-search-input content="searchText">
+            {% include 'directives/dc-directive-search-input.html' %}
+        </div>
+        <hr class="dc-hr-top">
+    </div>
+</div>

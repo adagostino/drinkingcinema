@@ -3,6 +3,7 @@ var name = "controller.header";
 
     var controller = function(){
         this.init = function(){
+            this.page = $dc.utils.getJSON('pageJSON', 'dc-page-json');
             this.searchText = "";
         }
     };

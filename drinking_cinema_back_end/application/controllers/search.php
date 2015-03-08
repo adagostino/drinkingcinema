@@ -26,6 +26,7 @@ class search extends CI_Controller
         $page["cdn"] = $this->globals->get_CDN(true);
         $page["isAdmin"] = $isAdmin;
 
+        //$page["subheader"] = "#dc-share-input-template";
 
         $this->twiggy->set('page', $page)->template('search')->display();
 

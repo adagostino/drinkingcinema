@@ -302,6 +302,9 @@
     viewParser.prototype.parseDirective = function(name,value){
         var self = this;
         switch(name){
+            case "attr":
+                return self.parseAttrDirective(value);
+                break;
             case "class":
                 // push each key / value into this.attributes.class array
                 return self.parseClassDirective(value);

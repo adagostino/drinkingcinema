@@ -17,6 +17,10 @@ class Upload extends CI_Controller {
             "image" => "",
             "thumbnail" => $page["thumb"]
         );
+        $page["subheader"] = "#dc-share-input-template";
+        $page["share"] = array(
+            'placeholder' => 'Set Movie Name'
+        );
         $this->twiggy->set('page', $page)->template('upload')->display();
     }
 

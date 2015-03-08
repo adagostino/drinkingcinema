@@ -1,0 +1,23 @@
+<div dc-include="#dc-nav-bar-template">
+    {% include '_subtemplates/dc-nav-bar.html' with {'navBarLinks': page.navBarLinks} %}
+</div>
+{% if page.headerSize == 'large' %}
+    <div class="dc-social-media-header" dc-include="#dc-social-media-template" dc-if="page.headerSize === 'large'"></div>
+{% endif %}
+<a  href="/"
+    class= {% if page.headerSize == 'large' %} "dc-logo-main" {% elseif page.headerSize == 'medium' %} "dc-logo-long" {% endif %}
+    dc-class="{'dc-logo-main': page.headerSize === 'large', 'dc-logo-long': page.headerSize === 'medium'}">
+    <h1>Drinking Cinema: Movie Drinking Games That Hammer Ass</h1>
+</a>
+<div class="dc-search-bar">
+    <div dc-include="page.subheader">
+        {% block subheader %}
+
+        {% endblock %}
+    </div>
+    <div dc-directive-search-input content="searchText">
+        {% include 'directives/dc-directive-search-input.html' %}
+    </div>
+    <hr class="dc-hr-top">
+</div>
+
