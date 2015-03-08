@@ -16,9 +16,20 @@
   }
 }
 
+.dc-share-this-game-container{
+  position: relative;
+}
+
 .dc-share-this-game{
   @extend .header-image;
   margin-bottom: 26px;
+}
+
+.dc-social-media-container{
+  position: absolute;
+  left: 210px;
+  top: 50%;
+  margin-top: -10px;
 }
 
 .dc-mandatory-drinks {

@@ -1,8 +1,8 @@
 (function(viewParser){
     var ngReg = new RegExp("^dc-","i"),
         semiReg = new RegExp(";$"),
-        startTag = /<([-A-Za-z0-9_]+)((?:\s+[-A-Za-z0-9_]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/g,
-        endTag = /<\/([-A-Za-z0-9_]+)[^>]*>/g,
+        startTag = /<([-A-Za-z0-9_:]+)((?:\s+[-A-Za-z0-9_]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/g,
+        endTag = /<\/([-A-Za-z0-9_:]+)[^>]*>/g,
         $parse = window.ngParser;
 
     viewParser.prototype.parseTemplate = function(html){
