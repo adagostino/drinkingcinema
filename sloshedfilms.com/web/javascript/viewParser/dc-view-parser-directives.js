@@ -86,6 +86,7 @@
                     io.repeatOdd = !io.repeatEven;
 
                     io[key] = isObject ? i : a[i];
+
                     if (val) io[val] = a[i];
                     dcRepeatItems.push({
                         io: io

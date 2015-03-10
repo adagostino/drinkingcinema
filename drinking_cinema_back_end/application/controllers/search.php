@@ -13,20 +13,27 @@ class search extends CI_Controller
     }
 
     function get(){
-        $searchTerms = $this->uri->segment(2);
-        if (trim(urldecode(strtolower ($searchTerms))) == "") $searchTerms = "newest";
+        $searchTerms = trim(urldecode(strtolower ($this->uri->segment(2))));
+        if ($searchTerms === "") $searchTerms = "newest";
         // get search results
         $results = $this->search_service->search_movies($searchTerms, 0, 5);
 
         $isAdmin = true;
 
-        $page = $this->page_service->get('search', $isAdmin);
+        $page = $this->page_service->get_data('search', $isAdmin);
         $page["title"] = "search";
         $page["results"] = $results;
         $page["cdn"] = $this->globals->get_CDN(true);
         $page["isAdmin"] = $isAdmin;
+        $page["searchTerms"] = $searchTerms;
+        $page["searchNavItems"] = array(
+            "a-z",
+            "z-a",
+            "newest",
+            "oldest"
+        );
 
-        //$page["subheader"] = "#dc-share-input-template";
+        $page["subheader"] = "#dc-search-nav-bar-template";
 
         $this->twiggy->set('page', $page)->template('search')->display();
 

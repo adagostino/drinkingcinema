@@ -1,0 +1,26 @@
+.dc-search-nav-bar {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding-top: 15px;
+}
+
+.dc-search-nav-bar-button {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 0px 5px;
+}
+.dc-search-nav-bar-button span {
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 0px;
+  text-align: center;
+  color: #ffffff;
+  z-index: -1;
+}

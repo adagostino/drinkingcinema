@@ -183,3 +183,20 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`emailsTable` (
   INDEX `email_sent` (`email_sent` ASC) ,
   INDEX `email_sent_date` (`email_sent_date` ASC)
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pageTable`
+--
+CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`pageTable` (
+  `p_Id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `page` VARCHAR(333) NOT NULL ,
+  `content` TEXT NOT NULL ,
+  `editUser` VARCHAR(333) NULL DEFAULT NULL ,
+  `editDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+  PRIMARY KEY (`p_Id`) ,
+  UNIQUE INDEX `page` (`page` ASC) ,
+  INDEX `editUser` (`editUser` ASC) ,
+  INDEX `editDate` (`editDate` ASC)
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;

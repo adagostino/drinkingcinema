@@ -3,6 +3,14 @@
 .dc-social-media-buttons{
   @include inline-block();
   position: relative;
+  will-change: opacity;
+  @include opacity(0);
+  @include animation-duration(0.218s);
+  @include animation-delay(1s);
+  @include animation-timing-function(ease-in-out);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+  @include animation-name(fadeIn);
 }
 
 .dc-social-media-button{

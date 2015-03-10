@@ -3,7 +3,7 @@
 {% block body %}
     {% embed 'controllers/header.html' %}
         {% block subheader %}
-            {#{% include '_subtemplates/dc-share-input.html' %}#}
+            {% include '_subtemplates/dc-search-nav-bar-desktop.html' %}
         {% endblock %}
     {% endembed %}
     {% include 'controllers/search.html' %}
@@ -12,6 +12,9 @@
     </script>
     <script type="dc-template" id="dc-social-media-template">
         {{ source('_subtemplates/dc-social-media.html') }}
+    </script>
+    <script type="dc-template" id="dc-search-nav-bar-template">
+        {{ source('_subtemplates/dc-search-nav-bar-desktop.html') }}
     </script>
     <script type="dc-template" id="dc-controller-search-template">
         {{ source('controllers/search.html') }}

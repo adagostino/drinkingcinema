@@ -1,0 +1,13 @@
+
+<div class="dc-search-nav-bar">
+    {% spaceless %}
+    {% for item in page.searchNavItems %}
+    <a href="/search/{{item}}"
+       dc-repeat="item in page.searchNavItems"
+       class="dc-search-nav-bar-button dc-search-button-{{item}} {% if page.searchTerms == item %}selected{% endif %}"
+       dc-class="{'selected': item === parentScope.page.searchTerms}">
+        <span>{{item}}</span>
+    </a>
+    {% endfor %}
+    {% endspaceless %}
+</div>

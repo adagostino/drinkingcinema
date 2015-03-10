@@ -22,7 +22,8 @@ class game extends CI_Controller
 
         $imageDir = $this->globals->get_images_dir(true);
 
-        $page = $this->page_service->get('game', $isAdmin, $game);
+        $page = $this->page_service->get_data('game', $isAdmin, $game);
+
         $page["title"] = $game["name"];
         $page["game"] = $game;
         $page["cdn"] = $this->globals->get_CDN(true);

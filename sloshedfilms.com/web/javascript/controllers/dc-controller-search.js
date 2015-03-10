@@ -7,10 +7,7 @@ var name = "controller.search";
             $scope = this;
             this.page = $dc.utils.getJSON('pageJSON', 'dc-page-json');
             this.results = this.page.results;
-
-            //this.results = $dc.utils.obj2array($dc.utils.getJSON('searchJSON','dc-search-json'));
-            var pathname = window.location.pathname.split('/');
-            this.searchTerms = pathname[2];
+            this.searchTerms = this.page.searchTerms;
 
             window.$scope = this;
 

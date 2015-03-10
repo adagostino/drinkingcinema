@@ -132,6 +132,7 @@
                         "desktop" => array(
                             "common" => array(
                                 "views/subtemplates/desktop/dc-search-item-desktop.css",
+                                "views/subtemplates/desktop/dc-search-nav-bar-desktop.css",
                                 "directives/dc-directive-infinite-scroll.css"
                             ),
                             "admin" => array()
