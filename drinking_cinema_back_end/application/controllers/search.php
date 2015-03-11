@@ -20,7 +20,7 @@ class search extends CI_Controller
 
         $isAdmin = true;
 
-        $page = $this->page_service->get_data('search', $isAdmin);
+        $page = $this->page_builder_service->get_data('search', $isAdmin);
         $page["title"] = "search";
         $page["results"] = $results;
         $page["cdn"] = $this->globals->get_CDN(true);

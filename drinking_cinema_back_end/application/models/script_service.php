@@ -86,6 +86,36 @@
                     )
                 )
             ),
+            "page" => array(
+                "common" => array(
+                    "models/dc-model-page.js",
+                    "models/dc-model-comments.js",
+                    "controllers/dc-controller-page.js",
+                    "controllers/dc-controller-comments.js",
+                    "directives/dc-directive-input.js",
+                    "directives/dc-directive-infinite-scroll.js",
+                    "directives/dc-directive-comment.js",
+                    "services/dc-service-data-source.js"
+                ),
+                "mobile" => array(),
+                "desktop" => array(
+                    "common" => array(
+                        "controllers/dc-controller-page-desktop.js",
+                        "directives/dc-directive-tooltip.js",
+                        "directives/dc-directive-tooltip-image.js"
+                    ),
+                    "admin" => array(
+                        "models/dc-model-comments-admin.js",
+                        "controllers/dc-controller-page-desktop-admin.js",
+                        "controllers/dc-controller-comments-admin.js",
+                        "directives/dc-directive-modal.js",
+                        "directives/dc-directive-editable.js",
+                        "directives/dc-directive-editable-rte.js",
+                        "directives/dc-directive-comment-admin.js",
+                        "services/dc-service-modal.js"
+                    )
+                )
+            ),
             "upload" => array(
                 "common" => array(
                     "models/dc-model-game.js"
@@ -162,6 +192,28 @@
                                 "directives/dc-directive-upload-thumbnail.css",
                                 "directives/dc-directive-upload-image.css",
                                 "views/subtemplates/desktop/dc-search-item-desktop.css"
+                            )
+                        )
+                    ),
+                    "page" => array(
+                        "common" => array(
+                            "directives/dc-directive-input.css"
+                        ),
+                        "mobile" => array(),
+                        "desktop" => array(
+                            "common" => array(
+                                "views/dc-page-desktop.css",
+                                "views/dc-comments-desktop.css",
+                                "views/subtemplates/desktop/dc-additional-pages-subheader-desktop.css",
+                                "views/subtemplates/desktop/dc-comment-form-desktop.css",
+                                "directives/dc-directive-tooltip.css",
+                                "directives/dc-directive-tooltip-image.css",
+                                "directives/desktop/dc-directive-comment-desktop.css",
+                                "directives/dc-directive-infinite-scroll.css"
+                            ),
+                            "admin" => array(
+                                "directives/dc-directive-modal.css",
+                                "directives/dc-directive-editable.css"
                             )
                         )
                     ),

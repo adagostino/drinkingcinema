@@ -45,7 +45,8 @@ var name = "controller.comments";
 
         this.init = function(){
             $scope = this;
-            this.results = $dc.utils.getJSON('commentsJSON','dc-comments-json');
+            this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
+            this.results = this.page.comments;
             this.numErrors = 0;
             this.comment = {
                 name: $dc.utils.getLocal("commenterName"),

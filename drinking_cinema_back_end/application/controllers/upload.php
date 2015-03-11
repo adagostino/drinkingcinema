@@ -5,7 +5,7 @@ class Upload extends CI_Controller {
     }
 
     function index() {
-        $page = $this->page_service->get_data("upload", true);
+        $page = $this->page_builder_service->get_data("upload", true);
         $page["title"] = "Upload";
         $page["isAdmin"] = true;
         $page["game"] = array(

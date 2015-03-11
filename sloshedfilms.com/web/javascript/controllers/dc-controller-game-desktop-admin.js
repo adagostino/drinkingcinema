@@ -45,7 +45,7 @@ var name = "controller.game.desktop.admin";
 
         this.init = function(){
             this._super();
-            this.isAdmin = true;
+            this.isAdmin = this.page.isAdmin;
             $scope = this;
         }
     };

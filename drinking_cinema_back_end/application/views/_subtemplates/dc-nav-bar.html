@@ -2,7 +2,7 @@
     {% spaceless %}
     {% for link in page.navBarLinks %}
         <span dc-repeat="link in page.navBarLinks" >
-        <a href="{{link.href}}" class="dc-nav-bar-{{link.name}}{% if page.title == link.name %} selected{% endif %}" dc-class="{'selected': page.title === link.name}" target="{{link.target}}" dc-attr="{'href': link.href, 'target': link.target}">
+        <a href="{{link.href}}" class="dc-nav-bar-{{link.name}}{% if page.page.pageName == link.name %} selected{% endif %}" dc-class="{'selected': parentScope.page.page.pageName === link.name}" target="{{link.target}}" dc-attr="{'href': link.href, 'target': link.target}">
             <span>{{link.name}}</span>
         </a>
         {% if link.hasX %}

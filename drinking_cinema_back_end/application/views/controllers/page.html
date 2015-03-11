@@ -1,0 +1,17 @@
+<div class="dc-page-controller" dc-controller="page">
+    {% if page.isAdmin %}
+    <div dc-if="isAdmin">
+        <div id="dc-page-content" dc-directive-editable-rte content="page.page.content" submit="submitContent">
+            {% include 'directives/dc-directive-editable.html' with {'field': 'tags', 'contentHTML': page.page.content} %}
+        </div>
+    </div>
+    {% else %}
+    <div dc-if="!isAdmin">
+        <div id="dc-page-content">
+            <div class="dc-page-content" dc-model="page.page.content">
+                {{ page.page.content|raw }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

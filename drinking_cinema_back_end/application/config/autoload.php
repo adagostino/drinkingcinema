@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('script_service', 'globals', 'social_media_service', 'page_service');
+$autoload['model'] = array('script_service', 'globals', 'social_media_service', 'page_builder_service');
 
 $autoload['sparks'] = array('Twiggy/0.8.5');
 /* End of file autoload.php */

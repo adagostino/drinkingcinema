@@ -3,16 +3,16 @@
 {% block body %}
     {% embed 'controllers/header.html' %}
         {% block subheader %}
-            {% include '_subtemplates/dc-share-input.html' %}
+            {% include '_subtemplates/dc-additional-pages-subheader.html' %}
         {% endblock %}
     {% endembed %}
-    {% include 'controllers/game.html' %}
+    {% include 'controllers/page.html' %}
     {% include 'controllers/comments.html' %}
     <script type="dc-template" id="dc-controller-header-template">
         {{ source('controllers/header.html') }}
     </script>
-    <script type="dc-template" id="dc-controller-game-template">
-        {{ source('controllers/game.html') }}
+    <script type="dc-template" id="dc-controller-page-template">
+        {{ source('controllers/page.html') }}
     </script>
     <script type="dc-template" id="dc-controller-comments-template">
         {{ source('controllers/comments.html') }}
@@ -23,32 +23,17 @@
     <script type="dc-template" id="dc-share-input-template">
         {{ source('_subtemplates/dc-share-input.html') }}
     </script>
-    <script type="dc-template" id="dc-game-template">
-        {{ source('_subtemplates/dc-game-desktop.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-game-image-template">
-        {{ source('directives/dc-directive-game-image.html') }}
+    <script type="dc-template" id="dc-additional-pages-subheader-template">
+        {{ source('_subtemplates/dc-additional-pages-subheader.html') }}
     </script>
     <script type="dc-template" id="dc-social-media-template">
         {{ source('_subtemplates/dc-social-media.html') }}
     </script>
-    <script type="dc-template" id="dc-vendors-template">
-        {{ source('_subtemplates/dc-vendors-desktop.html') }}
-    </script>
-    <script type="dc-template" id="dc-game-suggestions-template">
-        {{ source('_subtemplates/dc-game-suggestions-desktop.html') }}
-    </script>
     <script type="dc-template" id="dc-comment-form-template">
         {{ source('_subtemplates/dc-comment-form-desktop.html') }}
     </script>
-    <script type="dc-template" id="dc-directive-tooltip-template">
-        {{ source('directives/dc-directive-tooltip.html') }}
-    </script>
     <script type="dc-template" id="dc-directive-input-template">
         {{ source('directives/dc-directive-input.html') }}
-    </script>
-    <script type="dc-template" id="dc-tooltip-text-template">
-        {{ source('_subtemplates/dc-tooltip-text.html') }}
     </script>
     <script type="dc-template" id="dc-tooltip-image-template">
         {{ source('_subtemplates/dc-tooltip-image.html') }}
@@ -60,9 +45,6 @@
         {{ source('directives/dc-directive-comment.html') }}
     </script>
     {% if page.isAdmin %}
-        <script type="dc-template" id="dc-directive-game-image-admin-template">
-            {{ source('directives/dc-directive-game-image-admin.html') }}
-        </script>
         <script type="dc-template" id="dc-directive-editable-template">
             {{ source('directives/dc-directive-editable.html') }}
         </script>
@@ -71,21 +53,6 @@
         </script>
         <script type="dc-template" id="dc-directive-editable-modal-template">
             {{ source('directives/dc-directive-editable-modal.html') }}
-        </script>
-        <script type="dc-template" id="dc-directive-upload-thumbnail-template">
-            {{ source('directives/dc-directive-upload-thumbnail.html') }}
-        </script>
-        <script type="dc-template" id="dc-directive-preview-thumbnail-modal-template">
-            {{ source('directives/dc-directive-preview-thumbnail-modal.html') }}
-        </script>
-        <script type="dc-template" id="dc-directive-upload-image-template">
-            {{ source('directives/dc-directive-upload-image.html') }}
-        </script>
-        <script type="dc-template" id="dc-directive-preview-image-modal-template">
-            {{ source('directives/dc-directive-preview-image-modal.html') }}
-        </script>
-        <script type="dc-template" id="dc-search-item-template">
-            {{ source('_subtemplates/dc-search-item-desktop.html') }}
         </script>
         <script type="dc-template" id="dc-infinite-scroll-comments-template">
             {{ source('_subtemplates/dc-infinite-scroll-comments-admin.html') }}
