@@ -120,6 +120,15 @@
             "ES_03" => array(
                 "message" => "There was a DB error fetching your search results.",
                 "code" => 500
+            ),
+            // PAGE ERRORS
+            "EP_01" => array(
+                "message" => "Please provide the page name you are trying to add/update.",
+                "code" => 400
+            ),
+            "EP_02" => array(
+                "message" => "There was a DB error adding/updating your page.",
+                "code" => 500
             )
         );
 

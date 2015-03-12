@@ -47,6 +47,7 @@
             foreach ($this->_keyMap as $key => $value) {
                 $page[$key] = $isQuery ? htmlspecialchars_decode($input->$value,ENT_QUOTES) : $input[$value];
             }
+            return $page;
         }
 
         function get($pageName){
@@ -60,10 +61,10 @@
             //INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE name=VALUES(name), age=VALUES(age)
             $input = $this->format_input_opts($opts);
             $insert = "INSERT INTO pageTable (";
-            $values = " (";
+            $values = " VALUES(";
             $update = " ON DUPLICATE KEY UPDATE ";
             $ct = 0;
-            foreach ($input as $key){
+            foreach ($input as $key=>$value){
                 if ($ct > 0){
                     $insert.=",";
                     $values.=",";
@@ -75,7 +76,7 @@
                 $ct++;
             }
             $insert.=",editUser)";
-            $values.=$this->db->escape("admin").")";
+            $values.=",".$this->db->escape("admin").")";
             $update.=",editUser=VALUES(editUser)";
             $sql=$insert.$values.$update;
             $query = $this->db->query($sql);

@@ -31,11 +31,6 @@
             ),
         );
 
-        private $_keyMap = array(
-            "pageName" => "page",
-            "content" => "content"
-        );
-
         function __construct()
         {
             // Call the Model constructor
