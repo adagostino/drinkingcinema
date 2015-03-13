@@ -50,6 +50,10 @@
   position: relative;
   width: $dc-content-width;
   padding: $dc-default-padding 0px;
+}
+
+.dc-search-item-image-container{
+  position: relative;
   [dc-directive-embed-game]{
     position: absolute;
     top: $dc-default-padding;
@@ -180,12 +184,24 @@ $time: 0.218s;
     @include opacity(0);
     @include transition(opacity $time $easing);
   }
-  &:hover {
+}
+
+.dc-search-item-image-container:hover{
+  .dc-search-item-image {
     &:before, &:after{
       @include opacity(1);
     }
   }
 }
+
+.dc-search-item-chug, .dc-search-item-comments{
+  &:hover{
+    &:before, &:after{
+      @include opacity(1);
+    }
+  }
+}
+
 
 
 
