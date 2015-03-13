@@ -1,13 +1,15 @@
 {% extends _layout %}
 
 {% block body %}
-    {% embed 'controllers/header.html' %}
-        {% block subheader %}
-            {% include '_subtemplates/dc-share-input.html' %}
-        {% endblock %}
-    {% endembed %}
-    {% include 'controllers/game.html' %}
-    {% include 'controllers/comments.html' %}
+    <div class="dc-game">
+        {% embed 'controllers/header.html' %}
+            {% block subheader %}
+                {% include '_subtemplates/dc-share-input.html' %}
+            {% endblock %}
+        {% endembed %}
+        {% include 'controllers/game.html' %}
+        {% include 'controllers/comments.html' %}
+    </div>
     <script type="dc-template" id="dc-controller-header-template">
         {{ source('controllers/header.html') }}
     </script>
@@ -28,6 +30,9 @@
     </script>
     <script type="dc-template" id="dc-directive-game-image-template">
         {{ source('directives/dc-directive-game-image.html') }}
+    </script>
+    <script type="dc-template" id="dc-directive-embed-game-template">
+        {{ source('directives/dc-directive-embed-game.html') }}
     </script>
     <script type="dc-template" id="dc-social-media-template">
         {{ source('_subtemplates/dc-social-media.html') }}

@@ -50,6 +50,11 @@
   position: relative;
   width: $dc-content-width;
   padding: $dc-default-padding 0px;
+  [dc-directive-embed-game]{
+    position: absolute;
+    top: $dc-default-padding;
+    left: ($dc-content-width - $dc-small-image-width)/2 + $dc-default-padding;
+  }
 }
 
 .dc-search-item-image{
@@ -89,7 +94,6 @@
     top: 0px;
     left: 100%;
   }
-
 }
 
 .dc-search-item-info {

@@ -2,6 +2,9 @@
     <a class="dc-search-item-image" dc-class="{'expanded': isExpanded}" dc-click="expand" href="/game/{{item.nameUrl}}" style="background-image: url('{{item.image}}')">
         <h2>A Movie Drinking Game For {{item.name}}</h2>
     </a>
+    <div dc-directive-embed-game game="item">
+        {% include 'directives/dc-directive-embed-game.html' with {'game': item} %}
+    </div>
     <div class="dc-search-item-info">
         <a class="dc-search-item-chug" href="/game/{{item.nameUrl}}">
             <h3>Chug To This</h3>

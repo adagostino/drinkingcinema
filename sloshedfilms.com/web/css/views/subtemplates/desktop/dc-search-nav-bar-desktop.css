@@ -18,9 +18,8 @@
   width: 100%;
   position: absolute;
   top: 50%;
-  margin-top: -8px;
   left: 0px;
-  text-align: center;
-  color: #ffffff;
+  margin-top: -8px;
   z-index: -1;
+  color: #ffffff;
 }

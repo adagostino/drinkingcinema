@@ -1,18 +1,9 @@
 @import "imports/dc-imports";
 
-.hidden-span {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  margin-top: -8px;
-  z-index: -1;
-  color: $dc-white;
-}
-
 .header-image {
   position: relative;
   span {
-    @extend .hidden-span;
+    @include hiddenSpan();
   }
 }
 
@@ -61,13 +52,7 @@
   margin: $dc-default-padding;
   margin-left: 0px;
   span{
-    @extend .hidden-span;
-  }
-}
-
-.dc-leave-a-comment {
-  span{
-    @extend .hidden-span;
+    @include hiddenSpan();
   }
 }
 

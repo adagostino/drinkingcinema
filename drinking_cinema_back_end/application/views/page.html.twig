@@ -1,13 +1,15 @@
 {% extends _layout %}
 
 {% block body %}
-    {% embed 'controllers/header.html' %}
-        {% block subheader %}
-            {% include '_subtemplates/dc-additional-pages-subheader.html' %}
-        {% endblock %}
-    {% endembed %}
-    {% include 'controllers/page.html' %}
-    {% include 'controllers/comments.html' %}
+    <div class="dc-page">
+        {% embed 'controllers/header.html' %}
+            {% block subheader %}
+                {% include '_subtemplates/dc-additional-pages-subheader.html' %}
+            {% endblock %}
+        {% endembed %}
+        {% include 'controllers/page.html' %}
+        {% include 'controllers/comments.html' %}
+    </div>
     <script type="dc-template" id="dc-controller-header-template">
         {{ source('controllers/header.html') }}
     </script>

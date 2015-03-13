@@ -23,7 +23,6 @@ class faq extends CI_Controller
         $page["subheader"] = "#dc-additional-pages-subheader-template";
         $page["isAdmin"] = $isAdmin;
         $this->twiggy->set('page', $page)->template('page')->display();
-
     }
 
 }

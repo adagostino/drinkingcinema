@@ -1,7 +1,7 @@
 <div class="dc-game-image" style="background-image: url('{{game.image}}')">
     <h1>A Movie Drinking Game for {{game.name}}</h1>
-    <div dc-directive-embed-game>
-        {% include 'directives/dc-directive-embed-game.html' %}
+    <div dc-directive-embed-game game="game">
+        {% include 'directives/dc-directive-embed-game.html' with {'game': game} %}
     </div>
 
     {% if page.isAdmin %}

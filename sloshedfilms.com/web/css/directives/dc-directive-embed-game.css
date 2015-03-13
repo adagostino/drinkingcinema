@@ -1,0 +1,61 @@
+.dc-embed-game {
+  position: relative;
+}
+.dc-embed-game.active, .dc-embed-game:active {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.dc-embed-game.show {
+  cursor: default;
+}
+.dc-embed-game.show .dc-embed-game-content {
+  display: block;
+  -moz-animation-name: fadeIn;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.dc-embed-game-content {
+  text-transform: none;
+  width: 303px;
+  will-change: opacity;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-animation-duration: 0.436s;
+  -webkit-animation-duration: 0.436s;
+  animation-duration: 0.436s;
+  -moz-animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -moz-animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -moz-animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  display: none;
+}
+.dc-embed-game-content .dc-x-out {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.dc-embed-game-content textarea {
+  height: 55px;
+  padding: 5px;
+  resize: none;
+  white-space: normal;
+  overflow-x: visible;
+  width: 100%;
+}
+
+.dc-embed-game-content-title {
+  font-size: 0.8em;
+  padding: 5px 0px;
+}
+
+.dc-embed-game-content-subtitle {
+  font-size: 0.8em;
+  padding-top: 5px;
+}

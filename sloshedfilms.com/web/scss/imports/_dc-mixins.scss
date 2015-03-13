@@ -9,3 +9,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@mixin hiddenSpan(){
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: $dc-white;
+}

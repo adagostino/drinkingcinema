@@ -1,1 +1,54 @@
 @import "imports/dc-imports";
+
+.dc-embed-game{
+  position: relative;
+  &.active, &:active {
+    @include box-shadow(none);
+  }
+  &.show{
+    cursor: default;
+    .dc-embed-game-content{
+      display: block;
+      @include animation-name(fadeIn);
+    }
+  }
+}
+$time: 0.436s;
+$easing: ease-in-out;
+.dc-embed-game-content{
+  text-transform: none;
+  width: 325px - 2*$dc-default-padding - 2px;
+  will-change: opacity;
+  @include opacity(0);
+  @include animation-duration($time);
+  @include animation-timing-function($easing);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+  display: none;
+
+  .dc-x-out{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  textarea{
+    height: 55px;
+    padding: $dc-default-padding/2;
+    resize: none;
+    white-space: normal;
+    overflow-x: visible;
+    width: 100%;
+  }
+
+}
+
+.dc-embed-game-content-title{
+  font-size: 0.8em;
+  padding: $dc-default-padding/2 0px;
+}
+
+.dc-embed-game-content-subtitle{
+  font-size: 0.8em;
+  padding-top: $dc-default-padding/2;
+}

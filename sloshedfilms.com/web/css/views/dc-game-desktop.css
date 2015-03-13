@@ -1,14 +1,13 @@
-.hidden-span, .header-image span, .dc-share-this-game span, .dc-mandatory-drinks span, .dc-bonus-drinks span, .dc-find-this-movie span, .dc-movies-like-this span, .dc-button-icon span, .dc-leave-a-comment span {
+.header-image, .dc-share-this-game, .dc-mandatory-drinks, .dc-bonus-drinks, .dc-find-this-movie, .dc-movies-like-this {
+  position: relative;
+}
+.header-image span, .dc-share-this-game span, .dc-mandatory-drinks span, .dc-bonus-drinks span, .dc-find-this-movie span, .dc-movies-like-this span {
   position: absolute;
   top: 50%;
   left: 0px;
   margin-top: -8px;
   z-index: -1;
   color: #ffffff;
-}
-
-.header-image, .dc-share-this-game, .dc-mandatory-drinks, .dc-bonus-drinks, .dc-find-this-movie, .dc-movies-like-this {
-  position: relative;
 }
 
 .dc-share-this-game-container {
@@ -50,6 +49,14 @@
 .dc-button-icon {
   margin: 10px;
   margin-left: 0px;
+}
+.dc-button-icon span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
 }
 
 .dc-vendor, .dc-vendor-netflix, .dc-vendor-hulu, .dc-vendor-amazon, .dc-game-suggestion {

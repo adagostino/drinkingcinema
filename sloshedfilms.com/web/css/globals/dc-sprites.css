@@ -22,6 +22,10 @@
   background-image: url("http://cdn.drinkingcinema.com/Images/commentsWords.png");
 }
 
+.dc-subpages, .dc-faq, .dc-about, .dc-contact {
+  background-image: url("http://cdn.drinkingcinema.com/Images/subpages.jpg");
+}
+
 .dc-thumbs-up {
   width: 40px;
   height: 28px;
@@ -344,4 +348,22 @@
 }
 .dc-search-button-oldest:hover, .dc-search-button-oldest.selected {
   background-position: -310px -93px;
+}
+
+.dc-faq {
+  background-position: -4px -8px;
+  height: 90px;
+  width: 250px;
+}
+
+.dc-about {
+  background-position: -4px -134px;
+  height: 90px;
+  width: 375px;
+}
+
+.dc-contact {
+  background-position: -4px -255px;
+  height: 110px;
+  width: 267px;
 }

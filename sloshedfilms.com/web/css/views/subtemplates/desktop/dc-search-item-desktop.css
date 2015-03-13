@@ -43,6 +43,11 @@
   width: 750px;
   padding: 10px 0px;
 }
+.dc-search-item [dc-directive-embed-game] {
+  position: absolute;
+  top: 10px;
+  left: 76px;
+}
 
 .dc-search-item-image {
   display: block;

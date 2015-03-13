@@ -24,6 +24,10 @@
   background-image: url($dc-comment-words-url);
 }
 
+.dc-subpages {
+  background-image: url($dc-subpages-url);
+}
+
 .dc-thumbs-up {
   @extend .dc-controls;
   width: 40px;
@@ -414,4 +418,25 @@ $tvLoaderSize: $dc-tv-loader-size;
   &:hover, &.selected{
     background-position: -310px -93px;
   }
+}
+
+.dc-faq{
+  @extend .dc-subpages;
+  background-position: -4px -8px;
+  height: 90px;
+  width: 250px;
+}
+
+.dc-about{
+  @extend .dc-subpages;
+  background-position: -4px -134px;
+  height: 90px;
+  width: 375px;
+}
+
+.dc-contact{
+  @extend .dc-subpages;
+  background-position: -4px -255px;
+  height: 110px;
+  width: 267px;
 }

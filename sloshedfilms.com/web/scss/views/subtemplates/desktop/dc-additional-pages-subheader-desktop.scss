@@ -1,4 +1,14 @@
 @import "imports/dc-imports";
+
+.dc-page{
+  .dc-comments-controller{
+    margin: $dc-default-padding 0;
+  }
+}
+
 .dc-additional-pages-subheader{
-  margin-top: 20px;
+  margin-top: $dc-default-padding;
+  span{
+    @include hiddenSpan();
+  }
 }

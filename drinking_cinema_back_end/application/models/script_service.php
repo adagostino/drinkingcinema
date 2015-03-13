@@ -42,6 +42,7 @@
                     "models/dc-model-search.js",
                     "controllers/dc-controller-search.js",
                     "directives/dc-directive-infinite-scroll.js",
+                    "directives/dc-directive-embed-game.js",
                     "services/dc-service-data-source.js"
                 ),
                 "mobile" => array(),
@@ -163,7 +164,8 @@
                             "common" => array(
                                 "views/subtemplates/desktop/dc-search-item-desktop.css",
                                 "views/subtemplates/desktop/dc-search-nav-bar-desktop.css",
-                                "directives/dc-directive-infinite-scroll.css"
+                                "directives/dc-directive-infinite-scroll.css",
+                                "directives/dc-directive-embed-game.css"
                             ),
                             "admin" => array()
                         )

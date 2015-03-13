@@ -1,12 +1,14 @@
 {% extends _layout %}
 
 {% block body %}
-    {% embed 'controllers/header.html' %}
-        {% block subheader %}
-            {% include '_subtemplates/dc-share-input.html' %}
-        {% endblock %}
-    {% endembed %}
-    {% include 'controllers/upload.html' %}
+    <div class="dc-upload">
+        {% embed 'controllers/header.html' %}
+            {% block subheader %}
+                {% include '_subtemplates/dc-share-input.html' %}
+            {% endblock %}
+        {% endembed %}
+        {% include 'controllers/upload.html' %}
+    </div>
     <script type="dc-template" id="dc-controller-header-template">
         {{ source('controllers/header.html') }}
     </script>
