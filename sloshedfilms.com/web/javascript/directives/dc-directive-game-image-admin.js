@@ -8,6 +8,7 @@ var name = "directive.gameImage.admin";
             var modalScope = this.previewModal;
             var oldImage = $scope.game.image;
             this.parentScope.game.image = this.previewImage;
+
             $dc.model.game.postImage({
                 $scope: this,
                 name: $scope.game.name,
@@ -15,17 +16,19 @@ var name = "directive.gameImage.admin";
                 progress: function(e, percent){
                     modalScope.uploadProgress = percent;
                     if (percent >= 100) {
-                        modalScope.hide();
+                        this.$timeout(function(){
+                            !modalScope.errors && modalScope.hide();
+                        },100);
                     }
                 },
                 success: function(data){
-                    console.log("success", data);
+                    modalScope.errors = undefined;
                     this.isProcessing = false;
                 },
                 error: function(err, xhr){
-                    alert("problem uploading image -- check console");
-                    console.log("error uploading image", err, xhr);
+                    modalScope.errors = err.errors;
                     $scope.game.image = oldImage;
+                    this.isProcessing = false;
                 }
             });
         };
@@ -45,8 +48,9 @@ var name = "directive.gameImage.admin";
                     modalScope.hide();
                 },
                 error: function(err, xhr){
+                    modalScope.errors = err.errors;
                     this.isProcessing = false;
-                    alert("problem uploading thumbnail -- check console");
+                    //alert("problem uploading thumbnail -- check console");
                     console.log("error uploading thumbnail", err, xhr);
                 }
             });

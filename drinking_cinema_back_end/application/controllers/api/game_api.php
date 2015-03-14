@@ -43,8 +43,9 @@
             $this->send($success, $errors, $input);
         }
 
-        function game_post() {
-            $game = $this->post('game');
+        function game_put() {
+            if (!$this->is_admin()) return;
+            $game = $this->put('game');
             $input = $game;
             $success = array();
             $errors = array();
@@ -75,8 +76,8 @@
         }
 
         function game_update_post() {
+            if (!$this->is_admin()) return;
             $game = $this->post('game');
-
             $errors = array();
             $success = array();
             $input = $game;
@@ -96,7 +97,7 @@
         }
 
         function image_post() {
-            //if (!is_admin()) return;
+            if (!$this->is_admin()) return;
             $fileName = (isset($_SERVER['HTTP_X_FILENAME']) ? $_SERVER['HTTP_X_FILENAME'] : false);
             $name = $this->get('name');
             $input = array(
@@ -125,6 +126,7 @@
         }
 
         function thumbnail_post() {
+            if (!$this->is_admin()) return;
             $name = $this->post('name');
             $coords = $this->post('coords');
             $input = array(

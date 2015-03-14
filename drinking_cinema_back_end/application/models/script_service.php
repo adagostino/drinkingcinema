@@ -235,6 +235,7 @@
                                 "directives/dc-directive-game-image.css",
                                 "directives/dc-directive-upload-thumbnail.css",
                                 "directives/dc-directive-upload-image.css",
+                                "directives/dc-directive-input.css",
                                 "views/subtemplates/desktop/dc-search-item-desktop.css"
                             )
                         )

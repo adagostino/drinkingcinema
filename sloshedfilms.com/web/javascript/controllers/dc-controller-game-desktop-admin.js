@@ -14,14 +14,14 @@ var name = "controller.game.desktop.admin";
                     $scope: this,
                     game: game,
                     success: function(data){
-                        console.log("success", data);
                         this.processing = false;
                         this.editing = false;
                         this.content = data[key];
                         $scope.game[key] = this.content;
                     },
                     error: function(err, xhr){
-                        alert(JSON.stringify(err));
+                        //alert(JSON.stringify(err));
+                        this.errors = err.errors;
                         this.processing = false;
 
                     }

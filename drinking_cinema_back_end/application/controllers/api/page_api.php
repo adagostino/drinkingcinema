@@ -25,6 +25,7 @@
 
 
         function page_update_post() {
+            if (!$this->is_admin()) return;
             $page = $this->post('page');
             $errors = array();
             $success = array();

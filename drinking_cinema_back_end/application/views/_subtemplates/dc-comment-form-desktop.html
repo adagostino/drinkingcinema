@@ -21,7 +21,9 @@
         </div>
         <div class="dc-comment-form-bottom">
             <button class="dc-button-primary dc-comment-form-submit" dc-class="{'processing': isProcessing}" dc-click="submitComment">Submit</button>
+            <div class="dc-text-input-error" dc-if="errors">
+                <div dc-repeat="error in errors">{{error.message}}</div>
+            </div>
         </div>
     </div>
-
 </div>

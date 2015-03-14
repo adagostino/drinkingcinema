@@ -4,7 +4,6 @@ var name = "model.comments.admin";
 
     commentModel.prototype.postCommentUpdate = function(opts) {
         opts.url = "/api/comments_api/comment_update";
-        opts.type = "PUT";
         opts.data = {};
         opts.data.comment = opts.comment;
         this.ajax(opts);

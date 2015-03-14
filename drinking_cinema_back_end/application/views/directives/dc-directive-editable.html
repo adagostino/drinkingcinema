@@ -32,6 +32,9 @@
         {{contentHTML|raw}}
     </div>
     <div class="dc-directive-editable-footer">
+        <div class="dc-text-input-error" dc-if="errors">
+            <div dc-repeat="error in errors">{{error.message}}</div>
+        </div>
         <div class="dc-directive-editable-footer-buttons">
             {% spaceless %}
                 <button class="dc-button-secondary" dc-click="cancel" dc-class="{'processing': processing}">

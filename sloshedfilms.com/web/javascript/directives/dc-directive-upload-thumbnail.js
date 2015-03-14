@@ -24,6 +24,9 @@ var name = "directive.uploadThumbnail";
                 w: 0
             },
             'parentScope': $scope,
+            'beforeShow': function(){
+                this.errors = undefined;
+            },
             'afterShow': function () {
                 if (!initJcrop) {
                     var $img = this.$el.find('.dc-directive-upload-thumbnail-image');

@@ -29,6 +29,12 @@ $upload-buttons-padding: $dc-default-padding;
   position: relative;
   text-align: right;
   padding: $upload-buttons-padding;
+  .dc-text-input-error{
+    bottom: auto;
+    right: auto;
+    top: $upload-buttons-padding;
+    left: $upload-buttons-padding;
+  }
 }
 
 $dc-progress-bar-width: 300px;

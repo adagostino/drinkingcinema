@@ -2,8 +2,9 @@ var name = "model.comments";
 (function(name){
     var commentModel = function(){};
 
-    commentModel.prototype.postComment = function(opts){
+    commentModel.prototype.putComment = function(opts){
         opts.url = "/api/comments_api/comment";
+        opts.type= "PUT";
         opts.data = {
             'comment': opts.comment,
             'commentHome': opts.commentHome,

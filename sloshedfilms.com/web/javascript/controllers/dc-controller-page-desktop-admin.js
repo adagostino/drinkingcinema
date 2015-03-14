@@ -17,8 +17,9 @@ var name = "controller.page.desktop.admin";
                         this.content = data["content"];
                         $scope.page.page.content = this.content;
                     },
-                    'error': function(){
+                    'error': function(err, xhr){
                         console.log("error", arguments);
+                        this.errors = err.errors;
                         this.processing = false;
                     }
                 })

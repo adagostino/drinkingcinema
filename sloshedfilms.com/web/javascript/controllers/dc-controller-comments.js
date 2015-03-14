@@ -3,10 +3,10 @@ var name = "controller.comments";
     var controller = function(){
         var $scope;
 
-        this.postComment = function(){
+        this.putComment = function(){
             $dc.utils.setLocal("commenterName",this.comment.name);
             $dc.utils.setLocal("commenterEmail",this.comment.email);
-            $dc.model.comments.postComment({
+            $dc.model.comments.putComment({
                 "comment": this.comment,
                 "commentHome": this.commentHome,
                 "commentPath": this.commentPath,
@@ -30,7 +30,7 @@ var name = "controller.comments";
             this.isProcessing = true;
             this.$timeout(function(){
                 this.isProcessing = !!!this.numErrors;
-                if (!this.numErrors) this.postComment();
+                if (!this.numErrors) this.putComment();
             });
         };
 

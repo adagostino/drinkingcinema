@@ -98,7 +98,7 @@ $easing: ease-in-out;
   padding: $dc-default-padding;
   position: absolute;
   bottom: 0px;
-  will-change: -webkit-transform, border;
+  will-change: transform, -webkit-transform, border;
   @include transition(border $time $easing, transform $time $easing);
   @include transform(translate3D(0px,$dc-default-padding,0px));
   left: -1px;
@@ -108,6 +108,13 @@ $easing: ease-in-out;
   border: 1px solid transparent;
   border-top-width: 0px;
   text-align: right;
+  .dc-text-input-error{
+    bottom: auto;
+    right: auto;
+    left: $dc-default-padding;
+    top: $dc-default-padding;
+  }
+
 }
 
 .dc-directive-editable-link-panel {

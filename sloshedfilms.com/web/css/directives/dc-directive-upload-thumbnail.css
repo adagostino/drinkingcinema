@@ -19,6 +19,7 @@
 
 .dc-directive-upload-thumbnail-preview-container {
   margin-bottom: 20px;
+  min-height: 120px;
 }
 
 .dc-directive-upload-thumbnail-thumbnails {

@@ -40,7 +40,7 @@ var name = "controller.upload";
                 },
                 submit: function(){
                     this.isProcessing = true;
-                    $dc.model.game.postGame({
+                    $dc.model.game.putGame({
                         game: $scope.game,
                         $scope: this,
                         success: function(game){

@@ -28,6 +28,12 @@
   text-align: right;
   padding: 10px;
 }
+.dc-directive-upload-image-buttons .dc-text-input-error {
+  bottom: auto;
+  right: auto;
+  top: 10px;
+  left: 10px;
+}
 
 .dc-upload-progress {
   width: 300px;

@@ -25,6 +25,12 @@ $formOffset: 25px;
 .dc-comment-form-bottom{
   min-height: 46px;
   position: relative;
+  .dc-text-input-error{
+    right: auto;
+    bottom: auto;
+    left: 2px;
+    top: 2px;
+  }
 }
 $dcCommentFormHeight: 245px;
 .dc-comment-form-body{

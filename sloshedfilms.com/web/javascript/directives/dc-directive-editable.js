@@ -23,6 +23,8 @@ var name = "directive.editable";
         this.$watch("editing", function(n, o){
             if (n) {
                 this.oContent = this.content;
+            } else {
+                this.errors = undefined;
             }
             this.isEditable = n && !this.processing;
         });

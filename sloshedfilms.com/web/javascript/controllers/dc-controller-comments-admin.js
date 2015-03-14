@@ -39,28 +39,41 @@ var name = "controller.comments.admin";
 
     controller.prototype.initEditModal = function(){
         var self = this;
+        var _numErrors = 0;
         var opts = {
             'template': "#dc-comment-form-template",
             'isProcessing': false,
             'parentScope': this,
             'comment': {},
+            'beforeShow': function(){
+                this.errors = undefined;
+            },
             'onValidate': function(){
-                //console.log("on validate");
+                _numErrors+= this.errors.length;
             },
             'submitComment': function(){
+                if (this.isProcessing) return;
+                _numErrors = 0;
                 this.isProcessing = true;
-                $dc.model.comments.admin.postCommentUpdate({
-                    "comment": this.comment,
-                    "$scope": this,
-                    success: function(comment){
-                        $.extend(self.currentComment.comment, comment);
-                        this.isProcessing = false;
-                        this.hide();
-                    },
-                    error: function(){
-                        console.log("error", arguments);
+                this.$timeout(function(){
+                    this.isProcessing = !!!_numErrors;
+                    if (!_numErrors) {
+                        $dc.model.comments.admin.postCommentUpdate({
+                            'comment': this.comment,
+                            '$scope': this,
+                            'success': function(comment){
+                                $.extend(self.currentComment.comment, comment);
+                                this.isProcessing = false;
+                                this.hide();
+                            },
+                            'error': function(err, xhr){
+                                this.errors = err.errors;
+                                this.isProcessing = false;
+                            }
+                        });
                     }
                 });
+
             }
         };
 

@@ -10,6 +10,9 @@
         </div>
     </div>
     <div class="dc-directive-upload-image-buttons">
+        <div class="dc-text-input-error" dc-if="errors && !isProcessing && !parentScope.isProcessing">
+            <div dc-repeat="error in errors">{{error.message}}</div>
+        </div>
         <button class="dc-button-secondary" dc-class="{'processing': isProcessing || parentScope.isProcessing}" dc-click="cancel">
             Cancel
         </button>

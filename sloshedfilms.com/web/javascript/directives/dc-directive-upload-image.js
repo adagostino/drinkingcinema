@@ -25,6 +25,7 @@ var name = "directive.uploadImage";
             },
             'beforeShow': function(){
                 self.previewModal.item.image = self.previewImage;
+                this.errors = undefined;
             },
             'afterHide': function(){
                 self.$input.val("");

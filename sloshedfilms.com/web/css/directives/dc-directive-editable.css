@@ -103,7 +103,7 @@
   padding: 10px;
   position: absolute;
   bottom: 0px;
-  will-change: -webkit-transform, border;
+  will-change: transform, -webkit-transform, border;
   -moz-transition: border 0.218s ease-in-out, -moz-transform 0.218s ease-in-out;
   -o-transition: border 0.218s ease-in-out, -o-transform 0.218s ease-in-out;
   -webkit-transition: border 0.218s ease-in-out, -webkit-transform 0.218s ease-in-out;
@@ -119,6 +119,12 @@
   border: 1px solid transparent;
   border-top-width: 0px;
   text-align: right;
+}
+.dc-directive-editable-footer .dc-text-input-error {
+  bottom: auto;
+  right: auto;
+  left: 10px;
+  top: 10px;
 }
 
 .dc-directive-editable-link-panel {

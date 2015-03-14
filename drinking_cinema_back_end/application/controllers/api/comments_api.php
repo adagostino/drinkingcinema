@@ -75,10 +75,10 @@ class Comments_api extends REST_Controller {
         );
     }
 
-    function comment_post() {
-        $commentHome = $this->post('commentHome');
-        $commentPath = $this->post('commentPath');
-        $comment = $this->post('comment');
+    function comment_put() {
+        $commentHome = $this->put('commentHome');
+        $commentPath = $this->put('commentPath');
+        $comment = $this->put('comment');
         $errors = array();
         $success = array();
         $input = array('commentHome' => $commentHome, 'comment' => $comment);
@@ -109,8 +109,9 @@ class Comments_api extends REST_Controller {
         $this->send($success,$errors,$input);
     }
 
-    function comment_update_put(){
-        $comment = $this->put('comment');
+    function comment_update_post(){
+        if (!$this->is_admin()) return;
+        $comment = $this->post('comment');
         $errors = array();
         $success = array();
         $input = array('comment' => $comment);
@@ -157,6 +158,7 @@ class Comments_api extends REST_Controller {
     }
 
     function comment_remove_delete(){
+        if (!$this->is_admin()) return;
         $id = $this->delete('id');
         $errors = array();
         $success = array();
@@ -197,8 +199,6 @@ class Comments_api extends REST_Controller {
     function send_comment_email_post(){
         $this->email_service->send_emails();
     }
-
-
 
     function test_get(){
 
