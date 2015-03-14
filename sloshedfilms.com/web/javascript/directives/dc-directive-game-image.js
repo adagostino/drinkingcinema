@@ -5,7 +5,7 @@ var name = "directive.gameImage";
     };
 
     gameImage.prototype.init = function(){
-
+        this.cdn = $dc.globals.cdn;
     };
 
     $dc.addDirective({

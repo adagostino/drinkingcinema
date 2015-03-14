@@ -1,5 +1,22 @@
 .dc-embed-game {
   position: relative;
+  will-change: opacity;
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=51);
+  opacity: 0.51;
+}
+.dc-embed-game .dc-x-out {
+  display: none;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.dc-embed-game:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
 }
 .dc-embed-game.active, .dc-embed-game:active {
   -moz-box-shadow: none;
@@ -9,25 +26,28 @@
 .dc-embed-game.show {
   cursor: default;
 }
+.dc-embed-game.show .dc-x-out {
+  display: block;
+}
 .dc-embed-game.show .dc-embed-game-content {
   display: block;
-  -moz-animation-name: fadeIn;
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
+  -moz-animation-name: fadeInAndTranslate;
+  -webkit-animation-name: fadeInAndTranslate;
+  animation-name: fadeInAndTranslate;
 }
 
 .dc-embed-game-content {
   text-transform: none;
   width: 303px;
-  will-change: opacity;
+  will-change: opacity, transform, -webkit-transform;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -moz-animation-duration: 0.436s;
   -webkit-animation-duration: 0.436s;
   animation-duration: 0.436s;
-  -moz-animation-timing-function: ease-in-out;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
+  -moz-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   -moz-animation-iteration-count: 1;
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
@@ -36,11 +56,6 @@
   animation-fill-mode: forwards;
   display: none;
 }
-.dc-embed-game-content .dc-x-out {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
 .dc-embed-game-content textarea {
   height: 55px;
   padding: 5px;
@@ -48,6 +63,8 @@
   white-space: normal;
   overflow-x: visible;
   width: 100%;
+  font-family: inherit;
+  font-size: 0.8em;
 }
 
 .dc-embed-game-content-title {

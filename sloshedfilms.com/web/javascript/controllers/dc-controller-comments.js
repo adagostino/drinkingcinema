@@ -25,6 +25,7 @@ var name = "controller.comments";
         };
 
         this.submitComment = function(){
+            if (this.isProcessing) return;
             this.numErrors = 0;
             this.isProcessing = true;
             this.$timeout(function(){

@@ -35,6 +35,7 @@ class Search_api extends REST_Controller {
     function __construct() {
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->database();
         $this->load->model('search_service');
         $this->load->model('error_service');
     }

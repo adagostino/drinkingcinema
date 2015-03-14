@@ -8,10 +8,14 @@
     <div dc-include="#dc-vendors-template">
         {% include '_subtemplates/dc-vendors-desktop.html' with {'parentScope': page} %}
     </div>
-    <div class="dc-movies-like-this">
-        <span>Movies Like This</span>
-    </div>
-    <div dc-include="#dc-game-suggestions-template">
-        {% include '_subtemplates/dc-game-suggestions-desktop.html' with {'parentScope': page} %}
-    </div>
+    {% if page.game.suggestions|length > 0 %}
+        <div dc-if="page.game.suggestions.length">
+            <div class="dc-movies-like-this">
+                <span>Movies Like This</span>
+            </div>
+            <div dc-include="#dc-game-suggestions-template">
+                {% include '_subtemplates/dc-game-suggestions-desktop.html' with {'parentScope': page} %}
+            </div>
+        </div>
+    {% endif %}
 </div>

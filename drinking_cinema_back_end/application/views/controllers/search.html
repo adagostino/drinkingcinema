@@ -1,4 +1,9 @@
 <div class="dc-search-controller" dc-controller="search">
+    {% if page.results.numResults == 0 %}
+    <div dc-include="#dc-no-search-results-template" dc-if="!searchSource.numResults">
+        {% include '_subtemplates/dc-no-search-results.html' %}
+    </div>
+    {% endif %}
     <div dc-directive-infinite-scroll item-template="#dc-search-item-template" source="searchSource" class="dc-search-results-container">
         {% include 'directives/dc-directive-infinite-scroll.html' with {'items': page.results.results, 'numResults': page.results.numResults, 'item_template': '_subtemplates/dc-search-item-desktop.html'} %}
     </div>

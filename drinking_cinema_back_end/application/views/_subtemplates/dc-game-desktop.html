@@ -6,13 +6,13 @@
     </div>
     <div dc-if="isAdmin">
         <div dc-directive-game-image-admin game="game">
-            {% include 'directives/dc-directive-game-image.html' with {'game': page.game} %}
+            {% include 'directives/dc-directive-game-image.html' with {'isAdmin': page.isAdmin, 'game': page.game, 'cdn': page.cdn} %}
         </div>
     </div>
 {% else %}
     <div dc-if="!isAdmin">
         <div dc-directive-game-image game="game">
-            {% include 'directives/dc-directive-game-image.html' with {'game': page.game} %}
+            {% include 'directives/dc-directive-game-image.html' with {'page': page.isAdmin, 'game': page.game, 'cdn': page.cdn} %}
         </div>
     </div>
 {% endif %}

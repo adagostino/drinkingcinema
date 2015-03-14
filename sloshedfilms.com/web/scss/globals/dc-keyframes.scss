@@ -1,12 +1,22 @@
 @import "imports/dc-imports";
 
-
 @include keyframes(fadeIn) {
   from {
     @include opacity(0);
   }
   to {
     @include opacity(1);
+  }
+}
+
+@include keyframes(fadeInAndTranslate) {
+  from {
+    @include opacity(0.4);
+    @include transform(translate3d(0,-10px,0));
+  }
+  to {
+    @include opacity(1);
+    @include transform(translate3d(0,0,0));
   }
 }
 

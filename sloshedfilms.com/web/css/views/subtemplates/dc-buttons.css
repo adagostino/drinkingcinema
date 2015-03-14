@@ -1,6 +1,5 @@
 .dc-button, .dc-button-primary, .dc-button-secondary, .dc-button-icon {
   background: #ffffff;
-  border: none;
   outline: 0;
   font-family: inherit;
   padding: 5px 10px;
@@ -13,10 +12,12 @@
   transition: all 0.109s ease-in-out;
   font-weight: 700;
   color: #333333;
+  text-decoration: none;
 }
 .dc-button:hover, .dc-button-primary:hover, .dc-button-secondary:hover, .dc-button-icon:hover {
   color: #000000;
   border: 1px solid #888888;
+  text-decoration: none;
 }
 .dc-button.active, .active.dc-button-primary, .active.dc-button-secondary, .active.dc-button-icon, .dc-button:active, .dc-button-primary:active, .dc-button-secondary:active, .dc-button-icon:active {
   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);

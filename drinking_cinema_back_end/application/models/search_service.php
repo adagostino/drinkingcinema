@@ -31,7 +31,7 @@ class search_service extends CI_Model {
     }
 
     function search_movies($searchTerms,$offset = 0,$limit = 0) {
-        $queryResult = $this->search($searchTerms,$this->_movieTableSearchOptions,$offset,$limit);
+        $queryResult = $this->search($searchTerms,"movieTable",$offset,$limit);
 
         // do post-processing here
         $results = array();
@@ -55,8 +55,13 @@ class search_service extends CI_Model {
         );
     }
 
+    function get_table_options($tableName) {
+        $so = "_".$tableName."SearchOptions";
+        return $this->$so;
+    }
+
     function search_comments($searchTerms, $offsetId = null, $limit = 0){
-        $searchOpts = $this->_commentsTableSearchOptions;
+        $searchOpts = $this->get_table_options("commentsTable");
         $searchOpts["offsetId"] = $offsetId ? $this->db->escape($offsetId) : null;
         $limit = intval($limit);
         if ($limit > $this->_maxSearchResults) $limit = $this->_maxSearchResults;
@@ -78,12 +83,27 @@ class search_service extends CI_Model {
         return $results;
     }
 
-    function search($searchTerms, $opts, $offset = 0, $limit = 0){
-        $searchTerms = $this->clean_search_terms($searchTerms);
+    function search($searchTerms, $tableName, $offset = 0, $limit = 0){
         $results = null;
+        if ($sql = $this->get_search_sql($searchTerms, $tableName, $offset, $limit)){
+            $query = $this->db->query($sql);
+            $results = array(
+                'numResults' => 0,
+                'results' => $query->result()
+            );
+            if ($results["results"]){
+                $results['numResults'] = intval($results["results"][0]->numResults);
+            }
+        }
+        return $results;
+    }
+
+    function get_search_sql($searchTerms, $tableName, $offset = 0, $limit = 0){
+        $searchTerms = $this->clean_search_terms($searchTerms);
+        $searchOpts = $this->get_table_options($tableName);
+        $sql = "";
         $type = "";
-        if ($searchTerms){
-            $searchOpts = $opts;
+        if ($searchTerms && $searchOpts){
             $searchOpts["searchTerms"] = $searchTerms;
             $limit = intval($limit);
             if ($limit > $this->_maxSearchResults) $limit = $this->_maxSearchResults;
@@ -116,16 +136,8 @@ class search_service extends CI_Model {
             $searchOpts["limit"] = $limit;
             $searchOpts["offset"] = $offset;
             $sql = $this->$fn($searchOpts);
-            $query = $this->db->query($sql);
-            $results = array(
-                'numResults' => 0,
-                'results' => $query->result()
-            );
-            if ($results["results"]){
-                $results['numResults'] = intval($results["results"][0]->numResults);
-            }
         }
-        return $results;
+        return $sql;
     }
 
     function clean_search_terms($searchTerms) {

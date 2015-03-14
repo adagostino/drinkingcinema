@@ -1,13 +1,13 @@
-<div class="dc-embed-game dc-button" dc-click="showContent" dc-class="{'show': showing}">
+<div class="dc-embed-game dc-button" dc-click="showContent" dc-class="{'show': showing, 'has-focus': hasFocus}">
     <div class="dc-embed-game-title">
         Embed Game
     </div>
+    <div class="dc-x-out" dc-click="hideContent"></div>
     <div class="dc-embed-game-content">
-        <div class="dc-x-out" dc-click="hideContent"></div>
         <div class="dc-embed-game-content-title">
             Paste HTML to embed in website
         </div>
-        <textarea dc-directive-auto-select dc-model="embedText"></textarea>
+        <textarea dc-model="embedText" dc-focus="onFocus" dc-blur="onBlur" spellcheck="false"></textarea>
         <div class="dc-embed-game-content-subtitle">
             Note: To change the size of the embeded game, alter the width and height attributes of the iframe.
         </div>

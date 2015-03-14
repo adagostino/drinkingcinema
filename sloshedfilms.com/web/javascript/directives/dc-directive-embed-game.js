@@ -1,10 +1,19 @@
 var name = "directive.embedGame";
 (function(name){
-    var embedGame = function(){};
+    var embedGame = function(){
+        var _originalEmbedText;
 
-    embedGame.prototype.init = function(){
-        this.embedText = '<iframe width="430px" height="590px" src="http://drinkingcinema.com/embed/' + this.game.name  + ' frameborder="0"></iframe>';
-        this.showing = false;
+        this.init = function(){
+            _originalEmbedText = '<iframe width="430px" height="590px" src="http://drinkingcinema.com/embed/' + this.game.name  + ' frameborder="0"></iframe>';
+            this.embedText = _originalEmbedText;
+            this.showing = false;
+        };
+
+        this.onBlur = function(){
+            this.hasFocus = false;
+            this.embedText = _originalEmbedText;
+        };
+
     };
 
     embedGame.prototype.showContent = function(){
@@ -16,7 +25,14 @@ var name = "directive.embedGame";
         this.showing = false;
         e.stopPropagation();
         e.preventDefault();
-    }
+    };
+
+    embedGame.prototype.onFocus = function(e){
+        $(e.target).select();
+        this.hasFocus = true;
+    };
+
+
 
     $dc.addDirective({
         name: name,

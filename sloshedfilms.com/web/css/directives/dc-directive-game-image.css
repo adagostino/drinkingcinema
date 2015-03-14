@@ -17,3 +17,37 @@
   z-index: -1;
   color: #ffffff;
 }
+.dc-game-image.isAdmin [dc-directive-embed-game], .dc-game-image.isAdmin .dc-full-image-link {
+  top: auto;
+  bottom: 0px;
+}
+.dc-game-image [dc-directive-embed-game] {
+  left: 0px;
+}
+.dc-game-image .dc-full-image-link {
+  right: 0px;
+}
+.dc-game-image [dc-directive-embed-game], .dc-game-image .dc-full-image-link {
+  position: absolute;
+  top: 10px;
+}
+.dc-game-image .dc-embed-game, .dc-game-image .dc-full-image-link {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.dc-game-image .dc-embed-game.has-focus, .dc-game-image .dc-full-image-link.has-focus {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.dc-game-image:hover .dc-embed-game, .dc-game-image:hover .dc-full-image-link {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=51);
+  opacity: 0.51;
+}
+.dc-game-image:hover .dc-embed-game.has-focus, .dc-game-image:hover .dc-full-image-link.has-focus {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.dc-game-image:hover .dc-embed-game:hover, .dc-game-image:hover .dc-full-image-link:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}

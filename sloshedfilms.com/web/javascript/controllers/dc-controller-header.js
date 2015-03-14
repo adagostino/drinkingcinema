@@ -5,6 +5,14 @@ var name = "controller.header";
         this.init = function(){
             this.page = $dc.utils.getJSON('pageJSON', 'dc-page-json');
             this.searchText = "";
+        };
+
+        this.selectAll = function(e){
+            $(e.target).select();
+        };
+
+        this.revertShare = function(e){
+            $(e.target).val(this.page.share.value);
         }
     };
 

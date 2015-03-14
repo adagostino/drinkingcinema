@@ -1,8 +1,9 @@
-<div class="dc-game-image" style="background-image: url('{{game.image}}')">
+<div class="dc-game-image {% if isAdmin %}isAdmin{% endif %}" style="background-image: url('{{game.image}}')" dc-class="{'isAdmin': isAdmin}">
     <h1>A Movie Drinking Game for {{game.name}}</h1>
     <div dc-directive-embed-game game="game">
         {% include 'directives/dc-directive-embed-game.html' with {'game': game} %}
     </div>
+    <a href="{{cdn}}Games/{{game.nameUrl}}.jpg" target="_blank" class="dc-button dc-full-image-link">Full Size</a>
 
     {% if page.isAdmin %}
         <div dc-if="isAdmin" dc-include="#dc-directive-game-image-admin-template">

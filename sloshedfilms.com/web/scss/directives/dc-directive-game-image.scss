@@ -20,4 +20,45 @@
     color: $dc-white;
   }
 
+  &.isAdmin{
+    [dc-directive-embed-game], .dc-full-image-link{
+      top: auto;
+      bottom: 0px;
+    }
+  }
+
+  [dc-directive-embed-game]{
+    left: 0px;
+  }
+
+  .dc-full-image-link{
+    right: 0px;
+  }
+
+  [dc-directive-embed-game], .dc-full-image-link {
+    position: absolute;
+    top: $dc-default-padding;
+  }
+
+  .dc-embed-game, .dc-full-image-link {
+    @include opacity(0);
+    &.has-focus {
+      @include opacity(1);
+    }
+  }
+
+  &:hover {
+    .dc-embed-game, .dc-full-image-link {
+      @include opacity(0.51);
+      &.has-focus {
+        @include opacity(1);
+      }
+      &:hover {
+        @include opacity(1);
+      }
+    }
+
+  }
+
+
 }

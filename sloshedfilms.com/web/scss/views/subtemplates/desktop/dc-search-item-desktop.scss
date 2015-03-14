@@ -56,8 +56,27 @@
   position: relative;
   [dc-directive-embed-game]{
     position: absolute;
-    top: $dc-default-padding;
+    top: 2px;
     left: ($dc-content-width - $dc-small-image-width)/2 + $dc-default-padding;
+    .dc-embed-game{
+      @include opacity(0);
+      &.has-focus{
+        @include opacity(1);
+      }
+    }
+  }
+  &:hover{
+    [dc-directive-embed-game]{
+      .dc-embed-game{
+        @include opacity(0.51);
+        &.has-focus{
+          @include opacity(1);
+        }
+        &:hover{
+          @include opacity(1);
+        }
+      }
+    }
   }
 }
 

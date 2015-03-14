@@ -1,36 +1,50 @@
 @import "imports/dc-imports";
 
+$time: 0.436s;
+$easing: ease-in-out;
+$bzEasing: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 .dc-embed-game{
   position: relative;
+  will-change: opacity;
+  @include transition(opacity $time/2 $easing);
+  @include opacity(0.51);
+
+  .dc-x-out{
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  &:hover{
+    @include opacity(1.0);
+  }
+
   &.active, &:active {
     @include box-shadow(none);
   }
   &.show{
     cursor: default;
+    .dc-x-out{
+      display: block;
+    }
     .dc-embed-game-content{
       display: block;
-      @include animation-name(fadeIn);
+      @include animation-name(fadeInAndTranslate);
     }
   }
 }
-$time: 0.436s;
-$easing: ease-in-out;
+
 .dc-embed-game-content{
   text-transform: none;
   width: 325px - 2*$dc-default-padding - 2px;
-  will-change: opacity;
+  will-change: opacity, transform, -webkit-transform;
   @include opacity(0);
   @include animation-duration($time);
-  @include animation-timing-function($easing);
+  @include animation-timing-function($bzEasing);
   @include animation-iteration-count(1);
   @include animation-fill-mode(forwards);
   display: none;
-
-  .dc-x-out{
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
 
   textarea{
     height: 55px;
@@ -39,6 +53,8 @@ $easing: ease-in-out;
     white-space: normal;
     overflow-x: visible;
     width: 100%;
+    font-family: inherit;
+    font-size: 0.8em;
   }
 
 }
