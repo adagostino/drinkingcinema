@@ -43,7 +43,8 @@ $route['404_override'] = '';
 $route['search/:any'] = "search/get";
 $route['game/:any'] = "game/get";
 $route['faq'] = "faq";
-
+$route['about'] = "about";
+$route['contact'] = "contact";
 
 
 /* End of file routes.php */
