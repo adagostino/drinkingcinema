@@ -318,7 +318,16 @@ var startTime = new Date().getTime();
 
     dc.prototype.addService = function(name,service){
         this.add(name,service,true);
-    }
+    };
+
+    dc.prototype.initImageToolTip = function(){
+        // easy way for tablets to not include the imageToolTip file
+        try{
+            new $dc.directive.tooltip.image().init();
+        } catch(e){
+
+        }
+    };
 
     global.drinkingCinema = global.$dc = new dc();
     $(document).ready(function() {

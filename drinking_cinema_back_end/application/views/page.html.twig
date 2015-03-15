@@ -19,6 +19,9 @@
     <script type="dc-template" id="dc-controller-comments-template">
         {{ source('controllers/comments.html') }}
     </script>
+    <script type="dc-template" id="dc-directive-search-input-template">
+        {{ source('directives/dc-directive-search-input.html') }}
+    </script>
     <script type="dc-template" id="dc-nav-bar-template">
         {{ source('_subtemplates/dc-nav-bar.html') }}
     </script>
@@ -49,6 +52,7 @@
     <script type="dc-template" id="dc-directive-comment-template">
         {{ source('directives/dc-directive-comment.html') }}
     </script>
+
     {% if page.isAdmin %}
         <script type="dc-template" id="dc-directive-editable-template">
             {{ source('directives/dc-directive-editable.html') }}

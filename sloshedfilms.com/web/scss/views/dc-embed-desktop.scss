@@ -1,0 +1,67 @@
+@import "imports/dc-imports";
+
+$headerRatio: $dc-header-sprite-width/($dc-header-sprite-height/2); //8
+
+body.embed{
+  background: transparent;
+
+  .dc-background{
+    background: transparent;
+  }
+  .dc-container{
+    height: 100vh;
+    width: auto;
+    padding: 10px;
+  }
+}
+
+.dc-embed-controller {
+  margin: 0 auto;
+}
+
+.dc-flexible-sprite{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-size: 100%;
+}
+
+.dc-flexible-header{
+  width: 100%;
+  padding-bottom: percentage(1/$headerRatio);
+  background: blue;
+  position: relative;
+  .dc-flexible-sprite{
+    display: block;
+    background-image: url($dc-logo-long-url);
+    &:hover, &:active {
+      background-position: 0px -100%;
+    }
+  }
+}
+
+.dc-flexible-game{
+  width: 100%;
+  padding-bottom: percentage(1/$dc-game-ratio);
+  background: red;
+}
+
+$hrRatio: 750/16;
+$hrx: 2*percentage(-8px/$dc-buttons-sprite-width);
+$hry: 2*percentage(-133px/$dc-buttons-sprite-height);
+.dc-flexible-hr-top{
+  position: relative;
+  width: 100%;
+  padding-bottom: percentage(1/$hrRatio);
+  background: yellow;
+  margin: 5px 0px;
+  .dc-flexible-sprite{
+    background-image: url($dc-buttons-url);
+    background-position: $hrx $hry;
+  }
+  //width: 750px;
+  //height: 16px;
+  //background-position: -8px -133px;
+}

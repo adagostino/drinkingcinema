@@ -87,6 +87,20 @@
                     )
                 )
             ),
+            "embed" => array(
+                "common" => array(
+                    "controllers/dc-controller-embed.js"
+                ),
+                "mobile" => array(),
+                "desktop" => array(
+                    "common" => array(
+                        "controllers/dc-controller-embed-desktop.js",
+                        "directives/dc-directive-tooltip.js",
+                        "directives/dc-directive-tooltip-image.js"
+                    ),
+                    "admin" => array()
+                )
+            ),
             "page" => array(
                 "common" => array(
                     "models/dc-model-page.js",
@@ -195,6 +209,18 @@
                                 "directives/dc-directive-upload-image.css",
                                 "views/subtemplates/desktop/dc-search-item-desktop.css"
                             )
+                        )
+                    ),
+                    "embed" => array(
+                        "common" => array(),
+                        "mobile" => array(),
+                        "desktop" => array(
+                            "common" => array(
+                                "views/dc-embed-desktop.css",
+                                "directives/dc-directive-tooltip.css",
+                                "directives/dc-directive-tooltip-image.css"
+                            ),
+                            "admin" => array()
                         )
                     ),
                     "page" => array(

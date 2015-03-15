@@ -54,6 +54,7 @@
             }
             $page["navBarLinks"] = $this->_nav_bar_links;
             $page["headerSize"] = $pageName === "game" ? "medium" : "large";
+            $page["controllerName"] = $pageName;
             return $page;
         }
 

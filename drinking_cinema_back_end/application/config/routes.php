@@ -42,6 +42,7 @@ $route['default_controller'] = "search";
 $route['404_override'] = '';
 $route['search/:any'] = "search/get";
 $route['game/:any'] = "game/get";
+$route['embed/:any'] = "embed/get";
 $route['faq'] = "faq";
 $route['about'] = "about";
 $route['contact'] = "contact";

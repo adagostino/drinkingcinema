@@ -1,0 +1,56 @@
+body.embed {
+  background: transparent;
+}
+body.embed .dc-background {
+  background: transparent;
+}
+body.embed .dc-container {
+  height: 100vh;
+  width: auto;
+  padding: 10px;
+}
+
+.dc-embed-controller {
+  margin: 0 auto;
+}
+
+.dc-flexible-sprite {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-size: 100%;
+}
+
+.dc-flexible-header {
+  width: 100%;
+  padding-bottom: 12.5%;
+  background: blue;
+  position: relative;
+}
+.dc-flexible-header .dc-flexible-sprite {
+  display: block;
+  background-image: url("http://cdn.drinkingcinema.com/Images/DC_header2.jpg");
+}
+.dc-flexible-header .dc-flexible-sprite:hover, .dc-flexible-header .dc-flexible-sprite:active {
+  background-position: 0px -100%;
+}
+
+.dc-flexible-game {
+  width: 100%;
+  padding-bottom: 129.41176%;
+  background: red;
+}
+
+.dc-flexible-hr-top {
+  position: relative;
+  width: 100%;
+  padding-bottom: 2.13333%;
+  background: yellow;
+  margin: 5px 0px;
+}
+.dc-flexible-hr-top .dc-flexible-sprite {
+  background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
+  background-position: -2.11921% -44.70588%;
+}
