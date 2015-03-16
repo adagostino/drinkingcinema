@@ -40,6 +40,7 @@ var startTime = new Date().getTime();
         this.globals = {
             "cdn": "http://cdn.drinkingcinema.com/"
         };
+        this.socialMediaSetup = [];
 
         var _mvc = {},
             _paths = [],
@@ -180,7 +181,11 @@ var startTime = new Date().getTime();
                     controller.$call(controller.init);
                     var $c = self.watchElement($this, controller, template);
                 }
-
+            });
+            this.$timeout(function(){
+                for (var i=0; i<this.socialMediaSetup.length; i++){
+                    this.socialMediaSetup[i]();
+                }
             });
         };
 

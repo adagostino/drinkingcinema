@@ -1,48 +1,60 @@
 <script>
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    $dc.socialMediaSetup.push(function(){
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    });
 </script>
 <script type="text/javascript">
-    (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-        po.src = 'https://apis.google.com/js/plusone.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-    })();
+    $dc.socialMediaSetup.push(function(){
+        (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    });
 </script>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<script>
+    $dc.socialMediaSetup.push(function(){
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    });
+</script>
 <script type="text/javascript">
-    (function (w, d, load) {
-        var script,
-                first = d.getElementsByTagName('SCRIPT')[0],
-                n = load.length,
-                i = 0,
-                go = function () {
-                    for (i = 0; i < n; i = i + 1) {
-                        script = d.createElement('SCRIPT');
-                        script.type = 'text/javascript';
-                        script.async = true;
-                        script.src = load[i];
-                        first.parentNode.insertBefore(script, first);
+    $dc.socialMediaSetup.push(function(){
+        (function (w, d, load) {
+            var script,
+                    first = d.getElementsByTagName('SCRIPT')[0],
+                    n = load.length,
+                    i = 0,
+                    go = function () {
+                        for (i = 0; i < n; i = i + 1) {
+                            script = d.createElement('SCRIPT');
+                            script.type = 'text/javascript';
+                            script.async = true;
+                            script.src = load[i];
+                            first.parentNode.insertBefore(script, first);
+                        }
                     }
-                }
-        if (w.attachEvent) {
-            w.attachEvent('onload', go);
-        } else {
-            w.addEventListener('load', go, false);
-        }
-    }(window, document,
-            ['//assets.pinterest.com/js/pinit.js']
-    ));
+            if (w.attachEvent) {
+                w.attachEvent('onload', go);
+            } else {
+                w.addEventListener('load', go, false);
+            }
+        }(window, document,
+                ['//assets.pinterest.com/js/pinit.js']
+        ));
+    });
 </script>
 <script type="text/javascript">
-    (function() {
-        var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
-        li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
-    })();
+    $dc.socialMediaSetup.push(function(){
+        (function() {
+            var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+            li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+        })();
+    });
 </script>
