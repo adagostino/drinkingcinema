@@ -202,7 +202,9 @@ var startTime = new Date().getTime();
             this.formatTemplates();
             // initialize any controllers that are found
             var startInitControllers = new Date().getTime();
-            this.initControllers();
+            this.$timeout(function(){
+                this.initControllers();
+            });
             var endTime = new Date().getTime();
 
             console.log("Add Components", startInit - startTime);
