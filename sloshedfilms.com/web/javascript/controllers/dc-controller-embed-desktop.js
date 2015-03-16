@@ -4,7 +4,7 @@ var name = "controller.embed.desktop";
         var $scope;
 
         this.resize = function(){
-            // embedHeight = windowHeight = padding + headerHeight + hrMargin + hrHeight + hrMargin + gameHeight + padding
+            // embedHeight = windowHeight = 2*padding + headerHeight + hrMargin + hrHeight + hrMargin + gameHeight + 2*padding
             // windowHeight - 2*(padding + hrMargin) = headerHeight + hrHeight + gameHeight;
             //
             // embedWidth = gameHeight * (8.5/11);
@@ -16,22 +16,49 @@ var name = "controller.embed.desktop";
             var padding = 10,
                 hrMargin = 5,
                 wh = $(window).height();
-            this.embedWidth = (wh - 2*(padding + hrMargin)) / (1/8 + 16/750 + 11/8.5);
+            var width = (wh - 4*padding + 2*hrMargin) / (1/8 + 16/750 + 11/8.5);
+            this.embedWidth = Math.floor(width);
+        };
+
+        this.showRules = function(){
+            if (this.showingRules) return;
+            this.showingRules = true;
+        };
+
+        this.hideRules = function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            this.hideSocialMedia();
+            this.showingRules = false;
+        };
+
+        this.toggleSocialMedia = function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            this.showingSocialMedia = !this.showingSocialMedia;
+        };
+
+        this.hideSocialMedia = function(){
+            this.showingSocialMedia = false;
         };
 
         this.init = function(){
             $scope = this;
             this._super();
             $dc.initImageToolTip();
+
             this.$timeout(function(){
                 this.resize();
-                this.isShowing = true;
+                this.showing = true;
             });
+
             $(window).resize(function(){
                 $scope.$call($scope.resize);
             });
 
-        }
+
+        };
+
     };
 
     $dc.add(name, controller);

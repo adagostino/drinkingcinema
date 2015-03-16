@@ -7,6 +7,7 @@ class faq extends CI_Controller
         $this->load->helper('url');
         $this->load->model('page_service');
         $this->load->model('search_service');
+        $this->load->library('tank_auth');
     }
 
     function index(){
@@ -14,7 +15,7 @@ class faq extends CI_Controller
         if (!$pageContent){
             return show_404();
         }
-        $isAdmin = true;
+        $isAdmin = $this->tank_auth->is_admin();
         $page = $this->page_builder_service->get_data('page', $isAdmin);
         $page["title"] = "FAQ";
         $page["page"] = $pageContent;

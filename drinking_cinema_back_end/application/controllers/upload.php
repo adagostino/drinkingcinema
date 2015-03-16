@@ -2,12 +2,17 @@
 class Upload extends CI_Controller {
     function __construct() {
         parent::__construct();
+        $this->load->library('tank_auth');
     }
 
     function index() {
-        $page = $this->page_builder_service->get_data("upload", true);
+        $isAdmin = $this->tank_auth->is_admin();
+        if (!$isAdmin){
+            return show_404();
+        }
+        $page = $this->page_builder_service->get_data("upload", $isAdmin);
         $page["title"] = "Upload";
-        $page["isAdmin"] = true;
+        $page["isAdmin"] = $isAdmin;
         $page["game"] = array(
             "name" => "",
             "nameUrl" => "",

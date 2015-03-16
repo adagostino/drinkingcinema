@@ -15,8 +15,17 @@ $dc-med-image-height: floor($dc-med-image-width/$dc-game-ratio);
 
 $dc-tv-loader-size: 40px;
 
-$dc-header-sprite-width: 800px;
-$dc-header-sprite-height: 200px;
+$dc-logo-main-width: 800px;
+$dc-logo-main-height: 300px;
+
+$dc-logo-long-width: 800px;
+$dc-logo-long-height: 100px;
+
+$dc-logo-long-sprite-width: 800px;
+$dc-logo-long-sprite-height: 200px;
 
 $dc-buttons-sprite-width: 755px;
 $dc-buttons-sprite-height: 595px;
+
+$dc-headers-sprite-width: 638px;
+$dc-headers-sprite-height: 402px;

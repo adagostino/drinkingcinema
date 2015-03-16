@@ -1,11 +1,38 @@
-<div class="dc-embed-controller" dc-controller="embed" dc-style="{'width': embedWidth}">
-    <div class="dc-flexible-header">
-        <a class="dc-flexible-sprite"></a>
-    </div>
-    <div class="dc-flexible-hr-top">
-        <div class="dc-flexible-sprite"></div>
-    </div>
-    <div class="dc-flexible-game">
-
+<div class="dc-embed-controller" dc-controller="embed" dc-style="{'width': embedWidth}" dc-class="{'show': showing, 'rules-showing': showingRules, 'social-media-showing': showingSocialMedia}">
+    <div class="dc-embeded-game" dc-click="hideSocialMedia">
+        <div class="dc-flexible-logo">
+            <a href="http://drinkingcinema.com/game/{{page.game.nameUrl}}" class="dc-flexible-sprite" target="_blank"></a>
+        </div>
+        <div class="dc-flexible-hr-top">
+            <div class="dc-flexible-sprite"></div>
+        </div>
+        <div class="dc-flexible-game">
+            <div class="dc-flexible-sprite" style="background-image: url('{{page.game.image}}')">
+                <div class="dc-embed-rules dc-button" dc-click="showRules">
+                    <div class="dc-embed-rules-title">
+                        Full Rules
+                    </div>
+                    <div class="dc-x-out" dc-click="hideRules"></div>
+                    <div class="dc-embed-rules-content">
+                        <div class="dc-flexible-header mandatory">
+                            <div class="dc-flexible-sprite"><span class="description-text">Mandatory Rules</span></div>
+                        </div>
+                        <div class="dc-game-rules-content" dc-model="page.game.rules">
+                            {{ page.game.rules|raw }}
+                        </div>
+                        <div class="dc-flexible-header bonus">
+                            <div class="dc-flexible-sprite"><span class="description-text">Bonus Rules</span></div>
+                        </div>
+                        <div class="dc-game-rules-content" dc-model="page.game.optionalRules">
+                            {{ page.game.optionalRules|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dc-embed-curl" dc-click="toggleSocialMedia">
+            <div class="dc-embed-social-media-bar" dc-include="#dc-social-media-template">
+            </div>
+        </div>
     </div>
 </div>

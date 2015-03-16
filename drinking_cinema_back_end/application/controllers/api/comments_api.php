@@ -64,7 +64,7 @@ class Comments_api extends REST_Controller {
                 if (!$this->scrubber_service->isEmail($value)) $errors[] = "EC_07";
                 break;
             case "comment":
-                $value = $this->scrubber_service->scrub($value);
+                $value = $this->scrubber_service->scrub($value, $this->tank_auth->is_admin());
                 if (!$value) $errors[] = "EC_08";
                 if (strlen($value) > $this->maxFieldLength) $errors[] = "EC_09";
                 break;

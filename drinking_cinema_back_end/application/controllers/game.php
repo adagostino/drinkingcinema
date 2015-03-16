@@ -7,6 +7,7 @@ class game extends CI_Controller
         $this->load->helper('url');
         $this->load->model('game_service');
         $this->load->model('search_service');
+        $this->load->library('tank_auth');
     }
 
     function index(){
@@ -18,7 +19,7 @@ class game extends CI_Controller
         if (!$game){
             return show_404();
         }
-        $isAdmin = true;
+        $isAdmin = $this->tank_auth->is_admin();
 
         $imageDir = $this->globals->get_images_dir(true);
 

@@ -1,7 +1,10 @@
 @import "imports/dc-imports";
 
-$headerRatio: $dc-header-sprite-width/($dc-header-sprite-height/2); //8
+$logoRatio: $dc-logo-long-sprite-width/($dc-logo-long-sprite-height/2);
+$bzEasing: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$time: 0.218s*2;
 
+$socialMediaSize: 250px;
 body.embed{
   background: transparent;
 
@@ -17,6 +20,49 @@ body.embed{
 
 .dc-embed-controller {
   margin: 0 auto;
+  background: $dc-white;
+  @include box-shadow(1px 2px 8px rgba(0,0,0,1.0));
+  display: none;
+  @include opacity(0);
+  will-change: opacity;
+  @include animation-duration($time);
+  @include animation-timing-function($bzEasing);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+  &.show{
+    display: block;
+    @include animation-name(fadeIn);
+  }
+  &:hover{
+    .dc-embed-rules{
+      @include opacity(0.51);
+      &:hover{
+        @include opacity(1);
+      }
+    }
+    &.rules-showing{
+      .dc-embed-rules{
+        @include opacity(1);
+      }
+    }
+    .dc-embed-curl{
+      height: 30px;
+      width: 30px;
+    }
+    &.social-media-showing{
+      .dc-embed-curl{
+        height: $socialMediaSize;
+        width: $socialMediaSize;
+      }
+    }
+
+  }
+}
+
+.dc-embeded-game {
+  position: relative;
+  padding: 10px;
+  margin: 0 auto;
 }
 
 .dc-flexible-sprite{
@@ -26,42 +72,196 @@ body.embed{
   height: 100%;
   width: 100%;
   background-size: 100%;
+  @include crisp-edges();
+  span.description-text{
+    @include hiddenSpan();
+  }
 }
 
-.dc-flexible-header{
+.dc-flexible-logo{
   width: 100%;
-  padding-bottom: percentage(1/$headerRatio);
-  background: blue;
+  padding-bottom: percentage(1/$logoRatio);
   position: relative;
   .dc-flexible-sprite{
     display: block;
     background-image: url($dc-logo-long-url);
     &:hover, &:active {
-      background-position: 0px -100%;
+      background-position: 0% 100%;
     }
   }
 }
 
-.dc-flexible-game{
-  width: 100%;
-  padding-bottom: percentage(1/$dc-game-ratio);
-  background: red;
-}
-
-$hrRatio: 750/16;
+$hrRatio: 750/16 * ($dc-buttons-sprite-height/$dc-buttons-sprite-width);
 $hrx: 2*percentage(-8px/$dc-buttons-sprite-width);
 $hry: 2*percentage(-133px/$dc-buttons-sprite-height);
 .dc-flexible-hr-top{
   position: relative;
   width: 100%;
   padding-bottom: percentage(1/$hrRatio);
-  background: yellow;
   margin: 5px 0px;
   .dc-flexible-sprite{
     background-image: url($dc-buttons-url);
     background-position: $hrx $hry;
   }
-  //width: 750px;
-  //height: 16px;
-  //background-position: -8px -133px;
+}
+
+.dc-flexible-game{
+  width: 100%;
+  padding-bottom: percentage(1/$dc-game-ratio);
+  position: relative;
+}
+
+.dc-embed-rules{
+  position: absolute;
+  top: 0px;
+  left: $dc-default-padding;
+  will-change: opacity;
+  @include transition(opacity $time $bzEasing);
+  @include opacity(0);
+  overflow: auto;
+  &:hover{
+    @include opacity(1);
+  }
+  &.active, &:active {
+    @include box-shadow(none);
+  }
+  .dc-x-out{
+    display: none;
+    position: absolute;
+    top: $dc-default-padding;
+    right: $dc-default-padding;
+    z-index: 1;
+  }
+  .dc-game-rules-content{
+    padding: $dc-default-padding;
+    min-height: 36px;
+    li{
+      padding: 2px 0px;
+      &:first-child {
+        padding-top: 0px;
+      }
+      &:last-child {
+        padding-bottom: 0px;
+      }
+    }
+  }
+
+}
+
+.dc-embed-rules-title{
+  z-index: 1;
+  position: relative;
+}
+
+.dc-embed-rules-content{
+  display: none;
+  will-change: opacity, transform, -webkit-transform;
+  @include opacity(0);
+  @include animation-duration($time);
+  @include animation-timing-function($bzEasing);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+  text-transform: none;
+  font-weight: normal;
+  color: initial;
+  font-size: 0.8em;
+}
+
+.rules-showing {
+  .dc-embed-rules-title{
+    z-index: -1;
+    @include opacity(0);
+  }
+  .dc-embed-rules {
+    right: $dc-default-padding;
+    cursor: default;
+    max-height: 100%;
+    @include opacity(1);
+    .dc-x-out {
+      display: block;
+    }
+  }
+  .dc-embed-rules-content{
+    display: block;
+    @include animation-name(fadeInAndTranslate);
+  }
+
+}
+$mandatoryWidth: 528px;
+$mandatoryHeight: 88px;
+$mandatoryX: percentage((-6px/$mandatoryWidth)/(1 - $dc-headers-sprite-width/$mandatoryWidth));
+$mandatoryY: percentage((-80px/$mandatoryHeight)/(1-$dc-headers-sprite-height/$mandatoryHeight));
+
+$bonusWidth: 490px;
+$bonusHeight: 70px;
+$bonusX: percentage((-13px/$bonusWidth)/(1 - $dc-headers-sprite-width/$bonusWidth));
+$bonusY: percentage((-175px/$bonusHeight)/(1-$dc-headers-sprite-height/$bonusHeight));
+
+.dc-flexible-header{
+  width: 100%;
+  position: relative;
+  margin-bottom: $dc-default-padding;
+  .dc-flexible-sprite{
+    @include crisp-edges();
+    background-image: url($dc-headers-url);
+  }
+
+  &.mandatory{
+    padding-bottom: percentage($mandatoryHeight/$mandatoryWidth);
+    .dc-flexible-sprite{
+      background-position: $mandatoryX $mandatoryY;
+      background-size: percentage($dc-headers-sprite-width/$mandatoryWidth);
+    }
+  }
+
+  &.bonus{
+    padding-bottom: percentage($bonusHeight/$bonusWidth);
+    .dc-flexible-sprite{
+      background-position: $bonusX $bonusY;
+      background-size: percentage($dc-headers-sprite-width/$bonusWidth);
+    }
+  }
+}
+
+.dc-embed-curl {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  height: 0px;
+  width: 0px;
+  background: #fff;
+  will-change: height, width;
+  cursor: pointer;
+  max-width: 100%;
+  max-height: 100%;
+  @include transition(height $time $bzEasing, width $time $bzEasing);
+  @include box-shadow(-1px -1px 3px rgba(0, 0, 0, 0.3));
+  @include background-image(linear-gradient(left top 315deg, #fff, #ccc 49%, #888 50%, #eee 56%,#fff 57%));
+  background: -webkit-gradient(linear, left top, right bottom, from(#fff), color-stop(49%,#ccc), color-stop(50%,#888), color-stop(56%,#eee), color-stop(57%, #fff));
+}
+
+.dc-embed-social-media-bar{
+  display: none;
+  .dc-social-media-buttons{
+    position: absolute;
+    right: 0px;
+    bottom: 10px;
+    cursor: default;
+    @include animation-delay($time/2);
+  }
+  .dc-social-media-button{
+    display: block;
+    height: 25px;
+  }
+}
+
+.social-media-showing{
+  .dc-embed-curl{
+    height: $socialMediaSize;
+    width: $socialMediaSize;
+  }
+  .dc-embed-social-media-bar{
+    display: block;
+  }
+
 }

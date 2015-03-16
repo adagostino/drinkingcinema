@@ -12,7 +12,8 @@
     }
 
     function raw(string) {
-        return isString(string) ? string : string;
+        // this is an added filter to get things to work with twig
+        return "";
     }
 
     function lowercase(string) {
