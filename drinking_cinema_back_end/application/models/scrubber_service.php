@@ -17,7 +17,7 @@
             if (!$str) $str = "";
             $str = trim($str);
             $dom = new DOMDocument();
-            $dom->loadHTML($str);
+            $dom->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">'.$str);
             $dom = $this->replaceElementWithAttr($dom,"a","href");
             $dom = $this->replaceElementWithAttr($dom,"img","src");
             $dom = $this->replaceElementWithAttr($dom,"iframe","src");

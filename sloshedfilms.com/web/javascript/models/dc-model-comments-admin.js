@@ -6,6 +6,7 @@ var name = "model.comments.admin";
         opts.url = "/api/comments_api/comment_update";
         opts.data = {};
         opts.data.comment = opts.comment;
+        opts.data.comment.comment = $.trim(opts.data.comment.comment);
         this.ajax(opts);
     };
 

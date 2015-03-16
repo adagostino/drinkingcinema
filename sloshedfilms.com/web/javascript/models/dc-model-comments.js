@@ -10,7 +10,7 @@ var name = "model.comments";
             'commentHome': opts.commentHome,
             'commentPath': opts.commentPath
         };
-
+        opts.data.comment.comment = $.trim(opts.data.comment.comment);
         this.ajax(opts);
     };
 
