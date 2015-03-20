@@ -19,28 +19,24 @@ class Welcome extends CI_Controller {
 	 */
 	function __construct() {
 		parent::__construct();
-		$this->load->library('tank_auth');
+		$this->load->model('script_service');
+		function __construct()
+		{
+			parent::__construct();
+		}
 	}
+
 
 	public function index()
 	{
-		//$this->load->view('welcome_message');
-		$scripts = $this->script_service->getScripts("game");
-		$page = array(
-			'title' => 'Welcome',
-			'javascripts' => $scripts['js'],
-			'stylesheets' => $scripts['css'],
-			'ogUrl' => "http://localhost/",
-			'pinUrl' => "http://localhost/",
-			'tweet' => "Sup Dawg!"
-		);
-
-		if ($this->tank_auth->is_admin()){
-			// do some stuff -- or don't!!
-			//echo $this->tank_auth->get_username()." is an admin";
+		if(!$this->input->is_cli_request())
+		{
+			return show_404();
 		}
-		$this->twiggy->set('page', $page)->template('upload')->display();
+		$scripts = $this->script_service->getScripts("upload", "mobile");
+		echo json_encode($scripts);
 	}
+
 }
 
 /* End of file welcome.php */

@@ -135,7 +135,11 @@
                 "common" => array(
                     "models/dc-model-game.js"
                 ),
-                "mobile" => array(),
+                "mobile" => array(
+                    "common" => array(
+                        "party"
+                    )
+                ),
                 "desktop" => array(
                     "common" => array(
 

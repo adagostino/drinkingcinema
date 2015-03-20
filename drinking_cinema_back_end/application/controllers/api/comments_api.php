@@ -17,6 +17,7 @@ class Comments_api extends REST_Controller {
         $this->load->model('search_service');
         $this->load->model('error_service');
         $this->load->model('scrubber_service');
+        $this->load->model('page_dependencies/search_dependency');
         $this->load->library('tank_auth');
     }
 
@@ -201,7 +202,7 @@ class Comments_api extends REST_Controller {
     }
 
     function test_get(){
-
+        
     }
 }
 
