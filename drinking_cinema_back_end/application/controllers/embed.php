@@ -18,12 +18,7 @@ class embed extends CI_Controller
         if (!$game){
             return show_404();
         }
-        $isAdmin = true;
-
-        $imageDir = $this->globals->get_images_dir(true);
-
-        $page = $this->page_builder_service->get_data('embed', $isAdmin, $game);
-
+        $page = $this->page_builder_service->get_data('embed', $game);
         $page["title"] = $game["name"];
         $page["game"] = $game;
         $this->twiggy->set('page', $page)->template('embed')->display();

@@ -19,13 +19,10 @@ class search extends CI_Controller
         // get search results
         $results = $this->search_service->search_movies($searchTerms, 0, 5);
 
-        $isAdmin = $this->tank_auth->is_admin();
-
-        $page = $this->page_builder_service->get_data('search', $isAdmin);
+        $page = $this->page_builder_service->get_data('search');
         $page["title"] = "search";
         $page["results"] = $results;
         $page["cdn"] = $this->globals->get_CDN(true);
-        $page["isAdmin"] = $isAdmin;
         $page["searchTerms"] = $searchTerms;
         $page["searchNavItems"] = array(
             "a-z",

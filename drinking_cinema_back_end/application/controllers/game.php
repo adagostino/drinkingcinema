@@ -19,11 +19,8 @@ class game extends CI_Controller
         if (!$game){
             return show_404();
         }
-        $isAdmin = $this->tank_auth->is_admin();
-
         $imageDir = $this->globals->get_images_dir(true);
-
-        $page = $this->page_builder_service->get_data('game', $isAdmin, $game);
+        $page = $this->page_builder_service->get_data('game', $game);
 
         $page["title"] = $game["name"];
         $page["game"] = $game;
@@ -50,7 +47,6 @@ class game extends CI_Controller
         $page["share"] = array(
             'value' => 'http://chug.to/'.$page["game"]["nameUrl"]
         );
-        $page["isAdmin"] = $isAdmin;
         $this->twiggy->set('page', $page)->template('game')->display();
 
     }

@@ -19,11 +19,6 @@ class Welcome extends CI_Controller {
 	 */
 	function __construct() {
 		parent::__construct();
-		$this->load->model('script_service');
-		function __construct()
-		{
-			parent::__construct();
-		}
 	}
 
 
@@ -33,7 +28,7 @@ class Welcome extends CI_Controller {
 		{
 			return show_404();
 		}
-		$scripts = $this->script_service->getScripts("upload", "mobile");
+		$scripts = $this->page_builder_service->get_all_dependencies();
 		echo json_encode($scripts);
 	}
 

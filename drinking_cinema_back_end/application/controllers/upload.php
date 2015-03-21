@@ -10,9 +10,8 @@ class Upload extends CI_Controller {
         if (!$isAdmin){
             return show_404();
         }
-        $page = $this->page_builder_service->get_data("upload", $isAdmin);
+        $page = $this->page_builder_service->get_data("upload");
         $page["title"] = "Upload";
-        $page["isAdmin"] = $isAdmin;
         $page["game"] = array(
             "name" => "",
             "nameUrl" => "",
