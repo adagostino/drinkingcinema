@@ -24,12 +24,14 @@ var name = "directive.embedGame";
     embedGame.prototype.hideContent = function(e){
         this.showing = false;
         e.stopPropagation();
-        e.preventDefault();
     };
 
     embedGame.prototype.onFocus = function(e){
-        $(e.target).select();
         this.hasFocus = true;
+        this.$timeout(function(){
+            $(e.target).select();
+        });
+
     };
 
 

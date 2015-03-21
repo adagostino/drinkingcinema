@@ -1,22 +1,22 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     include_once 'dependency.php';
-    class search_dependency extends dependency {
+    class embed_dependency extends dependency {
         // create associative array to loop through to find the js associated with each page
         // split out first by common code over all pages, then each page
         // each page is split over common code for mobile and desktop, then mobile, then desktop
         // desktop is split for common code over desktop and then admin code
         public $_jsJSON = array(
             "common" => array(
-                "models/dc-model-search.js",
-                "controllers/dc-controller-search.js",
-                "directives/dc-directive-infinite-scroll.js",
-                "directives/dc-directive-embed-game.js",
-                "services/dc-service-data-source.js"
+                "controllers/dc-controller-embed.js"
             ),
             "mobile" => array(),
             "tablet" => array(),
             "desktop" => array(
-                "common" => array(),
+                "common" => array(
+                    "controllers/dc-controller-embed-desktop.js",
+                    "directives/dc-directive-tooltip.js",
+                    "directives/dc-directive-tooltip-image.js"
+                ),
                 "admin" => array()
             )
         );
@@ -26,10 +26,9 @@
             "mobile" => array(),
             "desktop" => array(
                 "common" => array(
-                    "views/subtemplates/desktop/dc-search-item-desktop.css",
-                    "views/subtemplates/desktop/dc-search-nav-bar-desktop.css",
-                    "directives/dc-directive-infinite-scroll.css",
-                    "directives/dc-directive-embed-game.css"
+                    "views/dc-embed-desktop.css",
+                    "directives/dc-directive-tooltip.css",
+                    "directives/dc-directive-tooltip-image.css"
                 ),
                 "admin" => array()
             )
@@ -41,14 +40,10 @@
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
-                    'controllers/search.html',
-                    'directives/dc-directive-search-input.html',
-                    '_subtemplates/dc-social-media.html',
-                    '_subtemplates/dc-search-nav-bar-desktop.html',
-                    'directives/dc-directive-infinite-scroll.html',
-                    '_subtemplates/dc-search-item-desktop.html',
-                    '_subtemplates/dc-no-search-results.html',
-                    'directives/dc-directive-embed-game.html'
+                    'controllers/embed.html',
+                    'directives/dc-directive-tooltip.html',
+                    '_subtemplates/dc-tooltip-image.html',
+                    '_subtemplates/dc-social-media.html'
                 ),
                 "desktop" => array(),
                 "admin" => array()
@@ -59,7 +54,6 @@
         {
             // Call the Model constructor
             parent::__construct();
-            //$this->$jsJSON = $jsJSON;
         }
 
 

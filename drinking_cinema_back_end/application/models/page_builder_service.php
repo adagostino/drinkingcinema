@@ -31,19 +31,35 @@
             ),
         );
 
+        private $_pages = array(
+            "search" => "search",
+            "game" => "game",
+            "page" => "page",
+            "embed" => "embed",
+            "upload" => "upload"
+        );
+
         function __construct()
         {
             // Call the Model constructor
             parent::__construct();
             $this->load->library('tank_auth');
+            $this->load->model('social_media_service');
+            foreach ($this->_pages as $key=>$value){
+                $this->load->model('page_dependencies/'.$value.'_dependency');
+            }
+
+        }
+
+        function get_dependencies($pageName, $platform ="desktop", $isAdmin = false, $debug = false){
+            $pageName = strtolower($pageName);
+            if (!isset($this->_pages[$pageName])) return array();
+            $dependency = $this->_pages[$pageName]."_dependency";
+            return $this->$dependency->get_dependencies($platform, $isAdmin, $debug);
         }
 
         function get_data($pageName, $isAdmin = false, $game = null){
-            $scripts = $this->script_service->getScripts($pageName, "desktop", $isAdmin);
-            $page = array(
-                'javascripts' => $scripts['js'],
-                'stylesheets' => $scripts['css'],
-            );
+            $page = $this->get_dependencies($pageName, "desktop", $isAdmin);
             $socialMedia = $this->social_media_service->get($pageName, $game);
             foreach ($socialMedia as $key => $value){
                 $page[$key] = $value;

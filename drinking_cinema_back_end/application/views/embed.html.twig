@@ -4,19 +4,4 @@
     <div class="dc-embed">
         {% include 'controllers/embed.html' %}
     </div>
-    <script type="dc-template" id="dc-controller-embed-template">
-        {{ source('controllers/embed.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-tooltip-template">
-        {{ source('directives/dc-directive-tooltip.html') }}
-    </script>
-    <script type="dc-template" id="dc-tooltip-image-template">
-        {{ source('_subtemplates/dc-tooltip-image.html') }}
-    </script>
-    <script type="dc-template" id="dc-social-media-template">
-        {{ source('_subtemplates/dc-social-media.html') }}
-    </script>
-    <script type="text/javascript" id="dc-page-json">
-        this.pageJSON = {{(page|json_encode)}};
-    </script>
 {% endblock %}

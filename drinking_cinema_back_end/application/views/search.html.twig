@@ -9,43 +9,4 @@
         {% endembed %}
         {% include 'controllers/search.html' %}
     </div>
-    <script type="dc-template" id="dc-controller-header-template">
-        {{ source('controllers/header.html') }}
-    </script>
-    <script type="dc-template" id="dc-controller-search-template">
-        {{ source('controllers/search.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-search-input-template">
-        {{ source('directives/dc-directive-search-input.html') }}
-    </script>
-    <script type="dc-template" id="dc-social-media-template">
-        {{ source('_subtemplates/dc-social-media.html') }}
-    </script>
-    <script type="dc-template" id="dc-search-nav-bar-template">
-        {{ source('_subtemplates/dc-search-nav-bar-desktop.html') }}
-    </script>
-    <script type="dc-template" id="dc-nav-bar-template">
-        {{ source('_subtemplates/dc-nav-bar.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-infinite-scroll-template">
-        {{ source('directives/dc-directive-infinite-scroll.html') }}
-    </script>
-    <script type="dc-template" id="dc-search-item-template">
-        {{ source('_subtemplates/dc-search-item-desktop.html') }}
-    </script>
-    <script type="dc-template" id="dc-no-search-results-template">
-        {{ source('_subtemplates/dc-no-search-results.html') }}
-    </script>
-    <script type="dc-template" id="dc-directive-embed-game-template">
-        {{ source('directives/dc-directive-embed-game.html') }}
-    </script>
-    {% if page.isAdmin %}
-
-    {% else %}
-
-    {%  endif %}
-    <script type="text/javascript" id="dc-page-json">
-        this.pageJSON = {{(page|json_encode)}};
-    </script>
-
 {% endblock %}

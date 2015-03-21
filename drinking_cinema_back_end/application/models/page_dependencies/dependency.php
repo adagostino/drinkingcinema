@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     class dependency extends CI_Model {
         // create associative array to loop through to find the js associated with each page
         // split out first by common code over all pages, then each page
@@ -61,7 +61,8 @@
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
-                    'controllers/header.html'
+                    'controllers/header.html',
+                    '_subtemplates/dc-nav-bar.html'
                 ),
                 "desktop" => array(),
                 "admin" => array()
@@ -74,25 +75,29 @@
             parent::__construct();
         }
 
-        function get_dependencies(){
-
+        function get_dependencies($platform = "desktop", $isAdmin = false, $isDebug = false){
+            return array(
+                'javascripts' => $this->getJS($platform, $isAdmin, $isDebug),
+                'stylesheets' => $this->getCSS($platform, $isAdmin, $isDebug),
+                'views' => $this->getHTML($platform, $isAdmin, $isDebug)
+            );
         }
 
-        function mergeHTML($a, $b, $map){
-            foreach ($b as $key=>$value){
+        function getHTMLMapFromJSON($json){
+            $a = array();
+            foreach ($json as $key=>$value){
                 if ($htmlObj = $this->getHTMLObj($value)){
-                    if (!isset($map[$htmlObj["id"]])){
-                        $map[$htmlObj["id"]] = $map["count"]++;
-                        $a[] = $htmlObj["path"];
-                    } else {
-                        $a[$map[$htmlObj["id"]]] = $htmlObj["path"];
-                    }
-                };
+                    $a[$htmlObj["id"]] = $htmlObj["path"];
+                }
             }
-            return array(
-                "html" => $a,
-                "map" => $map
-            );
+            return $a;
+        }
+
+        function mergeHTML($a,$b){
+            foreach ($b as $id=>$source){
+                $a[$id] = $source;
+            }
+            return $a;
         }
 
         function getHTMLObj($obj){
@@ -105,49 +110,24 @@
                 $path = $obj["path"];
             } else if ($type === "string") {
                 $path = $obj;
-                $seg = explode("/", $obj);
-                $fn = explode(".",end($seg));
-                array_pop($fn);
-                $fn = join(".",$fn);
+                $pattern = '/(?:[^\/]+\/)*([^\/]+)(?:\.html)/i';
+                $id = preg_replace_callback($pattern, function ($matches) {
+                    $match = $matches[1] ? preg_replace("/-admin|-desktop|-mobile|-tablet/i","",$matches[1]) : "";
+                    return $match;
+                }, $path);
 
-                if (preg_match("/controller/i",$path)){
-                    $id = "dc-controller-".$fn;
-                } else {
-                    $id = $fn;
+                if ($id) {
+                    if (preg_match("/controller/i",$path)){
+                        $id = "dc-controller-".$id;
+                    }
+                    $id.="-template";
                 }
-                $id.="-template";
             }
             if (!$id) return;
-            $html = '<script type="dc-template" id="';
-            $html.= $id;
-            $html.= '">';
-            $html.= "{{ source('";
-            $html.= $path;
-            $html.= "') }}";
-            $html.= "</script>";
-            $html = htmlspecialchars($html);
             return array(
                 "id" => $id,
-                "html" => $html,
                 "path" => $path
             );
-        }
-
-        function constuctHTML($htmlObj){
-            $a = [];
-            foreach ($htmlObj["map"] as $id=>$idx){
-                if ($id !== "count"){
-                    $html = '<script type="dc-template" id="';
-                    $html.= $id;
-                    $html.= '">';
-                    $html.= "{{ source('";
-                    $html.= $htmlObj["html"][$idx];
-                    $html.= "') }}";
-                    $html.= "</script>";
-                    $a[] = htmlspecialchars($html);
-                }
-            }
-            return $a;
         }
 
         function platformExists($json, $platform){
@@ -176,33 +156,18 @@
             return $a;
         }
 
-        function parseHTMLJSON($json, $platform, $isAdmin, $map = null){
+        function parseHTMLJSON($json, $platform, $isAdmin){
             $a = array();
-            if (!$map) $map = array(
-                "count" => 0
-            );
-            if (!$json) return array("html" => $a, "map" => $map);
-
+            if (!$json) return $a;
             if (isset($json["common"])){
-                $merged = $this->mergeHTML($a, $json["common"], $map);
-                $a = $merged["html"];
-                $map = $merged["map"];
+                $a = $this->mergeHTML($a, $this->getHTMLMapFromJSON($json["common"]));
             }
             $platformJSON = $this->getPlatformJSON($json, $platform);
-            $platformHTMLObj = $this->parseHTMLJSON($platformJSON, $platform, $isAdmin, $map);
-            $merged = $this->mergeHTML($a, $platformHTMLObj["html"], $platformHTMLObj["map"]);
-            $a = $merged["html"];
-            $map = $merged["map"];
-            if ($isAdmin && isset($json["admin"])) {
-                $adminHTMLObj = $this->parseHTMLJSON($json["admin"], $platform, $isAdmin, $map);
-                $merged = $this->mergeHTML($a, $adminHTMLObj["html"] , $adminHTMLObj["map"]);
-                $a = $merged["html"];
-                $map = $merged["map"];
+            $a = $this->mergeHTML($a, $this->parseHTMLJSON($platformJSON, $platform, $isAdmin));
+            if (isset($json["admin"]) && $isAdmin){
+                $a = $this->mergeHTML($a, $this->getHTMLMapFromJSON($json["admin"]));
             }
-            return array(
-                "html" => $a,
-                "map" => $map
-            );
+            return $a;
         }
 
         function getJS($platform = "desktop", $isAdmin = false, $isDebug = false){
@@ -228,15 +193,8 @@
         }
 
         function getHTML($platform = "desktop", $isAdmin = false, $isDebug = false){
-            $commonHTMLObj = $this->parseHTMLJSON($this->_commonHTMLJSON, $platform, $isAdmin);;
-            $a = $commonHTMLObj["html"];
-            $map = $commonHTMLObj["map"];
-            $pageHTMLObj = $this->parseHTMLJSON($this->_htmlJSON, $platform, $isAdmin, $map);
-            $merged = $this->mergeHTML($a, $pageHTMLObj["html"], $pageHTMLObj["map"]);
-            return array(
-                "ids" => $merged["map"],
-                "html" => $this->constuctHTML($merged)
-            );
+            return $this->mergeHTML($this->parseHTMLJSON($this->_commonHTMLJSON, $platform, $isAdmin),
+                                    $this->parseHTMLJSON($this->_htmlJSON, $platform, $isAdmin));
         }
 
     }

@@ -8,7 +8,7 @@ var name = "controller.header";
         };
 
         this.selectAll = function(e){
-            $(e.target).select();
+            this.$timeout(function(){$(e.target).select()});
         };
 
         this.revertShare = function(e){
