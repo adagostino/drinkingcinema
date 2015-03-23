@@ -49,6 +49,7 @@
         {
             // Call the Model constructor
             parent::__construct();
+            $this->load->helper('url');
             $this->load->library('tank_auth');
             $this->load->library('Mobile_Detect');
             $this->load->model('social_media_service');
@@ -62,13 +63,32 @@
             return $this->detect->isMobile() ? $this->detect->isTablet() ? "tablet": "mobile" : "desktop";
         }
 
+        function get_debug(){
+            parse_str($_SERVER['QUERY_STRING'], $_GET);
+            $debug = $this->get_debug_cookie();
+            if (isset($_GET["debug"])){
+                $debug = $this->set_debug_cookie($_GET["debug"]);
+            }
+            return $debug;
+        }
+
+        function get_debug_cookie(){
+            return isset($_COOKIE["dc_debug"]) ? $_COOKIE["dc_debug"] : 0;
+        }
+
+        function set_debug_cookie($debug){
+            $debug = strtolower($debug) === "true" ? 1 : 0;
+            setcookie("dc_debug", $debug, time() + (7*86400), "/");
+            return $debug;
+        }
+
         function get_all_dependencies(){
             $a = [];
             foreach ($this->_pages as $pageKey => $page){
                 foreach ($this->_platforms as $pIdx => $platform){
                     $name = $page."-".$platform;
-                    $a[$name] = $this->get_dependencies($page, false, $platform, false);
-                    $a[$name."-admin"] = $this->get_dependencies($page, true, $platform);
+                    $a[$name] = $this->get_dependencies($page, false, $platform, true);
+                    $a[$name."-admin"] = $this->get_dependencies($page, true, $platform, true);
                 }
             }
             return $a;
@@ -84,10 +104,12 @@
         function get_data($pageName, $game = null){
             $isAdmin = $isAdmin = $this->tank_auth->is_admin();
             $platform = $this->get_platform();
+            $debug = $this->get_debug();
 
-            $page = $this->get_dependencies($pageName, $isAdmin, $platform);
+            $page = $this->get_dependencies($pageName, $isAdmin, $platform, $debug);
             $page["isAdmin"] = $isAdmin;
             $page["platform"] = $platform;
+            $page["debug"] = $debug;
             $socialMedia = $this->social_media_service->get($pageName, $game);
             foreach ($socialMedia as $key => $value){
                 $page[$key] = $value;

@@ -1,5 +1,5 @@
-(function(){
-    var generateGUID =  this.generateGUID = function (guidLength, includeDate) {
+(function(global){
+    var generateGUID =  global.generateGUID = function (guidLength, includeDate) {
         includeDate = typeof includeDate === "boolean" ? includeDate : true;
         var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.split(''),
             charsLength = chars.length,
@@ -13,4 +13,4 @@
 
         return guid;
     };
-})();
+})(this || window);

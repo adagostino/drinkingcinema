@@ -21,6 +21,19 @@ body{
   }
 }
 
+.dc-debug {
+  position: absolute;
+  width: 100px;
+  top: 2px;
+  left: 50%;
+  margin-left: -50px;
+  pointer-events: none;
+  color: $dc-red;
+  font-size: 10px;
+  text-align: center;
+  z-index: 1;
+}
+
 .dc-background {
   position: relative;
   background: $dc-light-gray url($dc-background-url) 50% 0% repeat-y;

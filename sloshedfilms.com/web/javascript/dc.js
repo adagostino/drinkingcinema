@@ -212,10 +212,10 @@ var startTime = new Date().getTime();
             });
             var endTime = new Date().getTime();
 
-            console.log("Add Components", startInit - startTime);
-            console.log("Init Components", startInitControllers - startInit);
-            console.log("Init Controllers", endTime - startInitControllers);
-            console.log("total time", endTime - startTime);
+            //console.log("Add Components", startInit - startTime);
+            //console.log("Init Components", startInitControllers - startInit);
+            //console.log("Init Controllers", endTime - startInitControllers);
+            //console.log("total time", endTime - startTime);
             return this;
         };
 
@@ -396,6 +396,13 @@ var startTime = new Date().getTime();
     utils.prototype.setLocal = function(key, value){
         value = typeof value === "string" ? value : JSON.stringify(value);
         localStorage && localStorage.setItem(key, value);
+    };
+
+    utils.prototype.getCookie = function (name)
+    {
+        var re = new RegExp(name + "=([^;]+)");
+        var value = re.exec(document.cookie);
+        return (value != null) ? decodeURI(value[1]) : null;
     };
 
     $dc.utils = new utils();

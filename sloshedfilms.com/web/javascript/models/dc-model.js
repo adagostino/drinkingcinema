@@ -34,9 +34,14 @@ var name = "model";
         };
         if (!opts.url) opts.error(null, "no url provided for ajax");
         opts.type = opts.type.toUpperCase();
-        if (opts.type === "GET" && opts.data) {
-            opts.url = this.setUrl(opts.url, opts.data);
-            delete opts.data;
+        if (opts.type === "GET") {
+            if (opts.data){
+                opts.url = this.setUrl(opts.url, opts.data);
+                delete opts.data;
+            }
+        } else {
+            if (!opts.data) opts.data = {};
+            opts.data["dc_csrf"] = $dc.utils.getCookie("dc_csrf");
         }
         return $.ajax(opts);
     };

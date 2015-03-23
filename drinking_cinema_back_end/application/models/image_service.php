@@ -33,6 +33,7 @@
             $folder = $this->globals->get_games_dir();
             $uploadPath = $folder.$name.".".$ext;
 
+
             $input = fopen("php://input", "r");
             $temp = tmpfile();
             $realSize = stream_copy_to_stream($input, $temp);

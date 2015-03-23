@@ -202,7 +202,6 @@ class Comments_api extends REST_Controller {
 
     function test_get(){
 
-
     }
 }
 

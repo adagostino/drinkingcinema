@@ -122,11 +122,11 @@
     var identPart = '[\$_a-zA-Z0-9]';
     var identRegExp = new RegExp('^' + identStart + '+' + identPart + '*' + '$');
 
-    function getPathCharType(char) {
-        if (char === undefined)
+    function getPathCharType(character) {
+        if (character === undefined)
             return 'eof';
 
-        var code = char.charCodeAt(0);
+        var code = character.charCodeAt(0);
 
         switch(code) {
             case 0x5B: // [
@@ -135,7 +135,7 @@
             case 0x22: // "
             case 0x27: // '
             case 0x30: // 0
-                return char;
+                return character;
 
             case 0x5F: // _
             case 0x24: // $
@@ -680,7 +680,7 @@
                 observedSetCache.push(this);
                 if (lastObservedSet === this)
                     lastObservedSet = null;
-            },
+            }
         };
 
         return record;
@@ -1219,9 +1219,9 @@
     }
 
     var expectedRecordTypes = {
-        add: true,
-        update: true,
-        delete: true
+        "add": true,
+        "update": true,
+        "delete": true
     };
 
     function diffObjectFromChangeRecords(object, changeRecords, oldValues) {

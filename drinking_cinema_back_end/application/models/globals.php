@@ -4,6 +4,7 @@
         private $game_images_directory = "Games/";
         private $upload_images_directory = "uli/";
         private $images_directory = "Images/";
+        private $script_guid = "1427069054480_sd5sRjrHLPbyO0UT";
 
         function __construct() {
             // Call the Model constructor
@@ -33,6 +34,11 @@
             $dir = $this->cdn.$this->images_directory;
             return $url ? $this->get_url($dir) : $dir;
         }
+
+        function get_script_guid(){
+            return $this->script_guid;
+        }
+
     }
 
 ?>

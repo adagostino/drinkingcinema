@@ -6,7 +6,6 @@
         // desktop is split for common code over desktop and then admin code
         private $jsBasePath = "/web/javascript";
         private $cssBasePath = "/web/css";
-        private $minBasePath = "/web/min";
 
         private $_commonJSJSON = array(
             "common" => array(
@@ -73,6 +72,7 @@
         {
             // Call the Model constructor
             parent::__construct();
+            $this->guid = $this->globals->get_script_guid();
         }
 
         function get_dependencies($platform = "desktop", $isAdmin = false, $isDebug = false){
@@ -171,8 +171,12 @@
         }
 
         function getJS($platform = "desktop", $isAdmin = false, $isDebug = false){
-            $a = $this->parseJSON($this->_commonJSJSON, $platform, $isAdmin);
-            $a = array_merge($a, $this->parseJSON($this->_jsJSON, $platform, $isAdmin));
+            if ($isDebug) {
+                $a = $this->parseJSON($this->_commonJSJSON, $platform, $isAdmin);
+                $a = array_merge($a, $this->parseJSON($this->_jsJSON, $platform, $isAdmin));
+            } else {
+                $a = array("min/".$this->_name."-".$platform.($isAdmin ? "-admin" : "")."-".$this->guid.".js");
+            }
             $bp = $this->jsBasePath;
             $output = array(
                 'basePath' => $bp,
@@ -182,8 +186,12 @@
         }
 
         function getCSS($platform = "desktop", $isAdmin = false, $isDebug = false){
-            $a = $this->parseJSON($this->_commonCSSJSON, $platform, $isAdmin);
-            $a = array_merge($a, $this->parseJSON($this->_cssJSON, $platform, $isAdmin));
+            if ($isDebug){
+                $a = $this->parseJSON($this->_commonCSSJSON, $platform, $isAdmin);
+                $a = array_merge($a, $this->parseJSON($this->_cssJSON, $platform, $isAdmin));
+            } else {
+                $a = array("min/".$this->_name."-".$platform.($isAdmin ? "-admin" : "")."-".$this->guid.".css");
+            }
             $bp = $this->cssBasePath;
             $output = array(
                 'basePath' => $bp,

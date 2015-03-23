@@ -5,6 +5,7 @@
         // split out first by common code over all pages, then each page
         // each page is split over common code for mobile and desktop, then mobile, then desktop
         // desktop is split for common code over desktop and then admin code
+        public $_name = "game";
         public $_jsJSON = array(
             "common" => array(
                 "models/dc-model-game.js",

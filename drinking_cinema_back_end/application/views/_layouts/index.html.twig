@@ -20,6 +20,9 @@
         {% endfor %}
     </head>
     <body class="{{page.controllerName}}">
+        {%  if page.debug %}
+            <div class="dc-debug">Debug Mode</div>
+        {% endif %}
         <div class="dc-background">
             <div id="fb-root"></div>
             <div class="dc-container">

@@ -146,11 +146,20 @@ class CI_Security {
 		// Do the tokens exist in both the _POST and _COOKIE arrays?
 		if ( ! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name]))
 		{
-			$this->csrf_show_error();
+			if (!isset($_GET[$this->_csrf_token_name])){
+				$this->csrf_show_error();
+			}
 		}
 
 		// Do the tokens match?
-		if ($_POST[$this->_csrf_token_name] != $_COOKIE[$this->_csrf_cookie_name])
+		$token = null;
+		if (isset($_POST[$this->_csrf_token_name])){
+			$token = $_POST[$this->_csrf_token_name];
+		} else {
+			$token = $_GET[$this->_csrf_token_name];
+		}
+
+		if ($token != $_COOKIE[$this->_csrf_cookie_name])
 		{
 			$this->csrf_show_error();
 		}
