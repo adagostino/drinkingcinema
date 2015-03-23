@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Page Not Found</title>
+<title>Access Denied</title>
 <style type="text/css">
 
 	html {
@@ -14,7 +14,7 @@
 
 	body {
 		background-color: #ffffff;
-		background-image: url('http://cdn.drinkingcinema.com/Images/pageNotFound.png');
+		background-image: url('http://cdn.drinkingcinema.com/Images/accessDenied.png');
 		background-size: contain;
 		background-repeat: no-repeat;
 		min-height: 100vh;
@@ -33,6 +33,6 @@
 </style>
 </head>
 <body>
-	<span>Page Not Found</span>
+	<span>Access Denied</span>
 </body>
 </html>

@@ -15,12 +15,16 @@ class search extends CI_Controller
 
     function get(){
         $searchTerms = trim(urldecode(strtolower ($this->uri->segment(2))));
-        if ($searchTerms === "") $searchTerms = "newest";
+        $title = "DC Search: ".$searchTerms;
+        if ($searchTerms === "") {
+            $title = "Drinking Cinema";
+            $searchTerms = "newest";
+        }
         // get search results
         $results = $this->search_service->search_movies($searchTerms, 0, 5);
 
         $page = $this->page_builder_service->get_data('search');
-        $page["title"] = "search";
+        $page["title"] = $title;
         $page["results"] = $results;
         $page["cdn"] = $this->globals->get_CDN(true);
         $page["searchTerms"] = $searchTerms;
