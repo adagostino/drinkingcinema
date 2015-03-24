@@ -68,7 +68,7 @@ class Auth extends CI_Controller
 						$this->form_validation->set_value('remember'),
 						$data['login_by_username'],
 						$data['login_by_email'])) {								// success
-					redirect('');
+					redirect('/search');
 
 				} else {
 					$errors = $this->tank_auth->get_error_message();
@@ -104,8 +104,9 @@ class Auth extends CI_Controller
 	function logout()
 	{
 		$this->tank_auth->logout();
-
-		$this->_show_message($this->lang->line('auth_message_logged_out'));
+		$this->session->sess_create();
+		redirect('');
+		//$this->_show_message($this->lang->line('auth_message_logged_out'));
 	}
 
 	/**
