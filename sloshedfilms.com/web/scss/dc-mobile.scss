@@ -1,0 +1,90 @@
+@import "compass/reset";
+@import "imports/dc-imports";
+
+html {
+  //overflow: auto;
+  box-sizing: border-box;
+}
+
+html,body{
+  //font-family: 'Kameron', georgia, serif;
+  font-weight: 400;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body{
+  background-color: transparent;
+  min-height: 100vh;
+  position: relative;
+  &.modal-open{
+    overflow: hidden;
+  }
+}
+
+.dc-debug {
+  position: absolute;
+  width: 100px;
+  top: 2px;
+  left: 50%;
+  margin-left: -50px;
+  pointer-events: none;
+  color: $dc-red;
+  font-size: 10px;
+  text-align: center;
+  z-index: 1;
+}
+
+.dc-background {
+  position: relative;
+  background: none;
+  width: 100%;
+  height: 100%;
+}
+
+.dc-container{
+  width: auto;
+  padding: 0px;
+  margin: 0 auto;
+}
+
+.dc-flexible-sprite{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-size: 100%;
+  @include crisp-edges();
+  span.description-text{
+    @include hiddenSpan();
+  }
+  h1.description-text{
+    @include hiddenSpan();
+  }
+  h2.description-text{
+    @include hiddenSpan();
+  }
+}
+
+$hrRatio: 750/16 * ($dc-buttons-sprite-height/$dc-buttons-sprite-width);
+$hrx: 2*percentage(-8px/$dc-buttons-sprite-width);
+$hry: 2*percentage(-133px/$dc-buttons-sprite-height);
+.dc-flexible-hr-top{
+  position: relative;
+  width: 100%;
+  padding-bottom: percentage(1/$hrRatio);
+  margin: 5px 0px;
+  .dc-flexible-sprite{
+    background-image: url($dc-buttons-url);
+    background-position: $hrx $hry;
+  }
+}
+
+.dc-thumbnail {
+  height: $dc-thumbnail-width;
+  width: $dc-thumbnail-height;
+  background-size: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-color: $dc-white;
+}

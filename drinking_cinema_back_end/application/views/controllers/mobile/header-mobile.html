@@ -1,0 +1,24 @@
+<div class="dc-header-controller" dc-controller="header">
+    <div class="dc-header-main-nav">
+        <a href="/" class="dc-header-main-nav-logo"></a>
+        <div class="dc-header-main-nav-search">
+            <div class="dc-mag-glass" dc-click="showAutocomplete"></div>
+        </div>
+        <div class="dc-header-twitter"></div>
+        <div class="dc-header-facebook"></div>
+    </div>
+    <div class="dc-header-main-nav-spacer"></div>
+    <div class="dc-header-sub-nav" dc-include="#dc-nav-bar-template">
+        {% include '_subtemplates/mobile/dc-nav-bar-mobile.html' %}
+    </div>
+    <div class="dc-flexible-logo">
+        <a class="dc-flexible-sprite">
+            <h1 class="description-text">Drinking Cinema: Movie Drinking Games That Hammer Ass</h1>
+        </a>
+    </div>
+    <div dc-include="page.subheader">
+        {% block subheader %}
+
+        {% endblock %}
+    </div>
+</div>

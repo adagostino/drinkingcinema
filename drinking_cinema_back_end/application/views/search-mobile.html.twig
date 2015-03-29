@@ -1,0 +1,12 @@
+{% extends _layout %}
+
+{% block body %}
+    <div class="dc-search">
+        {% embed 'controllers/mobile/header-mobile.html' %}
+            {% block subheader %}
+
+            {% endblock %}
+        {% endembed %}
+        {% include 'controllers/mobile/search-mobile.html' %}
+    </div>
+{% endblock %}

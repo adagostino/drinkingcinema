@@ -1,0 +1,89 @@
+@import "imports/dc-imports";
+
+$dc-nav-bar-height: 46px;
+$dc-nav-bar-height-desktop: 65px;
+$ratio: $dc-nav-bar-height/$dc-nav-bar-height-desktop;
+.dc-nav-bar{
+  height: $dc-nav-bar-height;
+  @include inline-block();
+  margin: 0 auto;
+}
+
+.dc-nav-bar-link{
+  @include inline-block();
+  vertical-align: top;
+  text-align: center;
+}
+
+.dc-nav-bar-item {
+  @include inline-block();
+  vertical-align: top;
+  background-image: url($dc-buttons-url);
+  background-size: $dc-buttons-sprite-width*$ratio $dc-buttons-sprite-height*$ratio;
+  @include crisp-edges();
+  height: $dc-nav-bar-height;
+  position: relative;
+  span {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin-top: -8px;
+    z-index: -1;
+    color: $dc-white;
+  }
+}
+
+.dc-nav-bar-faq {
+  @extend .dc-nav-bar-item;
+  background-position: -9px*$ratio -367px*$ratio;
+  width: 71px*$ratio;
+  &.selected {
+    background-position: -9px*$ratio -8px*$ratio;
+  }
+}
+
+.dc-nav-bar-about {
+  @extend .dc-nav-bar-item;
+  background-position: -130px*$ratio -367px*$ratio;
+  width: 107px*$ratio;
+  &.selected {
+    background-position: -130px*$ratio -8px*$ratio;
+  }
+}
+
+.dc-nav-bar-contact {
+  @extend .dc-nav-bar-item;
+  background-position: -280px*$ratio -367px*$ratio;
+  width: 157px*$ratio;
+  &.selected {
+    background-position: -280px*$ratio -6px*$ratio;
+  }
+}
+
+.dc-nav-bar-follow {
+  display: none;
+  @extend .dc-nav-bar-item;
+  background-position: -502px*$ratio -8px*$ratio;
+  width: 135px*$ratio;
+  cursor: default;
+}
+
+.dc-nav-bar-twitter {
+  display: none;
+}
+
+.dc-nav-bar-facebook {
+  display: none;
+}
+
+.dc-nav-bar-x {
+  @extend .dc-nav-bar-item;
+  width: 15px*$ratio;
+  margin: 0px 10px;
+}
+
+.dc-nav-bar-x-1{
+  @extend .dc-nav-bar-x;
+  background-position: -96px*$ratio -8px*$ratio;
+  @include inline-block();
+}

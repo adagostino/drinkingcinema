@@ -35,10 +35,13 @@
         {% for href in page.stylesheets.relativePaths %}
             <link rel="stylesheet" type="text/css" href="{{page.stylesheets.basePath}}/{{href}}">
         {% endfor %}
+        {% if page.platform == "mobile" %}
+            <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        {% endif %}
     </head>
     <body class="{{page.controllerName}}">
         {%  if page.debug %}
-            <div class="dc-debug">Debug Mode</div>
+            <div class="dc-debug">Debug Mode {{ page.platform }}</div>
         {% endif %}
         <div class="dc-background">
             <div id="fb-root"></div>

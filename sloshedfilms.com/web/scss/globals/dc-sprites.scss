@@ -375,51 +375,6 @@ $tvLoaderSize: $dc-tv-loader-size;
 
 }
 
-.dc-search-button {
-  @extend .dc-buttons;
-  @include inline-block();
-}
-
-.dc-search-button-a-z{
-  @extend .dc-search-button;
-  background-position: -18px -449px;
-  width: 53px;
-  height: 36px;
-  &:hover, &.selected{
-    background-position: -18px -95px;
-  }
-}
-
-.dc-search-button-z-a{
-  @extend .dc-search-button;
-  background-position: -95px -449px;
-  width: 57px;
-  height: 36px;
-  &:hover, &.selected{
-    background-position: -95px -95px;
-  }
-}
-
-.dc-search-button-newest{
-  @extend .dc-search-button;
-  background-position: -179px -447px;
-  width: 115px;
-  height: 36px;
-  &:hover, &.selected{
-    background-position: -179px -93px;
-  }
-}
-
-.dc-search-button-oldest{
-  @extend .dc-search-button;
-  background-position: -310px -447px;
-  width: 115px;
-  height: 36px;
-  &:hover, &.selected{
-    background-position: -310px -93px;
-  }
-}
-
 .dc-faq{
   @extend .dc-subpages;
   background-position: -4px -8px;

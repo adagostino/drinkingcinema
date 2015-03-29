@@ -14,7 +14,9 @@
                 "directives/dc-directive-embed-game.js",
                 "services/dc-service-data-source.js"
             ),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" =>array()
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(),
@@ -23,13 +25,19 @@
         );
 
         public $_cssJSON = array(
-            "common" => array(),
-            "mobile" => array(),
+            "common" => array(
+                "directives/dc-directive-infinite-scroll.css"
+            ),
+            "mobile" => array(
+                "common" => array(
+                    "views/subtemplates/mobile/dc-search-item-mobile.css",
+                    "views/mobile/dc-search-mobile.css"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "views/subtemplates/desktop/dc-search-item-desktop.css",
                     "views/subtemplates/desktop/dc-search-nav-bar-desktop.css",
-                    "directives/dc-directive-infinite-scroll.css",
                     "directives/dc-directive-embed-game.css"
                 ),
                 "admin" => array()
@@ -37,8 +45,17 @@
         );
 
         public $_htmlJSON = array(
-            "common" => array(),
-            "mobile" => array(),
+            "common" => array(
+                'directives/dc-directive-infinite-scroll.html'
+            ),
+            "mobile" => array(
+                "common" => array(
+                    'controllers/mobile/search-mobile.html',
+                    'controllers/mobile/search-mobile.html',
+                    '_subtemplates/mobile/dc-search-item-mobile.html',
+                    '_subtemplates/dc-no-search-results.html'
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -46,9 +63,7 @@
                     'directives/dc-directive-search-input.html',
                     '_subtemplates/dc-social-media.html',
                     '_subtemplates/dc-search-nav-bar-desktop.html',
-                    'directives/dc-directive-infinite-scroll.html',
                     '_subtemplates/dc-search-item-desktop.html',
-                    '_subtemplates/dc-no-search-results.html',
                     'directives/dc-directive-embed-game.html'
                 ),
                 "desktop" => array(),

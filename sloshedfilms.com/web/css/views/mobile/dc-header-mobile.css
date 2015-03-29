@@ -1,0 +1,94 @@
+.dc-header-main-nav {
+  padding: 5px 10px;
+  border-bottom: 1px solid #e1e1e1;
+  -moz-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  position: fixed;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.dc-header-main-nav-spacer {
+  height: 41px;
+}
+
+.dc-header-main-nav-logo {
+  background-image: url("http://cdn.drinkingcinema.com/Images/DC_sn_thumbnail.png");
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  width: 30px;
+  height: 30px;
+  background-size: 100%;
+}
+
+.dc-header-main-nav-search {
+  float: right;
+  padding: 10px 5px 5px;
+  margin-left: 5px;
+}
+
+.dc-header-sub-nav {
+  padding: 0px 10px;
+  text-align: center;
+}
+
+.dc-header-nav-bar-item, .dc-header-twitter, .dc-header-facebook {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
+  background-size: 510.13514px 402.02703px;
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+  height: 25px;
+  position: relative;
+  float: right;
+  top: 5px;
+  margin: 0px 5px;
+}
+
+.dc-header-twitter {
+  background-position: -434.45946px -12.83784px;
+  width: 25px;
+}
+.dc-header-twitter:hover {
+  background-position: -434.45946px -123.64865px;
+}
+
+.dc-header-facebook {
+  background-position: -467.56757px -12.83784px;
+  width: 25px;
+}
+.dc-header-facebook:hover {
+  background-position: -467.56757px -123.64865px;
+}
+
+.dc-flexible-logo {
+  width: 100%;
+  padding-bottom: 37.5%;
+  position: relative;
+  margin: 10px 0px;
+}
+.dc-flexible-logo .dc-flexible-sprite {
+  display: block;
+  background-image: url("http://cdn.drinkingcinema.com/Images/DC_header.jpg");
+}
+.dc-flexible-logo .dc-flexible-sprite:hover, .dc-flexible-logo .dc-flexible-sprite:active {
+  background-position: 0% 100%;
+}

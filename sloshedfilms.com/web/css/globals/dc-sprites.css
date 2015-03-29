@@ -1,4 +1,4 @@
-.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-share-this-game, .dc-search-button, .dc-search-button-a-z, .dc-search-button-z-a, .dc-search-button-newest, .dc-search-button-oldest {
+.dc-buttons, .dc-hr-top, .dc-hr-bottom, .dc-share-this-game {
   background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
 }
 
@@ -306,48 +306,6 @@
   -moz-animation-name: rotate;
   -webkit-animation-name: rotate;
   animation-name: rotate;
-}
-
-.dc-search-button, .dc-search-button-a-z, .dc-search-button-z-a, .dc-search-button-newest, .dc-search-button-oldest {
-  display: inline-block;
-  *display: inline;
-  zoom: 1;
-}
-
-.dc-search-button-a-z {
-  background-position: -18px -449px;
-  width: 53px;
-  height: 36px;
-}
-.dc-search-button-a-z:hover, .dc-search-button-a-z.selected {
-  background-position: -18px -95px;
-}
-
-.dc-search-button-z-a {
-  background-position: -95px -449px;
-  width: 57px;
-  height: 36px;
-}
-.dc-search-button-z-a:hover, .dc-search-button-z-a.selected {
-  background-position: -95px -95px;
-}
-
-.dc-search-button-newest {
-  background-position: -179px -447px;
-  width: 115px;
-  height: 36px;
-}
-.dc-search-button-newest:hover, .dc-search-button-newest.selected {
-  background-position: -179px -93px;
-}
-
-.dc-search-button-oldest {
-  background-position: -310px -447px;
-  width: 115px;
-  height: 36px;
-}
-.dc-search-button-oldest:hover, .dc-search-button-oldest.selected {
-  background-position: -310px -93px;
 }
 
 .dc-faq {

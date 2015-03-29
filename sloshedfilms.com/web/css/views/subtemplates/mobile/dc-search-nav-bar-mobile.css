@@ -1,0 +1,88 @@
+.dc-search-nav-bar {
+  display: table;
+  width: 100%;
+  padding-top: 15px;
+}
+
+.dc-search-nav-bar-link {
+  display: table-cell;
+  vertical-align: top;
+  text-align: center;
+}
+
+.dc-search-nav-bar-button {
+  position: relative;
+  top: 5px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 0px 5px;
+}
+.dc-search-nav-bar-button span {
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-search-button, .dc-search-button-a-z, .dc-search-button-z-a, .dc-search-button-newest, .dc-search-button-oldest {
+  background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
+  background-size: 566.25px 446.25px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+}
+
+.dc-search-button-a-z {
+  background-position: -12px -336.75px;
+  width: 39.75px;
+  height: 27px;
+}
+.dc-search-button-a-z:hover, .dc-search-button-a-z.selected {
+  background-position: -12px -71.25px;
+}
+
+.dc-search-button-z-a {
+  background-position: -71.25px -336.75px;
+  width: 42.75px;
+  height: 27px;
+}
+.dc-search-button-z-a:hover, .dc-search-button-z-a.selected {
+  background-position: -71.25px -71.25px;
+}
+
+.dc-search-button-newest {
+  background-position: -130.5px -335.25px;
+  width: 86.25px;
+  height: 27px;
+}
+.dc-search-button-newest:hover, .dc-search-button-newest.selected {
+  background-position: -130.5px -69px;
+}
+
+.dc-search-button-oldest {
+  background-position: -229.5px -335.25px;
+  width: 86.25px;
+  height: 27px;
+}
+.dc-search-button-oldest:hover, .dc-search-button-oldest.selected {
+  background-position: -229.5px -69px;
+}

@@ -1,0 +1,87 @@
+@import "imports/dc-imports";
+.dc-header-controller{
+
+}
+$logoSize: 30px;
+.dc-header-main-nav{
+  padding: 5px 10px;
+  border-bottom: 1px solid $dc-light-gray;
+  @include box-shadow(0px 0px 1px rgba(0,0,0,0.3));
+  z-index: 2;
+  position: fixed;
+  width: 100%;
+  background-color: $dc-white;
+}
+
+.dc-header-main-nav-spacer{
+  height: $logoSize + 11px;
+}
+
+
+.dc-header-main-nav-logo{
+  background-image: url($dc-thumbnail);
+  @include inline-block();
+  width: $logoSize;
+  height: $logoSize;
+  background-size: 100%;
+}
+
+.dc-header-main-nav-search{
+  float: right;
+  padding: 10px 5px 5px;
+  margin-left: 5px;
+}
+
+.dc-header-sub-nav{
+  padding: 0px 10px;
+  text-align: center;
+}
+
+$shareSize: 25px;
+$ratio: $shareSize/37px;
+.dc-header-nav-bar-item {
+  @include inline-block();
+  vertical-align: top;
+  background-image: url($dc-buttons-url);
+  background-size: $dc-buttons-sprite-width*$ratio $dc-buttons-sprite-height*$ratio;
+  @include crisp-edges();
+  height: $shareSize;
+  position: relative;
+  float: right;
+  top: $logoSize - $shareSize;
+  margin: 0px 5px;
+}
+
+.dc-header-twitter {
+  @extend .dc-header-nav-bar-item;
+  background-position: -643px*$ratio -19px*$ratio;
+  width: $shareSize;
+  &:hover {
+    background-position: -643px*$ratio -183px*$ratio;
+  }
+}
+
+.dc-header-facebook {
+  @extend .dc-header-nav-bar-item;
+  background-position: -692px*$ratio -19px*$ratio;
+  width: $shareSize;
+  &:hover {
+    background-position: -692px*$ratio -183px*$ratio;
+  }
+}
+
+$logoRatio: $dc-logo-main-width/($dc-logo-main-height/2);
+.dc-flexible-logo{
+  width: 100%;
+  padding-bottom: percentage(2/$logoRatio);
+  position: relative;
+  margin: $dc-default-padding 0px;
+  .dc-flexible-sprite{
+    display: block;
+    background-image: url($dc-logo-main-url);
+    &:hover, &:active {
+      background-position: 0% 100%;
+    }
+  }
+}
+

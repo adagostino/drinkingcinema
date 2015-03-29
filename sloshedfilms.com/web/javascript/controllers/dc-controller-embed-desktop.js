@@ -17,6 +17,10 @@ var name = "controller.embed.desktop";
                 hrMargin = 5,
                 wh = $(window).height();
             var width = (wh - 4*padding + 2*hrMargin) / (1/8 + 16/750 + 11/8.5);
+            if (width > $(window).width() - 2*padding) {
+                // then the width is the limiter
+                width = $(window).width() - 2*padding;
+            }
             this.embedWidth = Math.floor(width);
         };
 

@@ -1,0 +1,25 @@
+<div class="dc-nav-bar">
+    {% spaceless %}
+    <div class="dc-nav-bar-link faq">
+        <a href="/faq" class="dc-nav-bar-faq {% if page.page.pageName == 'faq' %} selected{% endif %}" dc-class="{'selected': page.page.pageName == 'faq'}">
+            <span>faq</span>
+        </a>
+    </div>
+    <div class="dc-nav-bar-link">
+        <div class="dc-nav-bar-x-1"></div>
+    </div>
+    <div class="dc-nav-bar-link about">
+        <a href="/about" class="dc-nav-bar-about {% if page.page.pageName == 'about' %} selected{% endif %}" dc-class="{'selected': page.page.pageName == 'about'}">
+            <span>about</span>
+        </a>
+    </div>
+    <div class="dc-nav-bar-link">
+        <div class="dc-nav-bar-x-1"></div>
+    </div>
+    <div class="dc-nav-bar-link contact">
+        <a href="/contact" class="dc-nav-bar-contact {% if page.page.pageName == 'contact' %} selected{% endif %}" dc-class="{'selected': page.page.pageName == 'contact'}">
+            <span>contact</span>
+        </a>
+    </div>
+    {% endspaceless %}
+</div>

@@ -35,9 +35,12 @@ class search extends CI_Controller
             "oldest"
         );
 
-        $page["subheader"] = "#dc-search-nav-bar-template";
 
-        $this->twiggy->set('page', $page)->template('search')->display();
+        $page["subheader"] = $page["platform"] !== "mobile" ? "#dc-search-nav-bar-template" : "";
+
+        $template = 'search';
+        $template.= $page["platform"] === "mobile" ? "-mobile" : "";
+        $this->twiggy->set('page', $page)->template($template)->display();
 
     }
 

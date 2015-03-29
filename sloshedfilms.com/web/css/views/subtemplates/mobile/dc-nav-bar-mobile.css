@@ -1,0 +1,99 @@
+.dc-nav-bar {
+  height: 46px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin: 0 auto;
+}
+
+.dc-nav-bar-link {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  text-align: center;
+}
+
+.dc-nav-bar-item, .dc-nav-bar-faq, .dc-nav-bar-about, .dc-nav-bar-contact, .dc-nav-bar-follow, .dc-nav-bar-x, .dc-nav-bar-x-1 {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
+  background-size: 534.30769px 421.07692px;
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+  height: 46px;
+  position: relative;
+}
+.dc-nav-bar-item span, .dc-nav-bar-faq span, .dc-nav-bar-about span, .dc-nav-bar-contact span, .dc-nav-bar-follow span, .dc-nav-bar-x span, .dc-nav-bar-x-1 span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-nav-bar-faq {
+  background-position: -6.36923px -259.72308px;
+  width: 50.24615px;
+}
+.dc-nav-bar-faq.selected {
+  background-position: -6.36923px -5.66154px;
+}
+
+.dc-nav-bar-about {
+  background-position: -92px -259.72308px;
+  width: 75.72308px;
+}
+.dc-nav-bar-about.selected {
+  background-position: -92px -5.66154px;
+}
+
+.dc-nav-bar-contact {
+  background-position: -198.15385px -259.72308px;
+  width: 111.10769px;
+}
+.dc-nav-bar-contact.selected {
+  background-position: -198.15385px -4.24615px;
+}
+
+.dc-nav-bar-follow {
+  display: none;
+  background-position: -355.26154px -5.66154px;
+  width: 95.53846px;
+  cursor: default;
+}
+
+.dc-nav-bar-twitter {
+  display: none;
+}
+
+.dc-nav-bar-facebook {
+  display: none;
+}
+
+.dc-nav-bar-x, .dc-nav-bar-x-1 {
+  width: 10.61538px;
+  margin: 0px 10px;
+}
+
+.dc-nav-bar-x-1 {
+  background-position: -67.93846px -5.66154px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}

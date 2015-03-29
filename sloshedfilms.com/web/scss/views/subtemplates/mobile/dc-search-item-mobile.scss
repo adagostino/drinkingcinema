@@ -1,0 +1,159 @@
+@import "imports/dc-imports";
+
+$newHeight: 40px;
+$oldHeight: 60px;
+$ratio: $newHeight/$oldHeight;
+.dc-buttons {
+  background-image: url($dc-buttons-url);
+  background-size: $dc-buttons-sprite-width*$ratio $dc-buttons-sprite-height*$ratio;
+  @include crisp-edges();
+  h3{
+    @include hiddenSpan();
+  }
+}
+
+.dc-search-left-flare-small {
+  @extend .dc-buttons;
+  height: 60px*$ratio;
+  width: 35px*$ratio;
+  background-position: -188px*$ratio -168px*$ratio;
+}
+
+.dc-search-right-flare-small {
+  @extend .dc-buttons;
+  height: 60px*$ratio;
+  width: 35px*$ratio;
+  background-position: -235px*$ratio -173px*$ratio;
+}
+
+.dc-chug-to-this {
+  @extend .dc-buttons;
+  width: 224px*$ratio;
+  height: 48px*$ratio;
+  background-position: -295px*$ratio -159px*$ratio;
+}
+
+.dc-num-comments {
+  @extend .dc-buttons;
+  width: 270px*$ratio;
+  height: 40px*$ratio;
+  background-position: -290px*$ratio -213px*$ratio;
+}
+
+.dc-search-item {
+  position: relative;
+  padding: $dc-default-padding*2 0px;
+}
+
+.dc-search-item-image-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: percentage(2/8.5);
+}
+
+.dc-search-item-image{
+  display: block;
+  background-color: $dc-white;
+  background-size: 100%;
+  image-rendering: auto;
+}
+
+
+
+.dc-search-item-info {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px 35px*$ratio;
+  text-align: center;
+}
+
+
+.dc-search-item-chug {
+  @extend .dc-chug-to-this;
+  position: relative;
+  display: block;
+  // 48px height
+  &:before {
+    @extend .dc-search-left-flare-small;
+    // 60px height
+    content: ' ';
+    position: absolute;
+    top: -(60px*$ratio - 48px*$ratio)/2;
+    left: -35px*$ratio;
+    will-change: opacity;
+  }
+  &:after {
+    @extend .dc-search-right-flare-small;
+    content: ' ';
+    position: absolute;
+    top: -(60px*$ratio - 48px*$ratio)/2;
+    left: 100%;
+  }
+}
+
+.dc-search-item-comments {
+  @extend .dc-num-comments;
+  position: relative;
+  margin: 0 auto;
+  //right: 0px;
+  //top: (48px - 40px)/2 + 20px;
+  display: block;
+  // 40px height
+  &:before {
+    @extend .dc-search-left-flare-small;
+    content: ' ';
+    position: absolute;
+    top: -(60px*$ratio - 40px*$ratio)/2;;
+    left: -35px*$ratio;
+  }
+  &:after {
+    @extend .dc-search-right-flare-small;
+    content: ' ';
+    position: absolute;
+    top: -(60px*$ratio - 40px*$ratio)/2;;
+    left: 100%;
+  }
+}
+
+.dc-search-item-comments-num{
+  position: absolute;
+  width: 35px*$ratio;
+  font-weight: 700;
+  text-align: center;
+  top: 13px*$ratio * 0.8;
+  right: 6px*1.2;
+  color: initial;
+  font-size: 0.8em;
+  line-height: 1.2em;
+}
+
+$easing: ease-in-out;
+$time: 0.218s;
+.dc-search-item-image, .dc-search-item-chug, .dc-search-item-comments {
+  &:before, &:after{
+    will-change: opacity;
+    @include opacity(0);
+    @include transition(opacity $time $easing);
+  }
+}
+
+.dc-search-item-image-container:hover{
+  .dc-search-item-image {
+    &:before, &:after{
+      @include opacity(1);
+    }
+  }
+}
+
+.dc-search-item-chug, .dc-search-item-comments{
+  &:hover{
+    &:before, &:after{
+      @include opacity(1);
+    }
+  }
+}
+
+
+
+

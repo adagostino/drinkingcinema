@@ -1,0 +1,144 @@
+.dc-buttons, .dc-search-left-flare-small, .dc-search-item-chug:before, .dc-search-item-comments:before, .dc-search-right-flare-small, .dc-search-item-chug:after, .dc-search-item-comments:after, .dc-chug-to-this, .dc-search-item-chug, .dc-num-comments, .dc-search-item-comments {
+  background-image: url("http://cdn.drinkingcinema.com/Images/buttons.jpg");
+  background-size: 503.33333px 396.66667px;
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+}
+.dc-buttons h3, .dc-search-left-flare-small h3, .dc-search-item-chug:before h3, .dc-search-item-comments:before h3, .dc-search-right-flare-small h3, .dc-search-item-chug:after h3, .dc-search-item-comments:after h3, .dc-chug-to-this h3, .dc-search-item-chug h3, .dc-num-comments h3, .dc-search-item-comments h3 {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-search-left-flare-small, .dc-search-item-chug:before, .dc-search-item-comments:before {
+  height: 40px;
+  width: 23.33333px;
+  background-position: -125.33333px -112px;
+}
+
+.dc-search-right-flare-small, .dc-search-item-chug:after, .dc-search-item-comments:after {
+  height: 40px;
+  width: 23.33333px;
+  background-position: -156.66667px -115.33333px;
+}
+
+.dc-chug-to-this, .dc-search-item-chug {
+  width: 149.33333px;
+  height: 32px;
+  background-position: -196.66667px -106px;
+}
+
+.dc-num-comments, .dc-search-item-comments {
+  width: 180px;
+  height: 26.66667px;
+  background-position: -193.33333px -142px;
+}
+
+.dc-search-item {
+  position: relative;
+  padding: 20px 0px;
+}
+
+.dc-search-item-image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 23.52941%;
+}
+
+.dc-search-item-image {
+  display: block;
+  background-color: #ffffff;
+  background-size: 100%;
+  image-rendering: auto;
+}
+
+.dc-search-item-info {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px 23.33333px;
+  text-align: center;
+}
+
+.dc-search-item-chug {
+  position: relative;
+  display: block;
+}
+.dc-search-item-chug:before {
+  content: ' ';
+  position: absolute;
+  top: -4px;
+  left: -23.33333px;
+  will-change: opacity;
+}
+.dc-search-item-chug:after {
+  content: ' ';
+  position: absolute;
+  top: -4px;
+  left: 100%;
+}
+
+.dc-search-item-comments {
+  position: relative;
+  margin: 0 auto;
+  display: block;
+}
+.dc-search-item-comments:before {
+  content: ' ';
+  position: absolute;
+  top: -6.66667px;
+  left: -23.33333px;
+}
+.dc-search-item-comments:after {
+  content: ' ';
+  position: absolute;
+  top: -6.66667px;
+  left: 100%;
+}
+
+.dc-search-item-comments-num {
+  position: absolute;
+  width: 23.33333px;
+  font-weight: 700;
+  text-align: center;
+  top: 6.93333px;
+  right: 7.2px;
+  color: initial;
+  font-size: 0.8em;
+  line-height: 1.2em;
+}
+
+.dc-search-item-image:before, .dc-search-item-image:after, .dc-search-item-chug:before, .dc-search-item-chug:after, .dc-search-item-comments:before, .dc-search-item-comments:after {
+  will-change: opacity;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+}
+
+.dc-search-item-image-container:hover .dc-search-item-image:before, .dc-search-item-image-container:hover .dc-search-item-image:after {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
+.dc-search-item-chug:hover:before, .dc-search-item-chug:hover:after, .dc-search-item-comments:hover:before, .dc-search-item-comments:hover:after {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}

@@ -28,11 +28,16 @@
                 // directive
                 "directives/dc-directive.js",
                 // service
-                "services/dc-service.js"
+                "services/dc-service.js",
+                "controllers/dc-controller-header.js"
+            ),
+            "mobile" => array(
+                "common" => array(
+                    "controllers/dc-controller-header-mobile.js"
+                )
             ),
             "desktop" => array(
                 "common" => array(
-                    "controllers/dc-controller-header.js",
                     "directives/dc-directive-searchInput.js"
                 )
             )
@@ -45,6 +50,14 @@
                 "globals/dc-sprites.css",
                 "views/subtemplates/dc-buttons.css"
             ),
+            "mobile" => array(
+                "common" => array(
+                    "dc-mobile.css",
+                    "views/mobile/dc-header-mobile.css",
+                    "views/subtemplates/mobile/dc-nav-bar-mobile.css",
+                    "views/subtemplates/mobile/dc-search-nav-bar-mobile.css"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "views/subtemplates/desktop/dc-headers-desktop.css",
@@ -56,7 +69,13 @@
 
         private $_commonHTMLJSON = array(
             "common" => array(),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    'controllers/mobile/header-mobile.html',
+                    '_subtemplates/mobile/dc-nav-bar-mobile.html',
+                    '_subtemplates/mobile/dc-search-nav-bar-mobile.html'
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -135,9 +154,13 @@
         }
 
         function getPlatformJSON($json, $platform){
-            return  $this->platformExists($json, $platform) ? $json[$platform] :
-                    $this->platformExists($json, "desktop") ? $json["desktop"] :
-                    null;
+            $rJSON = null;
+            if ($this->platformExists($json, $platform)){
+                $rJSON = $json[$platform];
+            } else if ($this->platformExists($json, "desktop")){
+                $rJSON = $json["desktop"];
+            }
+            return $rJSON;
         }
 
         function parseJSON($json, $platform, $isAdmin){
@@ -147,7 +170,6 @@
                 $a = array_merge($a, $json["common"]);
             }
             $platformJSON = $this->getPlatformJSON($json, $platform);
-
             $a = array_merge($a, $this->parseJSON($platformJSON, $platform, $isAdmin));
 
             if ($isAdmin && isset($json["admin"])) {
