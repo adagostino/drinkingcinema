@@ -1,0 +1,61 @@
+<div class="dc-game-controller" dc-controller="game">
+    <div class="dc-game-image-container">
+        <div class="dc-flexible-sprite dc-game-image" style="background-image: url('{{game.image}}')">
+            <h1>A Movie Drinking Game for {{game.name}}</h1>
+        </div>
+    </div>
+    <div class="dc-flexible-hr-top">
+        <div class="dc-flexible-sprite"></div>
+    </div>
+    <div class="dc-game-info-container">
+        <div class="dc-flexible-header mandatory">
+            <div class="dc-flexible-sprite"><span class="description-text">Mandatory Rules</span></div>
+        </div>
+        <div class="dc-game-rules-content" dc-model="game.rules">
+            {{ page.game.rules|raw }}
+        </div>
+        <div class="dc-flexible-header bonus">
+            <div class="dc-flexible-sprite"><span class="description-text">Bonus Rules</span></div>
+        </div>
+        <div class="dc-game-rules-content" dc-model="game.optionalRules">
+            {{ page.game.optionalRules|raw }}
+        </div>
+        <div class="dc-flexible-header find-this">
+            <div class="dc-flexible-sprite"><span class="description-text">Find This Movie</span></div>
+        </div>
+        <div dc-include="#dc-vendors-template">
+            {% include '_subtemplates/dc-vendors-desktop.html' with {'parentScope': page} %}
+        </div>
+        {% if page.game.suggestions|length > 0 %}
+        <div dc-if="game.suggestions.length">
+            <div class="dc-flexible-header movies-like-this">
+                <div class="dc-flexible-sprite"><span class="description-text">Movies Like {{game.name}}</span></div>
+            </div>
+            <!--<div dc-include="#dc-game-suggestions-template">-->
+                <!--{% include '_subtemplates/dc-game-suggestions-desktop.html' with {'parentScope': page} %}-->
+            <!--</div>-->
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!--<div dc-include="#dc-game-template">-->
+        <!--{% include '_subtemplates/dc-game-desktop.html' %}-->
+    <!--</div>-->
+    <!--<div class="dc-find-this-movie">-->
+        <!--<span>Find This Movie</span>-->
+    <!--</div>-->
+    <!--<div dc-include="#dc-vendors-template">-->
+        <!--{% include '_subtemplates/dc-vendors-desktop.html' with {'parentScope': page} %}-->
+    <!--</div>-->
+    <!--{% if page.game.suggestions|length > 0 %}-->
+        <!--<div dc-if="page.game.suggestions.length">-->
+            <!--<div class="dc-movies-like-this">-->
+                <!--<span>Movies Like This</span>-->
+            <!--</div>-->
+            <!--<div dc-include="#dc-game-suggestions-template">-->
+                <!--{% include '_subtemplates/dc-game-suggestions-desktop.html' with {'parentScope': page} %}-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--{% endif %}-->
+</div>

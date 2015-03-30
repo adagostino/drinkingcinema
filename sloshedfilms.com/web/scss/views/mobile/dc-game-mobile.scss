@@ -1,0 +1,160 @@
+@import "imports/dc-imports";
+
+.header-image {
+  position: relative;
+  span {
+    @include hiddenSpan();
+  }
+}
+
+.dc-game-image-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: percentage(11/8.5);
+  margin-top: $dc-default-padding;
+  h1 {
+    @include hiddenSpan();
+  }
+}
+
+.dc-game-info-container {
+  padding: 0px $dc-default-padding;
+}
+
+.dc-game-rules-content, .dc-bonus-rules-content {
+  padding: $dc-default-padding 0.5*$dc-default-padding;
+}
+
+$mandatoryWidth: 528px;
+$mandatoryHeight: 88px;
+$mandatoryX: percentage((-6px/$mandatoryWidth)/(1 - $dc-headers-sprite-width/$mandatoryWidth));
+$mandatoryY: percentage((-80px/$mandatoryHeight)/(1-$dc-headers-sprite-height/$mandatoryHeight));
+
+$bonusWidth: 490px;
+$bonusHeight: 70px;
+$bonusX: percentage((-13px/$bonusWidth)/(1 - $dc-headers-sprite-width/$bonusWidth));
+$bonusY: percentage((-175px/$bonusHeight)/(1-$dc-headers-sprite-height/$bonusHeight));
+
+$findThisWidth: 495px;
+$findThisHeight: 70px;
+$findThisX: percentage((-11px/$findThisWidth)/(1 - $dc-headers-sprite-width/$findThisWidth));
+$findThisY: percentage((-245px/$findThisHeight)/(1-$dc-headers-sprite-height/$findThisHeight));
+
+$likeThisWidth: 542px;
+$likeThisHeight: 72px;
+$likeThisX: percentage((-7px/$likeThisWidth)/(1 - $dc-headers-sprite-width/$likeThisWidth));
+$likeThisY: percentage((-325px/$likeThisHeight)/(1-$dc-headers-sprite-height/$likeThisHeight));
+
+.dc-flexible-header{
+  width: 100%;
+  position: relative;
+  margin-bottom: $dc-default-padding;
+  .dc-flexible-sprite{
+    @include crisp-edges();
+    background-image: url($dc-headers-url);
+  }
+
+  &.mandatory{
+    padding-bottom: percentage($mandatoryHeight/$mandatoryWidth);
+    .dc-flexible-sprite{
+      background-position: $mandatoryX $mandatoryY;
+      background-size: percentage($dc-headers-sprite-width/$mandatoryWidth);
+    }
+  }
+
+  &.bonus{
+    padding-bottom: percentage($bonusHeight/$bonusWidth);
+    .dc-flexible-sprite{
+      background-position: $bonusX $bonusY;
+      background-size: percentage($dc-headers-sprite-width/$bonusWidth);
+    }
+  }
+
+  &.find-this{
+    padding-bottom: percentage($findThisHeight/$findThisWidth);
+    .dc-flexible-sprite{
+      background-position: $findThisX $findThisY;
+      background-size: percentage($dc-headers-sprite-width/$findThisWidth);
+    }
+  }
+
+  &.movies-like-this{
+    padding-bottom: percentage($likeThisHeight/$likeThisWidth);
+    .dc-flexible-sprite{
+      background-position: $likeThisX $likeThisY;
+      background-size: percentage($dc-headers-sprite-width/$likeThisWidth);
+    }
+  }
+
+}
+
+.dc-button-icon{
+  margin: $dc-default-padding;
+  margin-left: 0px;
+  span{
+    @include hiddenSpan();
+  }
+}
+
+.dc-vendor, .dc-game-suggestion{
+  @include inline-block();
+}
+
+.dc-vendor-netflix{
+  @extend .dc-vendor;
+  background-image: url($spriteBase + "netflixIcon.png");
+}
+
+.dc-vendor-hulu{
+  @extend .dc-vendor;
+  background-image: url($spriteBase + "huluIcon.png");
+}
+
+.dc-vendor-amazon{
+  @extend .dc-vendor;
+  background-image: url($spriteBase + "amazonIcon.png");
+}
+
+
+/*
+.dc-share-this-game-container{
+  position: relative;
+}
+
+.dc-share-this-game{
+  @extend .header-image;
+  margin-bottom: 26px;
+}
+
+.dc-social-media-container{
+  position: absolute;
+  left: 210px;
+  top: 50%;
+  margin-top: -10px;
+}
+
+.dc-mandatory-drinks {
+  @extend .header-image;
+  margin-bottom: $dc-default-padding;
+}
+
+.dc-bonus-drinks {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-find-this-movie {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-movies-like-this {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-game-rules-content{
+  padding: $dc-default-padding;
+  min-height: 36px;
+}
+*/

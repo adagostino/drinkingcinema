@@ -1,0 +1,15 @@
+@import "imports/dc-imports";
+.dc-comments-controller{
+
+}
+
+.dc-leave-a-comment {
+  span{
+    @include hiddenSpan();
+  }
+}
+/*
+.dc-comments-container{
+  width: 400px;
+}
+*/

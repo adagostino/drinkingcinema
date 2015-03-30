@@ -1,0 +1,12 @@
+{% extends _layout %}
+
+{% block body %}
+    <div class="dc-game">
+        {% embed 'controllers/mobile/header-mobile.html' %}
+            {% block subheader %}
+            {% endblock %}
+        {% endembed %}
+        {% include 'controllers/mobile/game-mobile.html' %}
+        {% include 'controllers/mobile/comments-mobile.html' %}
+    </div>
+{% endblock %}

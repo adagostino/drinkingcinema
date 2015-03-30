@@ -71,7 +71,7 @@ $ratio: $shareSize/37px;
 }
 
 $logoRatio: $dc-logo-main-width/($dc-logo-main-height/2);
-.dc-flexible-logo{
+.dc-flexible-logo-main{
   width: 100%;
   padding-bottom: percentage(2/$logoRatio);
   position: relative;
@@ -85,3 +85,20 @@ $logoRatio: $dc-logo-main-width/($dc-logo-main-height/2);
   }
 }
 
+.dc-medium-logo-container{
+  padding: $dc-default-padding 0;
+}
+
+$logoRatio: $dc-logo-long-sprite-width/($dc-logo-long-sprite-height/2);
+.dc-flexible-logo{
+  width: 100%;
+  padding-bottom: percentage(1/$logoRatio);
+  position: relative;
+  .dc-flexible-sprite{
+    display: block;
+    background-image: url($dc-logo-long-url);
+    &:hover, &:active {
+      background-position: 0% 100%;
+    }
+  }
+}

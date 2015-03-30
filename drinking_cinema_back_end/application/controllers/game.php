@@ -43,11 +43,17 @@ class game extends CI_Controller
                 'image' => $imageDir.'amazonIcon.png'
             )
         );
-        $page["subheader"] = "#dc-share-input-template";
-        $page["share"] = array(
-            'value' => 'http://chug.to/'.$page["game"]["nameUrl"]
-        );
-        $this->twiggy->set('page', $page)->template('game')->display();
+        if ($page["platform"] !== "mobile") {
+            $page["subheader"] = "#dc-share-input-template";
+            $page["share"] = array(
+                'value' => 'http://chug.to/'.$page["game"]["nameUrl"]
+            );
+        } else {
+            $page["headerSize"] = "hidden";
+        }
+        $template = 'game';
+        $template.= $page["platform"] === "mobile" ? "-mobile" : "";
+        $this->twiggy->set('page', $page)->template($template)->display();
 
     }
 

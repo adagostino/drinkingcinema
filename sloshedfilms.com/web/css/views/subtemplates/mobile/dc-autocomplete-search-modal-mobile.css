@@ -30,12 +30,6 @@
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
 }
-.dc-autocomplete-search-modal .dc-x-out {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 1;
-}
 .dc-autocomplete-search-modal .dc-text-input-container {
   padding-bottom: 0px;
 }
@@ -53,6 +47,7 @@
 
 .dc-autocomplete-search {
   position: relative;
+  margin-top: 20px;
 }
 .dc-autocomplete-search .dc-mag-glass {
   position: absolute;
@@ -62,4 +57,12 @@
 }
 .dc-autocomplete-search .dc-flexible-hr-top {
   margin-top: -5px;
+}
+
+.dc-close-autocomplete-modal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  padding: 5px 8px;
 }

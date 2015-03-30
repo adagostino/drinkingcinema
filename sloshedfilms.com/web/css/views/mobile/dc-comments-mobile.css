@@ -1,0 +1,14 @@
+.dc-leave-a-comment span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+/*
+.dc-comments-container{
+  width: 400px;
+}
+*/

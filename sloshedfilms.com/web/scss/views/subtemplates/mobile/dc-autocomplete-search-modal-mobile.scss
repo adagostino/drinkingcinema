@@ -24,13 +24,6 @@ $easing: ease-in-out;
     @include animation-name(fadeIn);
   }
 
-  .dc-x-out {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 1;
-  }
-
   .dc-text-input-container{
     padding-bottom: 0px;
     .dc-text-input {
@@ -54,6 +47,7 @@ $easing: ease-in-out;
 
 .dc-autocomplete-search{
   position: relative;
+  margin-top: 20px;
   .dc-mag-glass{
     position: absolute;
     top: 14px;
@@ -67,6 +61,14 @@ $easing: ease-in-out;
 
 }
 
+.dc-close-autocomplete-modal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  // 14 by 20
+  padding: 5px 8px;
+}
 
 
 

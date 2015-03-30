@@ -4,7 +4,7 @@
         private $game_images_directory = "Games/";
         private $upload_images_directory = "uli/";
         private $images_directory = "Images/";
-        private $script_guid = "1427680099695_ToCNercsUiA2AYSI";
+        private $script_guid = "1427732375667_AVBco07zsKCrknsQ";
 
         function __construct() {
             // Call the Model constructor

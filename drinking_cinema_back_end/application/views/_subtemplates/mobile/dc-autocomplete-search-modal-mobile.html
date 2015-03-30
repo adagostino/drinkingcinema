@@ -1,5 +1,7 @@
 <div class="dc-autocomplete-search-modal" dc-class="{'show': open}" dc-style="{'padding-right': paddingRight}">
-    <div class="dc-x-out" dc-click="parentScope.hideModal"></div>
+    <div class="dc-close-autocomplete-modal" dc-click="parentScope.hideModal">
+        <div class="dc-x-out"></div>
+    </div>
     <div class="dc-autocomplete-search">
         <div class="dc-mag-glass"></div>
         <div dc-directive-input input-model="parentScope.parentScope.rawSearchTerms" placeholder="Search" name="Search">

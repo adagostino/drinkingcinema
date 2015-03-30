@@ -1,0 +1,159 @@
+.header-image {
+  position: relative;
+}
+.header-image span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-game-image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 129.41176%;
+  margin-top: 10px;
+}
+.dc-game-image-container h1 {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-game-info-container {
+  padding: 0px 10px;
+}
+
+.dc-game-rules-content, .dc-bonus-rules-content {
+  padding: 10px 5px;
+}
+
+.dc-flexible-header {
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
+}
+.dc-flexible-header .dc-flexible-sprite {
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+  background-image: url("http://cdn.drinkingcinema.com/Images/headers.png");
+}
+.dc-flexible-header.mandatory {
+  padding-bottom: 16.66667%;
+}
+.dc-flexible-header.mandatory .dc-flexible-sprite {
+  background-position: 5.45455% 25.47771%;
+  background-size: 120.83333%;
+}
+.dc-flexible-header.bonus {
+  padding-bottom: 14.28571%;
+}
+.dc-flexible-header.bonus .dc-flexible-sprite {
+  background-position: 8.78378% 52.71084%;
+  background-size: 130.20408%;
+}
+.dc-flexible-header.find-this {
+  padding-bottom: 14.14141%;
+}
+.dc-flexible-header.find-this .dc-flexible-sprite {
+  background-position: 7.69231% 73.79518%;
+  background-size: 128.88889%;
+}
+.dc-flexible-header.movies-like-this {
+  padding-bottom: 13.28413%;
+}
+.dc-flexible-header.movies-like-this .dc-flexible-sprite {
+  background-position: 7.29167% 98.48485%;
+  background-size: 117.71218%;
+}
+
+.dc-button-icon {
+  margin: 10px;
+  margin-left: 0px;
+}
+.dc-button-icon span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-vendor, .dc-vendor-netflix, .dc-vendor-hulu, .dc-vendor-amazon, .dc-game-suggestion {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
+.dc-vendor-netflix {
+  background-image: url("http://cdn.drinkingcinema.com/Images/netflixIcon.png");
+}
+
+.dc-vendor-hulu {
+  background-image: url("http://cdn.drinkingcinema.com/Images/huluIcon.png");
+}
+
+.dc-vendor-amazon {
+  background-image: url("http://cdn.drinkingcinema.com/Images/amazonIcon.png");
+}
+
+/*
+.dc-share-this-game-container{
+  position: relative;
+}
+
+.dc-share-this-game{
+  @extend .header-image;
+  margin-bottom: 26px;
+}
+
+.dc-social-media-container{
+  position: absolute;
+  left: 210px;
+  top: 50%;
+  margin-top: -10px;
+}
+
+.dc-mandatory-drinks {
+  @extend .header-image;
+  margin-bottom: $dc-default-padding;
+}
+
+.dc-bonus-drinks {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-find-this-movie {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-movies-like-this {
+  @extend .header-image;
+  margin: $dc-default-padding 0;
+}
+
+.dc-game-rules-content{
+  padding: $dc-default-padding;
+  min-height: 36px;
+}
+*/

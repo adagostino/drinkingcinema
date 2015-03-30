@@ -79,15 +79,32 @@
   background-position: -467.56757px -123.64865px;
 }
 
-.dc-flexible-logo {
+.dc-flexible-logo-main {
   width: 100%;
   padding-bottom: 37.5%;
   position: relative;
   margin: 10px 0px;
 }
-.dc-flexible-logo .dc-flexible-sprite {
+.dc-flexible-logo-main .dc-flexible-sprite {
   display: block;
   background-image: url("http://cdn.drinkingcinema.com/Images/DC_header.jpg");
+}
+.dc-flexible-logo-main .dc-flexible-sprite:hover, .dc-flexible-logo-main .dc-flexible-sprite:active {
+  background-position: 0% 100%;
+}
+
+.dc-medium-logo-container {
+  padding: 10px 0;
+}
+
+.dc-flexible-logo {
+  width: 100%;
+  padding-bottom: 12.5%;
+  position: relative;
+}
+.dc-flexible-logo .dc-flexible-sprite {
+  display: block;
+  background-image: url("http://cdn.drinkingcinema.com/Images/DC_header2.jpg");
 }
 .dc-flexible-logo .dc-flexible-sprite:hover, .dc-flexible-logo .dc-flexible-sprite:active {
   background-position: 0% 100%;

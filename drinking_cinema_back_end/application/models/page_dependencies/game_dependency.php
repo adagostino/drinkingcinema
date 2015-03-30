@@ -17,7 +17,11 @@
                 "directives/dc-directive-comment.js",
                 "services/dc-service-data-source.js"
             ),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    "controllers/dc-controller-game-mobile.js"
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -48,7 +52,12 @@
             "common" => array(
                 "directives/dc-directive-input.css"
             ),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    "views/mobile/dc-game-mobile.css",
+                    "views/mobile/dc-comments-mobile.css"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "views/dc-game-desktop.css",
@@ -73,8 +82,15 @@
         );
 
         public $_htmlJSON = array(
-            "common" => array(),
-            "mobile" => array(),
+            "common" => array(
+                '_subtemplates/dc-vendors-desktop.html'
+            ),
+            "mobile" => array(
+                "common" => array(
+                    'controllers/mobile/game-mobile.html',
+                    'controllers/mobile/comments-mobile.html'
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -86,7 +102,6 @@
                     'directives/dc-directive-game-image.html',
                     'directives/dc-directive-embed-game.html',
                     '_subtemplates/dc-social-media.html',
-                    '_subtemplates/dc-vendors-desktop.html',
                     '_subtemplates/dc-game-suggestions-desktop.html',
                     '_subtemplates/dc-comment-form-desktop.html',
                     'directives/dc-directive-tooltip.html',
