@@ -200,3 +200,16 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`pageTable` (
   INDEX `editUser` (`editUser` ASC) ,
   INDEX `editDate` (`editDate` ASC)
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `versionTable`
+--
+CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`versionTable` (
+  `p_Id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `tableName` VARCHAR(333) NOT NULL ,
+  `version` VARCHAR(333) NOT NULL ,
+  PRIMARY KEY (`p_Id`) ,
+  UNIQUE INDEX `tableName` (`tableName` ASC)
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;

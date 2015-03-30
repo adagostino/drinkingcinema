@@ -38,6 +38,18 @@ var rmFiles = function(dirPath, oPath) {
     if (dirPath !== oPath) fs.rmdirSync(dirPath);
 };
 
+var dedupe = function(inputArray) {
+    var map = {};
+    var outputArray = [];
+    for (var i=0; i<inputArray.length; i++){
+        if (!map[inputArray[i]]){
+            outputArray.push(inputArray[i]);
+            map[inputArray[i]] = 1;
+        }
+    }
+    return outputArray;
+}
+
 var minify_page = function(pageName, page, guid, callback){
     var fileName = pageName + "-" + guid,
         jsFileName = minJSFolder + "/" + fileName + ".js",
@@ -45,13 +57,14 @@ var minify_page = function(pageName, page, guid, callback){
     // minify the javascript
     var javascripts = [];
     try{
-        javascripts = page.javascripts.relativePaths;
+        javascripts = dedupe(page.javascripts.relativePaths);
+
     } catch(e){
         console.log("failed to get javascripts for :", pageName);
     }
     var stylesheets = [];
     try{
-        stylesheets = page.stylesheets.relativePaths;
+        stylesheets = dedupe(page.stylesheets.relativePaths);
     } catch(e) {
         console.log("failed to get stylesheets for :", pageName);
     }

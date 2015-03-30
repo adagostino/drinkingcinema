@@ -15,6 +15,7 @@
             // Call the Model constructor
             parent::__construct();
             $this->load->model('image_service');
+            $this->load->model('version_service');
             $this->load->database();
             foreach ($this->_keyMap as $key => $value){
                 $this->_reverseKeyMap[$value] = $key;
@@ -74,11 +75,11 @@
                 foreach ($tags as $tag) {
                     $tag = trim($tag);
                     if ($tag) {
-                        $tagStr .= $tagStr ? "," : "";
+                        $tagStr .= $tagStr ? ", " : "";
                         $tagStr .= $tag;
                     }
                 }
-                $game["tags"] = "," . $tagStr . ",";
+                $game["tags"] = ", " . $tagStr . ",";
             }
 
             // next replace all image links in rules and optionalRules
@@ -117,6 +118,7 @@
             $sql.=$keys.") VALUES (".$values.")";
             $query = $this->db->query($sql);
             $id = $this->db->insert_id();
+            $this->version_service->update_version("game");
             return $game;
         }
 
@@ -137,7 +139,7 @@
             $sql.=$kvps.$where;
             $query = $this->db->query($sql);
             if (isset($game["tags"])) $game["tags"] = trim($game["tags"]," \t\n\r\0\x0B\,");
-
+            $this->version_service->update_version("game");
             return $game;
 
         }
@@ -160,7 +162,7 @@
                 $t = $this->db->escape(trim($tag));
                 if ($tag){
                     $sql2.= $sql2 ? " UNION " : "";
-                    $sql2.= "SELECT movieName,movieNameUrl,".$t." AS tag, 1 as matchCount FROM movieTable WHERE tags LIKE '%,".$tag.",%' AND movieNameUrl <> ".$movieNameUrl;
+                    $sql2.= "SELECT movieName,movieNameUrl,".$t." AS tag, 1 as matchCount FROM movieTable WHERE tags LIKE '%, ".$tag.",%' AND movieNameUrl <> ".$movieNameUrl;
                 }
             }
             $sql3 = ") a GROUP BY movieNameUrl ORDER BY count DESC";

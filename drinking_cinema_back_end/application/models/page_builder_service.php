@@ -53,6 +53,7 @@
             $this->load->library('tank_auth');
             $this->load->library('Mobile_Detect');
             $this->load->model('social_media_service');
+            $this->load->model('version_service');
             foreach ($this->_pages as $key=>$value){
                 $this->load->model('page_dependencies/'.$value.'_dependency');
             }
@@ -117,6 +118,7 @@
             $page["navBarLinks"] = $this->_nav_bar_links;
             $page["headerSize"] = $pageName === "game" ? "medium" : "large";
             $page["controllerName"] = $pageName;
+            $page["versions"] = $this->version_service->get_versions();
             return $page;
         }
 

@@ -1,8 +1,8 @@
 <div class="dc-header-controller" dc-controller="header">
     <div class="dc-header-main-nav">
         <a href="/" class="dc-header-main-nav-logo"></a>
-        <div class="dc-header-main-nav-search">
-            <div class="dc-mag-glass" dc-click="showAutocomplete"></div>
+        <div class="dc-header-main-nav-search" dc-directive-autocomplete modal-template="#dc-autocomplete-search-modal-template" item-template="#dc-search-item-template" getter="getSearchResults" data-store="game">
+            <div class="dc-mag-glass" dc-click="showModal"></div>
         </div>
         <div class="dc-header-twitter"></div>
         <div class="dc-header-facebook"></div>

@@ -128,16 +128,15 @@
                 // if !o.splices, then it's a whole new array and needs to be completely
                 // rebuilt j -- so fake out that splices array, brah!
 
-                if (!splices) {
+                if (!splices || !$.isArray(splices)) {
                     splices = [
                         {
                             addedCount: length,
                             index: 0,
-                            removed: length ? [] : dcRepeatItems
+                            removed: dcRepeatItems
                         }
                     ];
                 };
-
                 var changed = [], removed = [], added = [];
                 for (var i=0; i<splices.length; i++){
                     var idx = splices[i].index,

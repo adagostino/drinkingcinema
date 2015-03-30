@@ -40,6 +40,14 @@ var name = "directive.modal";
 
     modal.prototype.init = function(){
         this.open = false;
+        if (this.modalTemplate) {
+            var reg = /^[^a-zA-Z0-9]/;
+            this.modalTemplate = typeof this.modalTemplate === "function"
+                                ? this.modalTemplate(this)
+                                : this.modalTemplate.match(reg)
+                                    ? $(this.modalTemplate).html()
+                                    : this.modalTemplate;
+        }
         this.modalTemplate = this.modalTemplate || $("#dc-directive-modal-template").html();
         this.$el = $dc.viewParser.parse(this.modalTemplate).getElement(this);
 

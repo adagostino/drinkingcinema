@@ -1,14 +1,32 @@
 <div class="dc-search-nav-bar">
     {% spaceless %}
-    {% for item in page.searchNavItems %}
     <div class="dc-search-nav-bar-link">
-    <a href="/search/{{item}}"
-       dc-repeat="item in page.searchNavItems"
-       class="dc-search-nav-bar-button dc-search-button-{{item}} {% if page.searchTerms == item %}selected{% endif %}"
-       dc-class="{'selected': item === parentScope.page.searchTerms}">
-        <span>{{item}}</span>
-    </a>
+        <a href="/search/a-z"
+           class="dc-search-nav-bar-button dc-search-button-a-z {% if page.searchTerms == 'a-z' %}selected{% endif %}"
+           dc-class="{'selected': parentScope.parentScope.page.searchTerms === 'a-z'}">
+            <span>a-z</span>
+        </a>
     </div>
-    {% endfor %}
+    <div class="dc-search-nav-bar-link">
+        <a href="/search/z-a"
+           class="dc-search-nav-bar-button dc-search-button-z-a {% if page.searchTerms == 'z-a' %}selected{% endif %}"
+           dc-class="{'selected': parentScope.parentScope.page.searchTerms === 'z-a'}">
+            <span>z-a</span>
+        </a>
+    </div>
+    <div class="dc-search-nav-bar-link">
+        <a href="/search/newest"
+           class="dc-search-nav-bar-button dc-search-button-newest {% if page.searchTerms == 'newest' %}selected{% endif %}"
+           dc-class="{'selected': parentScope.parentScope.page.searchTerms === 'newest'}">
+            <span>newest</span>
+        </a>
+    </div>
+    <div class="dc-search-nav-bar-link">
+        <a href="/search/oldest"
+           class="dc-search-nav-bar-button dc-search-button-oldest {% if page.searchTerms == 'oldest' %}selected{% endif %}"
+           dc-class="{'selected': parentScope.parentScope.page.searchTerms === 'oldest'}">
+            <span>oldest</span>
+        </a>
+    </div>
     {% endspaceless %}
 </div>

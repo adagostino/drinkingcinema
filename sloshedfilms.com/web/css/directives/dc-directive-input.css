@@ -17,12 +17,12 @@
 
 .dc-text-input-placeholder {
   position: absolute;
-  top: 18px;
+  top: 16px;
   left: 7px;
-  -moz-transform: translate3d(-3px, -24px, 0);
-  -ms-transform: translate3d(-3px, -24px, 0);
-  -webkit-transform: translate3d(-3px, -24px, 0);
-  transform: translate3d(-3px, -24px, 0);
+  -moz-transform: translate3d(-3px, -22px, 0);
+  -ms-transform: translate3d(-3px, -22px, 0);
+  -webkit-transform: translate3d(-3px, -22px, 0);
+  transform: translate3d(-3px, -22px, 0);
   font-size: 12px;
   color: #888888;
   -moz-transition: -moz-transform 0.109s ease-in-out, font-size 0.109s ease-in-out, color 0.109s ease-in-out;
@@ -34,7 +34,7 @@
 
 .dc-text-input-x {
   position: absolute;
-  top: 18px;
+  top: 16px;
   left: 100%;
   margin-left: 5px;
   font-weight: bold;

@@ -1,0 +1,65 @@
+.dc-autocomplete-search-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  display: none;
+  z-index: 3;
+  padding: 10px;
+  will-change: opacity;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-animation-duration: 0.218s;
+  -webkit-animation-duration: 0.218s;
+  animation-duration: 0.218s;
+  -moz-animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -moz-animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -moz-animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+.dc-autocomplete-search-modal.show {
+  display: block;
+  -moz-animation-name: fadeIn;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+.dc-autocomplete-search-modal .dc-x-out {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+}
+.dc-autocomplete-search-modal .dc-text-input-container {
+  padding-bottom: 0px;
+}
+.dc-autocomplete-search-modal .dc-text-input-container .dc-text-input {
+  border-color: transparent !important;
+  padding-left: 33px;
+}
+.dc-autocomplete-search-modal .dc-text-input-container .dc-text-input-placeholder {
+  left: 34px;
+  display: none;
+}
+.dc-autocomplete-search-modal .dc-text-input-container.show-placeholder .dc-text-input-placeholder {
+  display: block;
+}
+
+.dc-autocomplete-search {
+  position: relative;
+}
+.dc-autocomplete-search .dc-mag-glass {
+  position: absolute;
+  top: 14px;
+  left: 6px;
+  z-index: 1;
+}
+.dc-autocomplete-search .dc-flexible-hr-top {
+  margin-top: -5px;
+}

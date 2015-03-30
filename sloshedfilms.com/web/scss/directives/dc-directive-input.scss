@@ -25,7 +25,7 @@ $inputLineHeight: 22px;
 $easing: ease-in-out;
 $time: 0.109s;
 $inputHeight: $inputLineHeight + 2*$inputPadding + 2px;
-$phTop: $inputPaddingTop + $inputPadding + ($inputHeight - 2px - $inputLineHeight)/2;
+$phTop: $inputPaddingTop + $inputPadding + ($inputHeight - 2px - $inputLineHeight)/2 - 2px;
 .dc-text-input-placeholder {
   position: absolute;
   top: $phTop;

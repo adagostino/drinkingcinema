@@ -33,12 +33,18 @@
             ),
             "mobile" => array(
                 "common" => array(
-                    "controllers/dc-controller-header-mobile.js"
+                    "models/dc-model-search.js",
+                    "controllers/dc-controller-header-mobile.js",
+                    "directives/dc-directive-autocomplete.js",
+                    "directives/dc-directive-modal.js",
+                    "directives/dc-directive-input.js",
+                    "services/dc-service-modal.js"
                 )
             ),
             "desktop" => array(
                 "common" => array(
-                    "directives/dc-directive-searchInput.js"
+                    "directives/dc-directive-searchInput.js",
+                    "directives/dc-directive-autocomplete.js"
                 )
             )
         );
@@ -55,7 +61,11 @@
                     "dc-mobile.css",
                     "views/mobile/dc-header-mobile.css",
                     "views/subtemplates/mobile/dc-nav-bar-mobile.css",
-                    "views/subtemplates/mobile/dc-search-nav-bar-mobile.css"
+                    "views/subtemplates/mobile/dc-search-nav-bar-mobile.css",
+                    "views/subtemplates/mobile/dc-autocomplete-search-modal-mobile.css",
+                    "views/subtemplates/mobile/dc-autocomplete-search-item-mobile.css",
+                    "views/subtemplates/mobile/dc-search-item-mobile.css",
+                    "directives/dc-directive-input.css"
                 )
             ),
             "desktop" => array(
@@ -73,7 +83,10 @@
                 "common" => array(
                     'controllers/mobile/header-mobile.html',
                     '_subtemplates/mobile/dc-nav-bar-mobile.html',
-                    '_subtemplates/mobile/dc-search-nav-bar-mobile.html'
+                    '_subtemplates/mobile/dc-search-nav-bar-mobile.html',
+                    '_subtemplates/mobile/dc-autocomplete-search-modal-mobile.html',
+                    '_subtemplates/mobile/dc-search-item-mobile.html',
+                    'directives/dc-directive-input.html'
                 )
             ),
             "tablet" => array(),

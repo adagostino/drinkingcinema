@@ -166,7 +166,6 @@ var name = "viewParser";
         var observers = [];
         for (var key in parsedHTMLObj.paths) {
             (function(path){
-                //console.log(path, guid);
                 var observer = new PathObserver(scope, path);
                 var watchInds = parsedHTMLObj.paths[path];
                 var watches = [];
@@ -213,8 +212,9 @@ var name = "viewParser";
                         observer: aObs,
                         callback: callback
                     });
+
                 }else if (typeof val === "object"){
-                    //console.log("observe object", path);
+                    console.log("observe object", path);
                     /*
                      var objObs = new ObjectObserver(val);
                      objObs.open(function(added, removed, changed, getOldValueFn){

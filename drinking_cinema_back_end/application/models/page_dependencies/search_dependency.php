@@ -30,7 +30,6 @@
             ),
             "mobile" => array(
                 "common" => array(
-                    "views/subtemplates/mobile/dc-search-item-mobile.css",
                     "views/mobile/dc-search-mobile.css"
                 )
             ),
@@ -46,14 +45,12 @@
 
         public $_htmlJSON = array(
             "common" => array(
-                'directives/dc-directive-infinite-scroll.html'
+                'directives/dc-directive-infinite-scroll.html',
+                '_subtemplates/dc-no-search-results.html'
             ),
             "mobile" => array(
                 "common" => array(
-                    'controllers/mobile/search-mobile.html',
-                    'controllers/mobile/search-mobile.html',
-                    '_subtemplates/mobile/dc-search-item-mobile.html',
-                    '_subtemplates/dc-no-search-results.html'
+                    'controllers/mobile/search-mobile.html'
                 )
             ),
             "tablet" => array(),

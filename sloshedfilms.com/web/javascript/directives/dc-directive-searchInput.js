@@ -5,7 +5,7 @@ var name = "directive.searchInput";
         return encodeURI(query.replace(/\s+/g,"+"));
     };
 
-    var reg = /[^a-z0-9~%.:_\-+\&\'///]/g;
+    var reg = /[^a-zA-Z0-9~%.:_\-+\&\'///]/g;
     var _getUrl = function(query) {
         query = _formatQuery($.trim(query)).replace(reg, "");
         return query ? "/search/" + query : "";
