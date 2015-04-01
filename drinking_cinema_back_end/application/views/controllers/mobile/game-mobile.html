@@ -1,7 +1,7 @@
 <div class="dc-game-controller" dc-controller="game">
     <div class="dc-game-image-container">
-        <div class="dc-flexible-sprite dc-game-image" style="background-image: url('{{game.image}}')">
-            <h1>A Movie Drinking Game for {{game.name}}</h1>
+        <div class="dc-flexible-sprite dc-game-image" style="background-image: url('{{page.game.image}}')">
+            <h1>A Movie Drinking Game for {{page.game.name}}</h1>
         </div>
     </div>
     <div class="dc-flexible-hr-top">
@@ -23,17 +23,17 @@
         <div class="dc-flexible-header find-this">
             <div class="dc-flexible-sprite"><span class="description-text">Find This Movie</span></div>
         </div>
-        <div dc-include="#dc-vendors-template">
-            {% include '_subtemplates/dc-vendors-desktop.html' with {'parentScope': page} %}
+        <div class="dc-game-suggestions-carousel-container" dc-directive-carousel carousel-items="page.vendors" carousel-item-template="#dc-vendors-template">
+            {% include 'directives/dc-directive-carousel.html' with {'items': page.vendors, 'itemTemplate': '_subtemplates/mobile/dc-vendors-mobile.html', 'parentScope': {'page': page, 'parentScope': page}} %}
         </div>
         {% if page.game.suggestions|length > 0 %}
         <div dc-if="game.suggestions.length">
             <div class="dc-flexible-header movies-like-this">
                 <div class="dc-flexible-sprite"><span class="description-text">Movies Like {{game.name}}</span></div>
             </div>
-            <!--<div dc-include="#dc-game-suggestions-template">-->
-                <!--{% include '_subtemplates/dc-game-suggestions-desktop.html' with {'parentScope': page} %}-->
-            <!--</div>-->
+            <div class="dc-game-suggestions-carousel-container" dc-directive-carousel carousel-items="game.suggestions" carousel-item-template="#dc-game-suggestions-template">
+                {% include 'directives/dc-directive-carousel.html' with {'items': page.game.suggestions, 'itemTemplate': '_subtemplates/mobile/dc-game-suggestions-mobile.html', 'parentScope': {'page': page, 'parentScope': page}} %}
+            </div>
         </div>
         {% endif %}
 

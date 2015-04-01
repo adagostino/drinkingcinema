@@ -7,8 +7,8 @@ class search_service extends CI_Model {
         "searchFields" => array(
             "movieName" => 20,
             "tags" => 10,
-            "rulesHTML" => 1,
-            "optionalRulesHTML" => 1
+            //"rulesHTML" => 1,
+            //"optionalRulesHTML" => 1
         ),
         "idField" => "p_Id",
         "timeField" => "uploadDate", // used for time_search
@@ -38,6 +38,10 @@ class search_service extends CI_Model {
         $names = array();
         foreach ($queryResult["results"] as $row) {
             $game = $this->game_service->post_process_game($row);
+            if ($queryResult["type"] === "weighted") {
+                $game["score"] = $this->get_score_from_weighted_result($row, "movieTable");
+            }
+            $game["row"] = $row;
             $names[] = $game["nameUrl"];
             $results[] = $game;
         }
@@ -54,6 +58,22 @@ class search_service extends CI_Model {
             'results' => $results
         );
     }
+
+    function get_score_from_weighted_result($row, $tableName) {
+        $fields = $this->get_table_options($tableName)["searchFields"];
+        $a = array(
+            "total" => 0
+        );
+        $count = 1;
+        foreach ($fields as $column=>$weight) {
+            $rel = "rel".$count;
+            $a[$column] = $row->$rel;
+            $a["total"] += $a[$column];
+            $count++;
+        }
+        return $a;
+    }
+
 
     function get_table_options($tableName) {
         $so = "_".$tableName."SearchOptions";
@@ -85,15 +105,18 @@ class search_service extends CI_Model {
 
     function search($searchTerms, $tableName, $offset = 0, $limit = 0){
         $results = null;
-        if ($sql = $this->get_search_sql($searchTerms, $tableName, $offset, $limit)){
+        $searchSql = $this->get_search_sql($searchTerms, $tableName, $offset, $limit);
+        if ($sql = $searchSql["sql"]){
             $query = $this->db->query($sql);
             $results = array(
                 'numResults' => 0,
+                'type' => $searchSql["type"],
                 'results' => $query->result()
             );
             if ($results["results"]){
                 $results['numResults'] = intval($results["results"][0]->numResults);
             }
+
         }
         return $results;
     }
@@ -137,7 +160,10 @@ class search_service extends CI_Model {
             $searchOpts["offset"] = $offset;
             $sql = $this->$fn($searchOpts);
         }
-        return $sql;
+        return array(
+            "sql" => $sql,
+            "type" => $type
+        );
     }
 
     function clean_search_terms($searchTerms) {
@@ -205,7 +231,9 @@ class search_service extends CI_Model {
         //              searchFields: object of {field : weight}, Note: All weighted fields must be indexed in sql as "FULLTEXT INDEX"
         //              order: ASC or DESC
         //          }
-        $searchTerms = $this->db->escape($opts["searchTerms"]);
+        $terms = $opts["searchTerms"];
+        $terms = preg_replace("/\b([^\s]+)\b/","+$1*", $terms);
+        $searchTerms = $this->db->escape($terms);
         $sql = $this->select_sql_start($opts).", ";
         $fields = "";
         $orderBy = "ORDER BY ";
@@ -216,7 +244,9 @@ class search_service extends CI_Model {
             if ($fields) $fields.=",";
             $fields.= $field;
             if ($ct > 1) $search.=", ";
-            $search.= "MATCH (".$field.") AGAINST (" . $searchTerms . ") AS rel".$ct;
+            $search.= "MATCH (".$field.") AGAINST (" . $searchTerms;
+            $search.=" IN BOOLEAN MODE";
+            $search.=") AS rel".$ct;
             if ($ct > 1) $orderBy.="+";
             $orderBy.="(rel".$ct."*".($weight ? $weight : 1).")";
             $ct++;
@@ -226,13 +256,15 @@ class search_service extends CI_Model {
 
         $where=" WHERE MATCH(";
         $where.=$fields;
-        $where.=") AGAINST (" . $searchTerms . ") ";
+        $where.=") AGAINST (" . $searchTerms;
+        $where.=" IN BOOLEAN MODE";
+        $where.=") ";
         $sql.=$where;
         $sql.=$orderBy." ";
         $sql.= isset($opts["order"]) ? $opts["order"] : "DESC";
         $sql.=$this->select_sql_end($opts);
         $sql.=$this->count_sql($opts, $search, $where);
-
+        //echo $sql;
         return $sql;
     }
 

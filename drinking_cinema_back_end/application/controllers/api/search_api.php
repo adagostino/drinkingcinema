@@ -11,10 +11,10 @@ class Search_api extends REST_Controller {
         }
     }
 
-    private function search($type){
-        $searchTerms = $this->get('searchTerms');
-        $offset = $this->get('offset');
-        $limit = $this->get('limit');
+    private function search($type, $searchTerms = null, $offset = null, $limit = null){
+        $searchTerms = isset($searchTerms) ? $searchTerms : $this->post('searchTerms');
+        $offset = isset($offset) ? $offset : $this->post('offset');
+        $limit = isset($limit) ? $limit : $this->post('limit');
         $errors = array();
         if (!$this->form_validation->is_numeric($offset)) $errors[] = "ES_01";
         if (!$this->form_validation->is_numeric($limit)) $errors[] = "ES_02";
@@ -40,7 +40,7 @@ class Search_api extends REST_Controller {
         $this->load->model('error_service');
     }
 
-    function search_games_get(){
+    function search_games_post(){
         $this->search("movies");
     }
 

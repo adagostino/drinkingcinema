@@ -1,0 +1,42 @@
+.dc-game-suggestion {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  padding: 10px 5px;
+}
+
+.dc-game-suggestion-link {
+  background: #ffffff;
+  outline: 0;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 1px solid #e1e1e1;
+  font-weight: 700;
+  color: #333333;
+  text-decoration: none;
+  height: 60px;
+  width: 60px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+}
+.dc-game-suggestion-link span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+.dc-game-suggestion-link:hover {
+  color: #000000;
+  text-decoration: none;
+}
+.dc-game-suggestion-link.processing {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+  pointer-events: none;
+}

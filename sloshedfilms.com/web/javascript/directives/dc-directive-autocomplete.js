@@ -78,6 +78,7 @@ var name = "directive.autocomplete";
     autocomplete.prototype.showModal = function() {
         this.scrollTop = $(window).scrollTop();
         this.modal.show();
+
     };
 
     autocomplete.prototype.hideModal = function() {
@@ -118,10 +119,11 @@ var name = "directive.autocomplete";
             'parentScope': this,
             'beforeShow': function(){
                 // take care of the body and make it overflow hidden or something.
+                this.$timeout(function(){$(window).scrollTop(0)});
 
             },
             'afterHide': function(){
-                $(window).scrollTop(self.scrollTop);
+                this.$timeout(function(){$(window).scrollTop(self.scrollTop)});
             }
         };
 

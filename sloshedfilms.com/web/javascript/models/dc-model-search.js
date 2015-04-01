@@ -4,7 +4,6 @@ var name = "model.search";
 
     searchModel.prototype.get = function(opts){
         opts.url = "/api/search_api/search_games";
-        opts.type = "GET";
         opts.data = {
             'searchTerms': opts.searchTerms || "newest",
             'offset': opts.offset,

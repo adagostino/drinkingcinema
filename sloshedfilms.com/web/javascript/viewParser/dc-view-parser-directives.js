@@ -494,16 +494,17 @@
                 $scope.$call($scope.parseIsolateScope);
 
                 if (dir.directive.prototype.template){
-                    if (!dir.parsedHTMLObj){
+                    var vo;
+                    // TODO: figure out how to re-use the parsed template
+                    //if (!dir.vo){
                         var reg = /^[^a-zA-Z0-9]/,
                             t = dir.directive.prototype.template,
                             template = typeof t === "function" ? t($scope) : t.match(reg) ? $(t).html() : t;
 
                         var vo = self.parseTemplate(template);
-                        dir.parsedHTMLObj = vo.compile($scope);
-                    }
 
-                    var child = self.compileHTMLEl(dir.parsedHTMLObj,$scope);
+                    //}
+                    var child = self.compileHTMLEl(vo.compile($scope),$scope);
                     var $childEl = self.getNode(child);
 
                     try {

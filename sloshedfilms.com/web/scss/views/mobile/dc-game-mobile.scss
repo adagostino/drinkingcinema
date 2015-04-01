@@ -96,25 +96,22 @@ $likeThisY: percentage((-325px/$likeThisHeight)/(1-$dc-headers-sprite-height/$li
   }
 }
 
-.dc-vendor, .dc-game-suggestion{
-  @include inline-block();
-}
-
 .dc-vendor-netflix{
-  @extend .dc-vendor;
   background-image: url($spriteBase + "netflixIcon.png");
 }
 
 .dc-vendor-hulu{
-  @extend .dc-vendor;
   background-image: url($spriteBase + "huluIcon.png");
 }
 
 .dc-vendor-amazon{
-  @extend .dc-vendor;
   background-image: url($spriteBase + "amazonIcon.png");
 }
 
+.dc-game-suggestions-carousel-container{
+  height: 80px;
+  overflow: hidden;
+}
 
 /*
 .dc-share-this-game-container{

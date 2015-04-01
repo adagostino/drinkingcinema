@@ -1,0 +1,30 @@
+.dc-carousel {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.dc-carousel-items-container {
+  display: table-row;
+  will-change: transform, -webkit-transform;
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -moz-transition-timing-function: ease-out;
+  -o-transition-timing-function: ease-out;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  -moz-transition-duration: 0s;
+  -o-transition-duration: 0s;
+  -webkit-transition-duration: 0s;
+  transition-duration: 0s;
+  -moz-transition: -moz-transform;
+  -o-transition: -o-transform;
+  -webkit-transition: -webkit-transform;
+  transition: transform;
+}
+
+.dc-carousel-item {
+  display: table-cell;
+}

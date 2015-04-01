@@ -121,7 +121,7 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`movieTable` (
   FULLTEXT INDEX `all` (`movieName` ASC, `tags` ASC, `rulesHTML` ASC, `optionalRulesHTML` ASC) ,
   FULLTEXT INDEX `movieName` (`movieName` ASC) ,
   FULLTEXT INDEX `tags` (`tags` ASC)
-) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8_general_ci;
 
 -- --------------------------------------------------------
 

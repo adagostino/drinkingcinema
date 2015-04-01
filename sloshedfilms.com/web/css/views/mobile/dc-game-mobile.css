@@ -97,12 +97,6 @@
   color: #ffffff;
 }
 
-.dc-vendor, .dc-vendor-netflix, .dc-vendor-hulu, .dc-vendor-amazon, .dc-game-suggestion {
-  display: inline-block;
-  *display: inline;
-  zoom: 1;
-}
-
 .dc-vendor-netflix {
   background-image: url("http://cdn.drinkingcinema.com/Images/netflixIcon.png");
 }
@@ -113,6 +107,11 @@
 
 .dc-vendor-amazon {
   background-image: url("http://cdn.drinkingcinema.com/Images/amazonIcon.png");
+}
+
+.dc-game-suggestions-carousel-container {
+  height: 80px;
+  overflow: hidden;
 }
 
 /*

@@ -23,9 +23,11 @@
         }
 
         function get($name){
-            if ($game = $this->post_process_game($this->get_movie($name))){
-                $game["suggestions"] = $this->get_suggestions_for_movie($game["nameUrl"], $game["tags"]);
-            };
+            $movie = $this->get_movie($name);
+            if ($movie) {
+                $game = $this->post_process_game($movie);
+                $game["suggestions"] = $this->get_suggestions_for_movie($game["nameUrl"], $movie->tags);
+            }
             return $game;
         }
 
@@ -36,7 +38,7 @@
             foreach ($this->_reverseKeyMap as $key => $value) {
                 $game[$value] = htmlspecialchars_decode($queryRow->$key,ENT_QUOTES);
             }
-            $game["tags"] = trim($game["tags"]," \t\n\r\0\x0B\,");
+            $game["tags"] = $this->post_process_tags($game["tags"]);
             $game["imageBase"] =  str_replace("../","http://",$this->globals->get_games_dir().$game["nameUrl"]);
             $game["image"] = $game["imageBase"]."_".$imageSize.".jpg";
             $game["thumbnail"] = $game["imageBase"]."_thumb.jpg";
@@ -67,19 +69,34 @@
             );
         }
 
+        function format_game_tags($tags) {
+            if (!$tags) return $tags;
+            $tags = preg_replace("/[^a-zA-Z0-9,_+\s&-\'\/\\=]/", "", preg_replace("/<[^<>]>/","", $tags));
+            $tags = preg_replace_callback("/,*([^,]+),*/", function ($matches) {
+                $match = trim($matches[1]);
+                $match = preg_replace_callback("/\s*([^\s]+)(\s*)/", function ($matches) {
+                    $match = $matches[1];
+                    if ($match && strlen($match) < 4) {
+                        $end = 4 - strlen($match);
+                        for ($i = 0; $i < $end; $i++) {
+                            $match .= "_";
+                        }
+                    }
+                    return $match . $matches[2];
+                }, $match);
+                return $match.",";
+            }, $tags);
+            return ",".$tags;
+        }
+
+        function post_process_tags($tags){
+            return preg_replace("/,/", ", ",preg_replace("/_+/", "", trim($tags," \t\n\r\0\x0B\,")));
+        }
+
         function format_game($game){
             // first format the tags so they can be searched for suggestions later (very crude - should be its own table)
             if (isset($game["tags"])) {
-                $tags = explode(",", $game["tags"]);
-                $tagStr = "";
-                foreach ($tags as $tag) {
-                    $tag = trim($tag);
-                    if ($tag) {
-                        $tagStr .= $tagStr ? ", " : "";
-                        $tagStr .= $tag;
-                    }
-                }
-                $game["tags"] = ", " . $tagStr . ",";
+                $game["tags"] = $this->format_game_tags($game["tags"]);
             }
 
             // next replace all image links in rules and optionalRules
@@ -138,7 +155,7 @@
             $kvps.=", editDate=UTC_TIMESTAMP(), editUser=".$this->db->escape("admin");
             $sql.=$kvps.$where;
             $query = $this->db->query($sql);
-            if (isset($game["tags"])) $game["tags"] = trim($game["tags"]," \t\n\r\0\x0B\,");
+            if (isset($game["tags"])) $game["tags"] = $this->post_process_tags($game["tags"]);
             $this->version_service->update_version("game");
             return $game;
 
@@ -152,7 +169,7 @@
         }
 
         function get_suggestions_for_movie($nameUrl, $tags = null, $maxResults = 10){
-            $tags = $tags ? $tags : $this->get_movie($nameUrl,'tags');
+            $tags = $tags ? $tags : $this->get_movie($nameUrl,'tags')->tags;
             if (!$tags) return;
             $tagArray = explode(",", $tags);
             $movieNameUrl = $this->db->escape($nameUrl);
@@ -162,7 +179,7 @@
                 $t = $this->db->escape(trim($tag));
                 if ($tag){
                     $sql2.= $sql2 ? " UNION " : "";
-                    $sql2.= "SELECT movieName,movieNameUrl,".$t." AS tag, 1 as matchCount FROM movieTable WHERE tags LIKE '%, ".$tag.",%' AND movieNameUrl <> ".$movieNameUrl;
+                    $sql2.= "SELECT movieName,movieNameUrl,".$t." AS tag, 1 as matchCount FROM movieTable WHERE tags LIKE '%,".$tag.",%' AND movieNameUrl <> ".$movieNameUrl;
                 }
             }
             $sql3 = ") a GROUP BY movieNameUrl ORDER BY count DESC";

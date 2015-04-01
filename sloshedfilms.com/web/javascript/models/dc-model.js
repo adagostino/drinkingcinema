@@ -29,7 +29,6 @@ var name = "model";
             } catch (e){
                 err = xhr.responseText;
             }
-
             self.$call.call(opts.$scope || $dc, efn, err, xhr);
         };
         if (!opts.url) opts.error(null, "no url provided for ajax");

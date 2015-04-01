@@ -17,11 +17,8 @@ body{
   min-height: 100vh;
   position: relative;
   &.modal-open{
-    overflow: hidden;
-    height: 100vh;
     .dc-background{
-      overflow: hidden;
-      height: 100vh;
+      height: 0;
       @include transition(none);
       @include opacity(0);
     }
@@ -36,6 +33,8 @@ body{
 .dc-background {
   background: none;
   will-change: opacity;
+  overflow: hidden;
+  height: auto;
   @include opacity(1);
   @include transition(opacity 3*$time/4 ease-in-out);
   @include transition-delay($time/4);

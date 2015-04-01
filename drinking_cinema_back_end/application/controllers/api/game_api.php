@@ -158,6 +158,10 @@
             $this->send($success, $errors, $input);
         }
 
+        function test_get() {
+
+        }
+
     }
 
 ?>

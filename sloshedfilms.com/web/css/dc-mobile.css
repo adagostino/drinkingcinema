@@ -12,13 +12,8 @@ body {
   min-height: 100vh;
   position: relative;
 }
-body.modal-open {
-  overflow: hidden;
-  height: 100vh;
-}
 body.modal-open .dc-background {
-  overflow: hidden;
-  height: 100vh;
+  height: 0;
   -moz-transition: none;
   -o-transition: none;
   -webkit-transition: none;
@@ -35,6 +30,8 @@ body.modal-open .dc-background {
 .dc-background {
   background: none;
   will-change: opacity;
+  overflow: hidden;
+  height: auto;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
   -moz-transition: opacity 0.1635s ease-in-out;

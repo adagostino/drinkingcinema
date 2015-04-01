@@ -1,0 +1,12 @@
+<div class="dc-carousel">
+    <div class="dc-carousel-items-container">
+    {% spaceless %}
+    {% for item in items %}
+        <div class="dc-carousel-item" dc-repeat="item in items" dc-include="parentScope.itemTemplate">
+            {% include itemTemplate with {'item': item} %}
+        </div>
+    {% endfor %}
+    {% endspaceless %}
+    </div>
+</div>
+

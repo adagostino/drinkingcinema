@@ -376,6 +376,23 @@ var startTime = new Date().getTime();
         return nJSON;
     };
 
+    utils.prototype.getVendorPrefix = function ($element) {
+        var vendors = [
+            "webkit",
+            "moz",
+            "ms",
+            "o"
+
+        ];
+        var prefix = "";
+        for (var i = 0; i < vendors.length; i++) {
+            if (typeof this.$pre[0].style[vendors[i] + "Transform"] !== "undefined") {
+                return "-" + vendors[i] + "-";
+            }
+        }
+        return prefix;
+    };
+
     utils.prototype.getText = function(html){
         // kind of bootleg way of doing this -- it's not meant as a way of sanitizing
         // the input, more of a way to preserve line breaks for when I format the input
