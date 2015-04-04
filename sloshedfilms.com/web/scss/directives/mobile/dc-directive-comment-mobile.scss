@@ -1,0 +1,40 @@
+@import "imports/dc-imports";
+
+$commentWidth: 100%;
+.dc-comment{
+  width: $commentWidth;
+  max-width: $commentWidth;
+  position: relative;
+  img, .dc-iframe-container{
+    max-width: 100%;
+    max-height: 300px;
+    margin: $dc-default-padding 0px;
+    vertical-align: top;
+    display: block;
+  }
+
+}
+$comment-margin: $dc-default-padding*1.5;
+.dc-comment-name{
+  margin-top: $comment-margin;
+  font-weight: bold;
+}
+
+.dc-comment-date{
+  font-size: 0.8em;
+  font-style: italic;
+  line-height: 1.2em;
+  min-height: 1.2em;
+  color: $dc-med-gray;
+
+}
+
+.dc-comment-body{
+  margin: $comment-margin 0px;
+}
+
+.dc-comment-hr{
+  margin: $comment-margin 0px;
+  border-width: 0px;
+  border-bottom-width: 1px;
+}

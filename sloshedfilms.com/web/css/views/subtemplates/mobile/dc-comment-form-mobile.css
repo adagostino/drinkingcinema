@@ -1,0 +1,63 @@
+.dc-comment-form {
+  position: relative;
+}
+
+.dc-comment-form-bottom {
+  min-height: 46px;
+  position: relative;
+}
+.dc-comment-form-bottom .dc-text-input-error {
+  right: auto;
+  bottom: auto;
+  left: 2px;
+  top: 2px;
+}
+
+.dc-comment-form-body .dc-text-input {
+  border-width: 0;
+}
+.dc-comment-form-body .dc-text-area {
+  background: transparent;
+  border-width: 0;
+}
+
+.dc-comment-form-text-area-container {
+  position: relative;
+  border: 1px solid #e1e1e1;
+  margin: 6px 0px 0px;
+  height: 112px;
+  background-color: #ffffff;
+}
+.dc-comment-form-text-area-container .dc-text-input-container {
+  padding: 0px;
+}
+.dc-comment-form-text-area-container .dc-text-input-container.show-placeholder .dc-text-input-placeholder {
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.dc-comment-form-text-area-container .dc-text-input-container .dc-text-input-placeholder {
+  will-change: transform, -webkit-transform;
+  -moz-transform: translate3d(-3px, -32px, 0);
+  -ms-transform: translate3d(-3px, -32px, 0);
+  -webkit-transform: translate3d(-3px, -32px, 0);
+  transform: translate3d(-3px, -32px, 0);
+}
+.dc-comment-form-text-area-container .dc-text-input-container textarea {
+  vertical-align: top;
+}
+
+.dc-comment-form-inputs .dc-text-input {
+  border-bottom-width: 1px;
+}
+
+.dc-comment-form-message {
+  padding-bottom: 20px;
+}
+
+.dc-comment-form-submit {
+  position: absolute;
+  right: 0px;
+  top: 6px;
+}

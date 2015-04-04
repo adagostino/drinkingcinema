@@ -1,0 +1,87 @@
+@import "imports/dc-imports";
+
+$formWidth: 480px;
+$formOffset: 0px;
+.dc-comment-form{
+  position: relative;
+}
+
+.dc-comment-form-top{
+
+}
+
+.dc-comment-form-bottom{
+  min-height: 46px;
+  position: relative;
+  .dc-text-input-error{
+    right: auto;
+    bottom: auto;
+    left: 2px;
+    top: 2px;
+  }
+}
+$dcCommentFormHeight: 245px;
+.dc-comment-form-body{
+  .dc-text-input{
+    border-width: 0;
+  }
+
+  .dc-text-area{
+    background:transparent;
+    border-width: 0;
+  }
+}
+
+$errorLineHeight: 14px;
+$inputPaddingTop: 2*$dc-default-padding - $errorLineHeight;
+$time: 0.218s;
+$easing: ease-in-out;
+.dc-comment-form-text-area-container{
+  position: relative;
+  border: 1px solid $dc-light-gray;
+  margin: $inputPaddingTop  0px 0px;
+  height: 112px;
+  background-color: $dc-white;
+  .dc-text-input-container{
+    padding: 0px;
+    &.show-placeholder{
+      .dc-text-input-placeholder{
+        @include transform(translate3d(0,0, 0));
+      }
+    }
+
+    .dc-text-input-placeholder {
+      will-change: transform, -webkit-transform;
+      @include transform(translate3d(-3px,-32px, 0));
+    }
+
+    textarea{
+      vertical-align: top;
+    }
+  }
+
+}
+
+.dc-comment-form-inputs{
+  .dc-text-input {
+    border-bottom-width: 1px;
+  }
+
+}
+
+.dc-comment-form-message{
+  padding-bottom: 2*$dc-default-padding;
+}
+
+.show-inputs{
+
+
+}
+
+.dc-comment-form-submit{
+  position: absolute;
+  right: 0px;
+  top: 6px;
+}
+
+

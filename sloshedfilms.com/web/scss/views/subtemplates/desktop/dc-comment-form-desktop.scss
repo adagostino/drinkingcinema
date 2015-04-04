@@ -60,7 +60,7 @@ $easing: ease-in-out;
   bottom: 0px;
   border: 1px solid $dc-light-gray;
   margin: $inputPaddingTop  0px 0px;
-  height: 111px;
+  height: 112px;
   @include transition(height $time $easing);
   will-change: height;
   background-color: $dc-white;

@@ -1,15 +1,28 @@
 @import "imports/dc-imports";
+$commentsWidth: 400px;
+$commentsHeight: 48px;
+$commentsX: percentage((-2px/$commentsWidth)/(1 - $dc-commentsWords-sprite-width/$commentsWidth));
+$commentsY: percentage((-2px/$commentsHeight)/(1-$dc-commentsWords-sprite-height/$commentsHeight));
+
 .dc-comments-controller{
+  padding: 0px $dc-default-padding;
+  .dc-flexible-header {
+    width: 100%;
+    position: relative;
+    margin-bottom: $dc-default-padding;
+    .dc-flexible-sprite {
+      @include crisp-edges();
+      background-image: url($dc-comment-words-url);
+    }
 
-}
+    &.leave-a-comment{
+      padding-bottom: percentage($commentsHeight/$commentsWidth);
+      .dc-flexible-sprite{
+        background-position: $commentsX $commentsY;
+        background-size: percentage($dc-commentsWords-sprite-width/$commentsWidth);
+      }
+    }
 
-.dc-leave-a-comment {
-  span{
-    @include hiddenSpan();
+
   }
 }
-/*
-.dc-comments-container{
-  width: 400px;
-}
-*/

@@ -21,10 +21,7 @@
 }
 
 @include keyframes(rotate) {
-  from {
-    @include transform(rotate3d(0, 0, 1, 0deg));
-  }
-  to {
+  100% {
     @include transform(rotate3d(0, 0, 1, 360deg));
   }
 }

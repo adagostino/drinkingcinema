@@ -1,14 +1,32 @@
-.dc-leave-a-comment span {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  margin-top: -8px;
-  z-index: -1;
-  color: #ffffff;
+.dc-comments-controller {
+  padding: 0px 10px;
 }
-
-/*
-.dc-comments-container{
-  width: 400px;
+.dc-comments-controller .dc-flexible-header {
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
 }
-*/
+.dc-comments-controller .dc-flexible-header .dc-flexible-sprite {
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+  background-image: url("http://cdn.drinkingcinema.com/Images/commentsWords.png");
+}
+.dc-comments-controller .dc-flexible-header.leave-a-comment {
+  padding-bottom: 12%;
+}
+.dc-comments-controller .dc-flexible-header.leave-a-comment .dc-flexible-sprite {
+  background-position: 2% 1.53846%;
+  background-size: 125%;
+}

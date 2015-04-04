@@ -13,6 +13,12 @@ $logoSize: 30px;
   background-color: $dc-white;
 }
 
+.input-focused {
+  .dc-header-main-nav {
+    position: absolute;
+  }
+}
+
 .dc-header-main-nav-spacer{
   height: $logoSize + 11px;
 }

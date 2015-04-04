@@ -90,6 +90,8 @@ var name = "directive.input";
 
         this.validate = this.setValidator();
 
+        this.onIOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
+
         this.$watch(this.model,function(n, o){
             this.$input[this.isTextArea ? "val" : "html"]() !== n && this.$input[this.isTextArea ? "val" : "html"](n || "");
             this.isEmpty = !!!$.trim(n).length;
@@ -117,10 +119,12 @@ var name = "directive.input";
     //Events:
     input.prototype.onFocus = function(e){
         this.hasFocus = true;
+        this.onIOS && $("body").addClass("input-focused");
     };
 
     input.prototype.onBlur = function(e){
         this.hasFocus = false;
+        this.onIOS && $("body").removeClass("input-focused");
         var text = this.text();
         if (!$.trim(text).length) Path.get(this.model).setValueFrom(this,"");
         if (this.errors && this.errors.length) this.errors = this.validate();

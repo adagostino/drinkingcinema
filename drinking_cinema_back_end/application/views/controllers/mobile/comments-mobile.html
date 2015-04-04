@@ -1,8 +1,13 @@
 <div class="dc-comments-controller" dc-controller="comments" id="comments">
-    <!--<div dc-include="#dc-comment-form-template">-->
-        <!--{% include '_subtemplates/dc-comment-form-desktop.html' %}-->
-    <!--</div>-->
-    <!--<div dc-directive-infinite-scroll item-template="#dc-infinite-scroll-comments-template" source="commentSource" class="dc-comments-container">-->
-        <!--{% include 'directives/dc-directive-infinite-scroll.html' with {'items': page.comments.results, 'numResults': page.comments.numResults, 'item_template': '_subtemplates/dc-infinite-scroll-comments.html'} %}-->
-    <!--</div>-->
+    <div dc-include="#dc-comment-form-template">
+        {% include '_subtemplates/mobile/dc-comment-form-mobile.html' %}
+    </div>
+    {% if page.comments.results|length > 0 %}
+    <div class="dc-flexible-hr-top" dc-if="commentSource.items.length">
+        <div class="dc-flexible-sprite"></div>
+    </div>
+    {% endif %}
+    <div dc-directive-infinite-scroll item-template="#dc-infinite-scroll-comments-template" source="commentSource" class="dc-comments-container">
+        {% include 'directives/dc-directive-infinite-scroll.html' with {'items': page.comments.results, 'numResults': page.comments.numResults, 'item_template': '_subtemplates/mobile/dc-infinite-scroll-comments-mobile.html'} %}
+    </div>
 </div>

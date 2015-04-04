@@ -52,14 +52,17 @@
 
         public $_cssJSON = array(
             "common" => array(
-                "directives/dc-directive-input.css"
+                "directives/dc-directive-input.css",
+                "directives/dc-directive-infinite-scroll.css"
             ),
             "mobile" => array(
                 "common" => array(
                     "views/mobile/dc-game-mobile.css",
                     "views/mobile/dc-comments-mobile.css",
                     "directives/dc-directive-carousel.css",
-                    "views/subtemplates/mobile/dc-game-suggestions-mobile.css"
+                    "views/subtemplates/mobile/dc-game-suggestions-mobile.css",
+                    "views/subtemplates/mobile/dc-comment-form-mobile.css",
+                    "directives/mobile/dc-directive-comment-mobile.css"
                 )
             ),
             "desktop" => array(
@@ -71,8 +74,7 @@
                     "directives/dc-directive-embed-game.css",
                     "directives/dc-directive-tooltip.css",
                     "directives/dc-directive-tooltip-image.css",
-                    "directives/desktop/dc-directive-comment-desktop.css",
-                    "directives/dc-directive-infinite-scroll.css"
+                    "directives/desktop/dc-directive-comment-desktop.css"
                 ),
                 "admin" => array(
                     "utilities/jcrop.css",
@@ -87,6 +89,8 @@
 
         public $_htmlJSON = array(
             "common" => array(
+                'directives/dc-directive-infinite-scroll.html',
+                'directives/dc-directive-input.html'
             ),
             "mobile" => array(
                 "common" => array(
@@ -94,7 +98,10 @@
                     'controllers/mobile/comments-mobile.html',
                     'directives/dc-directive-carousel.html',
                     '_subtemplates/mobile/dc-vendors-mobile.html',
-                    '_subtemplates/mobile/dc-game-suggestions-mobile.html'
+                    '_subtemplates/mobile/dc-game-suggestions-mobile.html',
+                    '_subtemplates/mobile/dc-comment-form-mobile.html',
+                    '_subtemplates/mobile/dc-infinite-scroll-comments-mobile.html',
+                    'directives/mobile/dc-directive-comment-mobile.html'
                 )
             ),
             "tablet" => array(),
@@ -112,12 +119,10 @@
                     '_subtemplates/dc-game-suggestions-desktop.html',
                     '_subtemplates/dc-comment-form-desktop.html',
                     'directives/dc-directive-tooltip.html',
-                    'directives/dc-directive-input.html',
                     '_subtemplates/dc-tooltip-text.html',
                     '_subtemplates/dc-tooltip-image.html',
-                    'directives/dc-directive-infinite-scroll.html',
-                    'directives/dc-directive-comment.html',
-                    '_subtemplates/dc-infinite-scroll-comments.html'
+                    '_subtemplates/dc-infinite-scroll-comments.html',
+                    'directives/dc-directive-comment.html'
                 ),
                 "desktop" => array(
                     '_subtemplates/dc-infinite-scroll-comments.html'
