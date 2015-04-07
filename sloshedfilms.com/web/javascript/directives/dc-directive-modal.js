@@ -48,8 +48,11 @@ var name = "directive.modal";
                                     ? $(this.modalTemplate).html()
                                     : this.modalTemplate;
         }
+
         this.modalTemplate = this.modalTemplate || $("#dc-directive-modal-template").html();
         this.$el = $dc.viewParser.parse(this.modalTemplate).getElement(this);
+        this.addClassToBody = "addClassToBody" in this ? this.addClassToBody : true;
+
 
         this.paddingRight;
         $("body").append(this.$el);
@@ -57,7 +60,7 @@ var name = "directive.modal";
         this.$watch("open", function(n,o){
             if (n) {
                 this.paddingRight = hasScrollbar() ? getScrollBarPadding() : 0;
-                $("body").addClass("modal-open");
+                this.addClassToBody && $("body").addClass("modal-open");
                 this.paddingRight && $("body").css("padding-right", this.paddingRight + "px");
             } else {
                 $("body").removeClass("modal-open").css("padding-right","");
@@ -81,11 +84,18 @@ var name = "directive.modal";
         this.open = true;
         this.$timeout(function(){
             this.$call(this.afterShow, callback);
+            this.openAfterShow = true;
         });
     };
 
+    modal.prototype.beforeHide = function(){
+        //console.log("default before show");
+    };
+
     modal.prototype.hide = function(callback){
+        this.$call(this.beforeHide);
         this.open = false;
+        this.openAfterShow = false;
         this.$timeout(function(){
             this.$call(this.afterHide,callback);
         });

@@ -1,0 +1,98 @@
+@import "imports/dc-imports";
+
+$time: 0.600s;
+$easing: ease-in-out;
+$bzEasing: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+.animate {
+  @include animation-duration($time);
+  @include animation-timing-function($bzEasing);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+}
+
+
+$timing: 0.218s;
+.dc-lightbox-header{
+  position: fixed;
+  z-index: 4;
+  background: $dc-white;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 45px;
+  display: none;
+  &.show {
+    display: block;
+    .dc-close-lightbox-modal {
+      display: block;
+      @include animation-name(fadeIn);
+    }
+  }
+}
+.dc-lightbox-modal{
+  width: 100%;
+  background: $dc-white;
+  z-index: 2;
+  position: fixed;
+  padding: $dc-default-padding;
+  top: 0px;
+  left: 0px;
+  will-change: opacity;
+  overflow: hidden;
+  @extend .animate;
+  display: none;
+
+  .dc-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$dc-tv-loader-size/2;
+    margin-left: -$dc-tv-loader-size/2;
+  }
+
+  &.show{
+    display: block;
+    min-height: 100vh;
+    @include animation-name(fadeInBackground);
+  }
+}
+
+.dc-lightbox-img-anchor {
+  @include inline-block();
+  @include opacity(0);
+  @include transition(opacity 0s $bzEasing $time);
+  &.show {
+    @include transition(none);
+  }
+}
+
+.dc-lightbox-img {
+  position: absolute;
+  left: 50%;
+  pointer-events: none;
+  z-index: 3;
+  @include opacity(0);
+  @include transition(transform $time $bzEasing, opacity $bzEasing $time);
+  &.show {
+    @include opacity(1);
+    @include transition(transform $time $bzEasing);
+  }
+}
+
+.dc-close-lightbox-modal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 2;
+  // 14 by 20
+  padding: 5px 8px;
+  @extend .animate;
+  display: none;
+
+}
+
+
+
+
+
+

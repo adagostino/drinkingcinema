@@ -4,7 +4,6 @@ var name = "controller.game.desktop";
         this.init = function(){
             this._super();
             $dc.initImageToolTip();
-            window.scope = this;
         }
     };
 

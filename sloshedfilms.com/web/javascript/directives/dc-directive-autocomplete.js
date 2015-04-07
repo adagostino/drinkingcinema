@@ -118,9 +118,14 @@ var name = "directive.autocomplete";
             'itemTemplate': this.itemTemplate,
             'parentScope': this,
             'beforeShow': function(){
-                // take care of the body and make it overflow hidden or something.
+                //$(window).scrollTop(0);
+                //$(".dc-background").css("height", "100vh").scrollTop(self.scrollTop);
+                //$(window).scrollTop(0);
                 this.$timeout(function(){$(window).scrollTop(0)});
-
+            },
+            'beforeHide': function(){
+                //$(".dc-background").scrollTop(0).css("height", "auto");
+                //$(window).scrollTop(self.scrollTop);
             },
             'afterHide': function(){
                 this.$timeout(function(){$(window).scrollTop(self.scrollTop)});

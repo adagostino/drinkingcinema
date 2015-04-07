@@ -1,5 +1,7 @@
 html {
   box-sizing: border-box;
+  min-height: 100vh;
+  background-color: #ffffff;
 }
 
 html, body {
@@ -42,6 +44,7 @@ body.modal-open .dc-background {
   -o-transition-delay: 0.0545s;
   -webkit-transition-delay: 0.0545s;
   transition-delay: 0.0545s;
+  position: relative;
 }
 
 .dc-container {
@@ -115,4 +118,15 @@ body.modal-open .dc-background {
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: #ffffff;
+}
+
+#shim {
+  position: fixed;
+  z-index: 2;
+  background-color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  top: 0px;
+  left: 0px;
 }

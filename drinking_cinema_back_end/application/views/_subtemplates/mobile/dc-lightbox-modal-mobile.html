@@ -1,0 +1,8 @@
+<div class="dc-lightbox-header" dc-class="{'show': open, 'loaded': parentScope.image.loaded}">
+    <div class="dc-close-lightbox-modal" dc-click="parentScope.hideModal">
+        <div class="dc-x-out"></div>
+    </div>
+</div>
+<div class="dc-lightbox-modal" dc-class="{'show': open, 'loaded': parentScope.image.loaded}" dc-style="{'padding-right': paddingRight}">
+    <div class="dc-loader dc-tv" dc-if="!parentScope.image.loaded"></div>
+</div>

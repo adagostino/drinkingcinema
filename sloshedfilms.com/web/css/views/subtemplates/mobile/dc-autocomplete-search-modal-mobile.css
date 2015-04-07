@@ -1,12 +1,4 @@
-.dc-autocomplete-search-modal {
-  width: 100%;
-  background: #ffffff;
-  display: none;
-  z-index: 3;
-  position: relative;
-  min-height: 100vh;
-  padding: 10px;
-  will-change: opacity;
+.animate, .dc-autocomplete-search-modal {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -moz-animation-duration: 0.218s;
@@ -21,6 +13,21 @@
   -moz-animation-fill-mode: forwards;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
+}
+
+.dc-autocomplete-search-modal {
+  width: 100%;
+  background: #ffffff;
+  z-index: 3;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  will-change: opacity;
+  min-height: 100vh;
+  padding: 10px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  display: none;
 }
 .dc-autocomplete-search-modal.show {
   display: block;

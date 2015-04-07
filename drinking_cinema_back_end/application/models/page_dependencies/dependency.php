@@ -38,7 +38,8 @@
                     "directives/dc-directive-autocomplete.js",
                     "directives/dc-directive-modal.js",
                     "directives/dc-directive-input.js",
-                    "services/dc-service-modal.js"
+                    "services/dc-service-modal.js",
+                    "directives/dc-directive-lightbox.js"
                 )
             ),
             "desktop" => array(
@@ -65,7 +66,8 @@
                     "views/subtemplates/mobile/dc-autocomplete-search-modal-mobile.css",
                     "views/subtemplates/mobile/dc-autocomplete-search-item-mobile.css",
                     "views/subtemplates/mobile/dc-search-item-mobile.css",
-                    "directives/dc-directive-input.css"
+                    "directives/dc-directive-input.css",
+                    "views/subtemplates/mobile/dc-lightbox-modal-mobile.css"
                 )
             ),
             "desktop" => array(
@@ -86,7 +88,8 @@
                     '_subtemplates/mobile/dc-search-nav-bar-mobile.html',
                     '_subtemplates/mobile/dc-autocomplete-search-modal-mobile.html',
                     '_subtemplates/mobile/dc-search-item-mobile.html',
-                    'directives/dc-directive-input.html'
+                    'directives/dc-directive-input.html',
+                    '_subtemplates/mobile/dc-lightbox-modal-mobile.html'
                 )
             ),
             "tablet" => array(),

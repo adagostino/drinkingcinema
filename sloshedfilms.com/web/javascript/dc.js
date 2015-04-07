@@ -336,6 +336,14 @@ var startTime = new Date().getTime();
         }
     };
 
+    dc.prototype.initLightbox = function(){
+        try{
+            new $dc.directive.lightbox().init();
+        } catch(e){
+            console.log(e);
+        }
+    };
+
     global.drinkingCinema = global.$dc = new dc();
     $(document).ready(function() {
         global.$dc.init();

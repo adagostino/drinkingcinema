@@ -111,6 +111,8 @@
             $page["isAdmin"] = $isAdmin;
             $page["platform"] = $platform;
             $page["debug"] = $debug;
+            $page["isMobileChrome"] = $this->detect->isMobile() && $this->detect->is("chrome");
+            $page["mobileChromeClass"] = $page["isMobileChrome"] ? "mobileChrome" : "";
             $socialMedia = $this->social_media_service->get($pageName, $game);
             foreach ($socialMedia as $key => $value){
                 $page[$key] = $value;

@@ -36,12 +36,12 @@
             <link rel="stylesheet" type="text/css" href="{{page.stylesheets.basePath}}/{{href}}">
         {% endfor %}
         {% if page.platform == "mobile" %}
-            <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+            <meta name="viewport" content="user-scalable=no, width=device-width, height=device-height" />
         {% endif %}
     </head>
-    <body class="{{page.controllerName}}">
+    <body class="{{page.controllerName}} {{ page.mobileChromeClass }}">
         {%  if page.debug %}
-            <div class="dc-debug">Debug Mode {{ page.platform }}</div>
+            <div class="dc-debug">Debug Mode {{ page.platform }} {{ page.mobileChromeClass }}</div>
         {% endif %}
         <div class="dc-background">
             <div id="fb-root"></div>

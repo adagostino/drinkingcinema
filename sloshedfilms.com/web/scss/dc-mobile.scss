@@ -3,6 +3,9 @@
 html {
   //overflow: auto;
   box-sizing: border-box;
+  min-height: 100vh;
+  background-color: $dc-white;
+
 }
 
 html,body{
@@ -12,6 +15,7 @@ html,body{
 }
 
 $time: 0.218s;
+$bzEasing: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 body{
   background-color: transparent;
   min-height: 100vh;
@@ -38,6 +42,7 @@ body{
   @include opacity(1);
   @include transition(opacity 3*$time/4 ease-in-out);
   @include transition-delay($time/4);
+  position: relative;
 }
 
 .dc-container{
@@ -86,4 +91,15 @@ $hry: 2*percentage(-133px/$dc-buttons-sprite-height);
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-color: $dc-white;
+}
+
+#shim {
+  position: fixed;
+  z-index: 2;
+  background-color: $dc-white;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+  top: 0px;
+  left: 0px;
 }

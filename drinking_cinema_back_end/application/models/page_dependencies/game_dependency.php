@@ -20,6 +20,7 @@
             "mobile" => array(
                 "common" => array(
                     "utilities/hammer.min.js",
+                    "services/dc-service-transformObject.js",
                     "controllers/dc-controller-game-mobile.js",
                     "directives/dc-directive-carousel.js"
                 )

@@ -6,8 +6,11 @@
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.3);
   z-index: 2;
   position: fixed;
+  margin-top: 0px;
+  top: 0px;
   width: 100%;
   background-color: #ffffff;
+  will-change: top;
 }
 
 .input-focused .dc-header-main-nav {

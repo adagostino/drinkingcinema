@@ -16,6 +16,13 @@
   padding-bottom: 129.41176%;
   margin-top: 10px;
 }
+.dc-game-image-container img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: auto;
+}
 .dc-game-image-container h1 {
   position: absolute;
   top: 50%;

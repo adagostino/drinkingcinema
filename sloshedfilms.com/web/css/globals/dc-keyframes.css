@@ -22,6 +22,30 @@
     opacity: 1;
   }
 }
+@-moz-keyframes fadeInBackground {
+  from {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  to {
+    background-color: white;
+  }
+}
+@-webkit-keyframes fadeInBackground {
+  from {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  to {
+    background-color: white;
+  }
+}
+@keyframes fadeInBackground {
+  from {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  to {
+    background-color: white;
+  }
+}
 @-moz-keyframes fadeInAndTranslate {
   from {
     opacity: 0.4;

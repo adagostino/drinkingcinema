@@ -2,21 +2,28 @@
 
 $time: 0.218s;
 $easing: ease-in-out;
-.dc-autocomplete-search-modal{
-  width: 100%;
-  background: $dc-white;
-  display: none;
-  z-index: 3;
-  position: relative;
-  min-height: 100vh;
-
-  padding: $dc-default-padding;
-  will-change: opacity;
+.animate {
   @include opacity(0);
   @include animation-duration($time);
   @include animation-timing-function($easing);
   @include animation-iteration-count(1);
   @include animation-fill-mode(forwards);
+}
+
+.dc-autocomplete-search-modal{
+  width: 100%;
+  background: $dc-white;
+  z-index: 3;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  will-change: opacity;
+  min-height: 100vh;
+  padding: $dc-default-padding;
+  @extend .animate;
+  @include opacity(0);
+  display: none;
+
   &.show{
     display: block;
     @include animation-name(fadeIn);
