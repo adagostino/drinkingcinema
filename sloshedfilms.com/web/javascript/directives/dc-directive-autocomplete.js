@@ -117,7 +117,7 @@ var name = "directive.autocomplete";
             'modalTemplate': this.modalTemplate,//"#dc-autocomplete-search-modal-template"
             'itemTemplate': this.itemTemplate,
             'parentScope': this,
-            'beforeShow': function(){
+            'afterShow': function(){
                 //$(window).scrollTop(0);
                 //$(".dc-background").css("height", "100vh").scrollTop(self.scrollTop);
                 //$(window).scrollTop(0);

@@ -104,7 +104,31 @@ var name = "service.transformObject";
         return use3D ? str3d : str;
     };
 
+    transformObject.prototype.getZoomTransformArray = function(x, y, scale, centerX, centerY, x0, y0){
+        scale = scale || 1;
+        x0 = typeof x0 === "number" ? x0 : x;
+        y0 = typeof y0 === "number" ? y0 : y;
+        centerX = centerX || window.innerWidth / 2;
+        centerY = centerY || window.innerHeight / 2;
+
+        // translate the zoomed area to the center
+        var translateX = (centerX - x)*(scale); // scalex
+        var translateY = (centerY - y)*(scale); //scaley
+        // now re-shift the center to that it's centered over the pointer
+        translateX-=(centerX - x0);
+        translateY-=(centerY - y0);
+        var a = [scale, 0, 0, scale, translateX, translateY];
+        return  a;
+    };
+
     //*** convenience methods to get and set transform/transitions on elements ***//
+    transformObject.prototype.getTransformArrayFromElement = function($el) {
+        return this.parseTransform($el.css(this.transformAttr));
+    };
+
+    transformObject.prototype.getTransformParamsFromElement = function($el) {
+        return this.getParamsFromTransformArray(this.getTransformArrayFromElement($el));
+    };
 
     // set the base transform of this object to the current transform of an element
     transformObject.prototype.setReferenceTransformFromElement = function($el){
@@ -125,6 +149,14 @@ var name = "service.transformObject";
         $el.css(this.transformAttr, this.getTransformForDeltaParams(deltaParams));
     };
 
+    transformObject.prototype.removeTransformOnElement = function($el) {
+        $el.css(this.transformAttr, "");
+    };
+
+    transformObject.prototype.setZoomOnElement = function($el, x, y, scale, centerX, centerY, x0, y0) {
+        var transformArray = this.getZoomTransformArray(x, y, scale, centerX, centerY, x0, y0);
+        $el.css(this.transformAttr, this.stringifyTransform(transformArray));
+    };
 
     $dc.addService(name, transformObject);
 })(name);

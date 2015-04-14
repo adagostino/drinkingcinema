@@ -30,8 +30,22 @@
   }
 }
 
+@include keyframes(fadeInAndScale) {
+  from {
+    @include opacity(0);
+    @include transform(scale(0.6));
+  }
+  to {
+    @include opacity(1);
+    @include transform(scale(1.0));
+  }
+}
+
 @include keyframes(rotate) {
-  100% {
-    @include transform(rotate3d(0, 0, 1, 360deg));
+  from {
+    @include transform(rotate(0deg));
+  }
+  to {
+    @include transform(rotate(360deg));
   }
 }

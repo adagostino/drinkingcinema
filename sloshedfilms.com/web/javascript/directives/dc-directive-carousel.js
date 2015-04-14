@@ -6,7 +6,8 @@ var name = "directive.carousel";
         this.$carousel = this.$el.find(".dc-carousel-items-container");
         this.$carouselItems = this.$carousel.find(".dc-carousel-item");
         var self = this;
-        Hammer(this.$carousel[0]).on("pan panstart panend",function(e){self.$call(self.handleDrag, e)});
+        var h = new Hammer(this.$carousel[0]);
+        h.on("pan panstart panend",function(e){self.$call(self.handleDrag, e)});
         $(window).on("orientationchange", function(){
             self.transformObject && self.$call(self.handleDrag, {
                 type: 'panend',

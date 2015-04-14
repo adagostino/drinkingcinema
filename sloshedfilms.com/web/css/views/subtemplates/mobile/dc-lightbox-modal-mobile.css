@@ -16,7 +16,6 @@
 .dc-lightbox-header {
   position: fixed;
   z-index: 4;
-  background: #ffffff;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -55,45 +54,60 @@
 .dc-lightbox-modal.show {
   display: block;
   min-height: 100vh;
+  background: transparent;
   -moz-animation-name: fadeInBackground;
   -webkit-animation-name: fadeInBackground;
   animation-name: fadeInBackground;
 }
 
-.dc-lightbox-img-anchor {
-  display: inline-block;
-  *display: inline;
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  -moz-transition: opacity 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
-  -o-transition: opacity 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
-  -webkit-transition: opacity 0s cubic-bezier(0.215, 0.61, 0.355, 1);
-  -webkit-transition-delay: 0.6s;
-  transition: opacity 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
-}
-.dc-lightbox-img-anchor.show {
-  -moz-transition: none;
-  -o-transition: none;
-  -webkit-transition: none;
-  transition: none;
-}
-
-.dc-lightbox-img {
+.dc-lightbox-img-container {
+  overflow: hidden;
   position: absolute;
-  left: 50%;
+  left: -100%;
   pointer-events: none;
   z-index: 3;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
+  -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), left 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
+  -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), left 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
+  -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), left 0s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-transition-delay: 0s, 0s, 0.6s;
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), left 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
+}
+.dc-lightbox-img-container.dc-lightbox-img-anchor {
+  -moz-transform: scale(0.4);
+  -ms-transform: scale(0.4);
+  -webkit-transform: scale(0.4);
+  transform: scale(0.4);
+}
+.dc-lightbox-img-container.show {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  left: 50%;
+  pointer-events: auto;
+}
+.dc-lightbox-img-container.show.dc-lightbox-img-anchor {
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transform: scale(1);
+  transform: scale(1);
   -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
   -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
   -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-.dc-lightbox-img.show {
-  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-  opacity: 1;
+
+.dc-lightbox-img {
+  height: auto;
+  will-change: transform, -webkit-transform, top;
+  pointer-events: auto;
+  position: absolute;
+  top: 0px;
+  left: 50%;
   -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
   -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
   -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
