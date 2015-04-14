@@ -104,13 +104,14 @@ var name = "service.transformObject";
         return use3D ? str3d : str;
     };
 
-    transformObject.prototype.getZoomTransformArray = function(x, y, scale, centerX, centerY, x0, y0){
+    transformObject.prototype.getZoomTransformArray = function(unzoomedFixedPinchCenter, scale, elementCenter, fixedZoomCenter){
+        var x = unzoomedFixedPinchCenter.x,
+            y = unzoomedFixedPinchCenter.y,
+            centerX = elementCenter ? elementCenter.x : window.innerWidth / 2,
+            centerY = elementCenter ? elementCenter.y : window.innerHeight / 2,
+            x0 = fixedZoomCenter ? fixedZoomCenter.x : x,
+            y0 = fixedZoomCenter ? fixedZoomCenter.y : y;
         scale = scale || 1;
-        x0 = typeof x0 === "number" ? x0 : x;
-        y0 = typeof y0 === "number" ? y0 : y;
-        centerX = centerX || window.innerWidth / 2;
-        centerY = centerY || window.innerHeight / 2;
-
         // translate the zoomed area to the center
         var translateX = (centerX - x)*(scale); // scalex
         var translateY = (centerY - y)*(scale); //scaley
@@ -120,6 +121,11 @@ var name = "service.transformObject";
         var a = [scale, 0, 0, scale, translateX, translateY];
         return  a;
     };
+
+    transformObject.prototype.getZoomParams = function(unzoomedFixedPinchCenter, scale, elementCenter, fixedZoomCenter) {
+        var transformArray = this.getZoomTransformArray(unzoomedFixedPinchCenter, scale, elementCenter, fixedZoomCenter);
+        return this.getParamsFromTransformArray(transformArray);
+    }
 
     //*** convenience methods to get and set transform/transitions on elements ***//
     transformObject.prototype.getTransformArrayFromElement = function($el) {
@@ -153,8 +159,8 @@ var name = "service.transformObject";
         $el.css(this.transformAttr, "");
     };
 
-    transformObject.prototype.setZoomOnElement = function($el, x, y, scale, centerX, centerY, x0, y0) {
-        var transformArray = this.getZoomTransformArray(x, y, scale, centerX, centerY, x0, y0);
+    transformObject.prototype.setZoomOnElement = function($el, fixedZoomCenter, scale, elementCenter, unzoomedFixedPinchCenter) {
+        var transformArray = this.getZoomTransformArray(fixedZoomCenter, scale, elementCenter, unzoomedFixedPinchCenter);
         $el.css(this.transformAttr, this.stringifyTransform(transformArray));
     };
 

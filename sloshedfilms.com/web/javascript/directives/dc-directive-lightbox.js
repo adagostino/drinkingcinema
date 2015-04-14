@@ -1,10 +1,18 @@
 var name = "directive.lightbox";
 (function(name){
-    var _imageMap = {};
+    var _imageMap = {},
+        _aReg = new RegExp($dc.globals.cdn + "uli","i"),
+        _animationTime = "0.6s",
+        _maxScale = 3,
+        _minScale = 1;
+
+
+    var _animationTimeMS = 0;
+    _animationTime.replace(/(\d*\.*\d*)(s|ms)/, function(match,duration,durationUnit){
+        _animationTimeMS = durationUnit === "s" ? parseFloat(duration)*1000 : parseFloat(duration)
+    });
 
     var lightbox = function(){};
-
-    var aReg = new RegExp($dc.globals.cdn + "uli","i");
 
     lightbox.prototype.init = function(){
         var self = this;
@@ -15,11 +23,33 @@ var name = "directive.lightbox";
         this.transformObject = new $dc.service.transformObject();
         this.transitionObject = new $dc.service.transitionObject();
 
+        /*
+        var time;
+        this.$el.on("click touchstart touchend", "a, img", function(e){
+
+            if (self.modalShowing || (e.type !== "click" && $(e.target).is("a"))) {
+                return;
+            }
+            switch(e.type) {
+                case "touchstart":
+                    time = new Date().getTime();
+                    break;
+                case "touchend":
+                    var delta = new Date().getTime() - time;
+                    (delta > 50 && delta < 300 && !self.modal.open) && self.$call(self.click, e);
+                    break;
+                case "click":
+                    self.$call(self.click, e);
+                    break;
+            }
+        });
+        */
         this.$el.on("click", "a, img", function(e){
             self.$call(self.click, e);
         });
-        $(window).on("orientationchange scroll", function(){
-            //self.hideModal();
+
+        $(window).on("orientationchange scroll resize", function(){
+            self.hideModal();
         });
 
     };
@@ -31,15 +61,7 @@ var name = "directive.lightbox";
             'parentScope': this,
             'addClassToBody': false,
             'beforeShow': function() {
-                /*
-                try{
-                    self.transitionObject.removeTransitionFromElement(self.image.$el);
-                    self.transitionObject.removeTransitionFromElement(self.image.$img);
-                } catch (e) {
-
-                };
-                */
-
+                self.modalShowing = true;
             },
             'afterShow': function() {
                 if (self.image.loaded) {
@@ -53,9 +75,16 @@ var name = "directive.lightbox";
                 try {
                     self.image.show = false;
                     self.image.zoomed = false;
+                    self.image.pinching = false;
                     self.transitionObject.removeTransitionFromElement(self.image.$el);
                     self.transitionObject.removeTransitionFromElement(self.image.$img);
                     this.$timeout(function(){self.slideImage(self.image.initialParams)});
+                    if (self.delegate.is("a")){
+                        self.modalShowing = false;
+                    } else {
+                        this.$timeout(function(){self.modalShowing = false}, _animationTimeMS);
+                    }
+
                 } catch (e) {
 
                 }
@@ -63,13 +92,11 @@ var name = "directive.lightbox";
         };
 
         this.modal = $dc.service.modal(opts);
-        /*
+
         this.modal.$el.each(function(){
-            var h = new Hammer(this);
-            h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-            h.on("pan panstart panend",function(e){self.$call(self.handleDrag, e)});
+            self.$call(self.addCancelPanListener(this));
         });
-        */
+
     };
 
     lightbox.prototype.showModal = function() {
@@ -89,7 +116,7 @@ var name = "directive.lightbox";
             preventDefault = false;
         if ($el.is("a")) {
             href = $el.attr("href");
-            preventDefault = aReg.test(href);
+            preventDefault = _aReg.test(href);
             if (!preventDefault) return;
         } else if ($el.is("img")) {
             href = $el.attr("src");
@@ -180,7 +207,7 @@ var name = "directive.lightbox";
             this.image.top = sT + 45;
             var calcImageTop = (this.image.height - this.image.imageHeight - 45) / 2.0;
             this.image.imageTop = calcImageTop < 0 ? 0 : calcImageTop;
-
+            this.image.calcImageTop = calcImageTop < 0 ? calcImageTop : 0;
 
             this.image.center = {
                 x: ww / 2,
@@ -213,7 +240,7 @@ var name = "directive.lightbox";
     };
 
     lightbox.prototype.slideImage = function(params){
-        this.transitionObject.setDurationOnElement(this.image.$el, "0.6s");
+        this.transitionObject.setDurationOnElement(this.image.$el, _animationTime);
         this.image.isAnchor ? this.transformObject.removeTransformOnElement(this.image.$el) :
         this.transformObject.setTransformOnElementFromParams(this.image.$el, params || {
             translateY: 0,
@@ -221,21 +248,19 @@ var name = "directive.lightbox";
             scaleX: 1,
             scaleY: 1
         });
-        this.transitionObject.setDurationOnElement(this.image.$img, "0.6s");
+        this.transitionObject.setDurationOnElement(this.image.$img, _animationTime);
         this.transformObject.setTransformOnElementFromParams(this.image.$img, {
             translateY: 0,
             translateX: 0,
             scaleX: 1,
             scaleY: 1
         });
-
-        //alert(JSON.stringify(new $dc.service.transitionObject(this.image.$el).transitions));
     };
 
     lightbox.prototype.toggleZoom = function(e){
         if (!this.modal.open) return;
         if (!this.image.zoomed) {
-            this.transformObject.setZoomOnElement(this.image.$img, e.center.x, e.center.y, 3, this.image.center.x, this.image.center.y);
+            this.transformObject.setZoomOnElement(this.image.$img, e.center, _maxScale, this.image.center);
             this.image.zoomed = true;
         } else {
             this.transformObject.setTransformOnElementFromParams(this.image.$img, {
@@ -260,14 +285,20 @@ var name = "directive.lightbox";
     };
 
     var _onEdge = function(image, params){
-        var w = image.width,
+        //TODO: figure out if we should really be using image.imageTop -- probably should, but probably need
+        // to do some checking in there for image size so images don't cling to the top if the don't need to.
+        // setting imageTop to 0 for now
+        var w = image.imageWidth,
             h = image.imageHeight,
             left = params.translateX - w*(params.scaleX - 1)/ 2,
             top = params.translateY - h*(params.scaleY - 1)/ 2,
+            imageTop = image.imageTop,
             onHorizontalEdge = false,
             onVerticalEdge = false;
+
+        imageTop = 0;
         var newLeft = params.translateX;
-        //console.log(left, -w*(scale.x - 1)/2);
+
         if (left >=0){
             newLeft = w*(params.scaleX - 1) /2;
             onHorizontalEdge = true;
@@ -277,11 +308,11 @@ var name = "directive.lightbox";
         }
 
         var newTop = params.translateY;
-        if (top >=0){
-            newTop = h*(params.scaleY - 1) /2;
+        if (top + imageTop >= 0){
+            newTop = h*(params.scaleY - 1) /2 - imageTop;
             onVerticalEdge = true;
-        }else if (top <= -h*(params.scaleY - 1)){
-            newTop = -h*(params.scaleY - 1) / 2;
+        }else if (top + imageTop <= -h*(params.scaleY - 1)){
+            newTop = -h*(params.scaleY - 1) / 2 - imageTop;
             onVerticalEdge = true;
         }
 
@@ -298,9 +329,8 @@ var name = "directive.lightbox";
     }
 
     var _startParams, _startXY, _startTop, _scrollTop;
-
     lightbox.prototype.handleDrag = function(e) {
-        if (!this.modal.open) return;
+        if (!this.modal.open || this.image.pinching) return;
         switch(e.type) {
             case "panstart":
                 if (this.image.zoomed) {
@@ -317,16 +347,65 @@ var name = "directive.lightbox";
                     Math.abs(e.deltaY) > 10 && this.hideModal();
                     return;
                 }
-                this.transformObject.setTransformOnElementFromParams(this.image.$img, _getZoomParams(_startXY, e.center, _startParams, this.image));
-                //this.image.top = _startTop + ($(window).scrollTop() - _scrollTop);
+                this.image.zoomed && this.transformObject.setTransformOnElementFromParams(this.image.$img, _getZoomParams(_startXY, e.center, _startParams, this.image));
                 break;
             case "pancancel":
             case "panend":
-                var zoomParams = _getZoomParams(_startXY, e.center, _startParams, this.image);
-                if (zoomParams.onHorizontalEdge || zoomParams.onVerticalEdge) {
-                    this.transformObject.setTransitionTimeOnElement(this.image.$img, "0.6s");
-                    this.transformObject.setTransformOnElementFromParams(this.image.$img, zoomParams.edgeParams);
+                if (this.image.zoomed) {
+                    var zoomParams = _getZoomParams(_startXY, e.center, _startParams, this.image);
+                    this.transformObject.setTransitionTimeOnElement(this.image.$img, _animationTime);
+                    if (zoomParams.onHorizontalEdge || zoomParams.onVerticalEdge) {
+                        this.transformObject.setTransformOnElementFromParams(this.image.$img, zoomParams.edgeParams);
+                    }
                 }
+                break;
+        }
+    };
+
+    var _fixedPinchCenter, _unzoomedFixedPinchCenter, _initialScale;
+    lightbox.prototype.handlePinch = function(e) {
+        if (!this.modal.open) return;
+        switch(e.type) {
+            case "pinchstart":
+                // get the fixed pinch center -- the center of the pinch on the screen
+                _fixedPinchCenter = {
+                    x: e.center.x,
+                    y: e.center.y
+                };
+                // get the initial scale of the element
+                _initialScale = this.transformObject.getTransformParamsFromElement(this.image.$img).scaleX;
+                // calculate where the pinch center would be element was unzoomed
+                _unzoomedFixedPinchCenter = {
+                    x: (_fixedPinchCenter.x - this.image.$img.offset().left)/_initialScale + (window.innerWidth - this.image.imageWidth)/2,
+                    y: (_fixedPinchCenter.y - (this.image.$img.offset().top - $(window).scrollTop()) - this.image.calcImageTop)/_initialScale + (window.innerHeight - this.image.imageHeight)/2
+                };
+                this.transitionObject.setDurationOnElement(this.image.$img, "0s");
+                this.image.pinching = true;
+                break;
+            case "pinch":
+                var scale = e.scale*_initialScale;
+                this.transformObject.setZoomOnElement(this.image.$img, _unzoomedFixedPinchCenter, scale , null, _fixedPinchCenter);
+                break;
+            case "pinchcancel":
+            case "pinchend":
+                this.transitionObject.setDurationOnElement(this.image.$img, _animationTime);
+                // first get the scale of the element and check if it's too large or too small
+                // next get the final parameters for the element using the scale found above
+                // next calculate if the element, with its new zoom, is too far over or up -- ie, if it's on the edge of the element
+                var scale = e.scale*_initialScale > _maxScale ? _maxScale : (e.scale*_initialScale < _minScale ? _minScale : e.scale*_initialScale),
+                    zoomOut = scale < _initialScale,
+                    params = _onEdge(this.image, this.transformObject.getZoomParams(_unzoomedFixedPinchCenter, scale, null, _fixedPinchCenter)),
+                    onEdge = params.onHorizontalEdge || params.onVerticalEdge;
+                // so, if you're zooming in, you won't want to check the edge, but if you're zooming out, you will
+                params = onEdge && zoomOut ? params.edgeParams : params;
+                // if it's on the edge or it's too large or small, animate it back to where it should be.
+                if ( (onEdge && zoomOut) || scale !== e.scale*_initialScale) {
+                    this.transformObject.setTransformOnElementFromParams(this.image.$img, params);
+                    this.$timeout(function(){this.image.pinching = false}, _animationTimeMS);
+                } else {
+                    this.$timeout(function(){this.image.pinching = false}, _animationTimeMS / 2.0);
+                }
+                this.image.zoomed = scale !== 1;
                 break;
         }
     };
@@ -361,7 +440,35 @@ var name = "directive.lightbox";
             self.$timeout(function(){self.$call(self.toggleZoom, e);});
         });
         h.on("pan panstart panend pancancel", function(e){
+            e.preventDefault();
             self.$call(self.handleDrag,e);
+        });
+        var pinch = new Hammer.Pinch();
+        h.add(pinch);
+        h.on("pinch pinchstart pinchend pinchcancel", function(e) {
+            e.preventDefault();
+            self.$call(self.handlePinch, e);
+        });
+        this.addCancelPanListener($el);
+    };
+
+    lightbox.prototype.addCancelPanListener = function($el) {
+        var self = this;
+        var hh = new Hammer($el.length ? $el[0] : $el);
+        hh.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+        hh.on("pan panstart panend pancancel", function(e) {
+            e.preventDefault();
+            if (Math.abs(e.deltaY > 10)){
+                if (!self.image.zoomed) {
+                    self.hideModal();
+                } else {
+                    try {
+                        e.srcEvent.stopPropagation();
+                    } catch (e) {
+
+                    }
+                }
+            }
         });
     };
 

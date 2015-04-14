@@ -1,5 +1,7 @@
 var name = "service.transitionObject";
 (function(){
+    var _transition = /([\w\-]+)\s+(\d*\.*\d*)(s|ms)\s+([\w\-]+\(*[\d\.\,\s]*\)*)\s+(\d*\.*\d*)(s|ms)/i,
+        _transitions = new RegExp(_transition.toString().replace(/^\//, "").replace(/\/\w*$/,""), "ig");
 
     var transitionObject = function($el) {
         this.vendorPrefix =  $dc.utils.getVendorPrefix();
@@ -8,12 +10,9 @@ var name = "service.transitionObject";
     };
 
     transitionObject.prototype.parseTransition = function(transitionStr) {
-        var transition = /([\w\-]+)\s+(\d*\.*\d*)(s|ms)\s+([\w\-]+\(*[\d\.\,\s]*\)*)\s+(\d*\.*\d*)(s|ms)/i,
-            transitions = new RegExp(transition.toString().replace(/^\//, "").replace(/\/\w*$/,""), "ig");
-
         var transitionObject = {};
-        transitionStr.replace(transitions, function(transitionMatch){
-            transitionMatch.replace(transition, function(match, attr, duration, durationUnit, easing, delay, delayUnit) {
+        transitionStr.replace(_transitions, function(transitionMatch){
+            transitionMatch.replace(_transition, function(match, attr, duration, durationUnit, easing, delay, delayUnit) {
                 transitionObject[attr] = {
                     duration: durationUnit === "s" ? parseFloat(duration)*1000 : parseFloat(duration),
                     durationUnit: "ms",
