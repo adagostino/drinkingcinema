@@ -3,7 +3,6 @@ var name = "controller.game.mobile";
     var controller = function(){
         this.init = function(){
             this._super();
-            $dc.initLightbox();
         }
     };
 

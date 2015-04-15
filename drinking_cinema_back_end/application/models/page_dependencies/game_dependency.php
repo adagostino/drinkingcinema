@@ -19,9 +19,6 @@
             ),
             "mobile" => array(
                 "common" => array(
-                    "utilities/hammer.min.js",
-                    "services/dc-service-transformObject.js",
-                    "services/dc-service-transitionObject.js",
                     "controllers/dc-controller-game-mobile.js",
                     "directives/dc-directive-carousel.js"
                 )
@@ -41,13 +38,11 @@
                     "controllers/dc-controller-game-desktop-admin.js",
                     "controllers/dc-controller-comments-admin.js",
                     "directives/dc-directive-game-image-admin.js",
-                    "directives/dc-directive-modal.js",
                     "directives/dc-directive-editable.js",
                     "directives/dc-directive-editable-rte.js",
                     "directives/dc-directive-upload-thumbnail.js",
                     "directives/dc-directive-upload-image.js",
-                    "directives/dc-directive-comment-admin.js",
-                    "services/dc-service-modal.js"
+                    "directives/dc-directive-comment-admin.js"
                 )
             )
         );

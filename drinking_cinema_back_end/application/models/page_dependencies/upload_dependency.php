@@ -18,15 +18,13 @@
                 "admin" => array(
                     "utilities/jquery.Jcrop.js",
                     "controllers/dc-controller-upload.js",
-                    "directives/dc-directive-modal.js",
                     "directives/dc-directive-editable.js",
                     "directives/dc-directive-editable-rte.js",
                     "directives/dc-directive-game-image.js",
                     "directives/dc-directive-game-image-admin.js",
                     "directives/dc-directive-upload-thumbnail.js",
                     "directives/dc-directive-upload-image.js",
-                    "directives/dc-directive-embed-game.js",
-                    "services/dc-service-modal.js"
+                    "directives/dc-directive-embed-game.js"
                 )
             )
         );

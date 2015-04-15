@@ -44,7 +44,7 @@ $ratio: $dc-nav-bar-height/$dc-nav-bar-height-desktop;
 
 .dc-nav-bar-about {
   @extend .dc-nav-bar-item;
-  background-position: -130px*$ratio -367px*$ratio;
+  background-position: -127px*$ratio -367px*$ratio;
   width: 107px*$ratio;
   &.selected {
     background-position: -130px*$ratio -8px*$ratio;

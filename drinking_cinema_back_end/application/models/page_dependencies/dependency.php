@@ -14,6 +14,7 @@
                 "utilities/parser.js",
                 "utilities/observe.js",
                 "utilities/generateGUID.js",
+                "utilities/hammer.min.js",
                 // view parser
                 "viewParser/dc-view-parser.js",
                 "viewParser/dc-view-parser-parsing.js",
@@ -25,21 +26,23 @@
                 "models/dc-model.js",
                 // controller
                 "controllers/dc-controller.js",
+                "controllers/dc-controller-header.js",
                 // directive
                 "directives/dc-directive.js",
+                "directives/dc-directive-modal.js",
+                "directives/dc-directive-lightbox.js",
                 // service
                 "services/dc-service.js",
-                "controllers/dc-controller-header.js"
+                "services/dc-service-modal.js",
+                "services/dc-service-transformObject.js",
+                "services/dc-service-transitionObject.js"
             ),
             "mobile" => array(
                 "common" => array(
                     "models/dc-model-search.js",
                     "controllers/dc-controller-header-mobile.js",
                     "directives/dc-directive-autocomplete.js",
-                    "directives/dc-directive-modal.js",
-                    "directives/dc-directive-input.js",
-                    "services/dc-service-modal.js",
-                    "directives/dc-directive-lightbox.js"
+                    "directives/dc-directive-input.js"
                 )
             ),
             "desktop" => array(
@@ -55,7 +58,8 @@
                 "dc.css",
                 "globals/dc-keyframes.css",
                 "globals/dc-sprites.css",
-                "views/subtemplates/dc-buttons.css"
+                "views/subtemplates/dc-buttons.css",
+                "views/subtemplates/dc-lightbox-modal.css"
             ),
             "mobile" => array(
                 "common" => array(
@@ -66,8 +70,7 @@
                     "views/subtemplates/mobile/dc-autocomplete-search-modal-mobile.css",
                     "views/subtemplates/mobile/dc-autocomplete-search-item-mobile.css",
                     "views/subtemplates/mobile/dc-search-item-mobile.css",
-                    "directives/dc-directive-input.css",
-                    "views/subtemplates/mobile/dc-lightbox-modal-mobile.css"
+                    "directives/dc-directive-input.css"
                 )
             ),
             "desktop" => array(
@@ -80,7 +83,10 @@
         );
 
         private $_commonHTMLJSON = array(
-            "common" => array(),
+            "common" => array(
+                '_subtemplates/dc-lightbox-modal.html',
+                '_subtemplates/dc-lightbox-modal-item.html'
+            ),
             "mobile" => array(
                 "common" => array(
                     'controllers/mobile/header-mobile.html',
@@ -88,8 +94,7 @@
                     '_subtemplates/mobile/dc-search-nav-bar-mobile.html',
                     '_subtemplates/mobile/dc-autocomplete-search-modal-mobile.html',
                     '_subtemplates/mobile/dc-search-item-mobile.html',
-                    'directives/dc-directive-input.html',
-                    '_subtemplates/mobile/dc-lightbox-modal-mobile.html'
+                    'directives/dc-directive-input.html'
                 )
             ),
             "tablet" => array(),

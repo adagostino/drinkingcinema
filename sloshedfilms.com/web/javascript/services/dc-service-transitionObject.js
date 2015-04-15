@@ -10,9 +10,11 @@ var name = "service.transitionObject";
     };
 
     transitionObject.prototype.parseTransition = function(transitionStr) {
-        var transitionObject = {};
+        var transitionObject = {},
+            isEmpty = true;
         transitionStr.replace(_transitions, function(transitionMatch){
             transitionMatch.replace(_transition, function(match, attr, duration, durationUnit, easing, delay, delayUnit) {
+                isEmpty = false;
                 transitionObject[attr] = {
                     duration: durationUnit === "s" ? parseFloat(duration)*1000 : parseFloat(duration),
                     durationUnit: "ms",
@@ -23,7 +25,7 @@ var name = "service.transitionObject";
                 };
             });
         });
-        return transitionObject;
+        return isEmpty ? null : transitionObject;
     };
 
     transitionObject.prototype.stringifyTransition = function(transitionObj) {
@@ -45,18 +47,20 @@ var name = "service.transitionObject";
         if (tmatch[2]) {
             tfloat*= tmatch[2] === "s" ? 1000 : 1;
         }
-
-        for (var attr in currTrans) {
-            currTrans[attr].duration = tfloat;
+        if (currTrans) {
+            for (var attr in currTrans) {
+                currTrans[attr].duration = tfloat;
+            }
+            var transition = this.stringifyTransition(currTrans);
+            $el.css(this.transitionAttr, transition);
+        } else {
+            $el.css(this.transitionAttr + "-duration", tfloat + "ms");
         }
-        var transition = this.stringifyTransition(currTrans);
-        $el.css(this.transitionAttr, transition);
-
     };
 
     transitionObject.prototype.removeTransitionFromElement = function($el) {
         $el.css(this.transitionAttr, "");
-    }
+    };
 
 
     $dc.addService(name, transitionObject);

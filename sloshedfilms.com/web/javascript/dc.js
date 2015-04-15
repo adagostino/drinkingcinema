@@ -395,7 +395,7 @@ var startTime = new Date().getTime();
         var prefix = "";
         for (var i = 0; i < vendors.length; i++) {
             if (typeof this.$pre[0].style[vendors[i] + "Transform"] !== "undefined") {
-                return "-" + vendors[i] + "-";
+                return "-" + vendors[i].toLowerCase() + "-";
             }
         }
         return prefix;

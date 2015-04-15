@@ -29,11 +29,9 @@
                     "models/dc-model-comments-admin.js",
                     "controllers/dc-controller-page-desktop-admin.js",
                     "controllers/dc-controller-comments-admin.js",
-                    "directives/dc-directive-modal.js",
                     "directives/dc-directive-editable.js",
                     "directives/dc-directive-editable-rte.js",
-                    "directives/dc-directive-comment-admin.js",
-                    "services/dc-service-modal.js"
+                    "directives/dc-directive-comment-admin.js"
                 )
             )
         );

@@ -19,7 +19,6 @@ var name = "directive.lightbox";
         if (!this.$el) this.$el = $("body");
         this.initModal();
         this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
-        this.isMobileChrome = this.page.isMobileChrome;
         this.transformObject = new $dc.service.transformObject();
         this.transitionObject = new $dc.service.transitionObject();
 
@@ -412,20 +411,8 @@ var name = "directive.lightbox";
 
     lightbox.prototype.createImage = function(){
         if (!this.image || this.image.$el) return;
-
-        var imgTemplate = '<div class="dc-lightbox-img-container" dc-style="{';
-        imgTemplate += "'margin-left': marginLeft, 'top': top, 'width': width, 'height': height}";
-        imgTemplate += '" ';
-        imgTemplate += 'dc-class="{';
-        imgTemplate += "'show': show, 'dc-lightbox-img-anchor': isAnchor}";
-        imgTemplate += '">';
-        imgTemplate += '<img class="dc-lightbox-img" src="{{href}}" dc-style="{';
-        imgTemplate += "'top': imageTop, 'width': imageWidth, 'margin-left': imageMarginLeft}";
-        imgTemplate += '" ';
-        imgTemplate += 'dc-class="{';
-        imgTemplate += "'show': show, 'dc-lightbox-img-anchor': isAnchor}";
-        imgTemplate += '"></div>';
-        var template = $dc.viewParser.parse(imgTemplate);
+        //#dc-lightbox-modal-item-template
+        var template = $dc.viewParser.parse($("#dc-lightbox-modal-item-template").html());
 
         var $el =  template.getElement(this.image),
             $img = $el.find("img");
