@@ -22,33 +22,12 @@ var name = "directive.lightbox";
         this.transformObject = new $dc.service.transformObject();
         this.transitionObject = new $dc.service.transitionObject();
 
-        /*
-        var time;
-        this.$el.on("click touchstart touchend", "a, img", function(e){
-
-            if (self.modalShowing || (e.type !== "click" && $(e.target).is("a"))) {
-                return;
-            }
-            switch(e.type) {
-                case "touchstart":
-                    time = new Date().getTime();
-                    break;
-                case "touchend":
-                    var delta = new Date().getTime() - time;
-                    (delta > 50 && delta < 300 && !self.modal.open) && self.$call(self.click, e);
-                    break;
-                case "click":
-                    self.$call(self.click, e);
-                    break;
-            }
-        });
-        */
         this.$el.on("click", "a, img", function(e){
             self.$call(self.click, e);
         });
 
         $(window).on("orientationchange scroll resize", function(){
-            self.hideModal();
+            self.modal.open && self.hideModal();
         });
 
     };
@@ -65,6 +44,7 @@ var name = "directive.lightbox";
             'afterShow': function() {
                 if (self.image.loaded) {
                     self.image.show = true;
+                    self.image.showInfo = true;
                     self.transitionObject.removeTransitionFromElement(self.image.$el);
                     self.transitionObject.removeTransitionFromElement(self.image.$img);
                     this.$timeout(function(){self.slideImage()});
@@ -73,6 +53,8 @@ var name = "directive.lightbox";
             'beforeHide': function() {
                 try {
                     self.image.show = false;
+                    self.image.showInfo = false;
+                    self.image.infoWasHidden = false;
                     self.image.zoomed = false;
                     self.image.pinching = false;
                     self.transitionObject.removeTransitionFromElement(self.image.$el);
@@ -103,8 +85,14 @@ var name = "directive.lightbox";
         this.modal.show();
     };
 
-    lightbox.prototype.hideModal = function() {
+    lightbox.prototype.hideModal = function(e) {
         this.modal.hide();
+    };
+
+    lightbox.prototype.toggleImageInfo = function(e) {
+        if (this.image.zoomed) return;
+        this.image.showInfo = !!!this.image.showInfo;
+        this.image.infoWasHidden = true;
     };
 
     // Events:
@@ -113,6 +101,8 @@ var name = "directive.lightbox";
         var $el = $(e.target),
             href,
             preventDefault = false;
+        if ($el.is(".dc-lightbox-img")) return;
+
         if ($el.is("a")) {
             href = $el.attr("href");
             preventDefault = _aReg.test(href);
@@ -185,8 +175,9 @@ var name = "directive.lightbox";
             var ww = window.innerWidth,
                 wh = window.innerHeight,
                 sT = $(window).scrollTop(),
+                hh = 0, // headerHeight - 45
                 maxW = ww,
-                maxH = wh - 45,
+                maxH = wh - hh,
                 w = this.image.naturalWidth,
                 h = this.image.naturalHeight;
             if (w > maxW) {
@@ -203,11 +194,10 @@ var name = "directive.lightbox";
             this.image.imageHeight = h;
             this.image.marginLeft = -ww/2;
             this.image.imageMarginLeft = -w/2;
-            this.image.top = sT + 45;
-            var calcImageTop = (this.image.height - this.image.imageHeight - 45) / 2.0;
+            this.image.top = sT + hh;
+            var calcImageTop = (this.image.height - this.image.imageHeight - hh) / 2.0;
             this.image.imageTop = calcImageTop < 0 ? 0 : calcImageTop;
             this.image.calcImageTop = calcImageTop < 0 ? calcImageTop : 0;
-
             this.image.center = {
                 x: ww / 2,
                 y: wh / 2 - (calcImageTop < 0 ? calcImageTop : 0) // - (this.image.height - this.image.imageHeight - 45)/2
@@ -261,6 +251,7 @@ var name = "directive.lightbox";
         if (!this.image.zoomed) {
             this.transformObject.setZoomOnElement(this.image.$img, e.center, _maxScale, this.image.center);
             this.image.zoomed = true;
+            this.image.showInfo = false;
         } else {
             this.transformObject.setTransformOnElementFromParams(this.image.$img, {
                 translateY: 0,
@@ -269,6 +260,8 @@ var name = "directive.lightbox";
                 scaleY: 1
             });
             this.image.zoomed = false;
+            this.image.showInfo = true;
+            this.image.infoWasHidden = false;
         }
     };
 
@@ -405,6 +398,10 @@ var name = "directive.lightbox";
                     this.$timeout(function(){this.image.pinching = false}, _animationTimeMS / 2.0);
                 }
                 this.image.zoomed = scale !== 1;
+                if (!this.image.zoomed) {
+                    this.image.showInfo = true;
+                    this.image.infoWasHidden = false;
+                }
                 break;
         }
     };
@@ -413,8 +410,12 @@ var name = "directive.lightbox";
         if (!this.image || this.image.$el) return;
         //#dc-lightbox-modal-item-template
         var template = $dc.viewParser.parse($("#dc-lightbox-modal-item-template").html());
-
-        var $el =  template.getElement(this.image),
+        var $el =  template.getElement(
+                {
+                    parentScope: this,
+                    image: _imageMap[this.image.href]
+                }
+            ),
             $img = $el.find("img");
         $("body").append($el);
         this.image.$el = $el;
@@ -435,6 +436,13 @@ var name = "directive.lightbox";
         h.on("pinch pinchstart pinchend pinchcancel", function(e) {
             e.preventDefault();
             self.$call(self.handlePinch, e);
+        });
+        var hh = new Hammer($el[0]);
+        hh.on("tap", function(e) {
+            if ($(e.target).is("a, .a")) {
+                return;
+            }
+            self.$call(self.toggleImageInfo, e);
         });
         this.addCancelPanListener($el);
     };

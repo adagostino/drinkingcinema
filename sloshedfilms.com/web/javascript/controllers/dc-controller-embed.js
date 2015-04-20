@@ -6,6 +6,7 @@ var name = "controller.embed";
             this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
             this.game = this.page.game;
             this.cdn = $dc.globals.cdn;
+            $dc.initLightbox();
         }
     };
 

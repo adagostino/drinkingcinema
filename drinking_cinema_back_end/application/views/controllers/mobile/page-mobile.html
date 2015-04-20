@@ -1,0 +1,13 @@
+<div class="dc-page-controller" dc-controller="page">
+    <div class="dc-additional-pages-subheader dc-flexible-header {{page.page.pageName}}">
+        <div class="dc-flexible-sprite"><span class="description-text">{{page.page.pageName}}</span></div>
+    </div>
+    <div class="dc-flexible-hr-top">
+        <div class="dc-flexible-sprite"></div>
+    </div>
+    <div id="dc-page-content">
+        <div class="dc-page-content" dc-model="page.page.content">
+            {{ page.page.content|raw }}
+        </div>
+    </div>
+</div>

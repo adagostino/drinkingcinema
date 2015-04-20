@@ -1,0 +1,72 @@
+@import "imports/dc-imports";
+
+.dc-page-content {
+  padding: $dc-default-padding;
+}
+
+.header-image {
+  position: relative;
+  span {
+    @include hiddenSpan();
+  }
+}
+
+$headerHeight: 60px;
+
+$faqWidth: 250px;
+$faqHeight: 90px;
+$faqX: -4px;
+$faqY: -8px;
+$faqPercent: $headerHeight/$faqHeight;
+
+$aboutWidth: 375px;
+$aboutHeight: 90px;
+$aboutX: -4px;
+$aboutY: -134px;
+$aboutPercent: $headerHeight/$aboutHeight;
+
+$contactWidth: 267px;
+$contactHeight: 110px;
+$contactX: -4px;
+$contactY: -255px;
+$contactPercent: 80px/$contactHeight;
+
+.dc-additional-pages-subheader{
+  width: 100%;
+  position: relative;
+  margin-bottom: $dc-default-padding;
+  padding: 0px $dc-default-padding;
+  .dc-flexible-sprite{
+    @include crisp-edges();
+    background-image: url($dc-subpages-url);
+  }
+
+  &.faq {
+    width: $faqWidth * ($faqPercent);
+    height: $faqHeight * $faqPercent;
+    .dc-flexible-sprite {
+      background-position: $faqX*$faqPercent $faqY*$faqPercent;
+      background-size: percentage($dc-subpages-sprite-width / ($faqWidth));
+    }
+  }
+
+  &.about {
+    width: $aboutWidth * ($aboutPercent);
+    height: $aboutHeight * $aboutPercent;
+    .dc-flexible-sprite {
+      background-position: $aboutX*$aboutPercent $aboutY*$aboutPercent;
+      background-size: percentage($dc-subpages-sprite-width / ($aboutWidth));
+    }
+  }
+
+  &.contact {
+    width: $contactWidth * ($contactPercent);
+    height: $contactHeight * $contactPercent;
+    .dc-flexible-sprite {
+      background-position: $contactX*$contactPercent $contactY*$contactPercent;
+      background-size: percentage($dc-subpages-sprite-width / ($contactWidth));
+    }
+  }
+
+
+}

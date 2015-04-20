@@ -17,7 +17,11 @@
                 "directives/dc-directive-comment.js",
                 "services/dc-service-data-source.js"
             ),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    "controllers/dc-controller-page-mobile.js"
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -38,9 +42,17 @@
 
         public $_cssJSON = array(
             "common" => array(
-                "directives/dc-directive-input.css"
+                "directives/dc-directive-input.css",
+                "directives/dc-directive-infinite-scroll.css"
             ),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    "views/mobile/dc-page-mobile.css",
+                    "views/mobile/dc-comments-mobile.css",
+                    "views/subtemplates/mobile/dc-comment-form-mobile.css",
+                    "directives/mobile/dc-directive-comment-mobile.css"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "views/dc-page-desktop.css",
@@ -49,8 +61,7 @@
                     "views/subtemplates/desktop/dc-comment-form-desktop.css",
                     "directives/dc-directive-tooltip.css",
                     "directives/dc-directive-tooltip-image.css",
-                    "directives/desktop/dc-directive-comment-desktop.css",
-                    "directives/dc-directive-infinite-scroll.css"
+                    "directives/desktop/dc-directive-comment-desktop.css"
                 ),
                 "admin" => array(
                     "directives/dc-directive-modal.css",
@@ -60,8 +71,19 @@
         );
 
         public $_htmlJSON = array(
-            "common" => array(),
-            "mobile" => array(),
+            "common" => array(
+                'directives/dc-directive-infinite-scroll.html',
+                'directives/dc-directive-input.html'
+            ),
+            "mobile" => array(
+                "common" => array(
+                    'controllers/mobile/page-mobile.html',
+                    'controllers/mobile/comments-mobile.html',
+                    '_subtemplates/mobile/dc-comment-form-mobile.html',
+                    '_subtemplates/mobile/dc-infinite-scroll-comments-mobile.html',
+                    'directives/mobile/dc-directive-comment-mobile.html'
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -72,10 +94,8 @@
                     '_subtemplates/dc-additional-pages-subheader.html',
                     '_subtemplates/dc-social-media.html',
                     '_subtemplates/dc-comment-form-desktop.html',
-                    'directives/dc-directive-input.html',
                     'directives/dc-directive-tooltip.html',
                     '_subtemplates/dc-tooltip-image.html',
-                    'directives/dc-directive-infinite-scroll.html',
                     'directives/dc-directive-comment.html',
                     '_subtemplates/dc-infinite-scroll-comments.html'
                 ),

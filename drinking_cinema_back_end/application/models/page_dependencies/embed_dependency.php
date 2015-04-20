@@ -10,7 +10,11 @@
             "common" => array(
                 "controllers/dc-controller-embed.js"
             ),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    "controllers/dc-controller-embed-desktop.js",
+                )
+            ),
             "tablet" => array(),
             "desktop" => array(
                 "common" => array(
@@ -24,7 +28,12 @@
 
         public $_cssJSON = array(
             "common" => array(),
-            "mobile" => array(),
+            "mobile" => array(
+                "common" => array(
+                    "views/dc-embed-desktop.css",
+                    "views/subtemplates/desktop/dc-social-media-buttons-desktop.css"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "views/dc-embed-desktop.css",

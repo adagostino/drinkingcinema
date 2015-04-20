@@ -55,6 +55,10 @@ $timing: 0.218s;
     min-height: 100vh;
     background: rgba(0,0,0,0);
     @include animation-name(fadeInBackground);
+    .dc-close-lightbox-modal {
+      display: block;
+      @include animation-name(fadeIn);
+    }
   }
 }
 
@@ -93,6 +97,52 @@ $timing: 0.218s;
   @include transition(transform $time $bzEasing);
 }
 
+$shadowColor: rgba(0,0,0,1.0);
+.dc-lightbox-img-info, .dc-lightbox-img-header {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 0px $dc-default-padding;
+  @include truncate();
+  will-change: transform, -webkit-transform, opacity;
+  @include opacity(0);
+  @include transform(translate3d(0, 100%, 0));
+  @include transition(none);
+
+  a {
+    color: $dc-black;
+    text-decoration: underline;
+    font-size: 0.8em;
+  }
+  &.show {
+    @include opacity(1);
+    @include transform(translate3d(0, 0, 0));
+    @include transition(transform $time $bzEasing $time, opacity $time $bzEasing $time);
+  }
+  &.was-hidden {
+    @include transition(transform $time $bzEasing, opacity $time $bzEasing);
+  }
+
+}
+
+.dc-lightbox-img-info {
+  background-color: rgba(255,255,255,0.6);
+  height: 25px;
+  line-height: 25px;
+}
+
+.dc-lightbox-img-header{
+  bottom: auto;
+  top: 0px;
+  height: 40px;
+  @include transform(translate3d(0, -100%, 0));
+  &.show {
+    @include opacity(0.7);
+    @include transform(translate3d(0, 0, 0));
+  }
+}
+
 .dc-close-lightbox-modal {
   position: absolute;
   top: 5px;
@@ -100,9 +150,13 @@ $timing: 0.218s;
   z-index: 2;
   // 14 by 20
   padding: 5px 8px;
-  @extend .animate;
-  display: none;
-
+  @include inline-block();
+  border: 1px solid $dc-light-gray;
+  background: $dc-white;
+  cursor: pointer;
+  .dc-x-out {
+    display: block;
+  }
 }
 
 

@@ -4,6 +4,7 @@ var name = "controller.page";
     var controller = function(){
         this.init = function(){
             this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
+            $dc.initLightbox();
         }
     };
 

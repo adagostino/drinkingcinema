@@ -1,4 +1,4 @@
-.animate, .dc-lightbox-modal, .dc-close-lightbox-modal {
+.animate, .dc-lightbox-modal {
   -moz-animation-duration: 0.6s;
   -webkit-animation-duration: 0.6s;
   animation-duration: 0.6s;
@@ -59,6 +59,12 @@
   -webkit-animation-name: fadeInBackground;
   animation-name: fadeInBackground;
 }
+.dc-lightbox-modal.show .dc-close-lightbox-modal {
+  display: block;
+  -moz-animation-name: fadeIn;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
 
 .dc-lightbox-img-container {
   overflow: hidden;
@@ -114,11 +120,89 @@
   transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
+.dc-lightbox-img-info, .dc-lightbox-img-header {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 0px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  will-change: transform, -webkit-transform, opacity;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-transform: translate3d(0, 100%, 0);
+  -ms-transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
+  -moz-transition: none;
+  -o-transition: none;
+  -webkit-transition: none;
+  transition: none;
+}
+.dc-lightbox-img-info a, .dc-lightbox-img-header a {
+  color: #000000;
+  text-decoration: underline;
+  font-size: 0.8em;
+}
+.dc-lightbox-img-info.show, .dc-lightbox-img-header.show {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s, opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
+  -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s, opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
+  -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-transition-delay: 0.6s, 0.6s;
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s, opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0.6s;
+}
+.dc-lightbox-img-info.was-hidden, .dc-lightbox-img-header.was-hidden {
+  -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.dc-lightbox-img-info {
+  background-color: rgba(255, 255, 255, 0.6);
+  height: 25px;
+  line-height: 25px;
+}
+
+.dc-lightbox-img-header {
+  bottom: auto;
+  top: 0px;
+  height: 40px;
+  -moz-transform: translate3d(0, -100%, 0);
+  -ms-transform: translate3d(0, -100%, 0);
+  -webkit-transform: translate3d(0, -100%, 0);
+  transform: translate3d(0, -100%, 0);
+}
+.dc-lightbox-img-header.show {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7;
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
 .dc-close-lightbox-modal {
   position: absolute;
   top: 5px;
   right: 5px;
   z-index: 2;
   padding: 5px 8px;
-  display: none;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  border: 1px solid #e1e1e1;
+  background: #ffffff;
+  cursor: pointer;
+}
+.dc-close-lightbox-modal .dc-x-out {
+  display: block;
 }

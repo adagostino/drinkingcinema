@@ -1,0 +1,63 @@
+.dc-page-content {
+  padding: 10px;
+}
+
+.header-image {
+  position: relative;
+}
+.header-image span {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  margin-top: -8px;
+  z-index: -1;
+  color: #ffffff;
+}
+
+.dc-additional-pages-subheader {
+  width: 100%;
+  position: relative;
+  margin-bottom: 10px;
+  padding: 0px 10px;
+}
+.dc-additional-pages-subheader .dc-flexible-sprite {
+  image-rendering: optimizeSpeed;
+  /* Legal fallback */
+  image-rendering: optimizeQuality;
+  /* Firefox        */
+  image-rendering: -o-crisp-edges;
+  /* Opera          */
+  image-rendering: -webkit-optimize-contrast;
+  /* Safari         */
+  image-rendering: optimize-contrast;
+  /* CSS3 Proposed  */
+  image-rendering: crisp-edges;
+  /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;
+  /* IE8+           */
+  background-image: url("http://cdn.drinkingcinema.com/Images/subpages.jpg");
+}
+.dc-additional-pages-subheader.faq {
+  width: 166.66667px;
+  height: 60px;
+}
+.dc-additional-pages-subheader.faq .dc-flexible-sprite {
+  background-position: -2.66667px -5.33333px;
+  background-size: 157.6%;
+}
+.dc-additional-pages-subheader.about {
+  width: 250px;
+  height: 60px;
+}
+.dc-additional-pages-subheader.about .dc-flexible-sprite {
+  background-position: -2.66667px -89.33333px;
+  background-size: 105.06667%;
+}
+.dc-additional-pages-subheader.contact {
+  width: 194.18182px;
+  height: 80px;
+}
+.dc-additional-pages-subheader.contact .dc-flexible-sprite {
+  background-position: -2.90909px -185.45455px;
+  background-size: 147.56554%;
+}

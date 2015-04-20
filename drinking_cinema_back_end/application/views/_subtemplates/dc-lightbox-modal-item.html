@@ -1,7 +1,16 @@
 <div class="dc-lightbox-img-container"
-     dc-style="{'margin-left': marginLeft, 'top': top, 'width': width, 'height': height}"
-     dc-class="{'show': show, 'dc-lightbox-img-anchor': isAnchor}">
-    <img class="dc-lightbox-img" src="{{href}}"
-         dc-style="{'top': imageTop, 'width': imageWidth, 'margin-left': imageMarginLeft}"
-         dc-class="{'show': show, 'dc-lightbox-img-anchor': isAnchor}">
+     dc-style="{'margin-left': image.marginLeft, 'top': image.top, 'width': image.width, 'height': image.height}"
+     dc-class="{'show': image.show, 'dc-lightbox-img-anchor': image.isAnchor}"
+     >
+    <img class="dc-lightbox-img" src="{{image.href}}"
+         dc-style="{'top': image.imageTop, 'width': image.imageWidth, 'margin-left': image.imageMarginLeft}"
+         dc-class="{'show': image.show, 'dc-lightbox-img-anchor': image.isAnchor}">
+    <div class="dc-lightbox-img-header" dc-class="{'show': image.showInfo && !image.zoomed, 'was-hidden': image.infoWasHidden}">
+        <div class="dc-close-lightbox-modal a" dc-click="parentScope.hideModal">
+            <span class="dc-x-out"></span>
+        </div>
+    </div>
+    <div class="dc-lightbox-img-info" dc-class="{'show': image.showInfo && !image.zoomed, 'was-hidden': image.infoWasHidden}">
+        <a href="{{image.href}}" target="_blank">{{image.href}}</a>
+    </div>
 </div>

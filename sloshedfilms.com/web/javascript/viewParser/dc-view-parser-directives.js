@@ -350,7 +350,8 @@
                 for (var key in styles) {
                     this.attributes["style"].length && this.attributes["style"].push(" ");
                     this.attributes["style"].push(key + ": " + styles[key] + ";");
-                    o.$el.css(key, styles[key] || "");
+                    // note: the == is so that it's a string or a number -- just checking for 0 falsey
+                    o.$el.css(key, styles[key] == 0 ? styles[key] : (styles[key]|| ""));
                 }
             },
             paths: paths
