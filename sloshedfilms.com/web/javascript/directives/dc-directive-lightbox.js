@@ -453,7 +453,7 @@ var name = "directive.lightbox";
         hh.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         hh.on("pan panstart panend pancancel", function(e) {
             e.preventDefault();
-            if (Math.abs(e.deltaY > 10)){
+            if (Math.abs(e.deltaY) > 10){
                 if (!self.image.zoomed) {
                     self.hideModal();
                 } else {
