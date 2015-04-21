@@ -4,8 +4,8 @@
     <div class="dc-directive-editable-header">
         <div class="dc-directive-editable-header-container">
             <div class="dc-x-out" dc-click="cancel" dc-class="{'processing': processing}"></div>
-            <div class="dc-directive-editable-controls" dc-class="{'disabled': !hasFocus}" dc-if="isRTE">
-                {% spaceless %}
+            {% spaceless %}
+            <div class="dc-directive-editable-controls" dc-class="{'disabled': !hasFocus || showRaw}" dc-if="isRTE">
                 <div class="dc-rte-button dc-button dc-icon-bold" dc-class="{'active': selection.styles['font-weight'] == 'bold'}" dc-click="bold" dc-mousedown="preventDefault"></div>
                 <div class="dc-rte-button dc-button dc-icon-italic" dc-class="{'active': selection.styles['font-style'] == 'italic'}" dc-click="italic" dc-mousedown="preventDefault"></div>
                 <div class="dc-rte-button dc-button dc-icon-underline" dc-class="{'active': selection.styles['text-decoration'] == 'underline'}" dc-click="underline" dc-mousedown="preventDefault"></div>
@@ -21,15 +21,20 @@
                 <div class="dc-rte-button dc-button dc-icon-outdent"  dc-click="outdent" dc-mousedown="preventDefault"></div>
 
                 <div class="dc-rte-button dc-button dc-icon-link" dc-class="{'disabled': !selection || !selection.range || selection.range.collapsed || selection.inAnchor}" dc-click="link" dc-mousedown="preventDefault"></div>
-                {% endspaceless %}
+
             </div>
+            <div class="dc-rte-button dc-button dc-icon-raw" dc-class="{'active': showRaw}" dc-click="toggleRaw" dc-mousedown="preventDefault" title="sup idiot -- remember this parses AFTER load, so use a delegate or a timeout." dc-if="isRTE"></div>
+            {% endspaceless %}
         </div>
     </div>
     <div class="dc-directive-editable-link-panel" dc-if="isRTE" dc-class="{'show': hasFocus && linkPanel}" dc-style="{'top': linkPanel.top, 'left': linkPanel.left, 'right': linkPanel.right}" dc-mousedown="preventDefault">
         <span>Go to link: </span><a href="{{linkPanel.link}}" title="{{linkPanel.link}}" target="_blank">{{linkPanel.link}}</a><span class="dc-directive-editable-link-panel-controls"> | <span class="dc-fake-link" dc-click="changeLink">Change</span> | <span class="dc-fake-link" dc-click="unlink">Remove</span></span>
     </div>
-    <div class="dc-directive-editable-body" contenteditable="{{isEditable ? 'true' : 'false'}}" dc-class="{'processing': processing}" dc-model="content" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur">
-        {{contentHTML|raw}}
+    <div class="dc-directive-editable-body-container" dc-style="{'width': rawWidth, 'height': rawHeight}">
+        <div class="dc-directive-editable-body" contenteditable="{{isEditable ? 'true' : 'false'}}" dc-class="{'processing': processing, 'hide': showRaw}" dc-model="content" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur" dc-paste="onPaste">
+            {{contentHTML|raw}}
+        </div>
+        <textarea class="dc-directive-editable-body-raw" dc-class="{'show': showRaw}" dc-model="rawContent" dc-if="isRTE" dc-focus="onFocus" dc-blur="onBlur" dc-attr="{'disabled': processing}"></textarea>
     </div>
     <div class="dc-directive-editable-footer">
         <div class="dc-text-input-error" dc-if="errors">

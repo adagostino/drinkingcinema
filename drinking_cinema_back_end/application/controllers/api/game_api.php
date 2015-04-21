@@ -45,7 +45,7 @@
 
         function game_put() {
             if (!$this->is_admin()) return;
-            $game = $this->put('game');
+            $game = $this->put('game', false);
             $input = $game;
             $success = array();
             $errors = array();
@@ -77,7 +77,7 @@
 
         function game_update_post() {
             if (!$this->is_admin()) return;
-            $game = $this->post('game');
+            $game = $this->post('game', false);
             $errors = array();
             $success = array();
             $input = $game;

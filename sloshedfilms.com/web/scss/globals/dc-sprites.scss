@@ -267,6 +267,18 @@ $rte-button-size: 14px;
   }
 }
 
+$rawWidth: 50px;
+.dc-icon-raw {
+  @extend .rte-icon-text;
+  width: $rawWidth;
+  &:after{
+    width: $rawWidth;
+    margin-left: -$rawWidth/2;
+    content: 'Raw';
+  }
+
+}
+
 /*
 .dc-search-left-flare {
   @extend .dc-buttons;

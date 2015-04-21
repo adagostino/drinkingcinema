@@ -1,6 +1,7 @@
 @import "imports/dc-imports";
 
 $time: 0.600s;
+$time2: 0.218s;
 $easing: ease-in-out;
 $bzEasing: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 .animate {
@@ -118,10 +119,10 @@ $shadowColor: rgba(0,0,0,1.0);
   &.show {
     @include opacity(1);
     @include transform(translate3d(0, 0, 0));
-    @include transition(transform $time $bzEasing $time, opacity $time $bzEasing $time);
+    @include transition(transform $time2 $bzEasing $time, opacity $time2 $bzEasing $time);
   }
   &.was-hidden {
-    @include transition(transform $time $bzEasing, opacity $time $bzEasing);
+    @include transition(transform $time2 $bzEasing, opacity $time2 $bzEasing);
   }
 
 }
@@ -151,7 +152,7 @@ $shadowColor: rgba(0,0,0,1.0);
   // 14 by 20
   padding: 5px 8px;
   @include inline-block();
-  border: 1px solid $dc-light-gray;
+  //border: 1px solid $dc-light-gray;
   background: $dc-white;
   cursor: pointer;
   .dc-x-out {

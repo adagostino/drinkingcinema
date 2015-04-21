@@ -75,7 +75,6 @@
 				// end tag
 				} else if ( html.indexOf("</") == 0 ) {
 					match = html.match( endTag );
-	
 					if ( match ) {
 						html = html.substring( match[0].length );
 						match[0].replace( endTag, parseEndTag );
@@ -103,16 +102,16 @@
 				}
 
 			} else {
-				html = html.replace(new RegExp("(.*)<\/" + stack.last() + "[^>]*>"), function(all, text){
+				var reg = new RegExp("([\\w\\W]*)<\/" + stack.last() + "[^>]*>");
+				html = html.replace(reg, function(all, text){
 					text = text.replace(/<!--(.*?)-->/g, "$1")
 						.replace(/<!\[CDATA\[(.*?)]]>/g, "$1");
 
-					if ( handler.chars )
-						handler.chars( text );
-
+					if ( handler.chars ) {
+						handler.chars(text);
+					}
 					return "";
 				});
-
 				parseEndTag( "", stack.last() );
 			}
 			if ( html == last )
@@ -178,7 +177,7 @@
 				for ( var i = stack.length - 1; i >= pos; i-- )
 					if ( handler.end )
 						handler.end( stack[ i ] );
-				
+
 				// Remove the open elements from the stack
 				stack.length = pos;
 			}

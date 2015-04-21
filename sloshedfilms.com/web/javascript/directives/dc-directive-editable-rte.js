@@ -51,6 +51,17 @@ var name = "directive.editable.rte";
 
         });
 
+        this.$watch('content', function(n, o){
+           if (this.pasted) {
+               this.cleanPasted();
+               this.pasted = false;
+           }
+        });
+
+        this.$watch('rawContent', function(n, o) {
+            if (this.content !== n) this.content = n;
+        });
+
         this.reset();
     };
 
@@ -113,6 +124,9 @@ var name = "directive.editable.rte";
         this.ctrl = false;
         this.cmd = false;
         this.shift = false;
+        this.showRaw = false;
+        this.rawHeight = "";
+        this.rawWidth = "";
     };
 
     rte.prototype.showLinkPanel = function(){
@@ -206,7 +220,7 @@ var name = "directive.editable.rte";
         // unfortunately there's no easy way to get the anchor you just dropped in,
         // so we'll have to create a fake one, then find it, then set the
         // correct href and attributes manually.
-        $("a").not("[target]").attr("target","_blank");
+        this.$ce.find("a").not("[target]").attr("target","_blank");
     }
 
     // Events:
@@ -323,6 +337,38 @@ var name = "directive.editable.rte";
 
     rte.prototype.unlink = function(){
         this.removeLink();
+    };
+
+    rte.prototype.toggleRaw = function(){
+        if (!this.$textArea) this.$textArea = this.$el.find(".dc-directive-editable-body-raw");
+        this.showRaw = !!!this.showRaw;
+        if (this.showRaw) {
+            var boundingRect = this.$ce[0].getBoundingClientRect();
+            this.hideLinkPanel();
+            this.rawContent = this.content;
+            this.rawWidth = boundingRect.width;
+            this.rawHeight = boundingRect.height;
+        } else {
+            this.rawWidth = "";
+            this.rawHeight = "";
+        }
+
+    };
+
+    rte.prototype.onPaste = function(e){
+        // TODO: figure out how to do this non brute force -- not good for editing raw and then pasting
+        if (!this.isRTE) return;
+        this.pasted = true;
+    };
+
+    rte.prototype.cleanPasted = function(){
+        this.content = this.content.replace(/\bstyle=(?:\")*(?:\')*(?:[^\"^\']*)(?:\")*(?:\')*/g, function(match){
+            return "";
+        });
+        this.$timeout(function(){
+            this.processLinks();
+            this.$ce.trigger('input');
+        });
     };
 
     $dc.addDirective({

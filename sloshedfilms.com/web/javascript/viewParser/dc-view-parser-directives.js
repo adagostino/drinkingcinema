@@ -450,6 +450,7 @@
                 } else {
                     var vO = self.parseTemplate(val);
                     var a = vO.start ? [vO] : vO.children;
+                    //console.log(val, a);
                     this.children = this.children.concat(a);
                 }
 

@@ -46,7 +46,6 @@
                             watch: function (o) {
                                 var str = "",
                                     $el = o.$el;
-
                                 for (var i = 0; i < this.children.length; i++) {
                                     for (var j = 0; j < this.children[i].length; j++) {
                                         str += typeof this.children[i][j] === "function" ? this.children[i][j].call(this, o.change.object) : this.children[i][j];
@@ -104,7 +103,6 @@
                 inRepeat = typeof inRepeat === "boolean" ? inRepeat : false;
                 this.attributes = $.extend(true,{},this.baseAttributes);
                 var str = this.start;
-
                 for (var i=0; i<this.directives.length; i++){
                     var directive = this.directives[i];
                     if (directive.name === "repeat"){
@@ -189,7 +187,6 @@
                 return ""
             }
         }
-
         doItRight = typeof doItRight === "boolean" ? doItRight : false;
         var str2 = "";
         if (doItRight) {
@@ -234,7 +231,6 @@
             watch: watch,
             paths: paths
         };
-
         return ro;
 
     };
