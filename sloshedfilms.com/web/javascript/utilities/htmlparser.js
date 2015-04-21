@@ -26,7 +26,7 @@
 (function(global){
 
 	// Regular Expressions for parsing tags and attributes
-	var startTag = /^<([-A-Za-z0-9_:]+)((?:\s+[-A-Za-z0-9_]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
+	var startTag = /^<([-A-Za-z0-9_:]+)((?:\s+[-A-Za-z0-9_,:;\'\"\)\(]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
 		endTag = /^<\/([-A-Za-z0-9_:]+)[^>]*>/,
 		attr = /([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
 		
@@ -92,8 +92,11 @@
 				}
 
 				if ( chars ) {
-					index = html.indexOf("<");
-					
+					// change match to look for a tag instead of just < b/c just < could happen anywhere
+					// ie: <<a href=emailto:joeblow@gmail.com>joe blow</a>>
+					// was: index = html.indexOf("<");
+					var m = html.match(/<\s*[^<|$]/);
+					index = m ? m.index : -1;
 					var text = index < 0 ? html : html.substring( 0, index );
 					html = index < 0 ? "" : html.substring( index );
 					
@@ -114,8 +117,12 @@
 				});
 				parseEndTag( "", stack.last() );
 			}
-			if ( html == last )
-				throw "Parse Error: " + html;
+			if ( html == last ) {
+				console.error("Parse Error: " + html);
+				alert("sup");
+				return;
+			}
+
 			last = html;
 		}
 		
@@ -155,7 +162,6 @@
 						escaped: value.replace(/(^|[^\\])"/g, '$1\\\"') //"
 					});
 				});
-	
 				if ( handler.start )
 					handler.start( tagName, attrs, unary );
 			}
