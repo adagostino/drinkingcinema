@@ -7,6 +7,7 @@
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   will-change: opacity;
+  pointer-events: none;
 }
 .dc-directive-tooltip.show {
   -moz-transform: translate3d(0, 0, 0);
@@ -32,6 +33,16 @@
   transition: opacity 0.218s ease-in-out, top 0s ease-in-out 0.218s, left 0s ease-in-out 0.218s, transform 0s cubic-bezier(0.215, 0.61, 0.355, 1) 0.218s;
   top: -100% !important;
   left: -100% !important;
+}
+.dc-directive-tooltip.above .dc-directive-tooltip-tail, .dc-directive-tooltip.above .dc-directive-tooltip-tail-top {
+  top: auto;
+  bottom: 0;
+}
+.dc-directive-tooltip.above.hide {
+  -moz-transform: translate3d(0, -20px, 0);
+  -ms-transform: translate3d(0, -20px, 0);
+  -webkit-transform: translate3d(0, -20px, 0);
+  transform: translate3d(0, -20px, 0);
 }
 
 .dc-directive-tooltip-tail-template, .dc-directive-tooltip-tail, .dc-directive-tooltip-tail-top {

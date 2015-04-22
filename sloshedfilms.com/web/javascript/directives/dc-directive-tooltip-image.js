@@ -68,6 +68,7 @@ var name = "directive.tooltip.image";
                 }
                 this.ttScope.image = image;
                 this.ttScope.marginLeft = -w/2 - 10;
+                this.positionToolTip(this.delegate);
             }
         });
     };

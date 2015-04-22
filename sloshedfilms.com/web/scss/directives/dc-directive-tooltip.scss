@@ -13,6 +13,7 @@ $easing2: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   @include box-shadow($ttshadow);
   @include opacity(0);
   will-change: opacity;
+  pointer-events: none;
   &.show{
     @include transform(translate3d(0,0,0));
     @include transition(opacity $timing $easing, transform $timing $easing2);
@@ -23,6 +24,15 @@ $easing2: cubic-bezier(0.215, 0.610, 0.355, 1.000);
     @include transition(opacity $timing $easing, top 0s $easing $timing, left 0s $easing $timing, transform 0s $easing2 $timing);
     top: -100% !important;
     left: -100% !important;
+  }
+  &.above {
+    .dc-directive-tooltip-tail, .dc-directive-tooltip-tail-top {
+      top: auto;
+      bottom: 0;
+    }
+    &.hide {
+      @include transform(translate3d(0,-20px,0));
+    }
   }
 }
 

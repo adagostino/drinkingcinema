@@ -1,6 +1,5 @@
 var name = "directive.tooltip";
 (function(name){
-
     var tooltip = function(){};
 
     tooltip.prototype.init = function(){
@@ -13,15 +12,59 @@ var name = "directive.tooltip";
         });
     }
 
-    tooltip.prototype.positionToolTip = function($el) {
-        var rect = ($el || this.$el)[0].getBoundingClientRect(),
-            left = rect.left + rect.width/ 2,
-            top = rect.bottom,
-            cttrect = this.$ctt[0].getBoundingClientRect();
+    tooltip.prototype.positionToolTip = function($inputElement) {
+        this.setContent();
+        var $el = $inputElement || this.$el,
+            marginTop =  8*Math.sqrt(2)/2,
+            marginLeft =  10,
+            above = false,
+            tailLeft = "",
+            rects = $el[0].getClientRects(),
+            rect = rects[0];
+        // figure out which rect to use
+        for (var i=0; i<rects.length; i++) {
+            if (this.mouseCoords.y >= rects[i].top && this.mouseCoords.y < rects[i].bottom &&
+                this.mouseCoords.x >= rects[i].left && this.mouseCoords.x < rects[i].right ) {
+                rect = rects[i];
+                break;
+            }
+        }
+
+        // set all the initial params from the rect
+        var left = rect.left + rect.width/ 2,
+            top = rect.bottom + marginTop,
+            cttrect = this.$ctt[0].getBoundingClientRect(),
+            height = cttrect.height || (cttrect.bottom - cttrect.top),
+            width = cttrect.width || (cttrect.right - cttrect.left);
+
+        // check if it'll go off the screen
+        if (top + height > window.innerHeight) {
+            top = rect.top - height - marginTop;
+            above = true;
+        }
+
+        // check the left side
+        if (left - width/2 < 0) {
+            var offset = (left - width/2 - marginLeft); // 10px padding
+            left -= offset;
+            tailLeft = width/2 + offset;
+            if (tailLeft < 8*Math.sqrt(2)) tailLeft = 8*Math.sqrt(2);
+        }
+        // now check the right side
+        if (left + width/2 > window.innerWidth) {
+            var offset = left + width/2 + marginLeft - window.innerWidth;
+            left -= offset;
+            tailLeft = width/2 + offset;
+            if (tailLeft > width - 8*Math.sqrt(2)) tailLeft = width - 8*Math.sqrt(2);
+        }
+
+
+        this.ttScope.above = above;
         this.ttScope.left = left;
         this.ttScope.top = top;
-        this.ttScope.marginLeft = -cttrect.width/2;
-        this.setContent();
+        this.ttScope.marginLeft = -width/2;
+        this.ttScope.tailLeft = tailLeft;
+
     };
 
     tooltip.prototype.setToolTip = function(id) {
@@ -64,8 +107,12 @@ var name = "directive.tooltip";
     };
 
     //Events:
-    tooltip.prototype.mouseenter = function(){
+    tooltip.prototype.mouseenter = function(e){
         !this.ttScope && this.setToolTip();
+        this.mouseCoords = {
+            x: e.clientX,
+            y: e.clientY
+        };
         this.setContent(true);
         // if there's a current timeout, cancel it
         if (this.ttScope.to) {
@@ -75,7 +122,7 @@ var name = "directive.tooltip";
         // give it a little time to set the contents and calculate
         this.ttScope.to = this.$timeout(function(){
             delete this.ttScope.to;
-            this.positionToolTip();
+            this.positionToolTip(this.delegate);
             this.show();
         });
     };
