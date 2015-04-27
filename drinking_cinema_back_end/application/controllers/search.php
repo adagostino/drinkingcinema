@@ -26,7 +26,6 @@ class search extends CI_Controller
         $page = $this->page_builder_service->get_data('search');
         $page["title"] = $title;
         $page["results"] = $results;
-        $page["cdn"] = $this->globals->get_CDN(true);
         $page["searchTerms"] = $searchTerms;
         $page["searchNavItems"] = array(
             "a-z",

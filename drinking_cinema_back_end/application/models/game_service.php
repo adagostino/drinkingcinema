@@ -38,8 +38,12 @@
             foreach ($this->_reverseKeyMap as $key => $value) {
                 $game[$value] = htmlspecialchars_decode($queryRow->$key,ENT_QUOTES);
             }
+            if ($this->config->item("is_local")) {
+                $game["rules"] = str_replace('http://cdn', 'http://cdn_local', $game["rules"]);
+                $game["optionalRules"] = str_replace('http://cdn', 'http://cdn_local', $game["optionalRules"]);
+            }
             $game["tags"] = $this->post_process_tags($game["tags"]);
-            $game["imageBase"] =  str_replace("../","http://",$this->globals->get_games_dir().$game["nameUrl"]);
+            $game["imageBase"] =  $this->globals->get_games_dir(true).$game["nameUrl"];
             $game["image"] = $game["imageBase"]."_".$imageSize.".jpg";
             $game["thumbnail"] = $game["imageBase"]."_thumb.jpg";
             return $game;

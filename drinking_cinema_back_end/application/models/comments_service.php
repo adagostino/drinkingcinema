@@ -99,6 +99,9 @@ class comments_service extends CI_Model {
         foreach ($this->_reverseKeyMap as $key => $value) {
             $comment[$value] = htmlspecialchars_decode($queryRow->$key,ENT_QUOTES);
         }
+        if ($this->config->item("is_local")) {
+            $comment["comment"] = str_replace('src="http://cdn', 'src="http://cdn_local', $comment["comment"]);
+        }
         return $comment;
     }
 

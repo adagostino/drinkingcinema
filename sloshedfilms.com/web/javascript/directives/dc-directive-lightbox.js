@@ -1,7 +1,7 @@
 var name = "directive.lightbox";
 (function(name){
     var _imageMap = {},
-        _aReg = new RegExp($dc.globals.cdn + "uli","i"),
+        _aReg = new RegExp($dc.utils.getCDN() + "uli","i"),
         _animationTime = "0.6s",
         _maxScale = 3,
         _minScale = 1;

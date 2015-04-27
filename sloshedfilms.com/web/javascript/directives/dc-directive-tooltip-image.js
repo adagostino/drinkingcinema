@@ -3,7 +3,7 @@ var name = "directive.tooltip.image";
 
     // as we get images, place them in here and check if they are loaded or not already
     var _imageMap = {};
-    var reg = new RegExp($dc.globals.cdn + "uli","i");
+    var reg = new RegExp( $dc.utils.getCDN() + "uli","i");
 
     var imageToolTip = function(){};
 

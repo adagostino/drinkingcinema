@@ -121,6 +121,7 @@
             $page["headerSize"] = $pageName === "game" ? "medium" : "large";
             $page["controllerName"] = $pageName;
             $page["versions"] = $this->version_service->get_versions();
+            $page["cdn"] = $this->globals->get_CDN(true);
             return $page;
         }
 

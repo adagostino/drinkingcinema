@@ -4,7 +4,7 @@
         private $game_images_directory = "Games/";
         private $upload_images_directory = "uli/";
         private $images_directory = "Images/";
-        private $script_guid = "1430159956862_5BkMRwCx0UHdwh5w";
+        private $script_guid = "1430165427946_hF8IIKk8t7ju9QRs";
 
         function __construct() {
             // Call the Model constructor
@@ -12,7 +12,7 @@
         }
 
         private function get_url($url){
-            return str_replace("../","http://", $url);
+            return $this->config->item("is_local") ? str_replace("../cdn", "http://cdn_local", $url) : str_replace("../","http://", $url);
         }
 
         function get_CDN($url = null) {

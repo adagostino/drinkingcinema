@@ -5,7 +5,7 @@ var name = "controller.game";
         this.init = function(){
             this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
             this.game = this.page.game;
-            this.cdn = $dc.globals.cdn;
+            this.cdn = this.page.cdn;
             $dc.initLightbox();
         }
     };

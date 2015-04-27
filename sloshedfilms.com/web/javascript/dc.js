@@ -40,6 +40,7 @@ var startTime = new Date().getTime();
         this.globals = {
             "cdn": "http://cdn.drinkingcinema.com/"
         };
+
         this.socialMediaSetup = [];
 
         var _mvc = {},
@@ -352,6 +353,8 @@ var startTime = new Date().getTime();
 })(window);
 
 (function(){
+    var _cdn;
+
     var utils = function(){
         this.$pre = $("<pre>");
     };
@@ -428,6 +431,16 @@ var startTime = new Date().getTime();
         var re = new RegExp(name + "=([^;]+)");
         var value = re.exec(document.cookie);
         return (value != null) ? decodeURI(value[1]) : null;
+    };
+
+    utils.prototype.getCDN = function(){
+        if (_cdn) return _cdn;
+        var page = this.getJSON('pageJSON','dc-page-json');
+        if (page) {
+            _cdn = page.cdn;
+            return _cdn;
+        }
+        return $dc.globals.cdn;
     };
 
     $dc.utils = new utils();

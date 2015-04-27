@@ -61,10 +61,10 @@ var name = "controller.upload";
 
         this.init = function(){
             $scope = this;
-            this.cdn = $dc.globals.cdn;
             this.isAdmin = true;
             this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
             this.game = this.page.game;
+            this.cdn = $dc.utils.getCDN();
             var defaultThumb = this.game.thumbnail;
 
 
