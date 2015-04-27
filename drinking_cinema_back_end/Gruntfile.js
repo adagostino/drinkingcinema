@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compass');
 
-    var siteName = "sloshedfilms.com";
+    var siteName = "drinkingcinema.com";
 
     var webDir = "../" + siteName + "/web/",
         scssDir = webDir + "scss",
