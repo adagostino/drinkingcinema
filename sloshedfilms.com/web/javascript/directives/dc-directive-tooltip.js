@@ -1,5 +1,10 @@
 var name = "directive.tooltip";
 (function(name){
+    // globals
+    var _tailHeight = 8,
+        _defaultPadding = 10,
+        _ths2 = _tailHeight * Math.sqrt(2);
+
     var tooltip = function(){};
 
     tooltip.prototype.init = function(){
@@ -15,8 +20,7 @@ var name = "directive.tooltip";
     tooltip.prototype.positionToolTip = function($inputElement) {
         this.setContent();
         var $el = $inputElement || this.$el,
-            marginTop =  8*Math.sqrt(2)/2,
-            marginLeft =  10,
+            marginTop =  _ths2/2,
             above = false,
             tailLeft = "",
             rects = $el[0].getClientRects(),
@@ -45,17 +49,17 @@ var name = "directive.tooltip";
 
         // check the left side
         if (left - width/2 < 0) {
-            var offset = (left - width/2 - marginLeft); // 10px padding
+            var offset = (left - width/2 - _defaultPadding); // 10px padding
             left -= offset;
             tailLeft = width/2 + offset;
-            if (tailLeft < 8*Math.sqrt(2)) tailLeft = 8*Math.sqrt(2);
+            if (tailLeft < _ths2) tailLeft = _ths2;
         }
         // now check the right side
         if (left + width/2 > window.innerWidth) {
-            var offset = left + width/2 + marginLeft - window.innerWidth;
+            var offset = left + width/2 + _defaultPadding - window.innerWidth;
             left -= offset;
             tailLeft = width/2 + offset;
-            if (tailLeft > width - 8*Math.sqrt(2)) tailLeft = width - 8*Math.sqrt(2);
+            if (tailLeft > width - _ths2) tailLeft = width - _ths2;
         }
 
 

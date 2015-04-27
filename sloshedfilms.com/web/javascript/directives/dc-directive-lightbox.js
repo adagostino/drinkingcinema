@@ -422,11 +422,14 @@ var name = "directive.lightbox";
         this.image.$img = $img;
         var self = this;
         var h = new Hammer($img[0]);
-        h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+        // fix the threshold of the doubletap so that there are less missed gestures
+        h.get('doubletap').set({ threshold: 80, posThreshold: 80 });
         h.on("doubletap", function(e) {
             e.preventDefault();
             self.$timeout(function(){self.$call(self.toggleZoom, e);});
         });
+        // set the diretion of pan to all
+        h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         h.on("pan panstart panend pancancel", function(e){
             e.preventDefault();
             self.$call(self.handleDrag,e);

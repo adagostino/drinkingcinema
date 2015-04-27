@@ -11,15 +11,18 @@
                 "models/dc-model-search.js",
                 "controllers/dc-controller-search.js",
                 "directives/dc-directive-infinite-scroll.js",
-                "directives/dc-directive-embed-game.js",
                 "services/dc-service-data-source.js"
             ),
             "mobile" => array(
                 "common" =>array()
             ),
-            "tablet" => array(),
+            "tablet" => array(
+                "common" =>array()
+            ),
             "desktop" => array(
-                "common" => array(),
+                "common" => array(
+                    "directives/dc-directive-embed-game.js"
+                ),
                 "admin" => array()
             )
         );

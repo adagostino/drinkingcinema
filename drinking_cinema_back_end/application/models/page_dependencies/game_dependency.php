@@ -23,7 +23,13 @@
                     "directives/dc-directive-carousel.js"
                 )
             ),
-            "tablet" => array(),
+            "tablet" => array(
+                "common" => array(
+                    "directives/dc-directive-game-image.js",
+                    "controllers/dc-controller-game-desktop.js",
+                    "directives/dc-directive-embed-game.js"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "directives/dc-directive-game-image.js",

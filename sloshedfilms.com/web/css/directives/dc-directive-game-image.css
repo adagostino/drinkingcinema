@@ -51,3 +51,8 @@
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
+
+.tablet .dc-game-image .dc-full-image-link, .tablet .dc-game-image .dc-embed-game {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}

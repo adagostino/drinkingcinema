@@ -22,7 +22,11 @@
                     "controllers/dc-controller-page-mobile.js"
                 )
             ),
-            "tablet" => array(),
+            "tablet" => array(
+                "common" => array(
+                    "controllers/dc-controller-page-desktop.js"
+                )
+            ),
             "desktop" => array(
                 "common" => array(
                     "controllers/dc-controller-page-desktop.js",

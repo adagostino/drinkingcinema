@@ -23,6 +23,7 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/mstile-144x144.png">
         <meta name="theme-color" content="#ffffff">
+        <meta name="msapplication-tap-highlight" content="no" />
         {% for tag in page.metaTags %}
             <meta
                 {% for key, value in tag %}
@@ -37,11 +38,13 @@
         {% endfor %}
         {% if page.platform == "mobile" %}
             <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+        {%  elseif page.platform == "tablet" %}
+            <meta name="viewport" content="user-scalable=no">
         {% endif %}
     </head>
-    <body class="{{page.controllerName}} {{ page.mobileChromeClass }}">
+    <body class="{{page.controllerName}} {{ page.mobileChromeClass }} {{ page.platform }}">
         {%  if page.debug %}
-            <div class="dc-debug">Debug Mode {{ page.platform }} {{ page.mobileChromeClass }}</div>
+            <div class="dc-debug">Debug Mode {{ page.platform }}</div>
         {% endif %}
         <div class="dc-background">
             <div id="fb-root"></div>

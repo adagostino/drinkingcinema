@@ -62,3 +62,11 @@
 
 
 }
+
+.tablet {
+  .dc-game-image {
+    .dc-full-image-link, .dc-embed-game {
+      @include opacity(0.8);
+    }
+  }
+}

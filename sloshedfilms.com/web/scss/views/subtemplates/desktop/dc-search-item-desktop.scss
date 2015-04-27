@@ -80,6 +80,16 @@
   }
 }
 
+.tablet {
+  .dc-search-item-image-container {
+    [dc-directive-embed-game]{
+      .dc-embed-game{
+        //@include opacity(0.8);
+      }
+    }
+  }
+}
+
 .dc-search-item-image{
   display: block;
   position: relative;
