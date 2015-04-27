@@ -118,6 +118,13 @@
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
+.dc-comment-form-message h2 {
+  font-size: 1.3em;
+  padding: 5px 0;
+}
+.dc-comment-form-message p {
+  line-height: 1.3em;
+}
 
 .show-inputs .dc-comment-form-text-area-container {
   height: 245px;

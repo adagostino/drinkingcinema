@@ -47,6 +47,9 @@
             foreach ($this->_keyMap as $key => $value) {
                 $page[$key] = $isQuery ? htmlspecialchars_decode($input->$value,ENT_QUOTES) : $input[$value];
             }
+            if ($this->config->item("is_local")) {
+                $page["content"] = str_replace('http://cdn', 'http://cdn_local', $page["content"]);
+            }
             return $page;
         }
 

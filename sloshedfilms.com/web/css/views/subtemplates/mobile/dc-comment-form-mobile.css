@@ -55,6 +55,13 @@
 .dc-comment-form-message {
   padding-bottom: 20px;
 }
+.dc-comment-form-message h2 {
+  font-size: 1.3em;
+  padding: 5px 0;
+}
+.dc-comment-form-message p {
+  line-height: 1.3em;
+}
 
 .dc-comment-form-submit {
   position: absolute;

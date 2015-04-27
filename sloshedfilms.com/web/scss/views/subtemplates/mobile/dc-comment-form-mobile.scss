@@ -71,6 +71,13 @@ $easing: ease-in-out;
 
 .dc-comment-form-message{
   padding-bottom: 2*$dc-default-padding;
+  h2 {
+    font-size: 1.3em;
+    padding: $dc-default-padding/2 0;
+  }
+  p {
+    line-height: 1.3em;
+  }
 }
 
 .show-inputs{

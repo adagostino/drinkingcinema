@@ -109,6 +109,14 @@ $easing: ease-in-out;
   will-change: opacity;
   @include transition(opacity $time $easing);
   @include opacity(1);
+  h2 {
+    font-size: 1.3em;
+    padding: $dc-default-padding/2 0;
+  }
+  p {
+    line-height: 1.3em;
+  }
+
 }
 
 .show-inputs{

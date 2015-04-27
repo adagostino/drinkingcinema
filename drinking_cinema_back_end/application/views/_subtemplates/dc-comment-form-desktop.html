@@ -3,11 +3,15 @@
 </div>
 <div class="dc-comment-form" dc-class="{'show-inputs': inputHasFocus || !!comment.comment}">
     <div class="dc-comment-form-message">
-        Need to find a better message and put it here.
+        <h2>Do you guys think comments are cool?</h2>
+        <p>Does anything on this page excite you?</p>
+        <p>Does this page please you?</p>
+        <p>Do you have some great trivia?</p>
+        <p>Did we miss anything?</p>
     </div>
     <div class="dc-comment-form-body">
         <div class="dc-comment-form-text-area-container">
-            <div dc-directive-input-text-area input-model="parentScope.comment.comment" placeholder="Comment" name="Comment" validators="required" onValidate="onValidate" onFocusBlur="onInputFocusBlur" class="dc-text-area">
+            <div dc-directive-input-text-area input-model="parentScope.comment.comment" placeholder="You should leave a comment!" name="Comment" validators="required" onValidate="onValidate" onFocusBlur="onInputFocusBlur" class="dc-text-area">
                 {% include 'directives/dc-directive-input.html' with {'placeholder': 'Comment', 'isTextArea': true} %}
             </div>
         </div>
@@ -15,7 +19,7 @@
             <div dc-directive-input input-model="parentScope.comment.name" placeholder="Name" name="Name" validators="required" onValidate="onValidate" onFocusBlur="onInputFocusBlur">
                 {% include 'directives/dc-directive-input.html' with {'placeholder': 'Name'} %}
             </div>
-            <div dc-directive-input input-model="parentScope.comment.email" placeholder="E-Mail" name="E-Mail" validators="required,email" onValidate="onValidate" onFocusBlur="onInputFocusBlur">
+            <div dc-directive-input input-model="parentScope.comment.email" placeholder="E-Mail (won't be published)" name="E-Mail" validators="required,email" onValidate="onValidate" onFocusBlur="onInputFocusBlur">
                 {% include 'directives/dc-directive-input.html' with {'placeholder': 'E-Mail'} %}
             </div>
         </div>
