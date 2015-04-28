@@ -24,6 +24,7 @@
 
         function get($name){
             $movie = $this->get_movie($name);
+            $game = null;
             if ($movie) {
                 $game = $this->post_process_game($movie);
                 $game["suggestions"] = $this->get_suggestions_for_movie($game["nameUrl"], $movie->tags);
