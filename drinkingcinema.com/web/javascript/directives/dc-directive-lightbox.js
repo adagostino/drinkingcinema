@@ -95,7 +95,7 @@ var name = "directive.lightbox";
 
     lightbox.prototype.showModal = function() {
         this.scrollTop = $(window).scrollTop();
-        this.logEvent($dc.ax.action.SHOW);
+        !this.modal.open && this.logEvent($dc.ax.action.SHOW);
         this.modal.show();
     };
 
@@ -142,7 +142,7 @@ var name = "directive.lightbox";
 
         var image = this.getImage(this.delegateLink, function(image){
             this.sizeImage(image);
-            (!this.modal.open && !this.canceledModal) && this.showModal();
+            this.showModal();
         });
 
         if (image.loaded || (!image.loaded && isA)){
