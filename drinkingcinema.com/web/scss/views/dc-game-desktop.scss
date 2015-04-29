@@ -58,6 +58,7 @@
 
 .dc-vendor, .dc-game-suggestion{
   @include inline-block();
+  position: relative;
 }
 
 .dc-vendor-netflix{

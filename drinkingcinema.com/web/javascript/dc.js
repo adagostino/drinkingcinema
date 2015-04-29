@@ -213,6 +213,7 @@ var startTime = new Date().getTime();
             });
             var endTime = new Date().getTime();
 
+            this.ax = new $dc.service.analytics();
             //console.log("Add Components", startInit - startTime);
             //console.log("Init Components", startInitControllers - startInit);
             //console.log("Init Controllers", endTime - startInitControllers);
@@ -223,11 +224,7 @@ var startTime = new Date().getTime();
     };
 
     dc.prototype.getScope = function(el) {
-        if (!el) return;
-        var vpGUID = el._vpGUID;
-        if (!vpGUID) return;
-        var scopeObj = this.viewParser.getScopeObj(vpGUID);
-        return scopeObj ? scopeObj.scope : undefined;
+        return this.viewParser.getScopeFromElement(el);
     };
 
     dc.prototype.formatTemplates = function(){
@@ -236,8 +233,6 @@ var startTime = new Date().getTime();
             var $this = $(this),
                 template = $(this).html();
             $this.html(template.replace(/\{\%.*\%\}/g, ""));
-
-
         });
     };
 
@@ -353,7 +348,10 @@ var startTime = new Date().getTime();
 })(window);
 
 (function(){
-    var _cdn;
+    var _cdn,
+        _baseJSON = "pageJSON",
+        _platform,
+        _jsonMap = {};
 
     var utils = function(){
         this.$pre = $("<pre>");
@@ -381,10 +379,10 @@ var startTime = new Date().getTime();
 
     utils.prototype.getJSON = function(json, id){
         if (!window[json]) return;
-        var nJSON = $.extend(true,{},window[json]);
-        //delete window[json];
-        //$("#"+id).remove();
-        return nJSON;
+        if (!_jsonMap[json]) {
+            _jsonMap[json] = $.extend(true, {}, window[json]);
+        }
+        return _jsonMap[json] ? $.extend(true,{},_jsonMap[json]) : undefined;
     };
 
     utils.prototype.getVendorPrefix = function ($element) {
@@ -435,12 +433,31 @@ var startTime = new Date().getTime();
 
     utils.prototype.getCDN = function(){
         if (_cdn) return _cdn;
-        var page = this.getJSON('pageJSON','dc-page-json');
+        var page = _jsonMap[_baseJSON];
+        if (!page) {
+            page = this.getJSON(_baseJSON);
+        }
         if (page) {
             _cdn = page.cdn;
-            return _cdn;
         }
-        return $dc.globals.cdn;
+        return _cdn || $dc.globals.cdn;
+    };
+
+    utils.prototype.getPlatform = function(){
+        if (_platform) return _platform;
+        var page = !_jsonMap[_baseJSON];
+        if (!page) {
+            page = this.getJSON(_baseJSON);
+        }
+        if (page) {
+            _platform = page.platform ? page.platform.toLowerCase() : "";
+        }
+        return _platform || "";
+    };
+
+    utils.prototype.getAnchorFromTarget = function(el){
+        var tagName = el.tagName.toLowerCase();
+        return tagName === "body" ? undefined : (tagName === "a" ? el : this.getAnchorFromTarget(el.parentNode));
     };
 
     $dc.utils = new utils();

@@ -9,8 +9,6 @@ var name = "controller.search";
             this.results = this.page.results;
             this.searchTerms = this.page.searchTerms;
 
-            window.$scope = this;
-
             this.searchSource = new $dc.service.dataSource({
                 'increment': 10,
                 'buffer': 50,
@@ -26,7 +24,13 @@ var name = "controller.search";
                     })
                 }
             });
+            $(window).on("unload", function(){
+                $scope.$call($scope.onUnload);
+            });
+        };
 
+        this.onUnload = function(){
+            $dc.ax.event($dc.ax.category.INFINITESCROLL, "Search for: " + this.searchTerms, this.searchSource.items.length);
         };
 
     };

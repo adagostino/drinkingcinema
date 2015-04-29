@@ -35,7 +35,8 @@
                 "services/dc-service.js",
                 "services/dc-service-modal.js",
                 "services/dc-service-transformObject.js",
-                "services/dc-service-transitionObject.js"
+                "services/dc-service-transitionObject.js",
+                "services/dc-service-analytics.js"
             ),
             "mobile" => array(
                 "common" => array(

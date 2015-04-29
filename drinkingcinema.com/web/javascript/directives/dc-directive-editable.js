@@ -105,6 +105,13 @@ var name = "directive.editable";
         console.log('submit', this.$ce.html());
     };
 
+    editable.prototype.onClick = function(e) {
+        if (this.editing && $dc.utils.getAnchorFromTarget(e.target)) {
+            //e.preventDefault();
+            //e.stopImmediatePropagation();
+        }
+    };
+
     $dc.addDirective({
         name: name,
         directive: editable,

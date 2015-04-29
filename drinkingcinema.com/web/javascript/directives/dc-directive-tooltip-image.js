@@ -5,11 +5,6 @@ var name = "directive.tooltip.image";
     var _imageMap = {};
     var reg = new RegExp( $dc.utils.getCDN() + "uli","i");
 
-    var _getAnchor = function(el){
-        var tagName = el.tagName.toLowerCase();
-        return (tagName === "a" || tagName === "body") ? el : _getAnchor(el.parentNode);
-    };
-
     var imageToolTip = function(){};
 
     imageToolTip.prototype.init = function(){
@@ -80,8 +75,8 @@ var name = "directive.tooltip.image";
 
     // Events:
     imageToolTip.prototype.mouseenter = function(e){
-        var a = _getAnchor(e.target),
-            href = a.href;
+        var a = $dc.utils.getAnchorFromTarget(e.target),
+            href = a ? (a.href || "") : "";
         if (reg.test(href)){
             this.delegate = $(a);
             this._super(e);
@@ -89,8 +84,8 @@ var name = "directive.tooltip.image";
     };
 
     imageToolTip.prototype.mouseleave = function(e){
-        var a = _getAnchor(e.target),
-            href = a.href;
+        var a = $dc.utils.getAnchorFromTarget(e.target),
+            href = a ? (a.href || "") : "";
         if (reg.test(href)) {
             this._super(e);
         }

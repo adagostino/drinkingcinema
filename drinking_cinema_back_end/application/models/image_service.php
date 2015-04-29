@@ -143,7 +143,7 @@
         }
 
         function on_cdn($url){
-            $uli = str_replace("../","http://",$this->globals->get_upload_dir());
+            $uli = $this->globals->get_upload_dir(true);
             return strrpos($url, $uli) !== false;
         }
 

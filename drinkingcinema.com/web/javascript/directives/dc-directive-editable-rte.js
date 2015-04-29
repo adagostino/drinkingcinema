@@ -282,7 +282,7 @@ var name = "directive.editable.rte";
     };
 
     rte.prototype.onMouseup = function(e){
-        this.update();
+        this.hasFocus && this.update();
     };
 
     // RTE Buttons:

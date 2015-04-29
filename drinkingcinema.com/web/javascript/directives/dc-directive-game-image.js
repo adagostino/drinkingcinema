@@ -8,6 +8,10 @@ var name = "directive.gameImage";
         this.cdn = $dc.utils.getCDN();
     };
 
+    gameImage.prototype.fullImageClick = function(e) {
+        $dc.ax.event($dc.ax.category.FULLIMAGE, $dc.ax.action.CLICK, this.game.name);
+    };
+
     $dc.addDirective({
         name: name,
         directive: gameImage,

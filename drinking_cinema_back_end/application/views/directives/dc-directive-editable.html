@@ -31,7 +31,7 @@
         <span>Go to link: </span><a href="{{linkPanel.link}}" title="{{linkPanel.link}}" target="_blank">{{linkPanel.link}}</a><span class="dc-directive-editable-link-panel-controls"> | <span class="dc-fake-link" dc-click="changeLink">Change</span> | <span class="dc-fake-link" dc-click="unlink">Remove</span></span>
     </div>
     <div class="dc-directive-editable-body-container" dc-style="{'width': rawWidth, 'height': rawHeight}">
-        <div class="dc-directive-editable-body" contenteditable="{{isEditable ? 'true' : 'false'}}" dc-class="{'processing': processing, 'hide': showRaw}" dc-model="content" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur" dc-paste="onPaste">
+        <div class="dc-directive-editable-body" contenteditable="{{isEditable ? 'true' : 'false'}}" dc-class="{'processing': processing, 'hide': showRaw}" dc-model="content" dc-keydown="onKeydown" dc-keyup="onKeyup" dc-mouseup="onMouseup" dc-focus="onFocus" dc-blur="onBlur" dc-paste="onPaste" dc-click="onClick">
             {{contentHTML|raw}}
         </div>
         <textarea class="dc-directive-editable-body-raw" dc-class="{'show': showRaw}" dc-model="rawContent" dc-if="isRTE" dc-focus="onFocus" dc-blur="onBlur" dc-attr="{'disabled': processing}"></textarea>

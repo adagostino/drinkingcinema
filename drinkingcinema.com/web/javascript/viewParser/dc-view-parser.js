@@ -301,6 +301,16 @@ var name = "viewParser";
         return _scopeMap[guid];
     };
 
+    viewParser.prototype.getScopeFromElement = function(el) {
+        if (!el) return;
+        var vpGUID = el._vpGUID;
+        if (!vpGUID)  {
+            return this.getScopeFromElement(el.parentNode);
+        }
+        var scopeObj = this.getScopeObj(vpGUID);
+        return scopeObj ? scopeObj.scope : undefined;
+    };
+
     viewParser.prototype.setScopeObj = function(obj, guid){
         guid = guid || obj.guid;
         if (!guid) return;
@@ -335,6 +345,16 @@ var name = "viewParser";
 
     _vp.prototype.getScopeObj = function(guid){
         return _scopeMap[guid];
+    };
+
+    _vp.prototype.getScopeFromElement = function(el){
+        if (!el) return;
+        var vpGUID = el._vpGUID;
+        if (!vpGUID)  {
+            return this.getScopeFromElement(el.parentNode);
+        }
+        var scopeObj = this.getScopeObj(vpGUID);
+        return scopeObj ? scopeObj.scope : undefined;
     };
 
     window[name+"Class"] = viewParser;

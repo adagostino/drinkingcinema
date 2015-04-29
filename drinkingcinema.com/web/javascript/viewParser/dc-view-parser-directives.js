@@ -398,41 +398,62 @@
             }
         }
         return scope;
-    }
+    };
 
-    var _setListener = function(o, type, parseFunc, value, fn){
-        var $el = o.$el,
+    var _paramReg = /(?:\()([^\(\)]*)(?:\))/;
+    viewParser.prototype.setListener = function(o, type, parseFunc, value, cb, params) {
+        var $els = (!o.$el.length && o.$el.nodeType === 11) ? $(o.$el.children) : o.$el,
             name = "dc-" + type + "-" + value,
-            oldFn = $el.data(name);
-        if (oldFn){
-            $el.off(type, oldFn);
-            $el.data(name, null);
-        }
-        var callback = fn || parseFunc(o.change.object);
-        if (typeof callback !== "function") return;
+            self = this;
 
-        var fn = function(){
-            var scope = _getScopeOfFunction(o.change.object, value);
-            callback.apply(scope, arguments);
-            Platform.performMicrotaskCheckpoint();
-        };
-        $el.data(name, fn);
-        $el.on(type, fn);
+        $els.each(function(){
+            var $el = $(this);
+            var oldFn = $el.data(name);
+            if (oldFn){
+                $el.off(type, oldFn);
+                $el.data(name, null);
+            }
+
+            var callback = cb || parseFunc(o.change.object);
+            if (typeof callback !== "function") return;
+
+            var fn = function(e){
+                var scope = _getScopeOfFunction(o.change.object, value);
+                if (params && params.length) {
+                    var targetScope = self.getScopeFromElement(e.target);
+                    var a = [];
+                    for (var i=0; i<params.length; i++) {
+                        a.push(params[i] === "e" ? e : $parse(params[i])(targetScope));
+                    }
+                    arguments = a;
+                }
+                callback.apply(scope, arguments);
+
+                Platform.performMicrotaskCheckpoint();
+            };
+            $el.data(name, fn);
+            $el.on(type, fn);
+        });
     };
 
     viewParser.prototype.parseListenDirective = function(value, type){
+        var params = [];
+        value = value.replace(_paramReg, function(match, $1){
+            if ($1) params = $1.split(",");
+            return "";
+        });
         var parseFunc = $parse(value),
-            paths = this.getPaths(parseFunc.lexer.lex(value));
-
+            paths = this.getPaths(parseFunc.lexer.lex(value)),
+            self = this;
         return {
             link: function(o) {
 
             },
             compile: function(o) {
-                _setListener(o, type, parseFunc, value);
+                self.setListener(o, type, parseFunc, value, null, params);
             },
             watch: function(o) {
-                _setListener(o, type, parseFunc, value);
+                self.setListener(o, type, parseFunc, value, null, params);
             },
             paths: paths
         }
@@ -450,7 +471,6 @@
                 } else {
                     var vO = self.parseTemplate(val);
                     var a = vO.start ? [vO] : vO.children;
-                    //console.log(val, a);
                     this.children = this.children.concat(a);
                 }
 
@@ -458,7 +478,7 @@
             compile: function(o) {
                 // set up a listener
                 var fn = this.tag === "input" || this.tag === "textarea" ? "val" : "html";
-                _setListener(o, "input", parseFunc, value, function(){
+                self.setListener(o, "input", parseFunc, value, function(){
                     Path.get(value).setValueFrom(this, o.$el[fn]());
                 });
             },

@@ -1,6 +1,6 @@
 {% spaceless %}
 {% for vendor in page.vendors %}
-    <a dc-directive-tooltip tooltip-content="Find This Movie On {{vendor.name}}" dc-repeat="vendor in page.vendors" class="dc-vendor-{{vendor.name}} dc-button-icon" href="{{vendor.url}}{{parentScope.game.nameUrl}}" target="_blank">
+    <a dc-directive-tooltip tooltip-content="Find This Movie On {{vendor.name}}" dc-repeat="vendor in page.vendors" class="dc-vendor-{{vendor.name}} dc-button-icon" href="{{vendor.url}}{{parentScope.game.nameUrl}}" target="_blank" dc-click="onVendorClick(e, vendor.name)">
         <span>Find This Movie On {{vendor.name}}</span>
     </a>
 {% endfor %}

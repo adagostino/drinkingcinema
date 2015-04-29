@@ -9,7 +9,7 @@ var name = "service.dataSource";
         if (!this.numResults) this.numResults = this.data && typeof this.data.numResults === "number" ? this.data.numResults : _maxResults;
         if (!this.increment) this.increment = 10;
         if (!this.buffer || this.buffer < this.increment) this.buffer = this.increment;
-
+        this.name = "Datasource: " + (opts.name || "");
         // set up testing
         if (this.test) this.numResults = this.maxTestResults || _maxResults;
 

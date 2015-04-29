@@ -40,6 +40,10 @@ var name = "directive.lightbox";
             'addClassToBody': false,
             'beforeShow': function() {
                 self.modalShowing = true;
+                self.canceledModal = false;
+                if (self.image.removed) {
+                    self.image.$el.prepend(self.image.$img);
+                }
             },
             'afterShow': function() {
                 if (self.image.loaded) {
@@ -52,6 +56,7 @@ var name = "directive.lightbox";
             },
             'beforeHide': function() {
                 try {
+                    var img = self.image;
                     self.image.show = false;
                     self.image.showInfo = false;
                     self.image.infoWasHidden = false;
@@ -59,7 +64,15 @@ var name = "directive.lightbox";
                     self.image.pinching = false;
                     self.transitionObject.removeTransitionFromElement(self.image.$el);
                     self.transitionObject.removeTransitionFromElement(self.image.$img);
-                    this.$timeout(function(){self.slideImage(self.image.initialParams)});
+                    self.logEvent(img.loaded ? $dc.ax.action.HIDE : $dc.ax.action.CANCEL);
+                    this.$timeout(function(){
+                        self.slideImage(img.initialParams);
+                        this.$timeout(function(){
+                            // now remove the image from the body to clean things up
+                            img.removed = true;
+                            img.$img.remove();
+                        }, _animationTimeMS);
+                    });
                     if (self.delegate.is("a")){
                         self.modalShowing = false;
                     } else {
@@ -82,6 +95,7 @@ var name = "directive.lightbox";
 
     lightbox.prototype.showModal = function() {
         this.scrollTop = $(window).scrollTop();
+        this.logEvent($dc.ax.action.SHOW);
         this.modal.show();
     };
 
@@ -98,22 +112,21 @@ var name = "directive.lightbox";
     // Events:
     lightbox.prototype.click = function(e){
         if (this.modal.open) return;
+
         var $el = $(e.target),
             href,
             preventDefault = false;
         if ($el.is(".dc-lightbox-img")) return;
 
-        if ($el.is("a")) {
-            href = $el.attr("href");
-            preventDefault = _aReg.test(href);
-            if (!preventDefault) return;
-        } else if ($el.is("img")) {
+        if ($el.is("img")) {
             href = $el.attr("src");
         } else {
-            var matches = $el.css("background-image").match(/url\(([^\)]+)\)/);
-            href = matches ? matches[1] : "";
+            var a = $dc.utils.getAnchorFromTarget(e.target);
+            href = a ? (a.href || "") : "";
+            preventDefault = _aReg.test(href);
+            if (!preventDefault) return;
+            $el = $(a);
         }
-
         preventDefault && e.preventDefault();
         this.setImage($el, href);
     };
@@ -125,14 +138,16 @@ var name = "directive.lightbox";
         this.delegate = $el;
         this.delegateLink = href;
 
+        var isA = this.delegate.is("a");
+
         var image = this.getImage(this.delegateLink, function(image){
             this.sizeImage(image);
-            this.showModal();
+            (!this.modal.open && !this.canceledModal) && this.showModal();
         });
 
-        if (image.loaded || (!image.loaded && this.delegate.is("a"))){
+        if (image.loaded || (!image.loaded && isA)){
             image.loaded && this.sizeImage(image);
-            this.showModal();
+            !this.modal.open && this.showModal();
         }
 
     };
@@ -252,6 +267,7 @@ var name = "directive.lightbox";
             this.transformObject.setZoomOnElement(this.image.$img, e.center, _maxScale, this.image.center);
             this.image.zoomed = true;
             this.image.showInfo = false;
+            this.logEvent($dc.ax.action.DOUBLETAP_IN);
         } else {
             this.transformObject.setTransformOnElementFromParams(this.image.$img, {
                 translateY: 0,
@@ -262,6 +278,7 @@ var name = "directive.lightbox";
             this.image.zoomed = false;
             this.image.showInfo = true;
             this.image.infoWasHidden = false;
+            this.logEvent($dc.ax.action.DOUBLETAP_OUT);
         }
     };
 
@@ -349,6 +366,7 @@ var name = "directive.lightbox";
                     if (zoomParams.onHorizontalEdge || zoomParams.onVerticalEdge) {
                         this.transformObject.setTransformOnElementFromParams(this.image.$img, zoomParams.edgeParams);
                     }
+                    this.logEvent($dc.ax.action.PAN);
                 }
                 break;
         }
@@ -402,6 +420,7 @@ var name = "directive.lightbox";
                     this.image.showInfo = true;
                     this.image.infoWasHidden = false;
                 }
+                this.ax.logEvent($dc.ax.action.PINCH);
                 break;
         }
     };
@@ -470,6 +489,16 @@ var name = "directive.lightbox";
         });
     };
 
+    lightbox.prototype.cancelModal = function(){
+        if (!this.image.loaded) {
+            this.canceledModal = true;
+            this.hideModal();
+        }
+    };
+
+    lightbox.prototype.logEvent = function(action){
+        $dc.ax.event($dc.ax.category.LIGHTBOX, action, this.page.title);
+    };
 
     $dc.addDirective({
         name: name,

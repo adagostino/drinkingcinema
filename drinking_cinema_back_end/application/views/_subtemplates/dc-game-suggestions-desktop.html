@@ -3,6 +3,7 @@
 <a dc-directive-tooltip
    tooltip-content="{{suggestion.name}}"
    dc-repeat="suggestion in game.suggestions"
+   dc-click="onSuggestionClick(e, suggestion.name)"
    class="dc-game-suggestion dc-button-icon"
    href="/game/{{suggestion.url}}"
    style="background-image: url('{{parentScope.cdn}}Games/{{suggestion.url}}_thumb.jpg')"

@@ -1,6 +1,7 @@
 (function(viewParser){
     var ngReg = new RegExp("^dc-","i"),
         semiReg = new RegExp(";$"),
+        spacesReg = /^ +$/;
         startTag = /<([-A-Za-z0-9_:]+)((?:\s+[-A-Za-z0-9_]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/g,
         endTag = /<\/([-A-Za-z0-9_:]+)[^>]*>/g,
         $parse = window.ngParser;
@@ -37,7 +38,7 @@
                 currEl = parseCt(ct,el);
             },
             chars: function(text){
-                if ($.trim(text)) {
+                if (spacesReg.test(text) || $.trim(text)) {
                     var pt = self.parseText(text, true);
                     var nEl = self.getEl();
                     nEl.children.push(pt.link);
