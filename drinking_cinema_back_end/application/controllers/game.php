@@ -20,11 +20,10 @@ class game extends CI_Controller
             return show_404();
         }
         $imageDir = $this->globals->get_images_dir(true);
-        $page = $this->page_builder_service->get_data('game', $game);
+        $page = $this->page_builder_service->get_data('game', $game, $game["nameUrl"]);
 
         $page["title"] = $game["name"];
         $page["game"] = $game;
-        $page["comments"] = $this->search_service->search_comments($game["nameUrl"], null, 5);
         $page["vendors"] = array(
             array(
                 'name' => 'netflix',

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class search_service extends CI_Model {
-    private $_maxSearchResults = 100;
+    private $_maxSearchResults = 200;
 
     private $_movieTableSearchOptions = array(
         "table" => "movieTable",

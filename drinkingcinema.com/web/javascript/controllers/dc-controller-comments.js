@@ -55,6 +55,7 @@ var name = "controller.comments";
         this.init = function(){
             $scope = this;
             this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
+            console.log("comments requested", this.page.numCommentsRequested);
             this.results = this.page.comments;
             this.numErrors = 0;
             this.focusLogged = false;
@@ -83,15 +84,24 @@ var name = "controller.comments";
                         'error': error
                     };
                     $dc.model.comments.get(opts);
+                    self.replaceHistory = true;
                 }
             });
             $(window).on("unload", function(){
+                //$scope.$call($scope.onPop);
                 $scope.$call($scope.onUnload);
             });
         };
 
         this.onUnload = function(){
             $dc.ax.event($dc.ax.category.INFINITESCROLL, "Comments for " + this.page.title, this.commentSource.items.length);
+        };
+
+        this.onPop = function(){
+            if (!this.replaceHistory) return;
+            $dc.$location.search({
+                'nc': this.commentSource.items.length
+            });
         };
 
     };

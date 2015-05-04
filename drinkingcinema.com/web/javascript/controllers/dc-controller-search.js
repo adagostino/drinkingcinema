@@ -21,16 +21,31 @@ var name = "controller.search";
                         'success': success,
                         'error': error
 
-                    })
+                    });
+                    $scope.replaceHistory = true;
                 }
             });
+
             $(window).on("unload", function(){
+                $scope.$call($scope.onPop);
                 $scope.$call($scope.onUnload);
+
             });
+            window.onpopstate = function(){
+              console.log("poppin bruh");
+            };
+
         };
 
         this.onUnload = function(){
             $dc.ax.event($dc.ax.category.INFINITESCROLL, "Search for: " + this.searchTerms, this.searchSource.items.length);
+        };
+
+        this.onPop = function() {
+            if (!this.replaceHistory) return;
+            $dc.$location.search({
+                'n': this.searchSource.items.length
+            });
         };
 
     };

@@ -214,6 +214,8 @@ var startTime = new Date().getTime();
             var endTime = new Date().getTime();
 
             this.ax = new $dc.service.analytics();
+
+            this.$location = new $dc.service.location();
             //console.log("Add Components", startInit - startTime);
             //console.log("Init Components", startInitControllers - startInit);
             //console.log("Init Controllers", endTime - startInitControllers);
@@ -459,6 +461,7 @@ var startTime = new Date().getTime();
         var tagName = el.tagName.toLowerCase();
         return tagName === "body" ? undefined : (tagName === "a" ? el : this.getAnchorFromTarget(el.parentNode));
     };
+
 
     $dc.utils = new utils();
 })();

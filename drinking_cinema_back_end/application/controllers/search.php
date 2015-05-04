@@ -20,8 +20,14 @@ class search extends CI_Controller
             $title = "Drinking Cinema";
             $searchTerms = "newest";
         }
+        $numResults = 5;
+        parse_str($_SERVER['QUERY_STRING'], $_GET);
+        if (isset($_GET["n"])){
+            $numResults = intval($_GET["n"]);
+        }
+        if (!$numResults || $numResults < 5) $numResults = 5;
         // get search results
-        $results = $this->search_service->search_movies($searchTerms, 0, 5);
+        $results = $this->search_service->search_movies($searchTerms, 0, $numResults);
 
         $page = $this->page_builder_service->get_data('search');
         $page["title"] = $title;
@@ -33,8 +39,6 @@ class search extends CI_Controller
             "newest",
             "oldest"
         );
-
-
         $page["subheader"] = $page["platform"] !== "mobile" ? "#dc-search-nav-bar-template" : "";
 
         $template = 'search';

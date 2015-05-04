@@ -15,10 +15,9 @@ class about extends CI_Controller
         if (!$pageContent){
             return show_404();
         }
-        $page = $this->page_builder_service->get_data('page');
+        $page = $this->page_builder_service->get_data('page', null, $pageContent["pageName"]);
         $page["title"] = "About";
         $page["page"] = $pageContent;
-        $page["comments"] = $this->search_service->search_comments($pageContent["pageName"], null, 5);
         $page["subheader"] = $page["platform"] !== "mobile" ? "#dc-additional-pages-subheader-template" : "";
         $template = 'page';
         $template.= $page["platform"] === "mobile" ? "-mobile" : "";

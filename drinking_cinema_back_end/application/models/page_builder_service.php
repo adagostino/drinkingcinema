@@ -54,6 +54,7 @@
             $this->load->library('Mobile_Detect');
             $this->load->model('social_media_service');
             $this->load->model('version_service');
+            $this->load->model('search_service');
             foreach ($this->_pages as $key=>$value){
                 $this->load->model('page_dependencies/'.$value.'_dependency');
             }
@@ -102,7 +103,7 @@
             return $this->$dependency->get_dependencies($platform, $isAdmin, $debug);
         }
 
-        function get_data($pageName, $game = null){
+        function get_data($pageName, $game = null, $commentsPageName = null){
             $isAdmin = $isAdmin = $this->tank_auth->is_admin();
             $platform = $this->get_platform();
             $debug = $this->get_debug();
@@ -122,6 +123,19 @@
             $page["controllerName"] = $pageName;
             $page["versions"] = $this->version_service->get_versions();
             $page["cdn"] = $this->globals->get_CDN(true);
+            // get the comments
+            if ($commentsPageName) {
+                $numResults = 5;
+                parse_str($_SERVER['QUERY_STRING'], $_GET);
+                if (isset($_GET["nc"])){
+                    $numResults = intval($_GET["nc"]);
+                }
+                if (!$numResults || $numResults < 5) $numResults = 5;
+                $page["comments"] = $this->search_service->search_comments($commentsPageName, null, $numResults);
+                $page["numCommentsRequested"] = $numResults;
+            }
+
+
             return $page;
         }
 
