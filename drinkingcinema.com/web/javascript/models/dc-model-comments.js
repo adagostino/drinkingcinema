@@ -1,4 +1,5 @@
 var name = "model.comments";
+
 (function(name){
     var commentModel = function(){};
 

@@ -64,7 +64,7 @@ var name = "directive.lightbox";
                     self.image.pinching = false;
                     self.transitionObject.removeTransitionFromElement(self.image.$el);
                     self.transitionObject.removeTransitionFromElement(self.image.$img);
-                    self.logEvent(img.loaded ? $dc.ax.action.HIDE : $dc.ax.action.CANCEL);
+                    //self.logEvent(img.loaded ? $dc.ax.action.HIDE : $dc.ax.action.CANCEL);
                     this.$timeout(function(){
                         self.slideImage(img.initialParams);
                         this.$timeout(function(){
@@ -366,7 +366,7 @@ var name = "directive.lightbox";
                     if (zoomParams.onHorizontalEdge || zoomParams.onVerticalEdge) {
                         this.transformObject.setTransformOnElementFromParams(this.image.$img, zoomParams.edgeParams);
                     }
-                    this.logEvent($dc.ax.action.PAN);
+                    //this.logEvent($dc.ax.action.PAN);
                 }
                 break;
         }

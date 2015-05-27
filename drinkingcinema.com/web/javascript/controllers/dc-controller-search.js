@@ -8,6 +8,7 @@ var name = "controller.search";
             this.page = $dc.utils.getJSON('pageJSON', 'dc-page-json');
             this.results = this.page.results;
             this.searchTerms = this.page.searchTerms;
+            this.recordInfiniteScrollAx = false;
 
             this.searchSource = new $dc.service.dataSource({
                 'increment': 10,
@@ -23,22 +24,18 @@ var name = "controller.search";
 
                     });
                     $scope.replaceHistory = true;
+                    $scope.recordInfiniteScrollAx = true;
                 }
             });
 
             $(window).on("unload", function(){
-                $scope.$call($scope.onPop);
-                $scope.$call($scope.onUnload);
-
-            });
-            window.onpopstate = function(){
-              console.log("poppin bruh");
-            };
-
+                this.$call(this.onPop);
+                this.$call(this.onUnload);
+            }.bind(this));
         };
 
         this.onUnload = function(){
-            $dc.ax.event($dc.ax.category.INFINITESCROLL, "Search for: " + this.searchTerms, this.searchSource.items.length);
+            this.recordInfiniteScrollAx && $dc.ax.event($dc.ax.category.INFINITESCROLL, "Search for: " + this.searchTerms, this.searchSource.items.length);
         };
 
         this.onPop = function() {

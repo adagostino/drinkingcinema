@@ -35,6 +35,7 @@ var name = "directive.autocomplete";
     };
 
     dataStore.prototype.commitToLocal = function(){
+        console.log(this.name, this.version);
         if (this.name && this.version){
             $dc.utils.setLocal(this.name, {
                 version: this.version,
@@ -57,7 +58,10 @@ var name = "directive.autocomplete";
             this.searchTerms = $.trim($dc.utils.getText(this.rawSearchTerms));
         });
         this.$watch("searchTerms", this.getResults);
-        window.scope = this;
+        $(window).on("unload", function(){
+            this.setDataStore();
+        }.bind(this));
+        //window.scope = this;
     };
 
     autocomplete.prototype.getResults = function(searchTerm) {
@@ -93,7 +97,7 @@ var name = "directive.autocomplete";
             suggestions: {}
         });
         try {
-            this.version = $dc.utils.getJSON('pageJSON', 'dc-page-json').versions[this.dataStore];
+            this.version = $dc.utils.getVersion(this.dataStoreName);
         } catch(e) {
             return;
         }
@@ -104,6 +108,8 @@ var name = "directive.autocomplete";
             this.storedSuggestions.version = this.version;
         } else {
             this.storedSuggestions.suggestions = storedSuggestions.suggestions;
+            this.storedSuggestions.version = storedSuggestions.version;
+            this.storedSuggestions.items = storedSuggestions.items;
         }
     };
 

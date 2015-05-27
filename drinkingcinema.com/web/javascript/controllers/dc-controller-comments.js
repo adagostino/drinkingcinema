@@ -55,7 +55,7 @@ var name = "controller.comments";
         this.init = function(){
             $scope = this;
             this.page = $dc.utils.getJSON('pageJSON','dc-page-json');
-            console.log("comments requested", this.page.numCommentsRequested);
+            //console.log("comments requested", this.page.numCommentsRequested);
             this.results = this.page.comments;
             this.numErrors = 0;
             this.focusLogged = false;
@@ -67,7 +67,7 @@ var name = "controller.comments";
             var pathname = window.location.pathname.split('/');
             this.commentPath = pathname[2] ? pathname[1] : "";
             this.commentHome = pathname[2] || pathname[1];
-
+            this.recordInfiniteScrollAx = false;
 
             var self = this;
             this.commentSource = new $dc.service.dataSource({
@@ -85,6 +85,7 @@ var name = "controller.comments";
                     };
                     $dc.model.comments.get(opts);
                     self.replaceHistory = true;
+                    self.recordInfiniteScrollAx = true;
                 }
             });
             $(window).on("unload", function(){
@@ -94,7 +95,7 @@ var name = "controller.comments";
         };
 
         this.onUnload = function(){
-            $dc.ax.event($dc.ax.category.INFINITESCROLL, "Comments for " + this.page.title, this.commentSource.items.length);
+            this.recordInfiniteScrollAx && $dc.ax.event($dc.ax.category.INFINITESCROLL, "Comments for " + this.page.title, this.commentSource.items.length);
         };
 
         this.onPop = function(){

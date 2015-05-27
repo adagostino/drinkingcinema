@@ -28,17 +28,20 @@ class game extends CI_Controller
             array(
                 'name' => 'netflix',
                 'url' => 'http://www.netflix.com/WiSearch?v1=',
-                'image' => $imageDir.'netflixIcon.png'
+                'image' => $imageDir.'netflixIcon.png',
+                'affiliate' => ''
             ),
             array(
                 'name' => 'hulu',
                 'url' => 'http://www.hulu.com/search?query=',
-                'image' => $imageDir.'huluIcon.png'
+                'image' => $imageDir.'huluIcon.png',
+                'affiliate' => ''
             ),
             array(
                 'name' => 'amazon',
                 'url' => 'http://www.amazon.com/s/field-keywords=',
-                'image' => $imageDir.'amazonIcon.png'
+                'image' => $imageDir.'amazonIcon.png',
+                'affiliate' => "?camp=1789&creative=9325&linkCode=as2&tag=drinkcinem-20"
             )
         );
         if ($page["platform"] !== "mobile") {

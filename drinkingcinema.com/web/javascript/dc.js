@@ -353,6 +353,7 @@ var startTime = new Date().getTime();
     var _cdn,
         _baseJSON = "pageJSON",
         _platform,
+        _versions,
         _jsonMap = {};
 
     var utils = function(){
@@ -456,6 +457,19 @@ var startTime = new Date().getTime();
         }
         return _platform || "";
     };
+
+    utils.prototype.getVersion = function(table) {
+        table = table || "game";
+        if (_versions) return _versions[table];
+        var page = _jsonMap[_baseJSON];
+        if (!page) {
+            page = this.getJSON(_baseJSON);
+        }
+        if (page) {
+            _versions = page.versions;
+        }
+        return _versions[table];
+    }
 
     utils.prototype.getAnchorFromTarget = function(el){
         var tagName = el.tagName.toLowerCase();
