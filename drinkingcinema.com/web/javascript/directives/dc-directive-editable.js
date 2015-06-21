@@ -19,12 +19,13 @@ var name = "directive.editable";
         // set up the oContent variable to revert
         this.oContent = this.content;
         this.isEditable = false;
-
         this.$watch("editing", function(n, o){
             if (n) {
                 this.oContent = this.content;
+                this.$call(this.onOpen);
             } else {
                 this.errors = undefined;
+                this.$call(this.onClose);
             }
             this.isEditable = n && !this.processing;
         });
@@ -118,7 +119,9 @@ var name = "directive.editable";
         template: "#dc-directive-editable-template",
         $scope: {
             content: "content",
-            submit: "&submit"
+            submit: "&submit",
+            onOpen: "&on-open",
+            onClose: "&on-close"
         }
     });
 

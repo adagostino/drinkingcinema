@@ -1,0 +1,43 @@
+.dc-slideshow {
+  padding: 20px 0;
+}
+.dc-slideshow.dc-slideshow-admin {
+  padding-top: 40px;
+}
+
+.dc-slideshow-header {
+  display: table;
+  width: 100%;
+}
+
+.dc-slideshow-img-cell,
+.dc-slideshow-info-cell {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.dc-slideshow-img-cell {
+  padding-right: 10px;
+}
+
+.dc-slideshow-title {
+  position: relative;
+}
+.dc-slideshow-title:hover {
+  z-index: 2;
+}
+
+.dc-slideshow-description {
+  position: relative;
+}
+
+.dc-slideshow-img-cell {
+  width: 100px;
+}
+
+.dc-slideshow-img-container {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  background: red;
+}

@@ -1,0 +1,24 @@
+<div class="dc-slideshow dc-slideshow-admin">
+    <div class="dc-slideshow-header">
+        <div class="dc-slideshow-img-cell">
+            <div class="dc-slideshow-img-container">
+
+            </div>
+        </div>
+        <div class="dc-slideshow-info-cell">
+            <h1 class="dc-slideshow-title" dc-style="{'z-index': titleZIndex}">
+                <div dc-directive-editable content="slideshow.title" submit="submitTitle" on-open="titleOpen" on-close="titleClose">
+                    {% include 'directives/dc-directive-editable.html' with {'field': 'title', 'contentHTML': slideshow.title} %}
+                </div>
+            </h1>
+            <div class="dc-slideshow-description" dc-style="{'z-index': descriptionZIndex}">
+                <div dc-directive-editable-rte content="slideshow.description" submit="submitDescription" on-open="descriptionOpen" on-close="descriptionClose">
+                    {% include 'directives/dc-directive-editable.html' with {'field': 'description', 'contentHTML': slideshow.description} %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dc-slideshow-slides">
+
+    </div>
+</div>

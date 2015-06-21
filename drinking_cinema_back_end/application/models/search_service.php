@@ -22,11 +22,19 @@ class search_service extends CI_Model {
         "titleField" => array("subjectId","movieNameUrl")
     );
 
+    private $_slideshowTableSearchOptions = array(
+        "table" => "slideshowTable",
+        "timeField" => "uploadDate",
+        "idField" => "p_Id",
+        "titleField" => "showTitle"
+    );
+
     function __construct() {
         // Call the Model constructor
         parent::__construct();
         $this->load->model('game_service');
         $this->load->model('comments_service');
+        $this->load->model('slideshow_service');
         $this->load->database();
     }
 
@@ -101,6 +109,18 @@ class search_service extends CI_Model {
         $results['numResults'] = $queryResults ? intval($queryResults[0]->numResults) : 0;
         $results['results'] = $comments;
         return $results;
+    }
+
+    function search_slideshows($searchTerms, $offset = 0, $limit = 0) {
+        $queryResults = $this->search($searchTerms,"slideshowTable",$offset,$limit);
+        $results = array();
+        foreach ($queryResults["results"] as $row){
+            $results[] = $this->slideshow_service->post_process_show($row);
+        }
+        return array(
+            'numResults'=> $queryResults["numResults"],
+            'results' => $results
+        );
     }
 
     function search($searchTerms, $tableName, $offset = 0, $limit = 0){

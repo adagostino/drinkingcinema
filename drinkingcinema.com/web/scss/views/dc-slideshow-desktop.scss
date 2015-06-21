@@ -1,0 +1,59 @@
+@import "imports/dc-imports";
+
+.dc-slideshow-controller {
+
+}
+
+.dc-slideshow {
+  padding: 2*$dc-default-padding 0;
+  &.dc-slideshow-admin {
+    padding-top: 4*$dc-default-padding;
+  }
+
+}
+
+
+.dc-slideshow-header {
+  display: table;
+  width: 100%;
+}
+
+.dc-slideshow-img-cell,
+.dc-slideshow-info-cell {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.dc-slideshow-img-cell {
+  padding-right: $dc-default-padding;
+}
+
+.dc-slideshow-admin {
+  .dc-slideshow-title {
+    //margin-bottom: 7*$dc-default-padding;
+  }
+}
+
+.dc-slideshow-title {
+  position: relative;
+  &:hover {
+    z-index: 2;
+  }
+}
+
+.dc-slideshow-description {
+  position: relative;
+}
+
+$slideshow-img-dim: 100px;
+.dc-slideshow-img-cell {
+  width: $slideshow-img-dim;
+}
+
+.dc-slideshow-img-container {
+  position: relative;
+  height: $slideshow-img-dim;
+  width: $slideshow-img-dim;
+  background: red;
+}
+

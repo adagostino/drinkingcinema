@@ -1,0 +1,22 @@
+@import "imports/dc-imports";
+
+.dc-slideshow-search-item {
+  a {
+    display: table;
+  }
+}
+
+.dc-slideshow-search-item-img-container,
+.dc-slideshow-search-item-text-container {
+  display: table-cell;
+}
+
+.dc-slideshow-search-item-title,
+.dc-slideshow-search-item-description {
+  display: block;
+}
+
+
+
+
+

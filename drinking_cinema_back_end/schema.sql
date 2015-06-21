@@ -213,3 +213,26 @@ CREATE  TABLE IF NOT EXISTS `drinkingcinema`.`versionTable` (
   PRIMARY KEY (`p_Id`) ,
   UNIQUE INDEX `tableName` (`tableName` ASC)
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slideshowTable`
+--
+CREATE TABLE IF NOT EXISTS `drinkingcinema`.`slideshowTable` (
+  `p_Id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `showUrl` VARCHAR(333) NOT NULL ,
+  `showTitle` VARCHAR(512) NULL DEFAULT NULL ,
+  `showDescription` VARCHAR(2048) NULL DEFAULT NULL ,
+  `showImg` VARCHAR(333) NULL DEFAULT NULL ,
+  `showSlides` VARCHAR(12288) NULL DEFAULT NULL ,
+  `uploadDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `uploadUser` VARCHAR(333) NULL DEFAULT NULL ,
+  `editDate` TIMESTAMP NULL DEFAULT NULL ,
+  `editUser` VARCHAR(333) NULL DEFAULT NULL ,
+  PRIMARY KEY (`p_Id`) ,
+  UNIQUE INDEX `showUrl` (`showUrl` ASC) ,
+  INDEX `uploadDate` (`uploadDate` ASC) ,
+  FULLTEXT INDEX `showTitle` (`showTitle` ASC) ,
+  FULLTEXT INDEX `showDescription` (`showDescription` ASC)
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8;

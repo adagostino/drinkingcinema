@@ -1,0 +1,19 @@
+<div class="dc-add-slideshow-modal">
+    <h1>Make A New Slideshow!</h1>
+    <div dc-directive-input input-model="parentScope.parentScope.slideshow.name" placeholder="Custom Name (Optional)" name="Name">
+        {% include 'directives/dc-directive-input.html' with {'placeholder': 'Custom Name (Optional)'} %}
+    </div>
+    <div class="dc-add-slideshow-modal-errors" dc-if="errors">
+        <div class="dc-add-slideshow-modal-errors-header">There was a problem making your new slideshow. Please review the errors and try again.</div>
+        <div dc-repeat="error in errors" class="dc-add-slideshow-modal-error">{{error.message}}</div>
+    </div>
+    <br>
+    <div class="dc-add-slideshow-modal-buttons">
+        <button class="dc-button-secondary" dc-class="{'processing': isProcessing}" dc-click="cancel">
+            Cancel
+        </button>
+        <button class="dc-button-primary" dc-class="{'processing': isProcessing}" dc-click="submit">
+            Submit
+        </button>
+    </div>
+</div>

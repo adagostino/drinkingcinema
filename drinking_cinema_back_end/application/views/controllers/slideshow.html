@@ -1,0 +1,13 @@
+<div class="dc-slideshow-controller" dc-controller="slideshow">
+    {% if page.isAdmin %}
+        <div dc-if="page.isAdmin">
+            <div dc-include="#dc-slideshow-admin-template"></div>
+            {% include '_subtemplates/dc-slideshow-admin.html' with {'slideshow': page.slideshow} %}
+        </div>
+    {% else %}
+        <div dc-if="!page.isAdmin">
+            <div dc-include="#dc-slideshow-template"></div>
+            {% include '_subtemplates/dc-slideshow.html' with {'slideshow': page.slideshow} %}
+        </div>
+    {% endif %}
+</div>

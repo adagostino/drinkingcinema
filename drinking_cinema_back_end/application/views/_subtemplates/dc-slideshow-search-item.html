@@ -1,0 +1,15 @@
+<div class="dc-slideshow-search-item">
+    <a href="/slides/{{item.name}}">
+        <span class="dc-slideshow-search-item-img-container">
+            <img src="{{item.img}}">
+        </span>
+        <span class="dc-slideshow-search-item-text-container">
+            {% if not item.title and not item.description %}
+                <span dc-if="!item.title && !item.description" class="dc-slideshow-search-item-title">{{item.name}}</span>
+            {% endif %}
+            <span class="dc-slideshow-search-item-title">{{item.title}}</span>
+            <span class="dc-slideshow-search-item-description">{{item.description}}</span>
+        </span>
+    </a>
+    <hr class="dc-hr-bottom">
+</div>

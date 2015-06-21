@@ -36,7 +36,9 @@
             "game" => "game",
             "page" => "page",
             "embed" => "embed",
-            "upload" => "upload"
+            "upload" => "upload",
+            "slideshows" => "slideshows",
+            "slideshow" => "slideshow"
         );
 
         private $_platforms = array(

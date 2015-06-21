@@ -377,7 +377,9 @@ var name = "directive.editable.rte";
         template: "#dc-directive-editable-template",
         $scope: {
             content: "content",
-            submit: "&submit"
+            submit: "&submit",
+            onOpen: "&on-open",
+            onClose: "&on-close"
         }
 
     });

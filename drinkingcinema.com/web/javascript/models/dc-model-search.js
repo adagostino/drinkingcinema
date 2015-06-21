@@ -3,7 +3,8 @@ var name = "model.search";
     var searchModel = function(){};
 
     searchModel.prototype.get = function(opts){
-        opts.url = "/api/search_api/search_games";
+        var table = opts.table || "games";
+        opts.url = "/api/search_api/search_" + opts.table;
         opts.data = {
             'searchTerms': opts.searchTerms || "newest",
             'offset': opts.offset,

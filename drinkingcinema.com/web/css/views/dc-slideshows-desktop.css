@@ -1,0 +1,22 @@
+.dc-add-slideshow-modal {
+  width: 360px;
+  max-width: 100%;
+}
+.dc-add-slideshow-modal [dc-directive-input] {
+  padding: 10px 0px;
+}
+
+.dc-add-slideshow-modal-buttons {
+  text-align: right;
+}
+
+.dc-add-slideshow-modal-errors-header {
+  font-weight: bold;
+  font-size: 0.8em;
+  padding-bottom: 10px;
+}
+
+.dc-add-slideshow-modal-error {
+  color: #D14836;
+  font-size: 0.8em;
+}

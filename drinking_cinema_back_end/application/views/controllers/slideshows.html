@@ -1,0 +1,10 @@
+<div class="dc-slideshows-controller" dc-controller="slideshows">
+    <div dc-directive-infinite-scroll item-template="#dc-slideshow-search-item-template" source="slideshowSource" class="dc-slideshow-results-container">
+        {% include 'directives/dc-directive-infinite-scroll.html' with {'items': page.results.results, 'numResults': page.results.numResults, 'item_template': '_subtemplates/dc-slideshow-search-item.html'} %}
+    </div>
+    {% if page.isAdmin %}
+        <div dc-if="page.isAdmin">
+            <button class="dc-button-primary" dc-click="slideshowModal.show" dc-class="{'processing': isProcessing}">New Slideshow</button>
+        </div>
+    {% endif %}
+</div>

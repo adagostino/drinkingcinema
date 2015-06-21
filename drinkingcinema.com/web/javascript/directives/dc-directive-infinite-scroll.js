@@ -13,6 +13,10 @@ var name = "directive.infiniteScroll";
             buffer = 300,
             st, wh, h, ot, ob;
 
+        if (!$(this.itemTemplate).html()){
+            console.log("No infinite scroll template found!");
+        }
+
         $(document).on("scroll",function(){
             self.$call(self.onScroll);
         });

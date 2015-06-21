@@ -46,6 +46,7 @@ $route['embed/:any'] = "embed/get";
 $route['faq'] = "faq";
 $route['about'] = "about";
 $route['contact'] = "contact";
+$route['slides/:any'] = "slides/get";
 
 
 /* End of file routes.php */

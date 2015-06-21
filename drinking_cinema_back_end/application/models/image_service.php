@@ -33,21 +33,8 @@
             $folder = $this->globals->get_games_dir();
             $uploadPath = $folder.$name.".".$ext;
 
-
-            $input = fopen("php://input", "r");
-            $temp = tmpfile();
-            $realSize = stream_copy_to_stream($input, $temp);
-
-
-            $target = fopen($uploadPath, "w");
-            fseek($temp, 0, SEEK_SET);
-            stream_copy_to_stream($temp, $target);
-            fclose($target);
-
-            //file_put_contents($uploadPath, file_get_contents('php://input'));
-
             $images = array(
-                "original" => str_replace("../","http://",$uploadPath),
+                "original" => $this->upload_image($fileName, $folder, $name.".".$ext),
                 "ext" => $ext,
                 "name" => $name
             );
@@ -58,6 +45,26 @@
                 $images[$size] = str_replace("../","http://",$resizePath);
             }
             return $images;
+        }
+
+        function upload_image($fileName, $uploadDirectory, $name = null) {
+            if (!$name) {
+                $info = pathinfo($fileName);
+                $ext = $info['extension'];
+                $name = $this->getFileName($info["filename"], $ext, $uploadDirectory);
+            }
+            $uploadPath = $uploadDirectory.$name;
+
+            $input = fopen("php://input", "r");
+            $temp = tmpfile();
+            $realSize = stream_copy_to_stream($input, $temp);
+
+            $target = fopen($uploadPath, "w");
+            fseek($temp, 0, SEEK_SET);
+            stream_copy_to_stream($temp, $target);
+            fclose($target);
+
+            return str_replace("../","http://",$uploadPath);
         }
 
         function resize($width,$height,$srcImg,$newName,$quality = "50%") {

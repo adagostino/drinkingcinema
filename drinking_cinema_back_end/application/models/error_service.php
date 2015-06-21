@@ -129,6 +129,23 @@
             "EP_02" => array(
                 "message" => "There was a DB error adding/updating your page.",
                 "code" => 500
+            ),
+            // SLIDESHOW ERRORS
+            "ESS_01" => array(
+                "message" => "No slideshow name given.",
+                "code" => 400
+            ),
+            "ESS_02" => array(
+                "message" => "Slideshow not found.",
+                "code" => 404
+            ),
+            "ESS_03" => array(
+                "message" => "There was a DB error uploading/editing your slideshow.",
+                "code" => 500
+            ),
+            "ESS_04" => array(
+                "message" => "A slideshow with that name already exists.",
+                "code" => 400
             )
         );
 
