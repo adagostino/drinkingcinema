@@ -1,0 +1,14 @@
+.dc-sortable-item-container {
+  -moz-transition: -moz-transform 0.218s ease-in-out;
+  -o-transition: -o-transform 0.218s ease-in-out;
+  -webkit-transition: -webkit-transform 0.218s ease-in-out;
+  transition: transform 0.218s ease-in-out;
+}
+.dc-sortable-item-container.dragging {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  opacity: 0.25;
+  -moz-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+}

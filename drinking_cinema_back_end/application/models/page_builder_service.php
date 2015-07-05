@@ -125,6 +125,7 @@
             $page["controllerName"] = $pageName;
             $page["versions"] = $this->version_service->get_versions();
             $page["cdn"] = $this->globals->get_CDN(true);
+            $page["isLocal"] = $this->config->item("is_local");
             // get the comments
             if ($commentsPageName) {
                 $numResults = 5;

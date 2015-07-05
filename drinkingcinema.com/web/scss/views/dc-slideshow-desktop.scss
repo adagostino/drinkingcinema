@@ -1,45 +1,105 @@
 @import "imports/dc-imports";
 
+body.slideshow {
+  background-color: transparent;
+  .dc-background {
+    background: none;
+  }
+
+  .dc-container {
+    width: 100%;
+    padding: 0px;
+  }
+}
+
 .dc-slideshow-controller {
 
 }
 
 .dc-slideshow {
-  padding: 2*$dc-default-padding 0;
-  &.dc-slideshow-admin {
-    padding-top: 4*$dc-default-padding;
-  }
 
 }
 
 
 .dc-slideshow-header {
-  display: table;
   width: 100%;
+  height: 75vh;
+  position: relative;
 }
 
-.dc-slideshow-img-cell,
-.dc-slideshow-info-cell {
-  display: table-cell;
-  vertical-align: top;
+.dc-slideshow-header-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.dc-slideshow-img-cell {
-  padding-right: $dc-default-padding;
+$tscolor: rgba(0, 0, 0, 0.3);
+.dc-slideshow-title {
+  position: absolute;
+  bottom: $dc-default-padding*5;
+  width: 100%;
+  color: $dc-white;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-shadow:
+    -1px 0px $tscolor,
+    0px -1px $tscolor,
+    0px 0px $tscolor,
+    0px 1px $tscolor,
+    1px 0px $tscolor;
+    -webkit-font-smoothing: antialiased;
 }
 
 .dc-slideshow-admin {
   .dc-slideshow-title {
-    //margin-bottom: 7*$dc-default-padding;
+    background: rgba(255,255,255, 0.1);
+    padding: 8px 0px;
+    .dc-directive-editable {
+      border: 1px solid rgba(255, 255, 255, 0);
+    }
+    .dc-directive-editable-body {
+      background: rgba(255, 255, 255, 0);
+    }
+    .dc-directive-editable-header {
+      @include opacity(0);
+    }
+    .dc-directive-editable-footer {
+      @include opacity(0);
+    }
+    .dc-pen {
+      @include opacity(0);
+    }
+
+    &:hover, .editing {
+      background: rgba(255, 255, 255, 1);
+      color: inherit;
+      text-shadow: none;
+      .dc-directive-editable-body {
+        background: rgba(255, 255, 255, 1);
+      }
+
+      .dc-directive-editable-header {
+        @include opacity(1);
+      }
+      .dc-directive-editable-footer {
+        @include opacity(1);
+      }
+      .dc-pen {
+        @include opacity(1);
+      }
+
+    }
+  }
+
+  .dc-slideshow-slides {
+    outline: 2px dashed $dc-light-gray;
+    margin-top: 14px;
   }
 }
 
-.dc-slideshow-title {
-  position: relative;
-  &:hover {
-    z-index: 2;
-  }
-}
+
 
 .dc-slideshow-description {
   position: relative;
@@ -52,8 +112,53 @@ $slideshow-img-dim: 100px;
 
 .dc-slideshow-img-container {
   position: relative;
-  height: $slideshow-img-dim;
-  width: $slideshow-img-dim;
-  background: red;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
 }
+
+.dc-slideshow-slides {
+  min-height: 120px;
+  position: relative;
+  margin: $dc-default-padding;
+  .dc-sortable-item {
+    @include inline-block();
+  }
+}
+
+$slideshow-thumb-dim: 100px;
+.dc-slideshow-slide-thumb {
+  @include inline-block();
+  vertical-align: top;
+  margin: $dc-default-padding;
+  width: $slideshow-thumb-dim;
+  height: $slideshow-thumb-dim;
+  background-size: cover;
+  @include opacity(1);
+  @include transition(opacity 0.218s ease-in-out);
+  position: relative;
+  &.loading {
+    @include opacity(0);
+  }
+  &.processing {
+    @include opacity(0.5);
+  }
+  &:hover {
+    .dc-slideshow-slide-remove {
+      @include opacity(1);
+      pointer-events: auto;
+    }
+  }
+}
+
+.dc-slideshow-slide-remove {
+  position: absolute;
+  top: $dc-default-padding/2.0;
+  right: $dc-default-padding/2.0;
+  pointer-events: none;
+  @include transition(opacity 0.218s ease-in-out);
+  @include opacity(0);
+}
+
+
 

@@ -28,6 +28,8 @@ var name = "controller.search";
                 }
             });
 
+            window.searchSource = this.searchSource;
+
             $(window).on("unload", function(){
                 this.$call(this.onPop);
                 this.$call(this.onUnload);

@@ -4,7 +4,7 @@ var name = "model.search";
 
     searchModel.prototype.get = function(opts){
         var table = opts.table || "games";
-        opts.url = "/api/search_api/search_" + opts.table;
+        opts.url = "/api/search_api/search_" + table;
         opts.data = {
             'searchTerms': opts.searchTerms || "newest",
             'offset': opts.offset,

@@ -1,0 +1,22 @@
+<div class="dc-sortable">
+    <div class="dc-sortable-items-container">
+    {% spaceless %}
+    {% for item in items %}
+        <div class="dc-sortable-item"
+             dc-repeat="item in items">
+            <div class="dc-sortable-item-container"
+                 dc-class="{'dragging': item.isDragging}"
+                 dc-include="parentScope.itemTemplate"
+                 dc-dragstart="parentScope.onDragStart(e,item,repeatIndex)"
+                 dc-dragenter="parentScope.onDragEnter(e,item,repeatIndex)"
+                 dc-dragover="parentScope.onDragOver(e,item,repeatIndex)"
+                 dc-dragend="parentScope.onDragEnd(e,item,repeatIndex)"
+                 draggable="true">
+                {% include itemTemplate with {'item': item} %}
+            </div>
+        </div>
+    {% endfor %}
+    {% endspaceless %}
+    </div>
+</div>
+

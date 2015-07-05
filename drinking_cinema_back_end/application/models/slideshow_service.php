@@ -35,8 +35,8 @@
                 $show[$value] = htmlspecialchars_decode($queryRow->$key,ENT_QUOTES);
             }
             if ($this->config->item("is_local")) {
-                $show["img"] = str_replace('http://cdn', 'http://cdn_local', $show["img"]);
-                $show["slides"] = str_replace('http://cdn', 'http://cdn_local', $show["slides"]);
+                $show["img"] = str_replace('/cdn.', '/cdn_local.', $show["img"]);
+                $show["slides"] = str_replace('/cdn.', '/cdn_local.', $show["slides"]);
             }
             // unpack the slides
             $show["slides"] = json_decode($show["slides"]);
@@ -59,9 +59,19 @@
                 $num = $this->db->count_all('slideshowTable');
                 $show["name"] = $this->image_service->alphaID($num,false,3,'party');
             }
-
+            $is_local = $this->config->item('is_local');
             // pack the slides
-            $show["slides"] = json_encode(isset($show["slides"]) ? $show["slides"] : array());
+            if (isset($show["slides"])) {
+                $show["slides"] = json_encode($show["slides"]);
+                if ($is_local) {
+                    $show["slides"] = str_replace('/cdn_local.', '/cdn.', $show["slides"]);
+                }
+            }
+
+            if (isset($show["img"]) && $is_local) {
+                $show["img"] = str_replace('/cdn_local.', '/cdn.', $show["img"]);
+            }
+
             return $show;
         }
 

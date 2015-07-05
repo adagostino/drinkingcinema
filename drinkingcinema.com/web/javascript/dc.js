@@ -79,6 +79,7 @@ var startTime = new Date().getTime();
             if (!match && !dontSubclass) {
                 fn.prototype.$dcType = name;
                 fn.prototype.$watch = function () {return self.$watch.apply(this, arguments)};
+                fn.prototype.$watchArray = function() {return self.$watchArray.apply(this, arguments)};
                 fn.prototype.$timeout = function () {return self.$timeout.apply(this, arguments)};
                 fn.prototype.$call = function(){return self.$call.apply(this,arguments)};
                 fn.prototype.preventDefault = function(e){e.preventDefault()};
@@ -134,6 +135,23 @@ var startTime = new Date().getTime();
             // return the unobserve function
             return function(){
                 observer.close();
+            }
+        };
+
+        this.$watchArray = function(path, fn) {
+            var $scope = this,
+                arr = Path.get(path).getValueFrom($scope),
+                observer = new PathObserver($scope, path),
+                aObserver = new ArrayObserver(arr),
+                callback = function() {
+                    fn.apply($scope, arguments);
+                    Platform.performMicrotaskCheckpoint();
+                };
+            observer.open(callback);
+            aObserver.open(callback);
+            return function() {
+                observer.close();
+                aObserver.close();
             }
         };
 

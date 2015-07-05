@@ -5,7 +5,7 @@ class slideshow_dependency extends dependency {
     // split out first by common code over all pages, then each page
     // each page is split over common code for mobile and desktop, then mobile, then desktop
     // desktop is split for common code over desktop and then admin code
-    public $_name = "game";
+    public $_name = "slideshow";
     public $_jsJSON = array(
         "common" => array(
             "controllers/dc-controller-slideshow.js"
@@ -19,14 +19,17 @@ class slideshow_dependency extends dependency {
         "desktop" => array(
             "common" => array(
                 "controllers/dc-controller-slideshow-desktop.js",
-                "directives/dc-directive-tooltip.js"
+                "directives/dc-directive-tooltip.js",
+                "services/dc-service-slide.js"
             ),
             "admin" => array(
                 "models/dc-model-slideshow.js",
                 "controllers/dc-controller-slideshow-desktop-admin.js",
                 "directives/dc-directive-input.js",
                 "directives/dc-directive-editable.js",
-                "directives/dc-directive-editable-rte.js"
+                "directives/dc-directive-editable-rte.js",
+                "directives/dc-directive-sortable.js",
+                "services/dc-service-image-uploader.js"
             )
         )
     );
@@ -48,7 +51,8 @@ class slideshow_dependency extends dependency {
             "admin" => array(
                 "directives/dc-directive-input.css",
                 "directives/dc-directive-modal.css",
-                "directives/dc-directive-editable.css"
+                "directives/dc-directive-editable.css",
+                "directives/dc-directive-sortable.css"
             )
         )
     );
@@ -67,6 +71,7 @@ class slideshow_dependency extends dependency {
         "desktop" => array(
             "common" => array(
                 'controllers/slideshow.html',
+                '_subtemplates/dc-slideshow-slide-thumb.html'
             ),
             "desktop" => array(
                 '_subtemplates/dc-slideshow.html'
@@ -78,7 +83,8 @@ class slideshow_dependency extends dependency {
                 ),
                 'directives/dc-directive-editable.html',
                 'directives/dc-directive-modal.html',
-                'directives/dc-directive-editable-modal.html'
+                'directives/dc-directive-editable-modal.html',
+                'directives/dc-directive-sortable.html'
             )
         )
     );

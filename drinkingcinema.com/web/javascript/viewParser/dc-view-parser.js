@@ -275,7 +275,7 @@ var name = "viewParser";
     };
 
 
-    viewParser.prototype.removeElement = function(guid){
+    viewParser.prototype.removeElement = function(guid) {
         var o = _scopeMap[guid];
         if (!o) return;
 
@@ -297,7 +297,7 @@ var name = "viewParser";
         delete _scopeMap[guid];
     };
 
-    viewParser.prototype.getScopeObj = function(guid){
+    viewParser.prototype.getScopeObj = function(guid) {
         return _scopeMap[guid];
     };
 

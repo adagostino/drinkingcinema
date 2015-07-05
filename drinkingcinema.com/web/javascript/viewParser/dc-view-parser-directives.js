@@ -12,7 +12,14 @@
         'focus': 'focus',
         'blur': 'blur',
         'load': 'load',
-        'paste': 'paste'
+        'paste': 'paste',
+        'dragstart': 'dragstart',
+        'drag': 'drag',
+        'dragenter': 'dragenter',
+        'dragleave': 'dragleave',
+        'dragover': 'dragover',
+        'drop': 'drop',
+        'dragend': 'dragend'
     };
 
     var $parse = window.ngParser;
@@ -40,7 +47,10 @@
         var dcRepeatItems = [],
             compiled = false;
 
-        var self = this;
+        var self = this,
+            addItems = function(addedIndicies) {
+
+            }
 
         return {
             link: function(o){
@@ -118,7 +128,6 @@
             watch: function(o) {
                 var splices = o.splices,
                     guid = o.guid;
-
                 // get information about the changed object
                 var a = parseFunc(o.change.object),
                     length = _getLength(a),
@@ -137,72 +146,75 @@
                         }
                     ];
                 };
-                var changed = [], removed = [], added = [];
-                for (var i=0; i<splices.length; i++){
+
+                // check it: have to put the added, removed, changed things inside this splices loop
+                for (var i = 0; i < splices.length; i++) {
+                    var changed = [], removed = [], added = [];
                     var idx = splices[i].index,
                         numAdded = splices[i].addedCount,
                         numRemoved = splices[i].removed.length;
-
                     // start with removed
-                    for (var j=0; j<numRemoved; j++){
-                        if (j < numAdded){
+                    for (var j = 0; j < numRemoved; j++) {
+                        if (j < numAdded) {
                             changed.push(idx + j);
                         } else {
                             removed.push(idx + j);
                         }
                     }
                     var lastChangedIdx = changed[changed.length - 1] || idx;
-                    for (var j = 0; j < (numAdded - numRemoved); j++){
+                    for (var j = 0; j < (numAdded - numRemoved); j++) {
+                        //console.log(lastChangedIdx, j, numRemoved);
                         added.push(lastChangedIdx + j + (numRemoved ? 1 : 0));
                     }
 
-                };
+                    for (var j = 0; j < added.length; j++) {
+                        var ct = added[j];
+                        var io = {};
+                        io.parentScope = o.change.object;
+                        io[key] = isObject ? ct : a[ct]; // item of "item in items" -- so the actual child object
+                        if (val) io[val] = a[j];
+                        var childParsedHTML = this.compile(io, true);
 
-                for (var i=0; i<added.length; i++){
-                    var ct = added[i];
-                    var io = {};
-                    io.parentScope = o.change.object;
-                    io[key] = isObject ? ct : a[ct]; // item of "item in items" -- so the actual child object
-                    if (val) io[val] = a[i];
-                    var childParsedHTML = this.compile(io, true);
+                        var addedObj = self.compileHTMLEl(childParsedHTML, io, parent.repeatItem);
 
-                    var addedObj = self.compileHTMLEl(childParsedHTML, io, parent.repeatItem);
+                        self.setScopeObj(addedObj);
+                        var prevGuid;
+                        if (ct <= 0) {
+                            ct = 0;
+                        } else if (ct > dcRepeatItems) {
+                            ct = dcRepeatItems.length;
+                        }
+                        parent.children[addedObj.guid] = {
+                            type: (addedObj.$el[0] || addedObj.$el).nodeType
+                        };
+                        // now add it into the dom
+                        var prevGuid = ct - 1 > -1 ? dcRepeatItems[ct - 1].guid : parent.commentGuid;
 
-                    self.setScopeObj(addedObj);
-                    var prevGuid;
-                    if (ct <= 0) {
-                        ct = 0;
-                    } else if (ct > dcRepeatItems){
-                        ct = dcRepeatItems.length;
+                        self.getScopeObj(prevGuid).$el.after(addedObj.$el);
+                        dcRepeatItems.splice(ct, 0, {
+                            io: io,
+                            guid: addedObj.guid
+                        });
+
                     }
-                    parent.children[addedObj.guid] = {
-                        type: (addedObj.$el[0] || addedObj.$el).nodeType
-                    };
-                    //parent.children.splice(ct,0,addedObj.guid);
-                    // now add it into the dom
-                    var prevGuid = ct - 1 > -1 ? dcRepeatItems[ct - 1].guid : parent.commentGuid;
 
-                    self.getScopeObj(prevGuid).$el.after(addedObj.$el);
-                    dcRepeatItems.splice(ct, 0, {
-                        io: io,
-                        guid: addedObj.guid
-                    });
+                    for (var j = 0; j < changed.length; j++) {
+                        var ct = changed[i],
+                            io = {};
+                        io.parentScope = o.change.object;
+                        dcRepeatItems[ct].io[key] = isObject ? ct : a[ct];
+                        if (val) dcRepeatItems[ct].io[val] = a[j];
+                    }
 
-                }
+                    for (var j = 0; j < removed.length; j++) {
+                        var ct = removed[j] - j,
+                            guid = dcRepeatItems[ct] ? dcRepeatItems[ct].guid : undefined;
+                        self.removeElement(guid);
+                        dcRepeatItems.splice(ct, 1);
+                    }
 
-                for (var i=0; i<changed.length; i++) {
-                    var ct = changed[i],
-                        io = {};
-                    io.parentScope = o.change.object;
-                    dcRepeatItems[ct].io[key] = isObject ? ct : a[ct];
-                    if (val) dcRepeatItems[ct].io[val] = a[i];
-                }
 
-                for (var i=0; i<removed.length; i++) {
-                    var ct = removed[i] - i;
-                    self.removeElement(dcRepeatItems[ct].guid);
-                    dcRepeatItems.splice(ct,1);
-                }
+                };
 
                 // at the end, run through all of the items in the array and change them accordingly -- may be expensive
                 // depending on what you're doing -- adding classes based on even or odd could be rotten
@@ -213,7 +225,7 @@
                     io.repeatLast = i === length - 1;
                     io.repeatMiddle = !io.repeatFirst && !io.repeatLast;
                     io.repeatEven = !!(i%2);
-                    io.repeatOdd = !i.repeatEven;
+                    io.repeatOdd = !io.repeatEven;
                 };
             },
             paths: paths
@@ -428,7 +440,6 @@
                     arguments = a;
                 }
                 callback.apply(scope, arguments);
-
                 Platform.performMicrotaskCheckpoint();
             };
             $el.data(name, fn);

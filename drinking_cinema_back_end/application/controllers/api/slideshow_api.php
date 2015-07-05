@@ -106,6 +106,9 @@
             if (empty($errors)){
                 $image = $this->slideshow_service->upload_image($fileName, $name);
                 if ($image){
+                    if ($this->config->item("is_local")) {
+                        $image = str_replace('http://cdn', 'http://cdn_local', $image);
+                    }
                     $success = $image;
                 } else {
                     $errors[] = "EG_05";

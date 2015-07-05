@@ -20,5 +20,10 @@ var name = "model.slideshow";
         this.ajax(opts);
     };
 
+    slideshowModel.prototype.postImage = function(opts) {
+        opts.url = "/api/slideshow_api/image/name/" + $dc.utils.toUrl(opts.name || opts.file.name);
+        this._super(opts);
+    }
+
     $dc.add(name, slideshowModel);
 })(name);

@@ -1,30 +1,84 @@
-.dc-slideshow {
-  padding: 20px 0;
+body.slideshow {
+  background-color: transparent;
 }
-.dc-slideshow.dc-slideshow-admin {
-  padding-top: 40px;
+body.slideshow .dc-background {
+  background: none;
+}
+body.slideshow .dc-container {
+  width: 100%;
+  padding: 0px;
 }
 
 .dc-slideshow-header {
-  display: table;
   width: 100%;
+  height: 75vh;
+  position: relative;
 }
 
-.dc-slideshow-img-cell,
-.dc-slideshow-info-cell {
-  display: table-cell;
-  vertical-align: top;
-}
-
-.dc-slideshow-img-cell {
-  padding-right: 10px;
+.dc-slideshow-header-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .dc-slideshow-title {
-  position: relative;
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-shadow: -1px 0px rgba(0, 0, 0, 0.3), 0px -1px rgba(0, 0, 0, 0.3), 0px 0px rgba(0, 0, 0, 0.3), 0px 1px rgba(0, 0, 0, 0.3), 1px 0px rgba(0, 0, 0, 0.3);
+  -webkit-font-smoothing: antialiased;
 }
-.dc-slideshow-title:hover {
-  z-index: 2;
+
+.dc-slideshow-admin .dc-slideshow-title {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 0px;
+}
+.dc-slideshow-admin .dc-slideshow-title .dc-directive-editable {
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.dc-slideshow-admin .dc-slideshow-title .dc-directive-editable-body {
+  background: rgba(255, 255, 255, 0);
+}
+.dc-slideshow-admin .dc-slideshow-title .dc-directive-editable-header {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.dc-slideshow-admin .dc-slideshow-title .dc-directive-editable-footer {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.dc-slideshow-admin .dc-slideshow-title .dc-pen {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.dc-slideshow-admin .dc-slideshow-title:hover, .dc-slideshow-admin .dc-slideshow-title .editing {
+  background: white;
+  color: inherit;
+  text-shadow: none;
+}
+.dc-slideshow-admin .dc-slideshow-title:hover .dc-directive-editable-body, .dc-slideshow-admin .dc-slideshow-title .editing .dc-directive-editable-body {
+  background: white;
+}
+.dc-slideshow-admin .dc-slideshow-title:hover .dc-directive-editable-header, .dc-slideshow-admin .dc-slideshow-title .editing .dc-directive-editable-header {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.dc-slideshow-admin .dc-slideshow-title:hover .dc-directive-editable-footer, .dc-slideshow-admin .dc-slideshow-title .editing .dc-directive-editable-footer {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.dc-slideshow-admin .dc-slideshow-title:hover .dc-pen, .dc-slideshow-admin .dc-slideshow-title .editing .dc-pen {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.dc-slideshow-admin .dc-slideshow-slides {
+  outline: 2px dashed #e1e1e1;
+  margin-top: 14px;
 }
 
 .dc-slideshow-description {
@@ -37,7 +91,62 @@
 
 .dc-slideshow-img-container {
   position: relative;
-  height: 100px;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}
+
+.dc-slideshow-slides {
+  min-height: 120px;
+  position: relative;
+  margin: 10px;
+}
+.dc-slideshow-slides .dc-sortable-item {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+}
+
+.dc-slideshow-slide-thumb {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  margin: 10px;
   width: 100px;
-  background: red;
+  height: 100px;
+  background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+  position: relative;
+}
+.dc-slideshow-slide-thumb.loading {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+.dc-slideshow-slide-thumb.processing {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+.dc-slideshow-slide-thumb:hover .dc-slideshow-slide-remove {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dc-slideshow-slide-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  pointer-events: none;
+  -moz-transition: opacity 0.218s ease-in-out;
+  -o-transition: opacity 0.218s ease-in-out;
+  -webkit-transition: opacity 0.218s ease-in-out;
+  transition: opacity 0.218s ease-in-out;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
 }

@@ -83,4 +83,4 @@ var name = "directive.carousel";
         }
     });
 
-})(name)
+})(name);

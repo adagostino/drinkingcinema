@@ -1,0 +1,16 @@
+@import "imports/dc-imports";
+
+$easing: ease-in-out;
+$timing: 0.218s;
+
+.dc-sortable-item{
+
+}
+
+.dc-sortable-item-container {
+  @include transition(transform $timing $easing);
+  &.dragging {
+    @include opacity(0.25);
+    @include transform(scale(0.9));
+  }
+}

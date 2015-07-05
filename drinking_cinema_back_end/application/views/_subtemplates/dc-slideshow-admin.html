@@ -1,24 +1,31 @@
 <div class="dc-slideshow dc-slideshow-admin">
     <div class="dc-slideshow-header">
-        <div class="dc-slideshow-img-cell">
-            <div class="dc-slideshow-img-container">
+        <div class="dc-slideshow-header-img" dc-drop="uploadCoverImage" dc-dragover="preventDefault">
+            <div class="dc-slideshow-img-container" style="background-image: url('{{slideshow.img}}')">
 
             </div>
         </div>
-        <div class="dc-slideshow-info-cell">
-            <h1 class="dc-slideshow-title" dc-style="{'z-index': titleZIndex}">
-                <div dc-directive-editable content="slideshow.title" submit="submitTitle" on-open="titleOpen" on-close="titleClose">
-                    {% include 'directives/dc-directive-editable.html' with {'field': 'title', 'contentHTML': slideshow.title} %}
-                </div>
-            </h1>
-            <div class="dc-slideshow-description" dc-style="{'z-index': descriptionZIndex}">
-                <div dc-directive-editable-rte content="slideshow.description" submit="submitDescription" on-open="descriptionOpen" on-close="descriptionClose">
-                    {% include 'directives/dc-directive-editable.html' with {'field': 'description', 'contentHTML': slideshow.description} %}
-                </div>
+
+        <h1 class="dc-slideshow-title" dc-style="{'z-index': titleZIndex}">
+            <div dc-directive-editable content="slideshow.title" submit="submitTitle">
+                {% include 'directives/dc-directive-editable.html' with {'field': 'title', 'contentHTML': slideshow.title} %}
             </div>
+        </h1>
+
+    </div>
+    <div class="dc-slideshow-description" dc-style="{'z-index': descriptionZIndex}">
+        <div dc-directive-editable-rte content="slideshow.description" submit="submitDescription">
+            {% include 'directives/dc-directive-editable.html' with {'field': 'description', 'contentHTML': slideshow.description} %}
         </div>
     </div>
-    <div class="dc-slideshow-slides">
-
+    <div class="dc-slideshow-slides"
+         dc-drop="uploadSlides"
+         dc-dragover="preventDefault"
+         dc-directive-sortable
+         sortable-on-change="onSort"
+         sortable-options="sortableOptions"
+         sortable-items="slideshow.slides"
+         sortable-item-template="#dc-slideshow-slide-thumb-template">
+        {% include 'directives/dc-directive-sortable.html' with {'items': slideshow.slides, 'itemTemplate': '_subtemplates/dc-slideshow-slide-thumb.html'} %}
     </div>
 </div>

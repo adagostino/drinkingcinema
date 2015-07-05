@@ -13,28 +13,8 @@ var name = "model.game";
     };
 
     gameModel.prototype.postImage = function(opts){
-        var self = this;
-        // b/c we use progress, we'll use xhr instead of ajax
-        var xhr = new XMLHttpRequest();
-        //xhr.responseType = "json";
-        xhr.upload.addEventListener("progress", function(e){
-            var percent = $dc.utils.roundNum(100*(e.loaded / e.total), 3);
-            self.$call.call(opts.$scope || self , opts.progress, e, percent);
-        }, false);
-        xhr.addEventListener("load", function(){
-            xhr.status === 200 ? self.$call.call(opts.$scope || self , opts.success, xhr.response, xhr) : self.$call.call(opts.$scope || self, opts.error, xhr.response, xhr);
-        });
-        xhr.addEventListener("error", function(){
-            self.$call.call(opts.$scope || self, opts.error, xhr.response, xhr);
-        }, false);
-        var url = "/api/game_api/image/name/" + $dc.utils.toUrl(opts.name || opts.file.name);
-        var queryString="?dc_csrf="+$dc.utils.getCookie("dc_csrf");
-
-        xhr.open("POST", url + queryString, true);
-        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.setRequestHeader("X-FILENAME", opts.file.name);
-        xhr.setRequestHeader("Content-Type", "application/octet-stream");
-        xhr.send(opts.file);
+        opts.url = "/api/game_api/image/name/" + $dc.utils.toUrl(opts.name || opts.file.name);
+        this._super(opts);
     };
 
     gameModel.prototype.putGame = function(opts) {
