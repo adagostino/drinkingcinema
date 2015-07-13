@@ -18,6 +18,7 @@ body{
   position: relative;
   &.modal-open{
     overflow: hidden;
+    min-height: 0;
   }
 }
 

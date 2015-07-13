@@ -204,4 +204,5 @@
 }
 .dc-close-lightbox-modal .dc-x-out {
   display: block;
+  pointer-events: none;
 }

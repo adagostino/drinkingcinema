@@ -272,16 +272,25 @@ var startTime = new Date().getTime();
                     attr = symbol ? $scope[key].slice(1) : $scope[key],
                     str = this.$el.attr(attr),
                     value = Path.get(str).getValueFrom(self.parentScope);
+
                 switch(symbol){
                     case "@":
                         value = str;
                         break;
                     case "&":
                         if (typeof value === "function"){
+                            var lastIndex = str.lastIndexOf('parentScope'),
+                                parentStr = lastIndex > -1 ? str.substr(0,lastIndex + 'parentScope'.length) : '',
+                                $parentScope = parentStr ? Path.get(parentStr).getValueFrom(self.parentScope) : self.parentScope;
+
                             var fn = value;
                             value = function(){
-                                return fn.apply(self,arguments);
-                            }
+                                var tmp = this.$scope;
+                                this.$scope = $parentScope;
+                                var ret = fn.apply(self, arguments);
+                                this.$scope = tmp;
+                                return ret;
+                            };
                         }
                         break;
                     case "=":

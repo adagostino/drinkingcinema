@@ -1,0 +1,100 @@
+@import "imports/dc-imports";
+
+$bzEasing: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easing: ease-in-out;
+$time: 0.218s;
+$timing: 0.6s;
+
+.animate {
+  @include opacity(0);
+  @include animation-duration($time);
+  @include animation-timing-function($easing);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+}
+
+.dc-slideshow-modal-lightbox {
+  width: 100%;
+  background: $dc-white;
+  z-index: 3;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  will-change: opacity;
+  max-height: 100vh;
+  @extend .animate;
+  @include opacity(0);
+  display: none;
+  &.show{
+    display: block;
+    @include animation-name(fadeIn);
+  }
+}
+
+.dc-slideshow-modal-carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: blue;
+  .dc-carousel-items-container {
+    display: table;
+    height: 100%;
+  }
+
+  .dc-carousel-item {
+    height: 100%;
+  }
+
+}
+
+.dc-slideshow-modal-item {
+  width: 100vw;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.dc-slideshow-modal-item-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include transition(transform $timing $bzEasing, opacity $time $bzEasing);
+  vertical-align: top;
+  &.loaded{
+    @include opacity(1);
+  }
+}
+
+$xSize: 30px;
+.dc-slideshow-modal-close {
+  position: absolute;
+  top: $dc-default-padding / 2;
+  right: $dc-default-padding /2;
+  width: 10%;
+  height: 10%;
+  max-width: 50px;
+  max-height: 50px;
+  min-height: $xSize;
+  min-width: $xSize;
+  z-index: 1;
+  cursor: pointer;
+  @include opacity(0.5);
+  &:after {
+    content: '\00d7';
+    color: $dc-blue;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: $xSize;
+    width: $xSize;
+    @include transform(translate(-50%, -50%));
+    line-height: $xSize;
+    font-size: $xSize;
+    font-weight: bold;
+    text-align: center;
+  }
+  &:hover {
+    @include opacity(1);
+  }
+
+}

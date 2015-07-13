@@ -352,10 +352,6 @@ var name = "directive.lightbox";
                 }
                 break;
             case "pan":
-                if (!this.image.zoomed) {
-                    Math.abs(e.deltaY) > 10 && this.hideModal();
-                    return;
-                }
                 this.image.zoomed && this.transformObject.setTransformOnElementFromParams(this.image.$img, _getZoomParams(_startXY, e.center, _startParams, this.image));
                 break;
             case "pancancel":
@@ -450,7 +446,7 @@ var name = "directive.lightbox";
         // set the diretion of pan to all
         h.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         h.on("pan panstart panend pancancel", function(e){
-            e.preventDefault();
+            (e.srcEvent || e).stopPropagation();
             self.$call(self.handleDrag,e);
         });
         var pinch = new Hammer.Pinch();
@@ -474,18 +470,7 @@ var name = "directive.lightbox";
         var hh = new Hammer($el.length ? $el[0] : $el);
         hh.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         hh.on("pan panstart panend pancancel", function(e) {
-            e.preventDefault();
-            if (Math.abs(e.deltaY) > 10){
-                if (!self.image.zoomed) {
-                    self.hideModal();
-                } else {
-                    try {
-                        e.srcEvent.stopPropagation();
-                    } catch (e) {
-
-                    }
-                }
-            }
+            (e.srcEvent || e).stopPropagation();
         });
     };
 

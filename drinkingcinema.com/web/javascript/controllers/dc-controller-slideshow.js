@@ -12,6 +12,8 @@ var name = "controller.slideshow";
             for (var i=0; i<this.slideshow.slides.length; i++) {
                 this.slideshow.slides[i] = new $dc.service.slide(this.slideshow.slides[i]);
             }
+
+
         };
     };
 

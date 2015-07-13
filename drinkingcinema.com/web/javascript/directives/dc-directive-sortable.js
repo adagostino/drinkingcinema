@@ -3,6 +3,7 @@ var name = "directive.sortable";
     var sortable = function(){};
 
     sortable.prototype.init = function() {
+        console.log(this);
         this.releaseDragging();
         this.$watchArray('items', function(){
             // This will fire after the repeat event, so let the element be spliced in (created and added to DOM), then release dragging.

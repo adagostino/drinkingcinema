@@ -18,14 +18,7 @@
             {% include 'directives/dc-directive-editable.html' with {'field': 'description', 'contentHTML': slideshow.description} %}
         </div>
     </div>
-    <div class="dc-slideshow-slides"
-         dc-drop="uploadSlides"
-         dc-dragover="preventDefault"
-         dc-directive-sortable
-         sortable-on-change="onSort"
-         sortable-options="sortableOptions"
-         sortable-items="slideshow.slides"
-         sortable-item-template="#dc-slideshow-slide-thumb-template">
-        {% include 'directives/dc-directive-sortable.html' with {'items': slideshow.slides, 'itemTemplate': '_subtemplates/dc-slideshow-slide-thumb.html'} %}
+    <div class="dc-slideshow-modal" dc-directive-slideshow-modal slideshow-slides="slideshow.slides" slideshow-thumbnail-template="#dc-slideshow-thumbnails-admin-template">
+        {% include 'directives/dc-directive-slideshow-modal.html' with {'slides': slideshow.slides, 'thumbnailTemplate': '_subtemplates/dc-slideshow-thumbnails-admin.html'} %}
     </div>
 </div>

@@ -1,0 +1,109 @@
+.animate, .dc-slideshow-modal-lightbox {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-animation-duration: 0.218s;
+  -webkit-animation-duration: 0.218s;
+  animation-duration: 0.218s;
+  -moz-animation-timing-function: ease-in-out;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -moz-animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -moz-animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+.dc-slideshow-modal-lightbox {
+  width: 100%;
+  background: #ffffff;
+  z-index: 3;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  will-change: opacity;
+  max-height: 100vh;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  display: none;
+}
+.dc-slideshow-modal-lightbox.show {
+  display: block;
+  -moz-animation-name: fadeIn;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+.dc-slideshow-modal-carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: blue;
+}
+.dc-slideshow-modal-carousel-container .dc-carousel-items-container {
+  display: table;
+  height: 100%;
+}
+.dc-slideshow-modal-carousel-container .dc-carousel-item {
+  height: 100%;
+}
+
+.dc-slideshow-modal-item {
+  width: 100vw;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.dc-slideshow-modal-item-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transition: -moz-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.218s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -o-transition: -o-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.218s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.218s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.218s cubic-bezier(0.215, 0.61, 0.355, 1);
+  vertical-align: top;
+}
+.dc-slideshow-modal-item-img.loaded {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
+.dc-slideshow-modal-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10%;
+  height: 10%;
+  max-width: 50px;
+  max-height: 50px;
+  min-height: 30px;
+  min-width: 30px;
+  z-index: 1;
+  cursor: pointer;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+.dc-slideshow-modal-close:after {
+  content: '\00d7';
+  color: #357AE8;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 30px;
+  width: 30px;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  line-height: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+.dc-slideshow-modal-close:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}

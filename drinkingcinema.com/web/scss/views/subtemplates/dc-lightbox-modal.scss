@@ -157,6 +157,7 @@ $shadowColor: rgba(0,0,0,1.0);
   cursor: pointer;
   .dc-x-out {
     display: block;
+    pointer-events: none;
   }
 }
 

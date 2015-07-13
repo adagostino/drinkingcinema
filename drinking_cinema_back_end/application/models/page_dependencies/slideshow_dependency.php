@@ -20,6 +20,8 @@ class slideshow_dependency extends dependency {
             "common" => array(
                 "controllers/dc-controller-slideshow-desktop.js",
                 "directives/dc-directive-tooltip.js",
+                "directives/dc-directive-carousel.js",
+                "directives/dc-directive-slideshow-modal.js",
                 "services/dc-service-slide.js"
             ),
             "admin" => array(
@@ -46,11 +48,12 @@ class slideshow_dependency extends dependency {
         "desktop" => array(
             "common" => array(
                 "views/dc-slideshow-desktop.css",
-                "directives/dc-directive-tooltip.css"
+                "directives/dc-directive-tooltip.css",
+                "directives/dc-directive-carousel.css",
+                "directives/dc-directive-slideshow-modal.css"
             ),
             "admin" => array(
                 "directives/dc-directive-input.css",
-                "directives/dc-directive-modal.css",
                 "directives/dc-directive-editable.css",
                 "directives/dc-directive-sortable.css"
             )
@@ -71,18 +74,26 @@ class slideshow_dependency extends dependency {
         "desktop" => array(
             "common" => array(
                 'controllers/slideshow.html',
-                '_subtemplates/dc-slideshow-slide-thumb.html'
+                '_subtemplates/dc-slideshow-slide-thumb.html',
+                '_subtemplates/dc-slideshow-modal-item.html',
+                'directives/dc-directive-carousel.html',
+                'directives/dc-directive-slideshow-modal.html',
+                '_subtemplates/dc-slideshow-modal-lightbox.html',
             ),
             "desktop" => array(
-                '_subtemplates/dc-slideshow.html'
+                '_subtemplates/dc-slideshow.html',
+                '_subtemplates/dc-slideshow-thumbnails.thml'
             ),
             "admin" => array(
                 array(
                     "id" => 'dc-slideshow-admin-template',
                     "path" => '_subtemplates/dc-slideshow-admin.html'
                 ),
+                array(
+                    "id" => 'dc-slideshow-thumbnails-admin-template',
+                    "path" => '_subtemplates/dc-slideshow-thumbnails-admin.html'
+                ),
                 'directives/dc-directive-editable.html',
-                'directives/dc-directive-modal.html',
                 'directives/dc-directive-editable-modal.html',
                 'directives/dc-directive-sortable.html'
             )

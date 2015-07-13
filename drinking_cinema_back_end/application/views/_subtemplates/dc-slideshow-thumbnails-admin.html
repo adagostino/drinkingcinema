@@ -1,0 +1,10 @@
+<div class="dc-slideshow-slides"
+     dc-drop="uploadSlides"
+     dc-dragover="preventDefault"
+     dc-directive-sortable
+     sortable-on-change="parentScope.onSort"
+     sortable-options="parentScope.sortableOptions"
+     sortable-items="slides"
+     sortable-item-template="#dc-slideshow-slide-thumb-template">
+    {% include 'directives/dc-directive-sortable.html' with {'items': slides, 'itemTemplate': '_subtemplates/dc-slideshow-slide-thumb.html'} %}
+</div>

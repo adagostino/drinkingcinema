@@ -74,7 +74,7 @@ var name = "service.analytics";
     };
 
     analytics.prototype.send = function(){
-        if (!ga) return;
+        if (!window.ga) return;
         while (this.queue.length) {
             var item = this.queue.pop();
             ga('send', item);

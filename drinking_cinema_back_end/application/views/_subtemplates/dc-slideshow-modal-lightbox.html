@@ -1,0 +1,12 @@
+<div class="dc-slideshow-modal-lightbox" dc-class="{'show': open}" dc-style="{'padding-right': paddingRight, 'height': height, 'top': scrollTop}">
+    <div class="dc-slideshow-modal-close" dc-click="parentScope.hideModal"></div>
+    <div class="dc-slideshow-modal-carousel-container"
+         dc-directive-carousel carousel-items="slides"
+         carousel-item-template="#dc-slideshow-modal-item-template"
+         carousel-permission = "parentScope.onCarouselDrag"
+         carousel-max-change = "1"
+         carousel-change="parentScope.onChange">
+
+    </div>
+</div>
+
